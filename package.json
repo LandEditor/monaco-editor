@@ -1,45 +1,48 @@
 {
   "name": "monaco-editor",
   "version": "0.0.1",
-  "vscodeRef": "e7e037083ff4455cf320e344325dacb480062c3c",
   "private": "false",
   "description": "A browser based code editor",
   "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
+  "bugs": {
+    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
+  },
+  "license": "MIT",
   "author": {
     "name": "Nikola Hristov",
     "email": "nikola@nikolahristov.tech",
     "url": "https://nikolahristov.tech"
   },
-  "license": "MIT",
+  "type": "module",
+  "module": "./esm/vs/editor/editor.main.js",
+  "typings": "./esm/vs/editor/editor.api.d.ts",
   "scripts": {
+    "build": "ts-node ./build/build-languages",
+    "build-monaco-editor": "npm run build && ts-node ./build/build-monaco-editor",
+    "deps-all-install": "ts-node ./build/npm/installAll",
+    "deps-all-remove": "ts-node ./build/npm/removeAll",
     "import-typescript": "ts-node ./build/importTypescript",
-    "playwright-install": "node ./node_modules/playwright/install.js",
-    "playwright-install-deps": "playwright install-deps",
     "postinstall": "ts-node ./build/postinstall",
-    "prettier-check": "prettier --check .",
-    "prettier": "prettier --write .",
-    "pretty-quick": "pretty-quick --staged",
-    "simpleserver": "ts-node ./build/simpleserver",
-    "package-for-smoketest-webpack": "ts-node ./test/smoke/package-webpack",
-    "package-for-smoketest-webpack-cross-origin": "ts-node ./test/smoke/package-webpack --cross-origin",
     "package-for-smoketest-esbuild": "ts-node ./test/smoke/package-esbuild",
     "package-for-smoketest-vite": "ts-node ./test/smoke/package-vite",
+    "package-for-smoketest-webpack": "ts-node ./test/smoke/package-webpack",
+    "package-for-smoketest-webpack-cross-origin": "ts-node ./test/smoke/package-webpack --cross-origin",
+    "playwright-install": "node ./node_modules/playwright/install.js",
+    "playwright-install-deps": "playwright install-deps",
+    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts",
+    "prettier": "prettier --write .",
+    "prettier-check": "prettier --check .",
+    "pretty-quick": "pretty-quick --staged",
+    "simpleserver": "ts-node ./build/simpleserver",
     "smoketest": "node ./test/smoke/runner.js",
     "smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
     "test": "mocha test/unit/all.js && ts-node ./build/check-samples",
-    "deps-all-remove": "ts-node ./build/npm/removeAll",
-    "deps-all-install": "ts-node ./build/npm/installAll",
     "update-actions": "pin-github-action ./.github/workflows/website.yml",
-    "watch": "tsc -w -p ./src",
-    "build": "ts-node ./build/build-languages",
-    "build-monaco-editor": "npm run build && ts-node ./build/build-monaco-editor",
-    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts"
-  },
-  "typings": "./esm/vs/editor/editor.api.d.ts",
-  "module": "./esm/vs/editor/editor.main.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
+    "watch": "tsc -w -p ./src"
   },
   "devDependencies": {
     "@types/mocha": "10.0.3",
@@ -69,6 +72,7 @@
     "terser": "5.22.0",
     "ts-node": "10.9.1",
     "typescript": "5.2.2",
+    "typescript-esbuild": "0.3.1",
     "vite": "4.5.0",
     "vscode-css-languageservice": "6.2.10",
     "vscode-html-languageservice": "5.1.1",
@@ -77,18 +81,14 @@
     "vscode-languageserver-types": "3.17.5",
     "vscode-uri": "3.0.8",
     "webpack": "5.89.0",
-    "yaserver": "0.4.0",
-    "typescript-esbuild": "0.3.1"
+    "yaserver": "0.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "alias": {
     "process": false,
     "buffer": false
   },
-  "bugs": {
-    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
-  },
-  "type": "module",
-  "publishConfig": {
-    "access": "public"
-  }
+  "vscodeRef": "e7e037083ff4455cf320e344325dacb480062c3c"
 }

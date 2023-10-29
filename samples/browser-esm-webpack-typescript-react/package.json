@@ -1,11 +1,27 @@
 {
   "name": "monaco-esm-webpack-typescript",
-  "scripts": {
-    "start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "build": "NODE_ENV='production' node ../node_modules/webpack/bin/webpack.js --progress",
-    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts"
+  "version": "0.0.1",
+  "private": "false",
+  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
+  "bugs": {
+    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
   },
-  
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Nikola Hristov",
+    "email": "nikola@nikolahristov.tech",
+    "url": "https://nikolahristov.tech"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "NODE_ENV='production' node ../node_modules/webpack/bin/webpack.js --progress",
+    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts",
+    "start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+  },
   "devDependencies": {
     "@babel/core": "7.23.2",
     "@babel/preset-env": "7.23.2",
@@ -20,24 +36,7 @@
     "react-refresh": "0.14.0",
     "typescript-esbuild": "0.3.1"
   },
-  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
-  "bugs": {
-    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
-  },
-  "version": "0.0.1",
-  "license": "MIT",
-  "type": "module",
-  "private": "false",
   "publishConfig": {
     "access": "public"
-  },
-  "author": {
-    "name": "Nikola Hristov",
-    "email": "nikola@nikolahristov.tech",
-    "url": "https://nikolahristov.tech"
   }
 }

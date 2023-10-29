@@ -1,14 +1,30 @@
 {
   "name": "my-application",
   "version": "0.0.1",
+  "private": "false",
+  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
+  "bugs": {
+    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Nikola Hristov",
+    "email": "nikola@nikolahristov.tech",
+    "url": "https://nikolahristov.tech"
+  },
+  "type": "module",
   "scripts": {
-    "dev": "webpack serve --hot --mode development",
-    "build-webpack": "webpack --mode production",
     "build": "yarn typedoc && yarn build-webpack",
+    "build-webpack": "webpack --mode production",
+    "dev": "webpack serve --hot --mode development",
     "dev-disk": "webpack --mode development --watch",
-    "typedoc": "typedoc --options ./typedoc/typedoc.json",
+    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts",
     "test": "yarn ts-node scripts/check-playground-samples-js.ts",
-    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts"
+    "typedoc": "typedoc --options ./typedoc/typedoc.json"
   },
   "dependencies": {
     "@popperjs/core": "2.11.8",
@@ -52,29 +68,13 @@
     "ts-loader": "9.5.0",
     "ts-node": "10.9.1",
     "typescript": "5.2.2",
+    "typescript-esbuild": "0.3.1",
     "webpack": "5.89.0",
     "webpack-bundle-analyzer": "4.9.1",
     "webpack-cli": "5.1.4",
-    "webpack-dev-server": "4.15.1",
-    "typescript-esbuild": "0.3.1"
+    "webpack-dev-server": "4.15.1"
   },
-  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
-  "bugs": {
-    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
-  },
-  "license": "MIT",
-  "type": "module",
-  "private": "false",
   "publishConfig": {
     "access": "public"
-  },
-  "author": {
-    "name": "Nikola Hristov",
-    "email": "nikola@nikolahristov.tech",
-    "url": "https://nikolahristov.tech"
   }
 }
