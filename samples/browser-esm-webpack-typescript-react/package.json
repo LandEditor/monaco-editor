@@ -16,6 +16,7 @@
     "email": "nikola@nikolahristov.tech",
     "url": "https://nikolahristov.tech"
   },
+  "publisher": "playform",
   "type": "module",
   "scripts": {
     "build": "NODE_ENV='production' node ../node_modules/webpack/bin/webpack.js --progress",

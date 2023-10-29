@@ -16,6 +16,7 @@
     "email": "nikola@nikolahristov.tech",
     "url": "https://nikolahristov.tech"
   },
+  "publisher": "playform",
   "type": "module",
   "scripts": {
     "package-for-smoketest-parcel": "parcel build ./index.html --cache-dir ./.cache --public-url /test/smoke/parcel/dist/ --no-optimize",
