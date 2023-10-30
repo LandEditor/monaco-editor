@@ -3,22 +3,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { registerLanguage } from '../_.contribution';
+import { registerLanguage } from "../_.contribution";
 
 declare var AMD: any;
 declare var require: any;
 
 registerLanguage({
-	id: 'julia',
-	extensions: ['.jl'],
-	aliases: ['julia', 'Julia'],
+	id: "julia",
+	extensions: [".jl"],
+	aliases: ["julia", "Julia"],
 	loader: () => {
 		if (AMD) {
 			return new Promise((resolve, reject) => {
-				require(['vs/basic-languages/julia/julia'], resolve, reject);
+				require(["vs/basic-languages/julia/julia"], resolve, reject);
 			});
 		} else {
-			return import('./julia');
+			return import("./julia");
 		}
-	}
+	},
 });

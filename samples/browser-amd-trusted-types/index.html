@@ -1,13 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
 		<title>browser-amd-editor</title>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-		<meta http-equiv="Content-Security-Policy" content="require-trusted-types-for 'script'" />
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+		<meta
+			content="require-trusted-types-for 'script'"
+			http-equiv="Content-Security-Policy" />
 	</head>
 	<body>
 		<h2>Monaco Editor with Trusted Types Sample</h2>
-		<div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
+		<div
+			id="container"
+			style="width: 800px; height: 600px; border: 1px solid grey"></div>
 
 		<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
 		<script>
@@ -15,27 +19,38 @@
 			var scriptLoadingPolicy = {
 				createScriptURL: function allowOnlyMonacoPaths(url) {
 					if (
-						url.indexOf('../node_modules/monaco-editor/min/vs/') === 0 &&
-						url.lastIndexOf('..') == 0
+						url.indexOf("../node_modules/monaco-editor/min/vs/") ===
+							0 &&
+						url.lastIndexOf("..") == 0
 					) {
 						return url;
 					}
-				}
+				},
 			};
 			// If browser supports Trusted Types, use them.
-			if (typeof trustedTypes !== 'undefined') {
-				scriptLoadingPolicy = trustedTypes.createPolicy('monaco-editor', scriptLoadingPolicy);
+			if (typeof trustedTypes !== "undefined") {
+				scriptLoadingPolicy = trustedTypes.createPolicy(
+					"monaco-editor",
+					scriptLoadingPolicy
+				);
 			}
 			require.config({
-				paths: { vs: '../node_modules/monaco-editor/min/vs' },
-				trustedTypesPolicy: scriptLoadingPolicy
+				paths: { vs: "../node_modules/monaco-editor/min/vs" },
+				trustedTypesPolicy: scriptLoadingPolicy,
 			});
 
-			require(['vs/editor/editor.main'], function () {
-				var editor = monaco.editor.create(document.getElementById('container'), {
-					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
-					language: 'javascript'
-				});
+			require(["vs/editor/editor.main"], function () {
+				var editor = monaco.editor.create(
+					document.getElementById("container"),
+					{
+						value: [
+							"function x() {",
+							'\tconsole.log("Hello world!");',
+							"}",
+						].join("\n"),
+						language: "javascript",
+					}
+				);
 			});
 		</script>
 	</body>

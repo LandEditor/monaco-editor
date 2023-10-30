@@ -43,8 +43,7 @@ export class SettingsDialog extends React.Component<{
 			<Modal
 				show={!!model.settingsDialogModel}
 				onHide={() => model.closeSettingsDialog(false)}
-				size="xl"
-			>
+				size="xl">
 				<Modal.Header closeButton>
 					<Modal.Title>Settings</Modal.Title>
 				</Modal.Header>
@@ -75,8 +74,7 @@ export class SettingsDialog extends React.Component<{
 									disabled={
 										modelSettings.settings.monacoSource !==
 										"latest"
-									}
-								>
+									}>
 									<Select
 										value={ref(
 											modelSettings.settings,
@@ -118,8 +116,7 @@ export class SettingsDialog extends React.Component<{
 										modelSettings.settings.monacoSource !==
 										"npm"
 									}
-									className="d-flex gap-2"
-								>
+									className="d-flex gap-2">
 									<Select
 										value={ref(
 											modelSettings.settings,
@@ -174,8 +171,7 @@ export class SettingsDialog extends React.Component<{
 										disabled={
 											modelSettings.settings
 												.monacoSource !== "independent"
-										}
-									>
+										}>
 										<ListGroup className="p-3">
 											<ListGroup.Item>
 												<div className="d-flex gap-2">
@@ -395,14 +391,12 @@ export class SettingsDialog extends React.Component<{
 				<Modal.Footer>
 					<Button
 						variant="secondary"
-						onClick={() => model.closeSettingsDialog(false)}
-					>
+						onClick={() => model.closeSettingsDialog(false)}>
 						Close
 					</Button>
 					<Button
 						variant="primary"
-						onClick={() => model.closeSettingsDialog(true)}
-					>
+						onClick={() => model.closeSettingsDialog(true)}>
 						Save Changes
 					</Button>
 				</Modal.Footer>

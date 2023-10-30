@@ -3,144 +3,144 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { languages } from '../../fillers/monaco-editor-core';
+import type { languages } from "../../fillers/monaco-editor-core";
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
-		lineComment: '//',
-		blockComment: ['/*', '*/']
+		lineComment: "//",
+		blockComment: ["/*", "*/"],
 	},
 	brackets: [
-		['{', '}'],
-		['[', ']'],
-		['(', ')']
+		["{", "}"],
+		["[", "]"],
+		["(", ")"],
 	],
 	autoClosingPairs: [
-		{ open: '{', close: '}' },
-		{ open: '[', close: ']' },
-		{ open: '(', close: ')' },
+		{ open: "{", close: "}" },
+		{ open: "[", close: "]" },
+		{ open: "(", close: ")" },
 		{ open: '"', close: '"' },
-		{ open: "'", close: "'" }
+		{ open: "'", close: "'" },
 	],
 	surroundingPairs: [
-		{ open: '{', close: '}' },
-		{ open: '[', close: ']' },
-		{ open: '(', close: ')' },
+		{ open: "{", close: "}" },
+		{ open: "[", close: "]" },
+		{ open: "(", close: ")" },
 		{ open: '"', close: '"' },
-		{ open: "'", close: "'" }
-	]
+		{ open: "'", close: "'" },
+	],
 };
 
 export const language = <languages.IMonarchLanguage>{
-	defaultToken: '',
-	tokenPostfix: '.objective-c',
+	defaultToken: "",
+	tokenPostfix: ".objective-c",
 
 	keywords: [
-		'#import',
-		'#include',
-		'#define',
-		'#else',
-		'#endif',
-		'#if',
-		'#ifdef',
-		'#ifndef',
-		'#ident',
-		'#undef',
+		"#import",
+		"#include",
+		"#define",
+		"#else",
+		"#endif",
+		"#if",
+		"#ifdef",
+		"#ifndef",
+		"#ident",
+		"#undef",
 
-		'@class',
-		'@defs',
-		'@dynamic',
-		'@encode',
-		'@end',
-		'@implementation',
-		'@interface',
-		'@package',
-		'@private',
-		'@protected',
-		'@property',
-		'@protocol',
-		'@public',
-		'@selector',
-		'@synthesize',
+		"@class",
+		"@defs",
+		"@dynamic",
+		"@encode",
+		"@end",
+		"@implementation",
+		"@interface",
+		"@package",
+		"@private",
+		"@protected",
+		"@property",
+		"@protocol",
+		"@public",
+		"@selector",
+		"@synthesize",
 
-		'__declspec',
+		"__declspec",
 
-		'assign',
-		'auto',
+		"assign",
+		"auto",
 
-		'BOOL',
-		'break',
-		'bycopy',
-		'byref',
+		"BOOL",
+		"break",
+		"bycopy",
+		"byref",
 
-		'case',
-		'char',
-		'Class',
-		'const',
-		'copy',
-		'continue',
+		"case",
+		"char",
+		"Class",
+		"const",
+		"copy",
+		"continue",
 
-		'default',
-		'do',
-		'double',
+		"default",
+		"do",
+		"double",
 
-		'else',
-		'enum',
-		'extern',
+		"else",
+		"enum",
+		"extern",
 
-		'FALSE',
-		'false',
-		'float',
-		'for',
+		"FALSE",
+		"false",
+		"float",
+		"for",
 
-		'goto',
+		"goto",
 
-		'if',
-		'in',
-		'int',
-		'id',
-		'inout',
-		'IMP',
+		"if",
+		"in",
+		"int",
+		"id",
+		"inout",
+		"IMP",
 
-		'long',
+		"long",
 
-		'nil',
-		'nonatomic',
-		'NULL',
+		"nil",
+		"nonatomic",
+		"NULL",
 
-		'oneway',
-		'out',
+		"oneway",
+		"out",
 
-		'private',
-		'public',
-		'protected',
+		"private",
+		"public",
+		"protected",
 
-		'readwrite',
-		'readonly',
-		'register',
-		'return',
+		"readwrite",
+		"readonly",
+		"register",
+		"return",
 
-		'SEL',
-		'self',
-		'short',
-		'signed',
-		'sizeof',
-		'static',
-		'struct',
-		'super',
-		'switch',
+		"SEL",
+		"self",
+		"short",
+		"signed",
+		"sizeof",
+		"static",
+		"struct",
+		"super",
+		"switch",
 
-		'typedef',
-		'TRUE',
-		'true',
+		"typedef",
+		"TRUE",
+		"true",
 
-		'union',
-		'unsigned',
+		"union",
+		"unsigned",
 
-		'volatile',
-		'void',
+		"volatile",
+		"void",
 
-		'while'
+		"while",
 	],
 
 	decpart: /\d(_?\d)*/,
@@ -148,72 +148,72 @@ export const language = <languages.IMonarchLanguage>{
 
 	tokenizer: {
 		root: [
-			{ include: '@comments' },
-			{ include: '@whitespace' },
-			{ include: '@numbers' },
-			{ include: '@strings' },
+			{ include: "@comments" },
+			{ include: "@whitespace" },
+			{ include: "@numbers" },
+			{ include: "@strings" },
 
-			[/[,:;]/, 'delimiter'],
-			[/[{}\[\]()<>]/, '@brackets'],
+			[/[,:;]/, "delimiter"],
+			[/[{}\[\]()<>]/, "@brackets"],
 
 			[
 				/[a-zA-Z@#]\w*/,
 				{
 					cases: {
-						'@keywords': 'keyword',
-						'@default': 'identifier'
-					}
-				}
+						"@keywords": "keyword",
+						"@default": "identifier",
+					},
+				},
 			],
 
-			[/[<>=\\+\\-\\*\\/\\^\\|\\~,]|and\\b|or\\b|not\\b]/, 'operator']
+			[/[<>=\\+\\-\\*\\/\\^\\|\\~,]|and\\b|or\\b|not\\b]/, "operator"],
 		],
 
-		whitespace: [[/\s+/, 'white']],
+		whitespace: [[/\s+/, "white"]],
 
 		comments: [
-			['\\/\\*', 'comment', '@comment'],
-			['\\/\\/+.*', 'comment']
+			["\\/\\*", "comment", "@comment"],
+			["\\/\\/+.*", "comment"],
 		],
 
 		comment: [
-			['\\*\\/', 'comment', '@pop'],
-			['.', 'comment']
+			["\\*\\/", "comment", "@pop"],
+			[".", "comment"],
 		],
 
 		numbers: [
-			[/0[xX][0-9a-fA-F]*(_?[0-9a-fA-F])*/, 'number.hex'],
+			[/0[xX][0-9a-fA-F]*(_?[0-9a-fA-F])*/, "number.hex"],
 			[
 				/@decimal((\.@decpart)?([eE][\-+]?@decpart)?)[fF]*/,
 				{
 					cases: {
-						'(\\d)*': 'number',
-						$0: 'number.float'
-					}
-				}
-			]
+						"(\\d)*": "number",
+						$0: "number.float",
+					},
+				},
+			],
 		],
 
 		// Recognize strings, including those broken across lines with \ (but not without)
 		strings: [
-			[/'$/, 'string.escape', '@popall'],
-			[/'/, 'string.escape', '@stringBody'],
-			[/"$/, 'string.escape', '@popall'],
-			[/"/, 'string.escape', '@dblStringBody']
+			[/'$/, "string.escape", "@popall"],
+			[/'/, "string.escape", "@stringBody"],
+			[/"$/, "string.escape", "@popall"],
+			[/"/, "string.escape", "@dblStringBody"],
 		],
 		stringBody: [
-			[/[^\\']+$/, 'string', '@popall'],
-			[/[^\\']+/, 'string'],
-			[/\\./, 'string'],
-			[/'/, 'string.escape', '@popall'],
-			[/\\$/, 'string']
+			[/[^\\']+$/, "string", "@popall"],
+			[/[^\\']+/, "string"],
+			[/\\./, "string"],
+			[/'/, "string.escape", "@popall"],
+			[/\\$/, "string"],
 		],
 		dblStringBody: [
-			[/[^\\"]+$/, 'string', '@popall'],
-			[/[^\\"]+/, 'string'],
-			[/\\./, 'string'],
-			[/"/, 'string.escape', '@popall'],
-			[/\\$/, 'string']
-		]
-	}
+			[/[^\\"]+$/, "string", "@popall"],
+			[/[^\\"]+/, "string"],
+			[/\\./, "string"],
+			[/"/, "string.escape", "@popall"],
+			[/\\$/, "string"],
+		],
+	},
 };

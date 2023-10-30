@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as worker from 'monaco-editor-core/esm/vs/editor/editor.worker';
-import { JSONWorker } from './jsonWorker';
+import * as worker from "monaco-editor-core/esm/vs/editor/editor.worker";
+import { JSONWorker } from "./jsonWorker";
 
 self.onmessage = () => {
 	// ignore the first message
