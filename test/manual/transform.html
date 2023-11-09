@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		<style type="text/css">
 			#editor {
 				position: relative;
@@ -19,9 +19,9 @@
 		<script src="dev-setup.js"></script>
 		<script>
 			loadEditor(function () {
-				monaco.editor.create(document.getElementById("editor"), {
+				monaco.editor.create(document.getElementById('editor'), {
 					value: document.documentElement.innerHTML,
-					language: "xml",
+					language: 'xml'
 				});
 			});
 		</script>

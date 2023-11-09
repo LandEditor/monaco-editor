@@ -1,42 +1,39 @@
 /// <reference path="../../out/monaco-editor/monaco.d.ts" />
-define(["require", "./samples"], function (require, SAMPLES) {
-	const domutils = require("vs/base/browser/dom");
+define(['require', './samples'], function (require, SAMPLES) {
+	const domutils = require('vs/base/browser/dom');
 
-	let model = monaco.editor.createModel("", "plaintext");
+	let model = monaco.editor.createModel('', 'plaintext');
 
 	monaco.languages.typescript.typescriptDefaults.setInlayHintsOptions({
-		includeInlayParameterNameHints: "all",
+		includeInlayParameterNameHints: 'all',
 		includeInlayParameterNameHintsWhenArgumentMatchesName: true,
 		includeInlayFunctionParameterTypeHints: true,
 		includeInlayVariableTypeHints: true,
 		includeInlayPropertyDeclarationTypeHints: true,
 		includeInlayFunctionLikeReturnTypeHints: true,
-		includeInlayEnumMemberValueHints: true,
+		includeInlayEnumMemberValueHints: true
 	});
 
-	var editor = monaco.editor.create(document.getElementById("container"), {
+	var editor = monaco.editor.create(document.getElementById('container'), {
 		model: model,
 		glyphMargin: true,
-		renderWhitespace: true,
+		renderWhitespace: true
 	});
 
-	editor.addCommand(
-		monaco.KeyMod.CtrlCmd | monaco.KeyCode.F9,
-		function (ctx, args) {
-			alert("Command Running!!");
-			console.log(ctx);
-		}
-	);
+	editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.F9, function (ctx, args) {
+		alert('Command Running!!');
+		console.log(ctx);
+	});
 
 	editor.addAction({
-		id: "my-unique-id",
-		label: "My Label!!!",
+		id: 'my-unique-id',
+		label: 'My Label!!!',
 		keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10],
-		contextMenuGroupId: "navigation",
+		contextMenuGroupId: 'navigation',
 		contextMenuOrder: 2.5,
 		run: function (ed) {
 			console.log("i'm running => " + ed.getPosition());
-		},
+		}
 	});
 
 	var currentSamplePromise = null;
@@ -55,29 +52,29 @@ define(["require", "./samples"], function (require, SAMPLES) {
 			});
 		};
 	});
-	var examplesComboBox = new ComboBox("Template", samplesData);
+	var examplesComboBox = new ComboBox('Template', samplesData);
 
 	var modesData = {};
 	monaco.languages.getLanguages().forEach(function (language) {
 		modesData[language.id] = updateEditor.bind(this, language.id);
 	});
-	var modesComboBox = new ComboBox("Mode", modesData);
+	var modesComboBox = new ComboBox('Mode', modesData);
 
 	var themesData = {};
-	themesData["vs"] = function () {
-		monaco.editor.setTheme("vs");
+	themesData['vs'] = function () {
+		monaco.editor.setTheme('vs');
 	};
-	themesData["vs-dark"] = function () {
-		monaco.editor.setTheme("vs-dark");
+	themesData['vs-dark'] = function () {
+		monaco.editor.setTheme('vs-dark');
 	};
-	themesData["hc-black"] = function () {
-		monaco.editor.setTheme("hc-black");
+	themesData['hc-black'] = function () {
+		monaco.editor.setTheme('hc-black');
 	};
-	var themesComboBox = new ComboBox("Theme", themesData);
+	var themesComboBox = new ComboBox('Theme', themesData);
 
 	// Do it in a timeout to simplify profiles
 	window.setTimeout(function () {
-		var START_SAMPLE = "Y___DefaultJS";
+		var START_SAMPLE = 'Y___DefaultJS';
 
 		var url_matches = location.search.match(/sample=([^?&]+)/i);
 		if (url_matches) {
@@ -85,7 +82,7 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		}
 
 		if (location.hash) {
-			START_SAMPLE = location.hash.replace(/^\#/, "");
+			START_SAMPLE = location.hash.replace(/^\#/, '');
 			START_SAMPLE = decodeURIComponent(START_SAMPLE);
 		}
 
@@ -101,7 +98,7 @@ define(["require", "./samples"], function (require, SAMPLES) {
 			window.location.hash = sampleName;
 		}
 
-		if (typeof value !== "undefined") {
+		if (typeof value !== 'undefined') {
 			var oldModel = model;
 			model = monaco.editor.createModel(value, mode);
 			editor.setModel(model);
@@ -116,7 +113,7 @@ define(["require", "./samples"], function (require, SAMPLES) {
 	}
 
 	function createToolbar(editor) {
-		var bar = document.getElementById("bar");
+		var bar = document.getElementById('bar');
 
 		bar.appendChild(examplesComboBox.domNode);
 
@@ -125,7 +122,7 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		bar.appendChild(themesComboBox.domNode);
 
 		bar.appendChild(
-			createButton("Dispose all", function (e) {
+			createButton('Dispose all', function (e) {
 				editor.dispose();
 				editor = null;
 				if (model) {
@@ -136,13 +133,13 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		);
 
 		bar.appendChild(
-			createButton("Remove Model", function (e) {
+			createButton('Remove Model', function (e) {
 				editor.setModel(null);
 			})
 		);
 
 		bar.appendChild(
-			createButton("Dispose Model", function (e) {
+			createButton('Dispose Model', function (e) {
 				if (model) {
 					model.dispose();
 					model = null;
@@ -152,7 +149,7 @@ define(["require", "./samples"], function (require, SAMPLES) {
 
 		bar.appendChild(
 			createButton(
-				"Ballistic scroll",
+				'Ballistic scroll',
 				(function () {
 					var friction = 1000; // px per second
 					var speed = 0; // px per second
@@ -182,9 +179,7 @@ define(["require", "./samples"], function (require, SAMPLES) {
 							isRunning = true;
 							r = editor.getScrollTop();
 							lastTime = new Date().getTime();
-							domutils.runAtThisOrScheduleAtNextAnimationFrame(
-								scroll
-							);
+							domutils.runAtThisOrScheduleAtNextAnimationFrame(scroll);
 						}
 					};
 				})()
@@ -193,28 +188,26 @@ define(["require", "./samples"], function (require, SAMPLES) {
 	}
 
 	function createButton(label, onClick) {
-		var result = document.createElement("button");
+		var result = document.createElement('button');
 		result.innerHTML = label;
 		result.onclick = onClick;
 		return result;
 	}
 
 	function createOptions(editor) {
-		var options = document.getElementById("options");
+		var options = document.getElementById('options');
 
 		var lineNumbers;
 		options.appendChild(
 			createOptionToggle(
 				editor,
-				"lineNumbers",
+				'lineNumbers',
 				function () {
 					return lineNumbers === false ? false : true;
 				},
 				function (editor, newValue) {
 					lineNumbers = newValue;
-					editor.updateOptions({
-						lineNumbers: lineNumbers ? "on" : "off",
-					});
+					editor.updateOptions({ lineNumbers: lineNumbers ? 'on' : 'off' });
 				}
 			)
 		);
@@ -223,7 +216,7 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		options.appendChild(
 			createOptionToggle(
 				editor,
-				"glyphMargin",
+				'glyphMargin',
 				function () {
 					return glyphMargin === false ? false : true;
 				},
@@ -238,7 +231,7 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		options.appendChild(
 			createOptionToggle(
 				editor,
-				"minimap",
+				'minimap',
 				function () {
 					return minimap === false ? false : true;
 				},
@@ -253,15 +246,13 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		options.appendChild(
 			createOptionToggle(
 				editor,
-				"roundedSelection",
+				'roundedSelection',
 				function () {
 					return roundedSelection === false ? false : true;
 				},
 				function (editor, newValue) {
 					roundedSelection = newValue;
-					editor.updateOptions({
-						roundedSelection: roundedSelection,
-					});
+					editor.updateOptions({ roundedSelection: roundedSelection });
 				}
 			)
 		);
@@ -270,15 +261,13 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		options.appendChild(
 			createOptionToggle(
 				editor,
-				"scrollBeyondLastLine",
+				'scrollBeyondLastLine',
 				function () {
 					return scrollBeyondLastLine === false ? false : true;
 				},
 				function (editor, newValue) {
 					scrollBeyondLastLine = newValue;
-					editor.updateOptions({
-						scrollBeyondLastLine: scrollBeyondLastLine,
-					});
+					editor.updateOptions({ scrollBeyondLastLine: scrollBeyondLastLine });
 				}
 			)
 		);
@@ -287,15 +276,13 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		options.appendChild(
 			createOptionToggle(
 				editor,
-				"renderWhitespace",
+				'renderWhitespace',
 				function () {
 					return renderWhitespace === true ? true : false;
 				},
 				function (editor, newValue) {
 					renderWhitespace = newValue;
-					editor.updateOptions({
-						renderWhitespace: renderWhitespace,
-					});
+					editor.updateOptions({ renderWhitespace: renderWhitespace });
 				}
 			)
 		);
@@ -304,7 +291,7 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		options.appendChild(
 			createOptionToggle(
 				editor,
-				"readOnly",
+				'readOnly',
 				function () {
 					return readOnly === true ? true : false;
 				},
@@ -319,13 +306,13 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		options.appendChild(
 			createOptionToggle(
 				editor,
-				"wordWrap",
+				'wordWrap',
 				function () {
 					return wordWrap === true ? true : false;
 				},
 				function (editor, newValue) {
 					wordWrap = newValue;
-					editor.updateOptions({ wordWrap: wordWrap ? "on" : "off" });
+					editor.updateOptions({ wordWrap: wordWrap ? 'on' : 'off' });
 				}
 			)
 		);
@@ -334,7 +321,7 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		options.appendChild(
 			createOptionToggle(
 				editor,
-				"folding",
+				'folding',
 				function () {
 					return folding === false ? false : true;
 				},
@@ -349,17 +336,14 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		options.appendChild(
 			createOptionToggle(
 				editor,
-				"bracketPairColorizationEnabled",
+				'bracketPairColorizationEnabled',
 				function () {
-					return bracketPairColorizationEnabled === false
-						? false
-						: true;
+					return bracketPairColorizationEnabled === false ? false : true;
 				},
 				function (editor, newValue) {
 					bracketPairColorizationEnabled = newValue;
 					editor.updateOptions({
-						"bracketPairColorization.enabled":
-							bracketPairColorizationEnabled,
+						'bracketPairColorization.enabled': bracketPairColorizationEnabled
 					});
 				}
 			)
@@ -367,13 +351,13 @@ define(["require", "./samples"], function (require, SAMPLES) {
 	}
 
 	function createOptionToggle(editor, labelText, stateReader, setState) {
-		var domNode = document.createElement("div");
-		domNode.className = "option toggle";
+		var domNode = document.createElement('div');
+		domNode.className = 'option toggle';
 
-		var input = document.createElement("input");
-		input.type = "checkbox";
+		var input = document.createElement('input');
+		input.type = 'checkbox';
 
-		var label = document.createElement("label");
+		var label = document.createElement('label');
 		label.appendChild(input);
 		label.appendChild(document.createTextNode(labelText));
 
@@ -395,22 +379,19 @@ define(["require", "./samples"], function (require, SAMPLES) {
 	}
 
 	function ComboBox(label, externalOptions) {
-		this.id = "combobox-" + label.toLowerCase().replace(/\s/g, "-");
+		this.id = 'combobox-' + label.toLowerCase().replace(/\s/g, '-');
 
-		this.domNode = document.createElement("div");
-		this.domNode.setAttribute(
-			"style",
-			"display: inline; margin-right: 5px;"
-		);
+		this.domNode = document.createElement('div');
+		this.domNode.setAttribute('style', 'display: inline; margin-right: 5px;');
 
-		this.label = document.createElement("label");
+		this.label = document.createElement('label');
 		this.label.innerHTML = label;
-		this.label.setAttribute("for", this.id);
+		this.label.setAttribute('for', this.id);
 		this.domNode.appendChild(this.label);
 
-		this.comboBox = document.createElement("select");
-		this.comboBox.setAttribute("id", this.id);
-		this.comboBox.setAttribute("name", this.id);
+		this.comboBox = document.createElement('select');
+		this.comboBox.setAttribute('id', this.id);
+		this.comboBox.setAttribute('name', this.id);
 		this.comboBox.onchange = function (e) {
 			var target = e.target || e.srcElement;
 			this.options[target.options[target.selectedIndex].value].callback();
@@ -421,12 +402,12 @@ define(["require", "./samples"], function (require, SAMPLES) {
 		this.options = [];
 		for (var name in externalOptions) {
 			if (externalOptions.hasOwnProperty(name)) {
-				var optionElement = document.createElement("option");
+				var optionElement = document.createElement('option');
 				optionElement.value = name;
 				optionElement.innerHTML = name;
 				this.options[name] = {
 					element: optionElement,
-					callback: externalOptions[name],
+					callback: externalOptions[name]
 				};
 				this.comboBox.appendChild(optionElement);
 			}

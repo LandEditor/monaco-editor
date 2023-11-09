@@ -41,4 +41,4 @@ require(['vs/platform/platform', 'vs/editor/modes/modesExtensions'],
 		});
 	}
 );
-
+

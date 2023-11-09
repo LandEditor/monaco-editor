@@ -3,18 +3,18 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as esbuild from "esbuild";
-import * as path from "path";
-import { removeDir } from "../../build/fs";
+import * as esbuild from 'esbuild';
+import * as path from 'path';
+import { removeDir } from '../../build/fs';
 
-removeDir("test/smoke/esbuild/out");
+removeDir('test/smoke/esbuild/out');
 
 const workerEntryPoints = [
-	"vs/language/json/json.worker.js",
-	"vs/language/css/css.worker.js",
-	"vs/language/html/html.worker.js",
-	"vs/language/typescript/ts.worker.js",
-	"vs/editor/editor.worker.js",
+	'vs/language/json/json.worker.js',
+	'vs/language/css/css.worker.js',
+	'vs/language/html/html.worker.js',
+	'vs/language/typescript/ts.worker.js',
+	'vs/editor/editor.worker.js'
 ];
 
 build({
@@ -22,21 +22,21 @@ build({
 		path.join(__dirname, `../../out/monaco-editor/esm/${entry}`)
 	),
 	bundle: true,
-	format: "iife",
-	logLevel: "silent",
-	outbase: path.join(__dirname, "../../out/monaco-editor/esm/"),
-	outdir: path.join(__dirname, "esbuild/out"),
+	format: 'iife',
+	logLevel: 'silent',
+	outbase: path.join(__dirname, '../../out/monaco-editor/esm/'),
+	outdir: path.join(__dirname, 'esbuild/out')
 });
 
 build({
-	entryPoints: [path.join(__dirname, "esbuild/index.js")],
+	entryPoints: [path.join(__dirname, 'esbuild/index.js')],
 	bundle: true,
-	format: "iife",
-	logLevel: "silent",
-	outdir: path.join(__dirname, "esbuild/out"),
+	format: 'iife',
+	logLevel: 'silent',
+	outdir: path.join(__dirname, 'esbuild/out'),
 	loader: {
-		".ttf": "file",
-	},
+		'.ttf': 'file'
+	}
 });
 
 function build(opts: esbuild.BuildOptions) {

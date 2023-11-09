@@ -5,28 +5,28 @@
 
 //@ts-check
 
-const yaserver = require("yaserver");
-const http = require("http");
-const cp = require("child_process");
-const path = require("path");
+const yaserver = require('yaserver');
+const http = require('http');
+const cp = require('child_process');
+const path = require('path');
 
 /** @typedef {import('./common').BrowserKind} BrowserKind */
 /** @typedef {import('./common').PackagerKind} PackagerKind */
 /** @typedef {import('./common').TestInfo} TestInfo */
 
-const DEBUG_TESTS = process.argv.includes("--debug-tests");
-const REPO_ROOT = path.join(__dirname, "../../");
+const DEBUG_TESTS = process.argv.includes('--debug-tests');
+const REPO_ROOT = path.join(__dirname, '../../');
 const PORT = 8563;
 
 yaserver
 	.createServer({
-		rootDir: REPO_ROOT,
+		rootDir: REPO_ROOT
 	})
 	.then((staticServer) => {
 		const server = http.createServer((request, response) => {
 			return staticServer.handle(request, response);
 		});
-		server.listen(PORT, "127.0.0.1", async () => {
+		server.listen(PORT, '127.0.0.1', async () => {
 			try {
 				await runTests();
 				console.log(`All good`);
@@ -42,12 +42,12 @@ async function runTests() {
 	// uncomment to shortcircuit and run a specific combo
 	// await runTest('webpack', 'chromium'); return;
 	/** @type {PackagerKind[]} */
-	const testTypes = ["amd", "webpack", "esbuild", "vite", "parcel"];
+	const testTypes = ['amd', 'webpack', 'esbuild', 'vite', 'parcel'];
 
 	for (const type of testTypes) {
-		await runTest(type, "chromium");
-		await runTest(type, "firefox");
-		await runTest(type, "webkit");
+		await runTest(type, 'chromium');
+		await runTest(type, 'firefox');
+		await runTest(type, 'webkit');
 	}
 }
 
@@ -63,29 +63,26 @@ function runTest(packager, browser) {
 			browser,
 			packager,
 			debugTests: DEBUG_TESTS,
-			port: PORT,
+			port: PORT
 		};
-		const env = {
-			MONACO_TEST_INFO: JSON.stringify(testInfo),
-			...process.env,
-		};
+		const env = { MONACO_TEST_INFO: JSON.stringify(testInfo), ...process.env };
 		const proc = cp.spawn(
-			"node",
+			'node',
 			[
-				path.join(REPO_ROOT, "node_modules/mocha/bin/mocha"),
-				"test/smoke/*.test.js",
-				"--no-delay",
-				"--headless",
-				"--timeout",
-				"20000",
+				path.join(REPO_ROOT, 'node_modules/mocha/bin/mocha'),
+				'test/smoke/*.test.js',
+				'--no-delay',
+				'--headless',
+				'--timeout',
+				'20000'
 			],
 			{
 				env,
-				stdio: "inherit",
+				stdio: 'inherit'
 			}
 		);
-		proc.on("error", reject);
-		proc.on("exit", (code) => {
+		proc.on('error', reject);
+		proc.on('exit', (code) => {
 			if (code === 0) {
 				resolve(undefined);
 			} else {
