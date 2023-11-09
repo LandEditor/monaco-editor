@@ -1,37 +1,46 @@
-import type * as webpack from 'webpack';
-import * as path from 'path';
-import * as loaderUtils from 'loader-utils';
-import * as fs from 'fs';
-import { AddWorkerEntryPointPlugin } from './plugins/AddWorkerEntryPointPlugin';
-import { IFeatureDefinition } from './types';
-import { ILoaderOptions } from './loaders/include';
-import { EditorLanguage, EditorFeature, NegatedEditorFeature } from 'monaco-editor/esm/metadata';
+import type * as webpack from "webpack";
+import * as path from "path";
+import * as loaderUtils from "loader-utils";
+import * as fs from "fs";
+import { AddWorkerEntryPointPlugin } from "./plugins/AddWorkerEntryPointPlugin";
+import { IFeatureDefinition } from "./types";
+import { ILoaderOptions } from "./loaders/include";
+import {
+	EditorLanguage,
+	EditorFeature,
+	NegatedEditorFeature,
+} from "monaco-editor/esm/metadata";
 
-const INCLUDE_LOADER_PATH = require.resolve('./loaders/include');
+const INCLUDE_LOADER_PATH = require.resolve("./loaders/include");
 
 const EDITOR_MODULE: IFeatureDefinition = {
-	label: 'editorWorkerService',
+	label: "editorWorkerService",
 	entry: undefined,
 	worker: {
-		id: 'vs/editor/editor',
-		entry: 'vs/editor/editor.worker'
-	}
+		id: "vs/editor/editor",
+		entry: "vs/editor/editor.worker",
+	},
 };
 
 /**
  * Return a resolved path for a given Monaco file.
  */
-function resolveMonacoPath(filePath: string, monacoEditorPath: string | undefined): string {
+function resolveMonacoPath(
+	filePath: string,
+	monacoEditorPath: string | undefined
+): string {
 	if (monacoEditorPath) {
-		return require.resolve(path.join(monacoEditorPath, 'esm', filePath));
+		return require.resolve(path.join(monacoEditorPath, "esm", filePath));
 	}
 
 	try {
-		return require.resolve(path.join('monaco-editor/esm', filePath));
+		return require.resolve(path.join("monaco-editor/esm", filePath));
 	} catch (err) {}
 
 	try {
-		return require.resolve(path.join(process.cwd(), 'node_modules/monaco-editor/esm', filePath));
+		return require.resolve(
+			path.join(process.cwd(), "node_modules/monaco-editor/esm", filePath)
+		);
 	} catch (err) {}
 
 	return require.resolve(filePath);
@@ -46,7 +55,7 @@ function getWorkerFilename(
 	monacoEditorPath: string | undefined
 ): string {
 	return loaderUtils.interpolateName(<any>{ resourcePath: entry }, filename, {
-		content: fs.readFileSync(resolveMonacoPath(entry, monacoEditorPath))
+		content: fs.readFileSync(resolveMonacoPath(entry, monacoEditorPath)),
 	});
 }
 
@@ -55,8 +64,10 @@ interface EditorMetadata {
 	languages: IFeatureDefinition[];
 }
 
-function getEditorMetadata(monacoEditorPath: string | undefined): EditorMetadata {
-	const metadataPath = resolveMonacoPath('metadata.js', monacoEditorPath);
+function getEditorMetadata(
+	monacoEditorPath: string | undefined
+): EditorMetadata {
+	const metadataPath = resolveMonacoPath("metadata.js", monacoEditorPath);
 	return require(metadataPath);
 }
 
@@ -65,7 +76,9 @@ function resolveDesiredFeatures(
 	userFeatures: (EditorFeature | NegatedEditorFeature)[] | undefined
 ): IFeatureDefinition[] {
 	const featuresById: { [feature: string]: IFeatureDefinition } = {};
-	metadata.features.forEach((feature) => (featuresById[feature.label] = feature));
+	metadata.features.forEach(
+		(feature) => (featuresById[feature.label] = feature)
+	);
 
 	function notContainedIn(arr: string[]) {
 		return (element: string) => arr.indexOf(element) === -1;
@@ -74,9 +87,13 @@ function resolveDesiredFeatures(
 	let featuresIds: string[];
 
 	if (userFeatures && userFeatures.length) {
-		const excludedFeatures = userFeatures.filter((f) => f[0] === '!').map((f) => f.slice(1));
+		const excludedFeatures = userFeatures
+			.filter((f) => f[0] === "!")
+			.map((f) => f.slice(1));
 		if (excludedFeatures.length) {
-			featuresIds = Object.keys(featuresById).filter(notContainedIn(excludedFeatures));
+			featuresIds = Object.keys(featuresById).filter(
+				notContainedIn(excludedFeatures)
+			);
 		} else {
 			featuresIds = userFeatures;
 		}
@@ -93,10 +110,14 @@ function resolveDesiredLanguages(
 	userCustomLanguages: IFeatureDefinition[] | undefined
 ): IFeatureDefinition[] {
 	const languagesById: { [language: string]: IFeatureDefinition } = {};
-	metadata.languages.forEach((language) => (languagesById[language.label] = language));
+	metadata.languages.forEach(
+		(language) => (languagesById[language.label] = language)
+	);
 
 	const languages = userLanguages || Object.keys(languagesById);
-	return coalesce(languages.map((id) => languagesById[id])).concat(userCustomLanguages || []);
+	return coalesce(languages.map((id) => languagesById[id])).concat(
+		userCustomLanguages || []
+	);
 }
 
 declare namespace MonacoEditorWebpackPlugin {
@@ -159,23 +180,36 @@ interface IInternalMonacoEditorWebpackPluginOpts {
 class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
 	private readonly options: IInternalMonacoEditorWebpackPluginOpts;
 
-	constructor(options: MonacoEditorWebpackPlugin.IMonacoEditorWebpackPluginOpts = {}) {
+	constructor(
+		options: MonacoEditorWebpackPlugin.IMonacoEditorWebpackPluginOpts = {}
+	) {
 		const monacoEditorPath = options.monacoEditorPath;
 		const metadata = getEditorMetadata(monacoEditorPath);
-		const languages = resolveDesiredLanguages(metadata, options.languages, options.customLanguages);
+		const languages = resolveDesiredLanguages(
+			metadata,
+			options.languages,
+			options.customLanguages
+		);
 		const features = resolveDesiredFeatures(metadata, options.features);
 		this.options = {
 			languages,
 			features,
-			filename: options.filename || '[name].worker.js',
+			filename: options.filename || "[name].worker.js",
 			monacoEditorPath,
-			publicPath: options.publicPath || '',
-			globalAPI: options.globalAPI || false
+			publicPath: options.publicPath || "",
+			globalAPI: options.globalAPI || false,
 		};
 	}
 
 	apply(compiler: webpack.Compiler): void {
-		const { languages, features, filename, monacoEditorPath, publicPath, globalAPI } = this.options;
+		const {
+			languages,
+			features,
+			filename,
+			monacoEditorPath,
+			publicPath,
+			globalAPI,
+		} = this.options;
 		const compilationPublicPath = getCompilationPublicPath(compiler);
 		const modules = [EDITOR_MODULE].concat(languages).concat(features);
 		const workers: ILabeledWorkerDefinition[] = [];
@@ -184,7 +218,7 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
 				workers.push({
 					label: module.label,
 					id: module.worker.id,
-					entry: module.worker.entry
+					entry: module.worker.entry,
 				});
 			}
 		});
@@ -198,7 +232,12 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
 			compilationPublicPath,
 			globalAPI
 		);
-		const plugins = createPlugins(compiler, workers, filename, monacoEditorPath);
+		const plugins = createPlugins(
+			compiler,
+			workers,
+			filename,
+			monacoEditorPath
+		);
 		addCompilerRules(compiler, rules);
 		addCompilerPlugins(compiler, plugins);
 	}
@@ -210,7 +249,10 @@ interface ILabeledWorkerDefinition {
 	entry: string;
 }
 
-function addCompilerRules(compiler: webpack.Compiler, rules: webpack.RuleSetRule[]): void {
+function addCompilerRules(
+	compiler: webpack.Compiler,
+	rules: webpack.RuleSetRule[]
+): void {
 	const compilerOptions = compiler.options;
 	if (!compilerOptions.module) {
 		compilerOptions.module = <any>{ rules: rules };
@@ -220,19 +262,24 @@ function addCompilerRules(compiler: webpack.Compiler, rules: webpack.RuleSetRule
 	}
 }
 
-function addCompilerPlugins(compiler: webpack.Compiler, plugins: webpack.WebpackPluginInstance[]) {
+function addCompilerPlugins(
+	compiler: webpack.Compiler,
+	plugins: webpack.WebpackPluginInstance[]
+) {
 	plugins.forEach((plugin) => plugin.apply(compiler));
 }
 
 function getCompilationPublicPath(compiler: webpack.Compiler): string {
 	if (compiler.options.output && compiler.options.output.publicPath) {
-		if (typeof compiler.options.output.publicPath === 'string') {
+		if (typeof compiler.options.output.publicPath === "string") {
 			return compiler.options.output.publicPath;
 		} else {
-			console.warn(`Cannot handle options.publicPath (expected a string)`);
+			console.warn(
+				`Cannot handle options.publicPath (expected a string)`
+			);
 		}
 	}
-	return '';
+	return "";
 }
 
 function createLoaderRules(
@@ -248,25 +295,32 @@ function createLoaderRules(
 	if (!languages.length && !features.length) {
 		return [];
 	}
-	const languagePaths = flatArr(coalesce(languages.map((language) => language.entry)));
-	const featurePaths = flatArr(coalesce(features.map((feature) => feature.entry)));
-	const workerPaths = fromPairs(
-		workers.map(({ label, entry }) => [label, getWorkerFilename(filename, entry, monacoEditorPath)])
+	const languagePaths = flatArr(
+		coalesce(languages.map((language) => language.entry))
 	);
-	if (workerPaths['typescript']) {
+	const featurePaths = flatArr(
+		coalesce(features.map((feature) => feature.entry))
+	);
+	const workerPaths = fromPairs(
+		workers.map(({ label, entry }) => [
+			label,
+			getWorkerFilename(filename, entry, monacoEditorPath),
+		])
+	);
+	if (workerPaths["typescript"]) {
 		// javascript shares the same worker
-		workerPaths['javascript'] = workerPaths['typescript'];
+		workerPaths["javascript"] = workerPaths["typescript"];
 	}
-	if (workerPaths['css']) {
+	if (workerPaths["css"]) {
 		// scss and less share the same worker
-		workerPaths['less'] = workerPaths['css'];
-		workerPaths['scss'] = workerPaths['css'];
+		workerPaths["less"] = workerPaths["css"];
+		workerPaths["scss"] = workerPaths["css"];
 	}
 
-	if (workerPaths['html']) {
+	if (workerPaths["html"]) {
 		// handlebars, razor and html share the same worker
-		workerPaths['handlebars'] = workerPaths['html'];
-		workerPaths['razor'] = workerPaths['html'];
+		workerPaths["handlebars"] = workerPaths["html"];
+		workerPaths["razor"] = workerPaths["html"];
 	}
 
 	// Determine the public path from which to load worker JS files. In order of precedence:
@@ -304,12 +358,16 @@ function createLoaderRules(
           return result;
         }
       };
-    })(${JSON.stringify(workerPaths, null, 2)})`
+    })(${JSON.stringify(workerPaths, null, 2)})`,
 	};
 	const options: ILoaderOptions = {
 		globals,
-		pre: featurePaths.map((importPath) => resolveMonacoPath(importPath, monacoEditorPath)),
-		post: languagePaths.map((importPath) => resolveMonacoPath(importPath, monacoEditorPath))
+		pre: featurePaths.map((importPath) =>
+			resolveMonacoPath(importPath, monacoEditorPath)
+		),
+		post: languagePaths.map((importPath) =>
+			resolveMonacoPath(importPath, monacoEditorPath)
+		),
 	};
 	return [
 		{
@@ -317,10 +375,10 @@ function createLoaderRules(
 			use: [
 				{
 					loader: INCLUDE_LOADER_PATH,
-					options
-				}
-			]
-		}
+					options,
+				},
+			],
+		},
 	];
 }
 
@@ -330,7 +388,7 @@ function createPlugins(
 	filename: string,
 	monacoEditorPath: string | undefined
 ): AddWorkerEntryPointPlugin[] {
-	const webpack = compiler.webpack ?? require('webpack');
+	const webpack = compiler.webpack ?? require("webpack");
 
 	return (<AddWorkerEntryPointPlugin[]>[]).concat(
 		workers.map(
@@ -338,20 +396,31 @@ function createPlugins(
 				new AddWorkerEntryPointPlugin({
 					id,
 					entry: resolveMonacoPath(entry, monacoEditorPath),
-					filename: getWorkerFilename(filename, entry, monacoEditorPath),
-					plugins: [new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })]
+					filename: getWorkerFilename(
+						filename,
+						entry,
+						monacoEditorPath
+					),
+					plugins: [
+						new webpack.optimize.LimitChunkCountPlugin({
+							maxChunks: 1,
+						}),
+					],
 				})
 		)
 	);
 }
 
 function flatArr<T>(items: (T | T[])[]): T[] {
-	return items.reduce((acc: T[], item: T | T[]) => {
-		if (Array.isArray(item)) {
-			return (<T[]>[]).concat(acc).concat(item);
-		}
-		return (<T[]>[]).concat(acc).concat([item]);
-	}, <T[]>[]);
+	return items.reduce(
+		(acc: T[], item: T | T[]) => {
+			if (Array.isArray(item)) {
+				return (<T[]>[]).concat(acc).concat(item);
+			}
+			return (<T[]>[]).concat(acc).concat([item]);
+		},
+		<T[]>[]
+	);
 }
 
 function fromPairs<T>(values: [string, T][]): { [key: string]: T } {

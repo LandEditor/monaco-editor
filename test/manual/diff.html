@@ -1,19 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
 	</head>
 	<body>
 		<div
 			id="container"
-			style="float: left; width: 800px; height: 450px; border: 1px solid grey"
-		></div>
+			style="
+				float: left;
+				width: 800px;
+				height: 450px;
+				border: 1px solid grey;
+			"></div>
 		<div style="clear: both"></div>
 
 		<script src="dev-setup.js"></script>
 		<script>
 			loadEditor(function () {
-				require(['./diff'], function () {});
+				require(["./diff"], function () {});
 			});
 		</script>
 	</body>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
 		<meta charset="UTF-8" />
@@ -36,22 +36,30 @@
 	</script-->
 	<!--script src="/node_modules/monaco-editor/min/vs/loader1.js"></script-->
 	<script>
-		var ERequire = require('../../node_modules/monaco-editor/min/vs/loader.js');
+		var ERequire = require("../../node_modules/monaco-editor/min/vs/loader.js");
 		//__dirname == root path of you application
 		ERequire.config({
-			baseUrl: 'file:///' + __dirname + '/node_modules/monaco-editor/min/'
+			baseUrl:
+				"file:///" + __dirname + "/node_modules/monaco-editor/min/",
 		});
 
 		// workaround monaco-css not understanding the environment
 		self.module = undefined;
 		// workaround monaco-typescript not understanding the environment
 		self.process.browser = true;
-		ERequire(['vs/editor/editor.main'], function () {
-			var editor = monaco.editor.create(document.getElementById('container'), {
-				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
-				language: 'javascript',
-				theme: 'vs-dark'
-			});
+		ERequire(["vs/editor/editor.main"], function () {
+			var editor = monaco.editor.create(
+				document.getElementById("container"),
+				{
+					value: [
+						"function x() {",
+						'\tconsole.log("Hello world!");',
+						"}",
+					].join("\n"),
+					language: "javascript",
+					theme: "vs-dark",
+				}
+			);
 		});
 	</script>
 </html>

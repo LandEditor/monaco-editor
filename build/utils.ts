@@ -3,15 +3,15 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as fs from 'fs';
-import * as path from 'path';
-import * as cp from 'child_process';
-import * as esbuild from 'esbuild';
-import alias from 'esbuild-plugin-alias';
-import * as glob from 'glob';
-import { ensureDir } from './fs';
+import * as fs from "fs";
+import * as path from "path";
+import * as cp from "child_process";
+import * as esbuild from "esbuild";
+import alias from "esbuild-plugin-alias";
+import * as glob from "glob";
+import { ensureDir } from "./fs";
 
-export const REPO_ROOT = path.join(__dirname, '../');
+export const REPO_ROOT = path.join(__dirname, "../");
 
 /**
  * Launch the typescript compiler synchronously over a project.
@@ -21,8 +21,12 @@ export function runTsc(_projectPath: string) {
 	console.log(`Launching compiler at ${_projectPath}...`);
 	const res = cp.spawnSync(
 		process.execPath,
-		[path.join(__dirname, '../node_modules/typescript/lib/tsc.js'), '-p', projectPath],
-		{ stdio: 'inherit' }
+		[
+			path.join(__dirname, "../node_modules/typescript/lib/tsc.js"),
+			"-p",
+			projectPath,
+		],
+		{ stdio: "inherit" }
 	);
 	console.log(`Compiled ${_projectPath}`);
 	if (res.status !== 0) {
@@ -37,8 +41,12 @@ export function prettier(_filePath: string) {
 	const filePath = path.join(REPO_ROOT, _filePath);
 	cp.spawnSync(
 		process.execPath,
-		[path.join(__dirname, '../node_modules/prettier/bin-prettier.js'), '--write', filePath],
-		{ stdio: 'inherit' }
+		[
+			path.join(__dirname, "../node_modules/prettier/bin-prettier.js"),
+			"--write",
+			filePath,
+		],
+		{ stdio: "inherit" }
 	);
 
 	console.log(`Ran prettier over ${_filePath}`);
@@ -47,7 +55,11 @@ export function prettier(_filePath: string) {
 /**
  * Transform an external .d.ts file to an internal .d.ts file
  */
-export function massageAndCopyDts(source: string, destination: string, namespace: string) {
+export function massageAndCopyDts(
+	source: string,
+	destination: string,
+	namespace: string
+) {
 	const absoluteSource = path.join(REPO_ROOT, source);
 	const absoluteDestination = path.join(REPO_ROOT, destination);
 
@@ -62,17 +74,17 @@ export function massageAndCopyDts(source: string, destination: string, namespace
 		` *  Licensed under the MIT License. See License.txt in the project root for license information.`,
 		` *--------------------------------------------------------------------------------------------*/`,
 		``,
-		`declare namespace ${namespace} {`
+		`declare namespace ${namespace} {`,
 	];
 	for (let line of lines) {
 		if (/^import/.test(line)) {
 			continue;
 		}
-		if (line === 'export {};') {
+		if (line === "export {};") {
 			continue;
 		}
-		line = line.replace(/    /g, '\t');
-		line = line.replace(/declare /g, '');
+		line = line.replace(/    /g, "\t");
+		line = line.replace(/declare /g, "");
 		if (line.length > 0) {
 			line = `\t${line}`;
 			result.push(line);
@@ -82,12 +94,12 @@ export function massageAndCopyDts(source: string, destination: string, namespace
 	result.push(``);
 
 	ensureDir(path.dirname(absoluteDestination));
-	fs.writeFileSync(absoluteDestination, result.join('\n'));
+	fs.writeFileSync(absoluteDestination, result.join("\n"));
 
 	prettier(destination);
 }
 
-export function build(options: import('esbuild').BuildOptions) {
+export function build(options: import("esbuild").BuildOptions) {
 	esbuild.build(options).then((result) => {
 		if (result.errors.length > 0) {
 			console.error(result.errors);
@@ -98,32 +110,36 @@ export function build(options: import('esbuild').BuildOptions) {
 	});
 }
 
-export function buildESM(options: { base: string; entryPoints: string[]; external: string[] }) {
+export function buildESM(options: {
+	base: string;
+	entryPoints: string[];
+	external: string[];
+}) {
 	build({
 		entryPoints: options.entryPoints,
 		bundle: true,
-		target: 'esnext',
-		format: 'esm',
-		drop: ['debugger'],
+		target: "esnext",
+		format: "esm",
+		drop: ["debugger"],
 		define: {
-			AMD: 'false'
+			AMD: "false",
 		},
 		banner: {
-			js: bundledFileHeader
+			js: bundledFileHeader,
 		},
 		external: options.external,
 		outbase: `src/${options.base}`,
 		outdir: `out/languages/bundled/esm/vs/${options.base}/`,
 		plugins: [
 			alias({
-				'vscode-nls': path.join(__dirname, 'fillers/vscode-nls.ts')
-			})
-		]
+				"vscode-nls": path.join(__dirname, "fillers/vscode-nls.ts"),
+			}),
+		],
 	});
 }
 
 function buildOneAMD(
-	type: 'dev' | 'min',
+	type: "dev" | "min",
 	options: {
 		base: string;
 		entryPoint: string;
@@ -135,37 +151,45 @@ function buildOneAMD(
 	if (!options.amdDependencies) {
 		options.amdDependencies = [];
 	}
-	options.amdDependencies.unshift('require');
+	options.amdDependencies.unshift("require");
 
 	const opts: esbuild.BuildOptions = {
 		entryPoints: [options.entryPoint],
 		bundle: true,
-		target: 'esnext',
-		format: 'iife',
-		drop: ['debugger'],
+		target: "esnext",
+		format: "iife",
+		drop: ["debugger"],
 		define: {
-			AMD: 'true'
+			AMD: "true",
 		},
-		globalName: 'moduleExports',
+		globalName: "moduleExports",
 		banner: {
-			js: `${bundledFileHeader}define("${options.amdModuleId}", [${(options.amdDependencies || [])
+			js: `${bundledFileHeader}define("${options.amdModuleId}", [${(
+				options.amdDependencies || []
+			)
 				.map((dep) => `"${dep}"`)
-				.join(',')}],(require)=>{`
+				.join(",")}],(require)=>{`,
 		},
 		footer: {
-			js: 'return moduleExports;\n});'
+			js: "return moduleExports;\n});",
 		},
 		outbase: `src/${options.base}`,
 		outdir: `out/languages/bundled/amd-${type}/vs/${options.base}/`,
 		plugins: [
 			alias({
-				'vscode-nls': path.join(__dirname, '../build/fillers/vscode-nls.ts'),
-				'monaco-editor-core': path.join(__dirname, '../src/fillers/monaco-editor-core-amd.ts')
-			})
+				"vscode-nls": path.join(
+					__dirname,
+					"../build/fillers/vscode-nls.ts"
+				),
+				"monaco-editor-core": path.join(
+					__dirname,
+					"../src/fillers/monaco-editor-core-amd.ts"
+				),
+			}),
 		],
-		external: ['vs/editor/editor.api', ...(options.external || [])]
+		external: ["vs/editor/editor.api", ...(options.external || [])],
 	};
-	if (type === 'min') {
+	if (type === "min") {
 		opts.minify = true;
 	}
 	build(opts);
@@ -178,17 +202,17 @@ export function buildAMD(options: {
 	amdDependencies?: string[];
 	external?: string[];
 }) {
-	buildOneAMD('dev', options);
-	buildOneAMD('min', options);
+	buildOneAMD("dev", options);
+	buildOneAMD("min", options);
 }
 
 function getGitVersion() {
-	const git = path.join(REPO_ROOT, '.git');
-	const headPath = path.join(git, 'HEAD');
+	const git = path.join(REPO_ROOT, ".git");
+	const headPath = path.join(git, "HEAD");
 	let head;
 
 	try {
-		head = fs.readFileSync(headPath, 'utf8').trim();
+		head = fs.readFileSync(headPath, "utf8").trim();
 	} catch (e) {
 		return void 0;
 	}
@@ -207,16 +231,16 @@ function getGitVersion() {
 	const refPath = path.join(git, ref);
 
 	try {
-		return fs.readFileSync(refPath, 'utf8').trim();
+		return fs.readFileSync(refPath, "utf8").trim();
 	} catch (e) {
 		// noop
 	}
 
-	const packedRefsPath = path.join(git, 'packed-refs');
+	const packedRefsPath = path.join(git, "packed-refs");
 	let refsRaw;
 
 	try {
-		refsRaw = fs.readFileSync(packedRefsPath, 'utf8').trim();
+		refsRaw = fs.readFileSync(packedRefsPath, "utf8").trim();
 	} catch (e) {
 		return void 0;
 	}
@@ -234,18 +258,18 @@ function getGitVersion() {
 
 export const bundledFileHeader = (() => {
 	const sha1 = getGitVersion();
-	const semver = require('../package.json').version;
-	const headerVersion = semver + '(' + sha1 + ')';
+	const semver = require("../package.json").version;
+	const headerVersion = semver + "(" + sha1 + ")";
 
 	const BUNDLED_FILE_HEADER = [
-		'/*!-----------------------------------------------------------------------------',
-		' * Copyright (c) Microsoft Corporation. All rights reserved.',
-		' * Version: ' + headerVersion,
-		' * Released under the MIT license',
-		' * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt',
-		' *-----------------------------------------------------------------------------*/',
-		''
-	].join('\n');
+		"/*!-----------------------------------------------------------------------------",
+		" * Copyright (c) Microsoft Corporation. All rights reserved.",
+		" * Version: " + headerVersion,
+		" * Released under the MIT license",
+		" * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt",
+		" *-----------------------------------------------------------------------------*/",
+		"",
+	].join("\n");
 
 	return BUNDLED_FILE_HEADER;
 })();
@@ -259,7 +283,11 @@ export function readFiles(
 	pattern: string,
 	options: { base: string; ignore?: string[]; dot?: boolean }
 ): IFile[] {
-	let files = glob.sync(pattern, { cwd: REPO_ROOT, ignore: options.ignore, dot: options.dot });
+	let files = glob.sync(pattern, {
+		cwd: REPO_ROOT,
+		ignore: options.ignore,
+		dot: options.dot,
+	});
 	// remove dirs
 	files = files.filter((file) => {
 		const fullPath = path.join(REPO_ROOT, file);
@@ -268,14 +296,15 @@ export function readFiles(
 	});
 
 	const base = options.base;
-	const baseLength = base === '' ? 0 : base.endsWith('/') ? base.length : base.length + 1;
+	const baseLength =
+		base === "" ? 0 : base.endsWith("/") ? base.length : base.length + 1;
 	return files.map((file) => {
 		const fullPath = path.join(REPO_ROOT, file);
 		const contents = fs.readFileSync(fullPath);
 		const relativePath = file.substring(baseLength);
 		return {
 			path: relativePath,
-			contents
+			contents,
 		};
 	});
 }

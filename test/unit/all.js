@@ -1,19 +1,20 @@
-const requirejs = require('requirejs');
-const jsdom = require('jsdom');
-const glob = require('glob');
-const path = require('path');
+const requirejs = require("requirejs");
+const jsdom = require("jsdom");
+const glob = require("glob");
+const path = require("path");
 
 requirejs.config({
-	baseUrl: '',
+	baseUrl: "",
 	paths: {
-		'vs/fillers/monaco-editor-core': 'out/languages/amd-tsc/fillers/monaco-editor-core-amd',
-		'vs/basic-languages': 'out/languages/amd-tsc/basic-languages',
-		vs: './node_modules/monaco-editor-core/dev/vs'
+		"vs/fillers/monaco-editor-core":
+			"out/languages/amd-tsc/fillers/monaco-editor-core-amd",
+		"vs/basic-languages": "out/languages/amd-tsc/basic-languages",
+		vs: "./node_modules/monaco-editor-core/dev/vs",
 	},
-	nodeRequire: require
+	nodeRequire: require,
 });
 
-const tmp = new jsdom.JSDOM('<!DOCTYPE html><html><body></body></html>');
+const tmp = new jsdom.JSDOM("<!DOCTYPE html><html><body></body></html>");
 global.AMD = true;
 global.document = tmp.window.document;
 global.navigator = tmp.window.navigator;
@@ -29,24 +30,28 @@ global.window = {
 	matchMedia: function () {
 		return {
 			matches: false,
-			addEventListener: function () {}
+			addEventListener: function () {},
 		};
-	}
+	},
 };
 
 requirejs(
-	['test/unit/setup'],
+	["test/unit/setup"],
 	function () {
 		glob(
-			'out/languages/amd-tsc/basic-languages/*/*.test.js',
-			{ cwd: path.join(__dirname, '../../') },
+			"out/languages/amd-tsc/basic-languages/*/*.test.js",
+			{ cwd: path.join(__dirname, "../../") },
 			function (err, files) {
 				if (err) {
 					console.log(err);
 					return;
 				}
 				requirejs(
-					files.map((f) => f.replace(/^out\/languages\/amd-tsc/, 'vs').replace(/\.js$/, '')),
+					files.map((f) =>
+						f
+							.replace(/^out\/languages\/amd-tsc/, "vs")
+							.replace(/\.js$/, "")
+					),
 					function () {
 						run(); // We can launch the tests!
 					},

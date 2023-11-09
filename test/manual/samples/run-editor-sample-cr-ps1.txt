@@ -1,12 +1,15 @@
 
-# A line that ends only in CR(0x0D) and not LF (0x0A).foreach($parameterSet in $ObjInfoArray)
+# A line that ends only in CR(0x0D) and not LF (0x0A).
+foreach($parameterSet in $ObjInfoArray)
 {
-	# This line also ends only in CR(0x0D) and not LF (0x0A).	if ($parameterSet["class"] -eq "blank")
+	# This line also ends only in CR(0x0D) and not LF (0x0A).
+	if ($parameterSet["class"] -eq "blank")
 	{
 		if ($XenCenterNodeSelected)
 		{
 			continue
 		}
-		$XenCenterNodeSelected = 1;		$SelectedObjectNames += "XenCenter"
+		$XenCenterNodeSelected = 1;
+		$SelectedObjectNames += "XenCenter"
 	}
 }

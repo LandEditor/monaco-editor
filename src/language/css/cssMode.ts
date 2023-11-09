@@ -3,11 +3,11 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { WorkerManager } from './workerManager';
-import type { CSSWorker } from './cssWorker';
-import { LanguageServiceDefaults } from './monaco.contribution';
-import * as languageFeatures from '../common/lspLanguageFeatures';
-import { Uri, IDisposable, languages } from '../../fillers/monaco-editor-core';
+import { WorkerManager } from "./workerManager";
+import type { CSSWorker } from "./cssWorker";
+import { LanguageServiceDefaults } from "./monaco.contribution";
+import * as languageFeatures from "../common/lspLanguageFeatures";
+import { Uri, IDisposable, languages } from "../../fillers/monaco-editor-core";
 
 export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const disposables: IDisposable[] = [];
@@ -31,13 +31,20 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerCompletionItemProvider(
 					languageId,
-					new languageFeatures.CompletionAdapter(worker, ['/', '-', ':'])
+					new languageFeatures.CompletionAdapter(worker, [
+						"/",
+						"-",
+						":",
+					])
 				)
 			);
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
-				languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker))
+				languages.registerHoverProvider(
+					languageId,
+					new languageFeatures.HoverAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentHighlights) {
@@ -74,7 +81,10 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.rename) {
 			providers.push(
-				languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker))
+				languages.registerRenameProvider(
+					languageId,
+					new languageFeatures.RenameAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.colors) {
@@ -95,7 +105,11 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.diagnostics) {
 			providers.push(
-				new languageFeatures.DiagnosticsAdapter(languageId, worker, defaults.onDidChange)
+				new languageFeatures.DiagnosticsAdapter(
+					languageId,
+					worker,
+					defaults.onDidChange
+				)
 			);
 		}
 		if (modeConfiguration.selectionRanges) {
@@ -118,7 +132,9 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentRangeFormattingEditProvider(
 					languageId,
-					new languageFeatures.DocumentRangeFormattingEditProvider(worker)
+					new languageFeatures.DocumentRangeFormattingEditProvider(
+						worker
+					)
 				)
 			);
 		}
@@ -141,5 +157,5 @@ function disposeAll(disposables: IDisposable[]) {
 	}
 }
 
-export { WorkerManager } from './workerManager';
-export * from '../common/lspLanguageFeatures';
+export { WorkerManager } from "./workerManager";
+export * from "../common/lspLanguageFeatures";

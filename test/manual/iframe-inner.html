@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
 	</head>
 	<body style="height: 100%">
 		<div
+			id="editor"
 			style="
 				position: absolute;
 				left: 10px;
@@ -12,16 +13,14 @@
 				width: 400px;
 				height: 200px;
 				border: 1px solid silver;
-			"
-			id="editor"
-		></div>
+			"></div>
 
 		<script src="dev-setup.js"></script>
 		<script>
 			loadEditor(function () {
-				monaco.editor.create(document.getElementById('editor'), {
+				monaco.editor.create(document.getElementById("editor"), {
 					value: `function hello()\n{\treturn 5;\n}`,
-					language: 'javascript'
+					language: "javascript",
 				});
 			});
 		</script>
