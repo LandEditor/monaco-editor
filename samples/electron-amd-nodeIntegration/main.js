@@ -1,4 +1,4 @@
-const electron = require("electron");
+const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
@@ -12,25 +12,25 @@ function createWindow() {
 			nodeIntegration: true,
 			worldSafeExecuteJavaScript: true,
 			sandbox: false,
-			contextIsolation: false,
-		},
+			contextIsolation: false
+		}
 	});
 	mainWindow.loadURL(`file://${__dirname}/electron-index.html`);
 	mainWindow.webContents.openDevTools();
-	mainWindow.on("closed", function () {
+	mainWindow.on('closed', function () {
 		mainWindow = null;
 	});
 }
 
-app.on("ready", createWindow);
+app.on('ready', createWindow);
 
-app.on("window-all-closed", function () {
-	if (process.platform !== "darwin") {
+app.on('window-all-closed', function () {
+	if (process.platform !== 'darwin') {
 		app.quit();
 	}
 });
 
-app.on("activate", function () {
+app.on('activate', function () {
 	if (mainWindow === null) {
 		createWindow();
 	}

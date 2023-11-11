@@ -27,17 +27,13 @@ function format(message: string, args: any[]): string {
 	} else {
 		result = message.replace(/\{(\d+)\}/g, (match, rest) => {
 			let index = rest[0];
-			return typeof args[index] !== "undefined" ? args[index] : match;
+			return typeof args[index] !== 'undefined' ? args[index] : match;
 		});
 	}
 	return result;
 }
 
-function localize(
-	key: string | LocalizeInfo,
-	message: string,
-	...args: any[]
-): string {
+function localize(key: string | LocalizeInfo, message: string, ...args: any[]): string {
 	return format(message, args);
 }
 

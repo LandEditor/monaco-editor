@@ -3,110 +3,110 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { languages } from "../../fillers/monaco-editor-core";
+import type { languages } from '../../fillers/monaco-editor-core';
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
-		lineComment: "//",
-		blockComment: ["(*", "*)"],
+		lineComment: '//',
+		blockComment: ['(*', '*)']
 	},
 	brackets: [
-		["{", "}"],
-		["[", "]"],
-		["(", ")"],
-		["<", ">"],
+		['{', '}'],
+		['[', ']'],
+		['(', ')'],
+		['<', '>']
 	],
 	autoClosingPairs: [
-		{ open: "{", close: "}" },
-		{ open: "[", close: "]" },
-		{ open: "(", close: ")" },
-		{ open: "<", close: ">" },
-		{ open: "'", close: "'" },
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '<', close: '>' },
+		{ open: "'", close: "'" }
 	],
 	surroundingPairs: [
-		{ open: "{", close: "}" },
-		{ open: "[", close: "]" },
-		{ open: "(", close: ")" },
-		{ open: "<", close: ">" },
-		{ open: "'", close: "'" },
-	],
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '<', close: '>' },
+		{ open: "'", close: "'" }
+	]
 };
 
 export const language = <languages.IMonarchLanguage>{
-	defaultToken: "",
-	tokenPostfix: ".pascaligo",
+	defaultToken: '',
+	tokenPostfix: '.pascaligo',
 	ignoreCase: true,
 
 	brackets: [
-		{ open: "{", close: "}", token: "delimiter.curly" },
-		{ open: "[", close: "]", token: "delimiter.square" },
-		{ open: "(", close: ")", token: "delimiter.parenthesis" },
-		{ open: "<", close: ">", token: "delimiter.angle" },
+		{ open: '{', close: '}', token: 'delimiter.curly' },
+		{ open: '[', close: ']', token: 'delimiter.square' },
+		{ open: '(', close: ')', token: 'delimiter.parenthesis' },
+		{ open: '<', close: '>', token: 'delimiter.angle' }
 	],
 
 	keywords: [
-		"begin",
-		"block",
-		"case",
-		"const",
-		"else",
-		"end",
-		"fail",
-		"for",
-		"from",
-		"function",
-		"if",
-		"is",
-		"nil",
-		"of",
-		"remove",
-		"return",
-		"skip",
-		"then",
-		"type",
-		"var",
-		"while",
-		"with",
-		"option",
-		"None",
-		"transaction",
+		'begin',
+		'block',
+		'case',
+		'const',
+		'else',
+		'end',
+		'fail',
+		'for',
+		'from',
+		'function',
+		'if',
+		'is',
+		'nil',
+		'of',
+		'remove',
+		'return',
+		'skip',
+		'then',
+		'type',
+		'var',
+		'while',
+		'with',
+		'option',
+		'None',
+		'transaction'
 	],
 
 	typeKeywords: [
-		"bool",
-		"int",
-		"list",
-		"map",
-		"nat",
-		"record",
-		"string",
-		"unit",
-		"address",
-		"map",
-		"mtz",
-		"xtz",
+		'bool',
+		'int',
+		'list',
+		'map',
+		'nat',
+		'record',
+		'string',
+		'unit',
+		'address',
+		'map',
+		'mtz',
+		'xtz'
 	],
 
 	operators: [
-		"=",
-		">",
-		"<",
-		"<=",
-		">=",
-		"<>",
-		":",
-		":=",
-		"and",
-		"mod",
-		"or",
-		"+",
-		"-",
-		"*",
-		"/",
-		"@",
-		"&",
-		"^",
-		"%",
+		'=',
+		'>',
+		'<',
+		'<=',
+		'>=',
+		'<>',
+		':',
+		':=',
+		'and',
+		'mod',
+		'or',
+		'+',
+		'-',
+		'*',
+		'/',
+		'@',
+		'&',
+		'^',
+		'%'
 	],
 
 	// we include these common regular expressions
@@ -120,64 +120,64 @@ export const language = <languages.IMonarchLanguage>{
 				/[a-zA-Z_][\w]*/,
 				{
 					cases: {
-						"@keywords": { token: "keyword.$0" },
-						"@default": "identifier",
-					},
-				},
+						'@keywords': { token: 'keyword.$0' },
+						'@default': 'identifier'
+					}
+				}
 			],
 
 			// whitespace
-			{ include: "@whitespace" },
+			{ include: '@whitespace' },
 
 			// delimiters and operators
-			[/[{}()\[\]]/, "@brackets"],
-			[/[<>](?!@symbols)/, "@brackets"],
+			[/[{}()\[\]]/, '@brackets'],
+			[/[<>](?!@symbols)/, '@brackets'],
 			[
 				/@symbols/,
 				{
 					cases: {
-						"@operators": "delimiter",
-						"@default": "",
-					},
-				},
+						'@operators': 'delimiter',
+						'@default': ''
+					}
+				}
 			],
 
 			// numbers
-			[/\d*\.\d+([eE][\-+]?\d+)?/, "number.float"],
-			[/\$[0-9a-fA-F]{1,16}/, "number.hex"],
-			[/\d+/, "number"],
+			[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
+			[/\$[0-9a-fA-F]{1,16}/, 'number.hex'],
+			[/\d+/, 'number'],
 
 			// delimiter: after number because of .\d floats
-			[/[;,.]/, "delimiter"],
+			[/[;,.]/, 'delimiter'],
 
 			// strings
-			[/'([^'\\]|\\.)*$/, "string.invalid"], // non-teminated string
-			[/'/, "string", "@string"],
+			[/'([^'\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+			[/'/, 'string', '@string'],
 
 			// characters
-			[/'[^\\']'/, "string"],
-			[/'/, "string.invalid"],
-			[/\#\d+/, "string"],
+			[/'[^\\']'/, 'string'],
+			[/'/, 'string.invalid'],
+			[/\#\d+/, 'string']
 		],
 		/* */
 
 		comment: [
-			[/[^\(\*]+/, "comment"],
+			[/[^\(\*]+/, 'comment'],
 			//[/\(\*/,    'comment', '@push' ],    // nested comment  not allowed :-(
-			[/\*\)/, "comment", "@pop"],
-			[/\(\*/, "comment"],
+			[/\*\)/, 'comment', '@pop'],
+			[/\(\*/, 'comment']
 		],
 
 		string: [
-			[/[^\\']+/, "string"],
-			[/\\./, "string.escape.invalid"],
-			[/'/, { token: "string.quote", bracket: "@close", next: "@pop" }],
+			[/[^\\']+/, 'string'],
+			[/\\./, 'string.escape.invalid'],
+			[/'/, { token: 'string.quote', bracket: '@close', next: '@pop' }]
 		],
 
 		whitespace: [
-			[/[ \t\r\n]+/, "white"],
-			[/\(\*/, "comment", "@comment"],
-			[/\/\/.*$/, "comment"],
-		],
-	},
+			[/[ \t\r\n]+/, 'white'],
+			[/\(\*/, 'comment', '@comment'],
+			[/\/\/.*$/, 'comment']
+		]
+	}
 };

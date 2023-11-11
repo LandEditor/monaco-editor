@@ -3,87 +3,87 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { languages } from "../../fillers/monaco-editor-core";
+import type { languages } from '../../fillers/monaco-editor-core';
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
-		lineComment: "#",
+		lineComment: '#'
 	},
 	brackets: [
-		["{", "}"],
-		["[", "]"],
-		["(", ")"],
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
-		{ open: "{", close: "}" },
-		{ open: "[", close: "]" },
-		{ open: "(", close: ")" },
-		{ open: '"""', close: '"""', notIn: ["string", "comment"] },
-		{ open: '"', close: '"', notIn: ["string", "comment"] },
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '"""', close: '"""', notIn: ['string', 'comment'] },
+		{ open: '"', close: '"', notIn: ['string', 'comment'] }
 	],
 	surroundingPairs: [
-		{ open: "{", close: "}" },
-		{ open: "[", close: "]" },
-		{ open: "(", close: ")" },
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
 		{ open: '"""', close: '"""' },
-		{ open: '"', close: '"' },
+		{ open: '"', close: '"' }
 	],
 	folding: {
-		offSide: true,
-	},
+		offSide: true
+	}
 };
 
 export const language = <languages.IMonarchLanguage>{
 	// Set defaultToken to invalid to see what you do not tokenize yet
-	defaultToken: "invalid",
-	tokenPostfix: ".gql",
+	defaultToken: 'invalid',
+	tokenPostfix: '.gql',
 
 	keywords: [
-		"null",
-		"true",
-		"false",
-		"query",
-		"mutation",
-		"subscription",
-		"extend",
-		"schema",
-		"directive",
-		"scalar",
-		"type",
-		"interface",
-		"union",
-		"enum",
-		"input",
-		"implements",
-		"fragment",
-		"on",
+		'null',
+		'true',
+		'false',
+		'query',
+		'mutation',
+		'subscription',
+		'extend',
+		'schema',
+		'directive',
+		'scalar',
+		'type',
+		'interface',
+		'union',
+		'enum',
+		'input',
+		'implements',
+		'fragment',
+		'on'
 	],
 
-	typeKeywords: ["Int", "Float", "String", "Boolean", "ID"],
+	typeKeywords: ['Int', 'Float', 'String', 'Boolean', 'ID'],
 
 	directiveLocations: [
-		"SCHEMA",
-		"SCALAR",
-		"OBJECT",
-		"FIELD_DEFINITION",
-		"ARGUMENT_DEFINITION",
-		"INTERFACE",
-		"UNION",
-		"ENUM",
-		"ENUM_VALUE",
-		"INPUT_OBJECT",
-		"INPUT_FIELD_DEFINITION",
-		"QUERY",
-		"MUTATION",
-		"SUBSCRIPTION",
-		"FIELD",
-		"FRAGMENT_DEFINITION",
-		"FRAGMENT_SPREAD",
-		"INLINE_FRAGMENT",
-		"VARIABLE_DEFINITION",
+		'SCHEMA',
+		'SCALAR',
+		'OBJECT',
+		'FIELD_DEFINITION',
+		'ARGUMENT_DEFINITION',
+		'INTERFACE',
+		'UNION',
+		'ENUM',
+		'ENUM_VALUE',
+		'INPUT_OBJECT',
+		'INPUT_FIELD_DEFINITION',
+		'QUERY',
+		'MUTATION',
+		'SUBSCRIPTION',
+		'FIELD',
+		'FRAGMENT_DEFINITION',
+		'FRAGMENT_SPREAD',
+		'INLINE_FRAGMENT',
+		'VARIABLE_DEFINITION'
 	],
 
-	operators: ["=", "!", "?", ":", "&", "|"],
+	operators: ['=', '!', '?', ':', '&', '|'],
 
 	// we include these common regular expressions
 	symbols: /[=!?:&|]+/,
@@ -99,10 +99,10 @@ export const language = <languages.IMonarchLanguage>{
 				/[a-z_][\w$]*/,
 				{
 					cases: {
-						"@keywords": "keyword",
-						"@default": "key.identifier",
-					},
-				},
+						'@keywords': 'keyword',
+						'@default': 'key.identifier'
+					}
+				}
 			],
 
 			// identify typed input variables
@@ -110,10 +110,10 @@ export const language = <languages.IMonarchLanguage>{
 				/[$][\w$]*/,
 				{
 					cases: {
-						"@keywords": "keyword",
-						"@default": "argument.identifier",
-					},
-				},
+						'@keywords': 'keyword',
+						'@default': 'argument.identifier'
+					}
+				}
 			],
 
 			// to show class names nicely
@@ -121,67 +121,54 @@ export const language = <languages.IMonarchLanguage>{
 				/[A-Z][\w\$]*/,
 				{
 					cases: {
-						"@typeKeywords": "keyword",
-						"@default": "type.identifier",
-					},
-				},
+						'@typeKeywords': 'keyword',
+						'@default': 'type.identifier'
+					}
+				}
 			],
 
 			// whitespace
-			{ include: "@whitespace" },
+			{ include: '@whitespace' },
 
 			// delimiters and operators
-			[/[{}()\[\]]/, "@brackets"],
-			[
-				/@symbols/,
-				{ cases: { "@operators": "operator", "@default": "" } },
-			],
+			[/[{}()\[\]]/, '@brackets'],
+			[/@symbols/, { cases: { '@operators': 'operator', '@default': '' } }],
 
 			// @ annotations.
 			// As an example, we emit a debugging log message on these tokens.
 			// Note: message are supressed during the first load -- change some lines to see them.
-			[
-				/@\s*[a-zA-Z_\$][\w\$]*/,
-				{ token: "annotation", log: "annotation token: $0" },
-			],
+			[/@\s*[a-zA-Z_\$][\w\$]*/, { token: 'annotation', log: 'annotation token: $0' }],
 
 			// numbers
-			[/\d*\.\d+([eE][\-+]?\d+)?/, "number.float"],
-			[/0[xX][0-9a-fA-F]+/, "number.hex"],
-			[/\d+/, "number"],
+			[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
+			[/0[xX][0-9a-fA-F]+/, 'number.hex'],
+			[/\d+/, 'number'],
 
 			// delimiter: after number because of .\d floats
-			[/[;,.]/, "delimiter"],
+			[/[;,.]/, 'delimiter'],
 
-			[
-				/"""/,
-				{
-					token: "string",
-					next: "@mlstring",
-					nextEmbedded: "markdown",
-				},
-			],
+			[/"""/, { token: 'string', next: '@mlstring', nextEmbedded: 'markdown' }],
 
 			// strings
-			[/"([^"\\]|\\.)*$/, "string.invalid"], // non-teminated string
-			[/"/, { token: "string.quote", bracket: "@open", next: "@string" }],
+			[/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+			[/"/, { token: 'string.quote', bracket: '@open', next: '@string' }]
 		],
 
 		mlstring: [
-			[/[^"]+/, "string"],
-			['"""', { token: "string", next: "@pop", nextEmbedded: "@pop" }],
+			[/[^"]+/, 'string'],
+			['"""', { token: 'string', next: '@pop', nextEmbedded: '@pop' }]
 		],
 
 		string: [
-			[/[^\\"]+/, "string"],
-			[/@escapes/, "string.escape"],
-			[/\\./, "string.escape.invalid"],
-			[/"/, { token: "string.quote", bracket: "@close", next: "@pop" }],
+			[/[^\\"]+/, 'string'],
+			[/@escapes/, 'string.escape'],
+			[/\\./, 'string.escape.invalid'],
+			[/"/, { token: 'string.quote', bracket: '@close', next: '@pop' }]
 		],
 
 		whitespace: [
-			[/[ \t\r\n]+/, ""],
-			[/#.*$/, "comment"],
-		],
-	},
+			[/[ \t\r\n]+/, ''],
+			[/#.*$/, 'comment']
+		]
+	}
 };
