@@ -3,41 +3,37 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { WorkerManager } from "./workerManager";
-import type { TypeScriptWorker } from "./tsWorker";
-import { LanguageServiceDefaults } from "./monaco.contribution";
-import * as languageFeatures from "./languageFeatures";
-import { languages, IDisposable, Uri } from "../../fillers/monaco-editor-core";
+import { WorkerManager } from './workerManager';
+import type { TypeScriptWorker } from './tsWorker';
+import { LanguageServiceDefaults } from './monaco.contribution';
+import * as languageFeatures from './languageFeatures';
+import { languages, IDisposable, Uri } from '../../fillers/monaco-editor-core';
 
 let javaScriptWorker: (...uris: Uri[]) => Promise<TypeScriptWorker>;
 let typeScriptWorker: (...uris: Uri[]) => Promise<TypeScriptWorker>;
 
 export function setupTypeScript(defaults: LanguageServiceDefaults): void {
-	typeScriptWorker = setupMode(defaults, "typescript");
+	typeScriptWorker = setupMode(defaults, 'typescript');
 }
 
 export function setupJavaScript(defaults: LanguageServiceDefaults): void {
-	javaScriptWorker = setupMode(defaults, "javascript");
+	javaScriptWorker = setupMode(defaults, 'javascript');
 }
 
-export function getJavaScriptWorker(): Promise<
-	(...uris: Uri[]) => Promise<TypeScriptWorker>
-> {
+export function getJavaScriptWorker(): Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>> {
 	return new Promise((resolve, reject) => {
 		if (!javaScriptWorker) {
-			return reject("JavaScript not registered!");
+			return reject('JavaScript not registered!');
 		}
 
 		resolve(javaScriptWorker);
 	});
 }
 
-export function getTypeScriptWorker(): Promise<
-	(...uris: Uri[]) => Promise<TypeScriptWorker>
-> {
+export function getTypeScriptWorker(): Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>> {
 	return new Promise((resolve, reject) => {
 		if (!typeScriptWorker) {
-			return reject("TypeScript not registered!");
+			return reject('TypeScript not registered!');
 		}
 
 		resolve(typeScriptWorker);
@@ -83,10 +79,7 @@ function setupMode(
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
-				languages.registerHoverProvider(
-					modeId,
-					new languageFeatures.QuickInfoAdapter(worker)
-				)
+				languages.registerHoverProvider(modeId, new languageFeatures.QuickInfoAdapter(worker))
 			);
 		}
 		if (modeConfiguration.documentHighlights) {
@@ -147,29 +140,16 @@ function setupMode(
 		}
 		if (modeConfiguration.codeActions) {
 			providers.push(
-				languages.registerCodeActionProvider(
-					modeId,
-					new languageFeatures.CodeActionAdaptor(worker)
-				)
+				languages.registerCodeActionProvider(modeId, new languageFeatures.CodeActionAdaptor(worker))
 			);
 		}
 		if (modeConfiguration.inlayHints) {
 			providers.push(
-				languages.registerInlayHintsProvider(
-					modeId,
-					new languageFeatures.InlayHintsAdapter(worker)
-				)
+				languages.registerInlayHintsProvider(modeId, new languageFeatures.InlayHintsAdapter(worker))
 			);
 		}
 		if (modeConfiguration.diagnostics) {
-			providers.push(
-				new languageFeatures.DiagnosticsAdapter(
-					libFiles,
-					defaults,
-					modeId,
-					worker
-				)
-			);
+			providers.push(new languageFeatures.DiagnosticsAdapter(libFiles, defaults, modeId, worker));
 		}
 	}
 
@@ -192,5 +172,5 @@ function disposeAll(disposables: IDisposable[]) {
 	}
 }
 
-export { WorkerManager } from "./workerManager";
-export * from "./languageFeatures";
+export { WorkerManager } from './workerManager';
+export * from './languageFeatures';

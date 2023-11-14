@@ -3,10 +3,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { worker } from "../../fillers/monaco-editor-core";
-import * as htmlService from "vscode-html-languageservice";
-import type { Options } from "./monaco.contribution";
-import { IHTMLDataProvider } from "vscode-html-languageservice";
+import { worker } from '../../fillers/monaco-editor-core';
+import * as htmlService from 'vscode-html-languageservice';
+import type { Options } from './monaco.contribution';
+import { IHTMLDataProvider } from 'vscode-html-languageservice';
 
 export class HTMLWorker {
 	private _ctx: worker.IWorkerContext;
@@ -25,14 +25,12 @@ export class HTMLWorker {
 		const customDataProviders: IHTMLDataProvider[] = [];
 		if (data?.dataProviders) {
 			for (const id in data.dataProviders) {
-				customDataProviders.push(
-					htmlService.newHTMLDataProvider(id, data.dataProviders[id])
-				);
+				customDataProviders.push(htmlService.newHTMLDataProvider(id, data.dataProviders[id]));
 			}
 		}
 		this._languageService = htmlService.getLanguageService({
 			useDefaultDataProvider,
-			customDataProviders,
+			customDataProviders
 		});
 	}
 
@@ -63,31 +61,17 @@ export class HTMLWorker {
 		if (!document) {
 			return [];
 		}
-		let formattingOptions = {
-			...this._languageSettings.format,
-			...options,
-		};
-		let textEdits = this._languageService.format(
-			document,
-			range,
-			formattingOptions
-		);
+		let formattingOptions = { ...this._languageSettings.format, ...options };
+		let textEdits = this._languageService.format(document, range, formattingOptions);
 		return Promise.resolve(textEdits);
 	}
-	async doHover(
-		uri: string,
-		position: htmlService.Position
-	): Promise<htmlService.Hover | null> {
+	async doHover(uri: string, position: htmlService.Position): Promise<htmlService.Hover | null> {
 		let document = this._getTextDocument(uri);
 		if (!document) {
 			return null;
 		}
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
-		let hover = this._languageService.doHover(
-			document,
-			position,
-			htmlDocument
-		);
+		let hover = this._languageService.doHover(document, position, htmlDocument);
 		return Promise.resolve(hover);
 	}
 	async findDocumentHighlights(
@@ -99,11 +83,7 @@ export class HTMLWorker {
 			return [];
 		}
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
-		let highlights = this._languageService.findDocumentHighlights(
-			document,
-			position,
-			htmlDocument
-		);
+		let highlights = this._languageService.findDocumentHighlights(document, position, htmlDocument);
 		return Promise.resolve(highlights);
 	}
 	async findDocumentLinks(uri: string): Promise<htmlService.DocumentLink[]> {
@@ -111,24 +91,16 @@ export class HTMLWorker {
 		if (!document) {
 			return [];
 		}
-		let links = this._languageService.findDocumentLinks(
-			document,
-			null! /*TODO@aeschli*/
-		);
+		let links = this._languageService.findDocumentLinks(document, null! /*TODO@aeschli*/);
 		return Promise.resolve(links);
 	}
-	async findDocumentSymbols(
-		uri: string
-	): Promise<htmlService.SymbolInformation[]> {
+	async findDocumentSymbols(uri: string): Promise<htmlService.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
 		if (!document) {
 			return [];
 		}
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
-		let symbols = this._languageService.findDocumentSymbols(
-			document,
-			htmlDocument
-		);
+		let symbols = this._languageService.findDocumentSymbols(document, htmlDocument);
 		return Promise.resolve(symbols);
 	}
 	async getFoldingRanges(
@@ -150,10 +122,7 @@ export class HTMLWorker {
 		if (!document) {
 			return [];
 		}
-		let ranges = this._languageService.getSelectionRanges(
-			document,
-			positions
-		);
+		let ranges = this._languageService.getSelectionRanges(document, positions);
 		return Promise.resolve(ranges);
 	}
 	async doRename(
@@ -166,12 +135,7 @@ export class HTMLWorker {
 			return null;
 		}
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
-		let renames = this._languageService.doRename(
-			document,
-			position,
-			newName,
-			htmlDocument
-		);
+		let renames = this._languageService.doRename(document, position, newName, htmlDocument);
 		return Promise.resolve(renames);
 	}
 	private _getTextDocument(uri: string): htmlService.TextDocument | null {
@@ -195,9 +159,6 @@ export interface ICreateData {
 	languageSettings: Options;
 }
 
-export function create(
-	ctx: worker.IWorkerContext,
-	createData: ICreateData
-): HTMLWorker {
+export function create(ctx: worker.IWorkerContext, createData: ICreateData): HTMLWorker {
 	return new HTMLWorker(ctx, createData);
 }
