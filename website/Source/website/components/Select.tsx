@@ -37,7 +37,8 @@ export class Select<T> extends React.Component<{
 					}
 				}}
 				style={this.props.style}
-				size="sm">
+				size="sm"
+			>
 				<option value="" disabled hidden>
 					Select an example...
 				</option>

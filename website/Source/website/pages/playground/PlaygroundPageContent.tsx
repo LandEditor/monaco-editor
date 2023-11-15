@@ -36,7 +36,8 @@ export class PlaygroundPageContent extends React.Component<
 				<div className="p-2" style={{ height: "100%" }}>
 					<Row
 						className="h-100 g-2"
-						style={{ flexWrap: "wrap-reverse" }}>
+						style={{ flexWrap: "wrap-reverse" }}
+					>
 						{model.wasEverNonFullScreen && (
 							<Col
 								md
@@ -44,7 +45,8 @@ export class PlaygroundPageContent extends React.Component<
 									model.previewShouldBeFullScreen
 										? "d-none"
 										: ""
-								}>
+								}
+							>
 								<Vertical>
 									<div style={{ flex: 1 }}>
 										<LabeledEditor
@@ -54,11 +56,13 @@ export class PlaygroundPageContent extends React.Component<
 													className="hstack"
 													style={{
 														marginLeft: "auto",
-													}}>
+													}}
+												>
 													<span
 														style={{
 															marginRight: 8,
-														}}>
+														}}
+													>
 														Example:
 													</span>
 													<Select<PlaygroundExample>
@@ -78,7 +82,8 @@ export class PlaygroundPageContent extends React.Component<
 														}
 													/>
 												</div>
-											}>
+											}
+										>
 											<Editor
 												language={"javascript"}
 												value={ref(model, "js")}
@@ -116,10 +121,8 @@ export class PlaygroundPageContent extends React.Component<
 						)}
 						<Col
 							md
-							style={{
-								display: "flex",
-								flexDirection: "column",
-							}}>
+							style={{ display: "flex", flexDirection: "column" }}
+						>
 							<LabeledEditor
 								label={`Preview${
 									model.historyModel.compareWith &&
@@ -131,7 +134,8 @@ export class PlaygroundPageContent extends React.Component<
 								titleBarItems={
 									<div
 										style={{ marginLeft: "auto" }}
-										className="d-flex align-items-center gap-2">
+										className="d-flex gap-2 align-items-center"
+									>
 										{model.previewShouldBeFullScreen || (
 											<FormCheck
 												label="Auto-Reload"
@@ -192,7 +196,8 @@ export class PlaygroundPageContent extends React.Component<
 														className="btn btn-primary"
 														onClick={() =>
 															model.historyModel.disableSourceOverride()
-														}>
+														}
+													>
 														Disable{" "}
 														{model.historyModel
 															.sourceOverride
@@ -205,7 +210,8 @@ export class PlaygroundPageContent extends React.Component<
 														className="btn btn-secondary"
 														onClick={() =>
 															model.compareWithLatestDev()
-														}>
+														}
+													>
 														Compare with latest dev
 													</button>
 													<button
@@ -213,7 +219,8 @@ export class PlaygroundPageContent extends React.Component<
 														className="btn btn-secondary"
 														onClick={() =>
 															model.historyModel.saveSourceOverride()
-														}>
+														}
+													>
 														Save
 													</button>
 												</ButtonGroup>
@@ -243,13 +250,15 @@ export class PlaygroundPageContent extends React.Component<
 													className="btn btn-primary"
 													onClick={() =>
 														model.historyModel.exitCompare()
-													}>
+													}
+												>
 													Exit Compare
 												</button>
 											</ButtonGroup>
 										)}
 									</div>
-								}>
+								}
+							>
 								<Preview
 									model={model}
 									getPreviewState={model.getPreviewState}
@@ -263,19 +272,22 @@ export class PlaygroundPageContent extends React.Component<
 										titleBarItems={
 											<div
 												style={{ marginLeft: "auto" }}
-												className="d-flex align-items-center gap-2">
+												className="d-flex gap-2 align-items-center"
+											>
 												<ButtonGroup>
 													<button
 														type="button"
 														className="btn btn-primary"
 														onClick={() =>
 															model.historyModel.saveCompareWith()
-														}>
+														}
+													>
 														Save
 													</button>
 												</ButtonGroup>
 											</div>
-										}>
+										}
+									>
 										<Preview
 											model={model}
 											getPreviewState={
@@ -371,7 +383,8 @@ export class VersionSelector extends React.Component<{
 								whiteSpace: "nowrap",
 							}}
 							onClick={() => model.bisectModel.openGithub()}
-							title={`Bisect active, ${model.bisectModel.steps} steps or less remaining. Click here to show changes.`}>
+							title={`Bisect active, ${model.bisectModel.steps} steps or less remaining. Click here to show changes.`}
+						>
 							{" "}
 							{model.bisectModel.steps}
 						</Button>
@@ -540,7 +553,8 @@ export function Vertical(props: { children: React.ReactNode }) {
 				alignItems: "stretch",
 				width: "100%",
 				height: "100%",
-			}}>
+			}}
+		>
 			{props.children}
 		</div>
 	);
@@ -559,7 +573,8 @@ export function Horizontal(props: {
 				height: "100%",
 				width: "100%",
 				...props.style,
-			}}>
+			}}
+		>
 			{props.children}
 		</div>
 	);
