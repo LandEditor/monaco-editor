@@ -373,4 +373,4 @@ export interface MarkupContent {
 	kind: MarkupKind;
 	value: string;
 }
-export declare
+export declare type MarkupKind = "plaintext" | "markdown";
