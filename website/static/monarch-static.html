@@ -1,22 +1,20 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+		<meta content="width=device-width" name="viewport" />
 
 		<title>Monaco Editor Monarch</title>
 
 		<link
-			data-inline="yes-please"
 			href="./monarch/monarch.css"
 			rel="stylesheet"
-		/>
+			data-inline="yes-please" />
 
 		<link
-			data-name="vs/editor/editor.main"
-			rel="stylesheet"
 			href="./node_modules/monaco-editor/dev/vs/editor/editor.main.css"
-		/>
+			rel="stylesheet"
+			data-name="vs/editor/editor.main" />
 	</head>
 	<body>
 		<section id="monarch">
@@ -27,10 +25,9 @@
 			<div id="main">
 				<div id="header">
 					<img
-						src="monarch/monarch-34px.png"
-						id="logo"
 						alt="Monarch-Logo"
-					/>Monarch Documentation
+						id="logo"
+						src="monarch/monarch-34px.png" />Monarch Documentation
 				</div>
 
 				<div id="leftPane">
@@ -5322,15 +5319,13 @@ return {
 		</section>
 
 		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+			crossorigin="anonymous"
 			integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ="
-			crossorigin="anonymous"
-		></script>
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js"
-			integrity="sha256-u+l2mGjpmGK/mFgUncmMcFKdMijvV+J3odlDJZSNUu8="
 			crossorigin="anonymous"
-		></script>
+			integrity="sha256-u+l2mGjpmGK/mFgUncmMcFKdMijvV+J3odlDJZSNUu8="
+			src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js"></script>
 
 		<script>
 			var require = {
@@ -5341,6 +5336,6 @@ return {
 		<script src="./node_modules/monaco-editor/dev/vs/editor/editor.main.nls.js"></script>
 		<script src="./node_modules/monaco-editor/dev/vs/editor/editor.main.js"></script>
 
-		<script data-inline="yes-please" src="./monarch/monarch.js"></script>
+		<script src="./monarch/monarch.js" data-inline="yes-please"></script>
 	</body>
 </html>

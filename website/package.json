@@ -2,12 +2,12 @@
 	"name": "my-application",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "webpack serve --hot --mode development",
-		"build-webpack": "webpack --mode production",
 		"build": "yarn typedoc && yarn build-webpack",
+		"build-webpack": "webpack --mode production",
+		"dev": "webpack serve --hot --mode development",
 		"dev-disk": "webpack --mode development --watch",
-		"typedoc": "typedoc --options ./typedoc/typedoc.json",
-		"test": "yarn ts-node scripts/check-playground-samples-js.ts"
+		"test": "yarn ts-node scripts/check-playground-samples-js.ts",
+		"typedoc": "typedoc --options ./typedoc/typedoc.json"
 	},
 	"dependencies": {
 		"@popperjs/core": "^2.11.5",

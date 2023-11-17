@@ -3,35 +3,41 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as json from 'jsonc-parser';
-import { languages } from '../../fillers/monaco-editor-core';
+import * as json from "jsonc-parser";
+import { languages } from "../../fillers/monaco-editor-core";
 
-export function createTokenizationSupport(supportComments: boolean): languages.TokensProvider {
+export function createTokenizationSupport(
+	supportComments: boolean
+): languages.TokensProvider {
 	return {
 		getInitialState: () => new JSONState(null, null, false, null),
-		tokenize: (line, state?) => tokenize(supportComments, line, <JSONState>state)
+		tokenize: (line, state?) =>
+			tokenize(supportComments, line, <JSONState>state),
 	};
 }
 
-export const TOKEN_DELIM_OBJECT = 'delimiter.bracket.json';
-export const TOKEN_DELIM_ARRAY = 'delimiter.array.json';
-export const TOKEN_DELIM_COLON = 'delimiter.colon.json';
-export const TOKEN_DELIM_COMMA = 'delimiter.comma.json';
-export const TOKEN_VALUE_BOOLEAN = 'keyword.json';
-export const TOKEN_VALUE_NULL = 'keyword.json';
-export const TOKEN_VALUE_STRING = 'string.value.json';
-export const TOKEN_VALUE_NUMBER = 'number.json';
-export const TOKEN_PROPERTY_NAME = 'string.key.json';
-export const TOKEN_COMMENT_BLOCK = 'comment.block.json';
-export const TOKEN_COMMENT_LINE = 'comment.line.json';
+export const TOKEN_DELIM_OBJECT = "delimiter.bracket.json";
+export const TOKEN_DELIM_ARRAY = "delimiter.array.json";
+export const TOKEN_DELIM_COLON = "delimiter.colon.json";
+export const TOKEN_DELIM_COMMA = "delimiter.comma.json";
+export const TOKEN_VALUE_BOOLEAN = "keyword.json";
+export const TOKEN_VALUE_NULL = "keyword.json";
+export const TOKEN_VALUE_STRING = "string.value.json";
+export const TOKEN_VALUE_NUMBER = "number.json";
+export const TOKEN_PROPERTY_NAME = "string.key.json";
+export const TOKEN_COMMENT_BLOCK = "comment.block.json";
+export const TOKEN_COMMENT_LINE = "comment.line.json";
 
 const enum JSONParent {
 	Object = 0,
-	Array = 1
+	Array = 1,
 }
 
 class ParentsStack {
-	constructor(public readonly parent: ParentsStack | null, public readonly type: JSONParent) {}
+	constructor(
+		public readonly parent: ParentsStack | null,
+		public readonly type: JSONParent
+	) {}
 
 	public static pop(parents: ParentsStack | null): ParentsStack | null {
 		if (parents) {
@@ -40,11 +46,17 @@ class ParentsStack {
 		return null;
 	}
 
-	public static push(parents: ParentsStack | null, type: JSONParent): ParentsStack {
+	public static push(
+		parents: ParentsStack | null,
+		type: JSONParent
+	): ParentsStack {
 		return new ParentsStack(parents, type);
 	}
 
-	public static equals(a: ParentsStack | null, b: ParentsStack | null): boolean {
+	public static equals(
+		a: ParentsStack | null,
+		b: ParentsStack | null
+	): boolean {
 		if (!a && !b) {
 			return true;
 		}
@@ -85,7 +97,12 @@ class JSONState implements languages.IState {
 	}
 
 	public clone(): JSONState {
-		return new JSONState(this._state, this.scanError, this.lastWasColon, this.parents);
+		return new JSONState(
+			this._state,
+			this.scanError,
+			this.lastWasColon,
+			this.parents
+		);
 	}
 
 	public equals(other: languages.IState): boolean {
@@ -118,7 +135,7 @@ const enum ScanError {
 	UnexpectedEndOfNumber = 3,
 	InvalidUnicode = 4,
 	InvalidEscapeCharacter = 5,
-	InvalidCharacter = 6
+	InvalidCharacter = 6,
 }
 
 const enum SyntaxKind {
@@ -138,7 +155,7 @@ const enum SyntaxKind {
 	LineBreakTrivia = 14,
 	Trivia = 15,
 	Unknown = 16,
-	EOF = 17
+	EOF = 17,
 }
 
 function tokenize(
@@ -157,7 +174,7 @@ function tokenize(
 			numberOfInsertedCharacters = 1;
 			break;
 		case ScanError.UnexpectedEndOfComment:
-			line = '/*' + line;
+			line = "/*" + line;
 			numberOfInsertedCharacters = 2;
 			break;
 	}
@@ -168,12 +185,12 @@ function tokenize(
 
 	const ret: languages.ILineTokens = {
 		tokens: <languages.IToken[]>[],
-		endState: state.clone()
+		endState: state.clone(),
 	};
 
 	while (true) {
 		let offset = offsetDelta + scanner.getPosition();
-		let type = '';
+		let type = "";
 
 		const kind = <SyntaxKind>(<any>scanner.scan());
 		if (kind === SyntaxKind.EOF) {
@@ -183,7 +200,8 @@ function tokenize(
 		// Check that the scanner has advanced
 		if (offset === offsetDelta + scanner.getPosition()) {
 			throw new Error(
-				'Scanner did not advance, next 3 characters are: ' + line.substr(scanner.getPosition(), 3)
+				"Scanner did not advance, next 3 characters are: " +
+					line.substr(scanner.getPosition(), 3)
 			);
 		}
 
@@ -234,9 +252,14 @@ function tokenize(
 				lastWasColon = false;
 				break;
 			case SyntaxKind.StringLiteral:
-				const currentParent = parents ? parents.type : JSONParent.Object;
+				const currentParent = parents
+					? parents.type
+					: JSONParent.Object;
 				const inArray = currentParent === JSONParent.Array;
-				type = lastWasColon || inArray ? TOKEN_VALUE_STRING : TOKEN_PROPERTY_NAME;
+				type =
+					lastWasColon || inArray
+						? TOKEN_VALUE_STRING
+						: TOKEN_PROPERTY_NAME;
 				lastWasColon = false;
 				break;
 			case SyntaxKind.NumericLiteral:
@@ -265,7 +288,7 @@ function tokenize(
 		);
 		ret.tokens.push({
 			startIndex: offset,
-			scopes: type
+			scopes: type,
 		});
 	}
 

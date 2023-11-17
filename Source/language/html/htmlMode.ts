@@ -3,15 +3,15 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { WorkerManager } from './workerManager';
-import type { HTMLWorker } from './htmlWorker';
-import { LanguageServiceDefaults } from './monaco.contribution';
-import * as languageFeatures from '../common/lspLanguageFeatures';
-import { Uri, IDisposable, languages } from '../../fillers/monaco-editor-core';
+import { WorkerManager } from "./workerManager";
+import type { HTMLWorker } from "./htmlWorker";
+import { LanguageServiceDefaults } from "./monaco.contribution";
+import * as languageFeatures from "../common/lspLanguageFeatures";
+import { Uri, IDisposable, languages } from "../../fillers/monaco-editor-core";
 
 class HTMLCompletionAdapter extends languageFeatures.CompletionAdapter<HTMLWorker> {
 	constructor(worker: languageFeatures.WorkerAccessor<HTMLWorker>) {
-		super(worker, ['.', ':', '<', '"', '=', '/']);
+		super(worker, [".", ":", "<", '"', "=", "/"]);
 	}
 }
 
@@ -27,14 +27,23 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 	let languageId = defaults.languageId;
 
 	// all modes
-	languages.registerCompletionItemProvider(languageId, new HTMLCompletionAdapter(worker));
-	languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker));
+	languages.registerCompletionItemProvider(
+		languageId,
+		new HTMLCompletionAdapter(worker)
+	);
+	languages.registerHoverProvider(
+		languageId,
+		new languageFeatures.HoverAdapter(worker)
+	);
 
 	languages.registerDocumentHighlightProvider(
 		languageId,
 		new languageFeatures.DocumentHighlightAdapter(worker)
 	);
-	languages.registerLinkProvider(languageId, new languageFeatures.DocumentLinkAdapter(worker));
+	languages.registerLinkProvider(
+		languageId,
+		new languageFeatures.DocumentLinkAdapter(worker)
+	);
 	languages.registerFoldingRangeProvider(
 		languageId,
 		new languageFeatures.FoldingRangeAdapter(worker)
@@ -47,10 +56,13 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 		languageId,
 		new languageFeatures.SelectionRangeAdapter(worker)
 	);
-	languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker));
+	languages.registerRenameProvider(
+		languageId,
+		new languageFeatures.RenameAdapter(worker)
+	);
 
 	// only html
-	if (languageId === 'html') {
+	if (languageId === "html") {
 		languages.registerDocumentFormattingEditProvider(
 			languageId,
 			new languageFeatures.DocumentFormattingEditProvider(worker)
@@ -82,12 +94,18 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 
 		if (modeConfiguration.completionItems) {
 			providers.push(
-				languages.registerCompletionItemProvider(languageId, new HTMLCompletionAdapter(worker))
+				languages.registerCompletionItemProvider(
+					languageId,
+					new HTMLCompletionAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
-				languages.registerHoverProvider(languageId, new languageFeatures.HoverAdapter(worker))
+				languages.registerHoverProvider(
+					languageId,
+					new languageFeatures.HoverAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentHighlights) {
@@ -100,7 +118,10 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.links) {
 			providers.push(
-				languages.registerLinkProvider(languageId, new languageFeatures.DocumentLinkAdapter(worker))
+				languages.registerLinkProvider(
+					languageId,
+					new languageFeatures.DocumentLinkAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentSymbols) {
@@ -113,7 +134,10 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 		}
 		if (modeConfiguration.rename) {
 			providers.push(
-				languages.registerRenameProvider(languageId, new languageFeatures.RenameAdapter(worker))
+				languages.registerRenameProvider(
+					languageId,
+					new languageFeatures.RenameAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.foldingRanges) {
@@ -144,7 +168,9 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentRangeFormattingEditProvider(
 					languageId,
-					new languageFeatures.DocumentRangeFormattingEditProvider(worker)
+					new languageFeatures.DocumentRangeFormattingEditProvider(
+						worker
+					)
 				)
 			);
 		}
@@ -167,5 +193,5 @@ function disposeAll(disposables: IDisposable[]) {
 	}
 }
 
-export { WorkerManager } from './workerManager';
-export * from '../common/lspLanguageFeatures';
+export { WorkerManager } from "./workerManager";
+export * from "../common/lspLanguageFeatures";
