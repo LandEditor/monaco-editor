@@ -3,18 +3,24 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import path = require('path');
-import fs = require('fs');
-import child_process = require('child_process');
-import { REPO_ROOT } from './utils';
+import path = require("path");
+import fs = require("fs");
+import child_process = require("child_process");
+import { REPO_ROOT } from "./utils";
 
 const generatedNote = `//
 // **NOTE**: Do not edit directly! This file is generated using \`npm run import-typescript\`
 //
 `;
 
-const TYPESCRIPT_LIB_SOURCE = path.join(REPO_ROOT, 'node_modules/typescript/lib');
-const TYPESCRIPT_LIB_DESTINATION = path.join(REPO_ROOT, 'src/language/typescript/lib');
+const TYPESCRIPT_LIB_SOURCE = path.join(
+	REPO_ROOT,
+	"node_modules/typescript/lib"
+);
+const TYPESCRIPT_LIB_DESTINATION = path.join(
+	REPO_ROOT,
+	"src/language/typescript/lib"
+);
 
 (function () {
 	try {
@@ -25,17 +31,24 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(REPO_ROOT, 'src/language/typescript
 	importLibs();
 
 	const npmLsOutput = JSON.parse(
-		child_process.execSync('npm ls typescript --depth=0 --json=true', { cwd: REPO_ROOT }).toString()
+		child_process
+			.execSync("npm ls typescript --depth=0 --json=true", {
+				cwd: REPO_ROOT,
+			})
+			.toString()
 	);
-	const typeScriptDependencyVersion = npmLsOutput.dependencies.typescript.version;
+	const typeScriptDependencyVersion =
+		npmLsOutput.dependencies.typescript.version;
 
 	fs.writeFileSync(
-		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServicesMetadata.ts'),
+		path.join(TYPESCRIPT_LIB_DESTINATION, "typescriptServicesMetadata.ts"),
 		`${generatedNote}
 export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 	);
 
-	let tsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescript.js')).toString();
+	let tsServices = fs
+		.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, "typescript.js"))
+		.toString();
 
 	tsServices = tsServices
 		.replace(
@@ -76,14 +89,16 @@ export var typescript = ts;
 // END MONACOCHANGE
 `;
 	fs.writeFileSync(
-		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.js'),
+		path.join(TYPESCRIPT_LIB_DESTINATION, "typescriptServices.js"),
 		stripSourceMaps(tsServices_esm)
 	);
 
-	let dtsServices = fs.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, 'typescript.d.ts')).toString();
+	let dtsServices = fs
+		.readFileSync(path.join(TYPESCRIPT_LIB_SOURCE, "typescript.d.ts"))
+		.toString();
 
 	fs.writeFileSync(
-		path.join(TYPESCRIPT_LIB_DESTINATION, 'typescriptServices.d.ts'),
+		path.join(TYPESCRIPT_LIB_DESTINATION, "typescriptServices.d.ts"),
 		generatedNote + dtsServices
 	);
 })();
@@ -112,16 +127,24 @@ ${generatedNote}
 /** Contains all the lib files */
 export const libFileSet: Record<string, boolean> = {}
 `;
-	const dtsFiles = fs.readdirSync(TYPESCRIPT_LIB_SOURCE).filter((f) => f.includes('lib.'));
+	const dtsFiles = fs
+		.readdirSync(TYPESCRIPT_LIB_SOURCE)
+		.filter((f) => f.includes("lib."));
 	while (dtsFiles.length > 0) {
 		const name = dtsFiles.shift();
-		const output = readLibFile(name).replace(/\r\n/g, '\n');
+		const output = readLibFile(name).replace(/\r\n/g, "\n");
 		strLibResult += `libFileMap['${name}'] = "${escapeText(output)}";\n`;
 		strIndexResult += `libFileSet['${name}'] = true;\n`;
 	}
 
-	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.ts'), strLibResult);
-	fs.writeFileSync(path.join(TYPESCRIPT_LIB_DESTINATION, 'lib.index.ts'), strIndexResult);
+	fs.writeFileSync(
+		path.join(TYPESCRIPT_LIB_DESTINATION, "lib.ts"),
+		strLibResult
+	);
+	fs.writeFileSync(
+		path.join(TYPESCRIPT_LIB_DESTINATION, "lib.index.ts"),
+		strIndexResult
+	);
 }
 
 /**
@@ -129,14 +152,14 @@ export const libFileSet: Record<string, boolean> = {}
  */
 function escapeText(text) {
 	// See http://www.javascriptkit.com/jsref/escapesequence.shtml
-	const _backspace = '\b'.charCodeAt(0);
-	const _formFeed = '\f'.charCodeAt(0);
-	const _newLine = '\n'.charCodeAt(0);
+	const _backspace = "\b".charCodeAt(0);
+	const _formFeed = "\f".charCodeAt(0);
+	const _newLine = "\n".charCodeAt(0);
 	const _nullChar = 0;
-	const _carriageReturn = '\r'.charCodeAt(0);
-	const _tab = '\t'.charCodeAt(0);
-	const _verticalTab = '\v'.charCodeAt(0);
-	const _backslash = '\\'.charCodeAt(0);
+	const _carriageReturn = "\r".charCodeAt(0);
+	const _tab = "\t".charCodeAt(0);
+	const _verticalTab = "\v".charCodeAt(0);
+	const _backslash = "\\".charCodeAt(0);
 	const _doubleQuote = '"'.charCodeAt(0);
 
 	const len = text.length;
@@ -149,28 +172,28 @@ function escapeText(text) {
 		chrCode = text.charCodeAt(i);
 		switch (chrCode) {
 			case _backspace:
-				replaceWith = '\\b';
+				replaceWith = "\\b";
 				break;
 			case _formFeed:
-				replaceWith = '\\f';
+				replaceWith = "\\f";
 				break;
 			case _newLine:
-				replaceWith = '\\n';
+				replaceWith = "\\n";
 				break;
 			case _nullChar:
-				replaceWith = '\\0';
+				replaceWith = "\\0";
 				break;
 			case _carriageReturn:
-				replaceWith = '\\r';
+				replaceWith = "\\r";
 				break;
 			case _tab:
-				replaceWith = '\\t';
+				replaceWith = "\\t";
 				break;
 			case _verticalTab:
-				replaceWith = '\\v';
+				replaceWith = "\\v";
 				break;
 			case _backslash:
-				replaceWith = '\\\\';
+				replaceWith = "\\\\";
 				break;
 			case _doubleQuote:
 				replaceWith = '\\"';
@@ -184,9 +207,9 @@ function escapeText(text) {
 		}
 	}
 	resultPieces.push(text.substring(startPos, len));
-	return resultPieces.join('');
+	return resultPieces.join("");
 }
 
 function stripSourceMaps(str) {
-	return str.replace(/\/\/# sourceMappingURL[^\n]+/gm, '');
+	return str.replace(/\/\/# sourceMappingURL[^\n]+/gm, "");
 }
