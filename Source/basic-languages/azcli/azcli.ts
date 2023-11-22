@@ -3,64 +3,64 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { languages } from '../../fillers/monaco-editor-core';
+import type { languages } from "../../fillers/monaco-editor-core";
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
-		lineComment: '#'
-	}
+		lineComment: "#",
+	},
 };
 
 export const language = <languages.IMonarchLanguage>{
-	defaultToken: 'keyword',
+	defaultToken: "keyword",
 	ignoreCase: true,
-	tokenPostfix: '.azcli',
+	tokenPostfix: ".azcli",
 
 	str: /[^#\s]/,
 
 	tokenizer: {
 		root: [
-			{ include: '@comment' },
+			{ include: "@comment" },
 			[
 				/\s-+@str*\s*/,
 				{
 					cases: {
-						'@eos': { token: 'key.identifier', next: '@popall' },
-						'@default': { token: 'key.identifier', next: '@type' }
-					}
-				}
+						"@eos": { token: "key.identifier", next: "@popall" },
+						"@default": { token: "key.identifier", next: "@type" },
+					},
+				},
 			],
 			[
 				/^-+@str*\s*/,
 				{
 					cases: {
-						'@eos': { token: 'key.identifier', next: '@popall' },
-						'@default': { token: 'key.identifier', next: '@type' }
-					}
-				}
-			]
+						"@eos": { token: "key.identifier", next: "@popall" },
+						"@default": { token: "key.identifier", next: "@type" },
+					},
+				},
+			],
 		],
 
 		type: [
-			{ include: '@comment' },
+			{ include: "@comment" },
 			[
 				/-+@str*\s*/,
 				{
 					cases: {
-						'@eos': { token: 'key.identifier', next: '@popall' },
-						'@default': 'key.identifier'
-					}
-				}
+						"@eos": { token: "key.identifier", next: "@popall" },
+						"@default": "key.identifier",
+					},
+				},
 			],
 			[
 				/@str+\s*/,
 				{
 					cases: {
-						'@eos': { token: 'string', next: '@popall' },
-						'@default': 'string'
-					}
-				}
-			]
+						"@eos": { token: "string", next: "@popall" },
+						"@default": "string",
+					},
+				},
+			],
 		],
 
 		comment: [
@@ -68,10 +68,10 @@ export const language = <languages.IMonarchLanguage>{
 				/#.*$/,
 				{
 					cases: {
-						'@eos': { token: 'comment', next: '@popall' }
-					}
-				}
-			]
-		]
-	}
+						"@eos": { token: "comment", next: "@popall" },
+					},
+				},
+			],
+		],
+	},
 };

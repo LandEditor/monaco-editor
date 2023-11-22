@@ -17,7 +17,7 @@ export class Home extends React.Component {
 		return (
 			<Page>
 				<div className="container py-4">
-					<div className="p-5 mb-4 bg-light rounded-3">
+					<div className="bg-light rounded-3 mb-4 p-5">
 						<h1>Monaco - The Editor of the Web</h1>
 						<div className="row">
 							<div className="span12">
@@ -47,7 +47,7 @@ export class Home extends React.Component {
 						</div>
 					</div>
 
-					<div className="px-5 mb-0">
+					<div className="mb-0 px-5">
 						<h3>Download v{monacoEditorVersion}</h3>
 						<div className="row">
 							<div className="span12">
@@ -60,8 +60,7 @@ export class Home extends React.Component {
 									Download with this direct{" "}
 									<a
 										target="_blank"
-										href={`https://registry.npmjs.org/monaco-editor/-/monaco-editor-${monacoEditorVersion}.tgz`}
-									>
+										href={`https://registry.npmjs.org/monaco-editor/-/monaco-editor-${monacoEditorVersion}.tgz`}>
 										download link
 									</a>{" "}
 									or{" "}
@@ -163,12 +162,12 @@ class EditorDemo extends React.Component {
 
 	render() {
 		return (
-			<div className="p-5 mb-4">
+			<div className="mb-4 p-5">
 				<h2>Editor</h2>
 
-				<div className="row g-4 py-5 row-cols-1 row-cols-lg-2">
+				<div className="row g-4 row-cols-1 row-cols-lg-2 py-5">
 					<div className="col d-flex align-items-start">
-						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3"></div>
+						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 me-3 flex-shrink-0"></div>
 						<div>
 							<h2>IntelliSense, Validation</h2>
 							<p>
@@ -179,7 +178,7 @@ class EditorDemo extends React.Component {
 						</div>
 					</div>
 					<div className="col d-flex align-items-start">
-						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3"></div>
+						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 me-3 flex-shrink-0"></div>
 						<div>
 							<h2>Basic Syntax Colorization</h2>
 							<p>
@@ -191,7 +190,7 @@ class EditorDemo extends React.Component {
 					</div>
 				</div>
 
-				<div className="mt-4 row row-cols-2">
+				<div className="row row-cols-2 mt-4">
 					<div className="col">
 						<label className="control-label">Language</label>
 						<Select<monaco.languages.ILanguageExtensionPoint>
@@ -210,7 +209,7 @@ class EditorDemo extends React.Component {
 					</div>
 				</div>
 
-				<div className="mt-2 editor-container" style={{ height: 500 }}>
+				<div className="editor-container mt-2" style={{ height: 500 }}>
 					<ControlledMonacoEditor
 						value={this.currentSample.value || "loading..."}
 						language={this.currentLanguage?.id}
@@ -226,11 +225,11 @@ class EditorDemo extends React.Component {
 class DiffEditorDemo extends React.Component {
 	render() {
 		return (
-			<div className="p-5 mb-4">
+			<div className="mb-4 p-5">
 				<h2>Diff Editor</h2>
 				Side by side live comparison. Supports all languages out of the
 				box.
-				<div className="mt-2 editor-container" style={{ height: 500 }}>
+				<div className="editor-container mt-2" style={{ height: 500 }}>
 					<ControlledMonacoDiffEditor
 						originalValue={
 							require("../../data/diff-sample/original.txt")

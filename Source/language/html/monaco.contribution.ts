@@ -3,8 +3,13 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as mode from './htmlMode';
-import { languages, Emitter, IEvent, IDisposable } from '../../fillers/monaco-editor-core';
+import * as mode from "./htmlMode";
+import {
+	languages,
+	Emitter,
+	IEvent,
+	IDisposable,
+} from "../../fillers/monaco-editor-core";
 
 export interface HTMLFormatConfiguration {
 	readonly tabSize: number;
@@ -18,7 +23,11 @@ export interface HTMLFormatConfiguration {
 	readonly indentHandlebars: boolean;
 	readonly endWithNewline: boolean;
 	readonly extraLiners: string;
-	readonly wrapAttributes: 'auto' | 'force' | 'force-aligned' | 'force-expand-multiline';
+	readonly wrapAttributes:
+		| "auto"
+		| "force"
+		| "force-aligned"
+		| "force-expand-multiline";
 }
 
 export interface CompletionConfiguration {
@@ -118,7 +127,11 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _modeConfiguration!: ModeConfiguration;
 	private _languageId: string;
 
-	constructor(languageId: string, options: Options, modeConfiguration: ModeConfiguration) {
+	constructor(
+		languageId: string,
+		options: Options,
+		modeConfiguration: ModeConfiguration
+	) {
 		this._languageId = languageId;
 		this.setOptions(options);
 		this.setModeConfiguration(modeConfiguration);
@@ -157,23 +170,25 @@ const formatDefaults: Required<HTMLFormatConfiguration> = {
 	wrapLineLength: 120,
 	unformatted:
 		'default": "a, abbr, acronym, b, bdo, big, br, button, cite, code, dfn, em, i, img, input, kbd, label, map, object, q, samp, select, small, span, strong, sub, sup, textarea, tt, var',
-	contentUnformatted: 'pre',
+	contentUnformatted: "pre",
 	indentInnerHtml: false,
 	preserveNewLines: true,
 	maxPreserveNewLines: undefined,
 	indentHandlebars: false,
 	endWithNewline: false,
-	extraLiners: 'head, body, /html',
-	wrapAttributes: 'auto'
+	extraLiners: "head, body, /html",
+	wrapAttributes: "auto",
 };
 
 const optionsDefault: Required<Options> = {
 	format: formatDefaults,
 	suggest: {},
-	data: { useDefaultDataProvider: true }
+	data: { useDefaultDataProvider: true },
 };
 
-function getConfigurationDefault(languageId: string): Required<ModeConfiguration> {
+function getConfigurationDefault(
+	languageId: string
+): Required<ModeConfiguration> {
 	return {
 		completionItems: true,
 		hovers: true,
@@ -186,13 +201,13 @@ function getConfigurationDefault(languageId: string): Required<ModeConfiguration
 		selectionRanges: true,
 		diagnostics: languageId === htmlLanguageId, // turned off for Razor and Handlebar
 		documentFormattingEdits: languageId === htmlLanguageId, // turned off for Razor and Handlebar
-		documentRangeFormattingEdits: languageId === htmlLanguageId // turned off for Razor and Handlebar
+		documentRangeFormattingEdits: languageId === htmlLanguageId, // turned off for Razor and Handlebar
 	};
 }
 
-const htmlLanguageId = 'html';
-const handlebarsLanguageId = 'handlebars';
-const razorLanguageId = 'razor';
+const htmlLanguageId = "html";
+const handlebarsLanguageId = "handlebars";
+const razorLanguageId = "razor";
 
 export const htmlLanguageService = registerHTMLLanguageService(
 	htmlLanguageId,
@@ -223,7 +238,7 @@ export const razorDefaults = razorLanguageService.defaults;
 	htmlLanguageService,
 	handlebarLanguageService,
 	razorLanguageService,
-	registerHTMLLanguageService
+	registerHTMLLanguageService,
 };
 
 // --- Registration to monaco editor ---
@@ -234,10 +249,10 @@ declare var require: any;
 function getMode(): Promise<typeof mode> {
 	if (AMD) {
 		return new Promise((resolve, reject) => {
-			require(['vs/language/html/htmlMode'], resolve, reject);
+			require(["vs/language/html/htmlMode"], resolve, reject);
 		});
 	} else {
-		return import('./htmlMode');
+		return import("./htmlMode");
 	}
 }
 
@@ -257,7 +272,11 @@ export function registerHTMLLanguageService(
 	options: Options = optionsDefault,
 	modeConfiguration: ModeConfiguration = getConfigurationDefault(languageId)
 ): LanguageServiceRegistration {
-	const defaults = new LanguageServiceDefaultsImpl(languageId, options, modeConfiguration);
+	const defaults = new LanguageServiceDefaultsImpl(
+		languageId,
+		options,
+		modeConfiguration
+	);
 	let mode: IDisposable | undefined;
 
 	// delay the initalization of the mode until the language is accessed the first time
@@ -270,7 +289,7 @@ export function registerHTMLLanguageService(
 			onLanguageListener.dispose();
 			mode?.dispose();
 			mode = undefined;
-		}
+		},
 	};
 }
 
@@ -326,4 +345,4 @@ export interface MarkupContent {
 	readonly kind: MarkupKind;
 	readonly value: string;
 }
-export declare type MarkupKind = 'plaintext' | 'markdown';
+export declare type MarkupKind = "plaintext" | "markdown";

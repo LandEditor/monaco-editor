@@ -30,8 +30,7 @@ export class Preview extends React.Component<{
 							display: "flex",
 							justifyContent: "center",
 							alignItems: "center",
-						}}
-					>
+						}}>
 						<div>
 							Load{" "}
 							<Button

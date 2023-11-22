@@ -1,9 +1,10 @@
-import { VFC, useRef, useState, useEffect } from 'react';
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import styles from './Editor.module.css';
+import { VFC, useRef, useState, useEffect } from "react";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+import styles from "./Editor.module.css";
 
 export const Editor: VFC = () => {
-	const [editor, setEditor] = useState<monaco.editor.IStandaloneCodeEditor | null>(null);
+	const [editor, setEditor] =
+		useState<monaco.editor.IStandaloneCodeEditor | null>(null);
 	const monacoEl = useRef(null);
 
 	useEffect(() => {
@@ -12,8 +13,12 @@ export const Editor: VFC = () => {
 				if (editor) return editor;
 
 				return monaco.editor.create(monacoEl.current!, {
-					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
-					language: 'typescript'
+					value: [
+						"function x() {",
+						'\tconsole.log("Hello world!");',
+						"}",
+					].join("\n"),
+					language: "typescript",
 				});
 			});
 		}

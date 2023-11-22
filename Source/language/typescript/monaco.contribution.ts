@@ -3,9 +3,15 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type * as mode from './tsMode';
-import { typescriptVersion as tsversion } from './lib/typescriptServicesMetadata'; // do not import the whole typescriptServices here
-import { languages, Emitter, IEvent, IDisposable, Uri } from '../../fillers/monaco-editor-core';
+import type * as mode from "./tsMode";
+import { typescriptVersion as tsversion } from "./lib/typescriptServicesMetadata"; // do not import the whole typescriptServices here
+import {
+	languages,
+	Emitter,
+	IEvent,
+	IDisposable,
+	Uri,
+} from "../../fillers/monaco-editor-core";
 
 //#region enums copied from typescript to prevent loading the entire typescriptServices ---
 
@@ -16,7 +22,7 @@ export enum ModuleKind {
 	UMD = 3,
 	System = 4,
 	ES2015 = 5,
-	ESNext = 99
+	ESNext = 99,
 }
 
 export enum JsxEmit {
@@ -25,12 +31,12 @@ export enum JsxEmit {
 	React = 2,
 	ReactNative = 3,
 	ReactJSX = 4,
-	ReactJSXDev = 5
+	ReactJSXDev = 5,
 }
 
 export enum NewLineKind {
 	CarriageReturnLineFeed = 0,
-	LineFeed = 1
+	LineFeed = 1,
 }
 
 export enum ScriptTarget {
@@ -44,12 +50,12 @@ export enum ScriptTarget {
 	ES2020 = 7,
 	ESNext = 99,
 	JSON = 100,
-	Latest = ESNext
+	Latest = ESNext,
 }
 
 export enum ModuleResolutionKind {
 	Classic = 1,
-	NodeJs = 2
+	NodeJs = 2,
 }
 //#endregion
 
@@ -169,7 +175,7 @@ export interface WorkerOptions {
 }
 
 interface InlayHintsOptions {
-	readonly includeInlayParameterNameHints?: 'none' | 'literals' | 'all';
+	readonly includeInlayParameterNameHints?: "none" | "literals" | "all";
 	readonly includeInlayParameterNameHintsWhenArgumentMatchesName?: boolean;
 	readonly includeInlayFunctionParameterTypeHints?: boolean;
 	readonly includeInlayVariableTypeHints?: boolean;
@@ -416,7 +422,10 @@ export interface TypeScriptWorker {
 	 * Get code completions for the given file and position.
 	 * @returns `Promise<typescript.CompletionInfo | undefined>`
 	 */
-	getCompletionsAtPosition(fileName: string, position: number): Promise<any | undefined>;
+	getCompletionsAtPosition(
+		fileName: string,
+		position: number
+	): Promise<any | undefined>;
 
 	/**
 	 * Get code completion details for the given file, position, and entry.
@@ -432,13 +441,20 @@ export interface TypeScriptWorker {
 	 * Get signature help items for the item at the given file and position.
 	 * @returns `Promise<typescript.SignatureHelpItems | undefined>`
 	 */
-	getSignatureHelpItems(fileName: string, position: number, options: any): Promise<any | undefined>;
+	getSignatureHelpItems(
+		fileName: string,
+		position: number,
+		options: any
+	): Promise<any | undefined>;
 
 	/**
 	 * Get quick info for the item at the given position in the file.
 	 * @returns `Promise<typescript.QuickInfo | undefined>`
 	 */
-	getQuickInfoAtPosition(fileName: string, position: number): Promise<any | undefined>;
+	getQuickInfoAtPosition(
+		fileName: string,
+		position: number
+	): Promise<any | undefined>;
 
 	getDocumentHighlights(
 		fileName: string,
@@ -459,7 +475,10 @@ export interface TypeScriptWorker {
 	 * Get references to the item at the given position in the file.
 	 * @returns `Promise<typescript.ReferenceEntry[] | undefined>`
 	 */
-	getReferencesAtPosition(fileName: string, position: number): Promise<any[] | undefined>;
+	getReferencesAtPosition(
+		fileName: string,
+		position: number
+	): Promise<any[] | undefined>;
 
 	/**
 	 * Get outline entries for the item at the given position in the file.
@@ -472,7 +491,10 @@ export interface TypeScriptWorker {
 	 * @param options `typescript.FormatCodeOptions`
 	 * @returns `Promise<typescript.TextChange[]>`
 	 */
-	getFormattingEditsForDocument(fileName: string, options: any): Promise<any[]>;
+	getFormattingEditsForDocument(
+		fileName: string,
+		options: any
+	): Promise<any[]>;
 
 	/**
 	 * Get changes which should be applied to format the given range in the file.
@@ -515,7 +537,11 @@ export interface TypeScriptWorker {
 	 * @param options `typescript.RenameInfoOptions`
 	 * @returns `Promise<typescript.RenameInfo>`
 	 */
-	getRenameInfo(fileName: string, positon: number, options: any): Promise<any>;
+	getRenameInfo(
+		fileName: string,
+		positon: number,
+		options: any
+	): Promise<any>;
 
 	/**
 	 * Get transpiled output for the given file.
@@ -541,7 +567,11 @@ export interface TypeScriptWorker {
 	 * @param fileName
 	 * @returns `Promise<typescript.InlayHint[]>`
 	 */
-	provideInlayHints(fileName: string, start: number, end: number): Promise<ReadonlyArray<any>>;
+	provideInlayHints(
+		fileName: string,
+		start: number,
+		end: number
+	): Promise<ReadonlyArray<any>>;
 }
 
 // --- TypeScript configuration and defaults ---------
@@ -604,16 +634,21 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	addExtraLib(content: string, _filePath?: string): IDisposable {
 		let filePath: string;
-		if (typeof _filePath === 'undefined') {
-			filePath = `ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
+		if (typeof _filePath === "undefined") {
+			filePath = `ts:extralib-${Math.random()
+				.toString(36)
+				.substring(2, 15)}`;
 		} else {
 			filePath = _filePath;
 		}
 
-		if (this._extraLibs[filePath] && this._extraLibs[filePath].content === content) {
+		if (
+			this._extraLibs[filePath] &&
+			this._extraLibs[filePath].content === content
+		) {
 			// no-op, there already exists an extra lib with this content
 			return {
-				dispose: () => {}
+				dispose: () => {},
 			};
 		}
 
@@ -627,7 +662,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 		this._extraLibs[filePath] = {
 			content: content,
-			version: myVersion
+			version: myVersion,
 		};
 		this._fireOnDidExtraLibsChangeSoon();
 
@@ -644,13 +679,14 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 				delete this._extraLibs[filePath];
 				this._removedExtraLibs[filePath] = myVersion;
 				this._fireOnDidExtraLibsChangeSoon();
-			}
+			},
 		};
 	}
 
 	setExtraLibs(libs: { content: string; filePath?: string }[]): void {
 		for (const filePath in this._extraLibs) {
-			this._removedExtraLibs[filePath] = this._extraLibs[filePath].version;
+			this._removedExtraLibs[filePath] =
+				this._extraLibs[filePath].version;
 		}
 		// clear out everything
 		this._extraLibs = Object.create(null);
@@ -658,7 +694,10 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		if (libs && libs.length > 0) {
 			for (const lib of libs) {
 				const filePath =
-					lib.filePath || `ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
+					lib.filePath ||
+					`ts:extralib-${Math.random()
+						.toString(36)
+						.substring(2, 15)}`;
 				const content = lib.content;
 				let myVersion = 1;
 				if (this._removedExtraLibs[filePath]) {
@@ -666,7 +705,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 				}
 				this._extraLibs[filePath] = {
 					content: content,
-					version: myVersion
+					version: myVersion,
 				};
 			}
 		}
@@ -746,30 +785,48 @@ const modeConfigurationDefault: Required<ModeConfiguration> = {
 	signatureHelp: true,
 	onTypeFormattingEdits: true,
 	codeActions: true,
-	inlayHints: true
+	inlayHints: true,
 };
 
-export const typescriptDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
-	{ allowNonTsExtensions: true, target: ScriptTarget.Latest },
-	{ noSemanticValidation: false, noSyntaxValidation: false, onlyVisible: false },
-	{},
-	{},
-	modeConfigurationDefault
-);
+export const typescriptDefaults: LanguageServiceDefaults =
+	new LanguageServiceDefaultsImpl(
+		{ allowNonTsExtensions: true, target: ScriptTarget.Latest },
+		{
+			noSemanticValidation: false,
+			noSyntaxValidation: false,
+			onlyVisible: false,
+		},
+		{},
+		{},
+		modeConfigurationDefault
+	);
 
-export const javascriptDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
-	{ allowNonTsExtensions: true, allowJs: true, target: ScriptTarget.Latest },
-	{ noSemanticValidation: true, noSyntaxValidation: false, onlyVisible: false },
-	{},
-	{},
-	modeConfigurationDefault
-);
+export const javascriptDefaults: LanguageServiceDefaults =
+	new LanguageServiceDefaultsImpl(
+		{
+			allowNonTsExtensions: true,
+			allowJs: true,
+			target: ScriptTarget.Latest,
+		},
+		{
+			noSemanticValidation: true,
+			noSyntaxValidation: false,
+			onlyVisible: false,
+		},
+		{},
+		{},
+		modeConfigurationDefault
+	);
 
-export const getTypeScriptWorker = (): Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>> => {
+export const getTypeScriptWorker = (): Promise<
+	(...uris: Uri[]) => Promise<TypeScriptWorker>
+> => {
 	return getMode().then((mode) => mode.getTypeScriptWorker());
 };
 
-export const getJavaScriptWorker = (): Promise<(...uris: Uri[]) => Promise<TypeScriptWorker>> => {
+export const getJavaScriptWorker = (): Promise<
+	(...uris: Uri[]) => Promise<TypeScriptWorker>
+> => {
 	return getMode().then((mode) => mode.getJavaScriptWorker());
 };
 
@@ -784,7 +841,7 @@ export const getJavaScriptWorker = (): Promise<(...uris: Uri[]) => Promise<TypeS
 	typescriptDefaults,
 	javascriptDefaults,
 	getTypeScriptWorker,
-	getJavaScriptWorker
+	getJavaScriptWorker,
 };
 
 // --- Registration to monaco editor ---
@@ -795,16 +852,16 @@ declare var require: any;
 function getMode(): Promise<typeof mode> {
 	if (AMD) {
 		return new Promise((resolve, reject) => {
-			require(['vs/language/typescript/tsMode'], resolve, reject);
+			require(["vs/language/typescript/tsMode"], resolve, reject);
 		});
 	} else {
-		return import('./tsMode');
+		return import("./tsMode");
 	}
 }
 
-languages.onLanguage('typescript', () => {
+languages.onLanguage("typescript", () => {
 	return getMode().then((mode) => mode.setupTypeScript(typescriptDefaults));
 });
-languages.onLanguage('javascript', () => {
+languages.onLanguage("javascript", () => {
 	return getMode().then((mode) => mode.setupJavaScript(javascriptDefaults));
 });
