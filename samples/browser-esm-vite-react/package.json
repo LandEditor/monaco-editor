@@ -1,20 +1,43 @@
 {
-	"name": "browser-esm-vite-react",
-	"scripts": {
-		"build": "tsc && vite build",
-		"dev": "vite",
-		"serve": "vite preview",
-		"simpleserver": "node ../node_modules/yaserver/bin/yaserver --root ./dist --port 9999"
-	},
-	"dependencies": {},
-	"devDependencies": {
-		"@types/react": "18.2.37",
-		"@types/react-dom": "18.2.15",
-		"@vitejs/plugin-react": "4.2.0",
-		"monaco-editor": "0.44.0",
-		"react": "18.2.0",
-		"react-dom": "18.2.0",
-		"typescript": "5.2.2",
-		"vite": "5.0.0"
-	}
+  "name": "browser-esm-vite-react",
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "serve": "vite preview",
+    "simpleserver": "node ../node_modules/yaserver/bin/yaserver --root ./dist --port 9999",
+    "prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "18.2.37",
+    "@types/react-dom": "18.2.15",
+    "@vitejs/plugin-react": "4.2.0",
+    "monaco-editor": "0.44.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "5.2.2",
+    "vite": "5.0.0",
+    "typescript-esbuild": "0.3.1"
+  },
+  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
+  "bugs": {
+    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
+  },
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "publisher": "playform",
+  "private": "false",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "name": "Nikola Hristov",
+    "email": "nikola@nikolahristov.tech",
+    "url": "https://nikolahristov.tech"
+  }
 }
