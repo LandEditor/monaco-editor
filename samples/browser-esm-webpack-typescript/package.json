@@ -1,32 +1,32 @@
 {
-  "name": "monaco-esm-webpack-typescript",
-  "version": "0.0.1",
-  "private": "false",
-  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
-  "bugs": {
-    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
-  },
-  "license": "MIT",
-  "author": {
-    "name": "Nikola Hristov",
-    "email": "nikola@nikolahristov.tech",
-    "url": "https://nikolahristov.tech"
-  },
-  "publisher": "playform",
-  "type": "module",
-  "scripts": {
-    "build": "node ../node_modules/webpack/bin/webpack.js --progress",
-    "prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-    "start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js"
-  },
-  "devDependencies": {
-    "typescript-esbuild": "0.3.1"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+	"name": "monaco-esm-webpack-typescript",
+	"version": "0.0.1",
+	"private": "false",
+	"homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
+	"bugs": {
+		"url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "Nikola Hristov",
+		"email": "nikola@nikolahristov.tech",
+		"url": "https://nikolahristov.tech"
+	},
+	"publisher": "playform",
+	"type": "module",
+	"scripts": {
+		"build": "node ../node_modules/webpack/bin/webpack.js --progress",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+	},
+	"devDependencies": {
+		"typescript-esbuild": "0.3.1"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
 }
