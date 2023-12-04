@@ -36,7 +36,7 @@
 		"monaco-editor": "0.44.0",
 		"style-loader": "3.3.3",
 		"typescript": "5.3.2",
-		"typescript-esbuild": "0.3.1",
+		"typescript-esbuild": "0.3.2",
 		"webpack": "5.68.0",
 		"webpack-cli": "5.1.4"
 	},

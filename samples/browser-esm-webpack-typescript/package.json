@@ -24,7 +24,7 @@
 		"start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js"
 	},
 	"devDependencies": {
-		"typescript-esbuild": "0.3.1"
+		"typescript-esbuild": "0.3.2"
 	},
 	"publishConfig": {
 		"access": "public"
