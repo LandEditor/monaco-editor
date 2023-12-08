@@ -1,33 +1,10 @@
 {
 	"name": "helloworld",
-	"version": "0.0.1",
-	"private": "false",
-	"homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
-	"bugs": {
-		"url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "Nikola Hristov",
-		"email": "nikola@nikolahristov.tech",
-		"url": "https://nikolahristov.tech"
-	},
-	"publisher": "playform",
-	"type": "module",
 	"scripts": {
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
 		"start": "parcel ./src/index.html"
 	},
 	"devDependencies": {
-		"monaco-editor": "0.44.0",
-		"parcel": "2.10.3",
-		"typescript-esbuild": "0.3.2"
-	},
-	"publishConfig": {
-		"access": "public"
+		"monaco-editor": "^0.32.0",
+		"parcel": "^2.2.1"
 	}
 }

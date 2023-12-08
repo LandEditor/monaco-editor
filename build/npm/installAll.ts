@@ -3,26 +3,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import glob = require("glob");
-import path = require("path");
-import fs = require("fs");
-import cp = require("child_process");
-const npm = process.platform === "win32" ? "npm.cmd" : "npm";
-import { REPO_ROOT } from "../utils";
+import glob = require('glob');
+import path = require('path');
+import fs = require('fs');
+import cp = require('child_process');
+const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+import { REPO_ROOT } from '../utils';
 
-const files = glob.sync("**/package.json", {
+const files = glob.sync('**/package.json', {
 	cwd: REPO_ROOT,
-	ignore: ["**/node_modules/**", "**/dist/**", "**/out/**"],
+	ignore: ['**/node_modules/**', '**/dist/**', '**/out/**']
 });
 
 for (const file of files) {
 	const filePath = path.join(REPO_ROOT, file);
 	const contents = JSON.parse(fs.readFileSync(filePath).toString());
-	if (
-		!contents.dependencies &&
-		!contents.devDependencies &&
-		!contents.optionalDependencies
-	) {
+	if (!contents.dependencies && !contents.devDependencies && !contents.optionalDependencies) {
 		// nothing to install
 		continue;
 	}
@@ -31,15 +27,15 @@ for (const file of files) {
 }
 
 function npmInstall(location) {
-	const stdio = "inherit";
-	const args = ["install"];
+	const stdio = 'inherit';
+	const args = ['install'];
 
 	console.log(`Installing dependencies in ${location}...`);
-	console.log(`$ npm ${args.join(" ")}`);
+	console.log(`$ npm ${args.join(' ')}`);
 	const result = cp.spawnSync(npm, args, {
 		env: process.env,
 		cwd: location,
-		stdio,
+		stdio
 	});
 
 	if (result.error || result.status !== 0) {
