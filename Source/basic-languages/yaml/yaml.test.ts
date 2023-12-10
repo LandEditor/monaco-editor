@@ -1,111 +1,111 @@
-import { testTokenization } from "../test/testRunner";
+import { testTokenization } from '../test/testRunner';
 
-testTokenization("yaml", [
+testTokenization('yaml', [
 	// YAML directive
 	[
 		{
-			line: "%YAML 1.2",
+			line: '%YAML 1.2',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "meta.directive.yaml",
-				},
-			],
-		},
+					type: 'meta.directive.yaml'
+				}
+			]
+		}
 	],
 
 	// Comments
 	[
 		{
-			line: "#Comment",
+			line: '#Comment',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "comment.yaml",
-				},
-			],
-		},
+					type: 'comment.yaml'
+				}
+			]
+		}
 	],
 
 	// Document Marker - Directives End
 	[
 		{
-			line: "---",
+			line: '---',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "operators.directivesEnd.yaml",
-				},
-			],
-		},
+					type: 'operators.directivesEnd.yaml'
+				}
+			]
+		}
 	],
 
 	// Document Marker - Document End
 	[
 		{
-			line: "...",
+			line: '...',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "operators.documentEnd.yaml",
-				},
-			],
-		},
+					type: 'operators.documentEnd.yaml'
+				}
+			]
+		}
 	],
 
 	// Tag Handle
 	[
 		{
-			line: "!<tag:clarkevans.com,2002:invoice>",
+			line: '!<tag:clarkevans.com,2002:invoice>',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "tag.yaml",
-				},
-			],
-		},
+					type: 'tag.yaml'
+				}
+			]
+		}
 	],
 
 	// Key:
 	[
 		{
-			line: "key:",
+			line: 'key:',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 3,
-					type: "operators.yaml",
-				},
-			],
-		},
+					type: 'operators.yaml'
+				}
+			]
+		}
 	],
 
 	// Key:Value
 	[
 		{
-			line: "key: value",
+			line: 'key: value',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 3,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 4,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 5,
-					type: "string.yaml",
-				},
-			],
-		},
+					type: 'string.yaml'
+				}
+			]
+		}
 	],
 
 	// Key:Value - Quoted Keys
@@ -115,93 +115,93 @@ testTokenization("yaml", [
 			tokens: [
 				{
 					startIndex: 0,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 3,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 4,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 5,
-					type: "string.yaml",
-				},
-			],
-		},
+					type: 'string.yaml'
+				}
+			]
+		}
 	],
 
 	// Tag Handles
 	[
 		{
-			line: "!!str string",
+			line: '!!str string',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "tag.yaml",
+					type: 'tag.yaml'
 				},
 				{
 					startIndex: 5,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 6,
-					type: "string.yaml",
-				},
-			],
-		},
+					type: 'string.yaml'
+				}
+			]
+		}
 	],
 
 	// Anchor
 	[
 		{
-			line: "anchor: &anchor",
+			line: 'anchor: &anchor',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 6,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 7,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 8,
-					type: "namespace.yaml",
-				},
-			],
-		},
+					type: 'namespace.yaml'
+				}
+			]
+		}
 	],
 
 	// Alias
 	[
 		{
-			line: "alias: *alias",
+			line: 'alias: *alias',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 5,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 6,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 7,
-					type: "namespace.yaml",
-				},
-			],
-		},
+					type: 'namespace.yaml'
+				}
+			]
+		}
 	],
 
 	//String
@@ -209,144 +209,144 @@ testTokenization("yaml", [
 		{
 			line: "'''",
 			tokens: [
-				{ startIndex: 0, type: "string.yaml" },
-				{ startIndex: 2, type: "string.invalid.yaml" },
-			],
-		},
+				{ startIndex: 0, type: 'string.yaml' },
+				{ startIndex: 2, type: 'string.invalid.yaml' }
+			]
+		}
 	],
 
 	// Block Scalar
 	[
 		{
-			line: ">",
+			line: '>',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "operators.yaml",
-				},
-			],
+					type: 'operators.yaml'
+				}
+			]
 		},
 		{
-			line: "  String",
+			line: '  String',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "string.yaml",
-				},
-			],
-		},
+					type: 'string.yaml'
+				}
+			]
+		}
 	],
 
 	// Block Structure
 	[
 		{
-			line: "- one",
+			line: '- one',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 1,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 2,
-					type: "string.yaml",
-				},
-			],
+					type: 'string.yaml'
+				}
+			]
 		},
 		{
-			line: "? two",
+			line: '? two',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 1,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 2,
-					type: "string.yaml",
-				},
-			],
+					type: 'string.yaml'
+				}
+			]
 		},
 		{
-			line: ": three",
+			line: ': three',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 1,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 2,
-					type: "string.yaml",
-				},
-			],
-		},
+					type: 'string.yaml'
+				}
+			]
+		}
 	],
 
 	// Flow Mapping
 	[
 		{
-			line: "{key: value, number: 123}",
+			line: '{key: value, number: 123}',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "delimiter.bracket.yaml",
+					type: 'delimiter.bracket.yaml'
 				},
 				{
 					startIndex: 1,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 4,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 5,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 6,
-					type: "string.yaml",
+					type: 'string.yaml'
 				},
 				{
 					startIndex: 11,
-					type: "delimiter.comma.yaml",
+					type: 'delimiter.comma.yaml'
 				},
 				{
 					startIndex: 12,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 13,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 19,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 20,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 21,
-					type: "number.yaml",
+					type: 'number.yaml'
 				},
 				{
 					startIndex: 24,
-					type: "delimiter.bracket.yaml",
-				},
-			],
-		},
+					type: 'delimiter.bracket.yaml'
+				}
+			]
+		}
 	],
 
 	// Flow Scalars
@@ -356,10 +356,10 @@ testTokenization("yaml", [
 			tokens: [
 				{
 					startIndex: 0,
-					type: "string.yaml",
-				},
-			],
-		},
+					type: 'string.yaml'
+				}
+			]
+		}
 	],
 
 	[
@@ -368,113 +368,113 @@ testTokenization("yaml", [
 			tokens: [
 				{
 					startIndex: 0,
-					type: "string.yaml",
+					type: 'string.yaml'
 				},
 				{
 					startIndex: 18,
-					type: "string.escape.invalid.yaml",
+					type: 'string.escape.invalid.yaml'
 				},
 				{
 					startIndex: 20,
-					type: "string.yaml",
+					type: 'string.yaml'
 				},
 				{
 					startIndex: 31,
-					type: "string.escape.yaml",
+					type: 'string.escape.yaml'
 				},
 				{
 					startIndex: 33,
-					type: "string.yaml",
-				},
-			],
-		},
+					type: 'string.yaml'
+				}
+			]
+		}
 	],
 
 	// Flow Sequence - Data types
 	[
 		{
-			line: "[string,\"double\",'single',1,1.1,2002-04-28]",
+			line: '[string,"double",\'single\',1,1.1,2002-04-28]',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "delimiter.square.yaml",
+					type: 'delimiter.square.yaml'
 				},
 				{
 					startIndex: 1,
-					type: "string.yaml",
+					type: 'string.yaml'
 				},
 				{
 					startIndex: 7,
-					type: "delimiter.comma.yaml",
+					type: 'delimiter.comma.yaml'
 				},
 				{
 					startIndex: 8,
-					type: "string.yaml",
+					type: 'string.yaml'
 				},
 				{
 					startIndex: 16,
-					type: "delimiter.comma.yaml",
+					type: 'delimiter.comma.yaml'
 				},
 				{
 					startIndex: 17,
-					type: "string.yaml",
+					type: 'string.yaml'
 				},
 				{
 					startIndex: 25,
-					type: "delimiter.comma.yaml",
+					type: 'delimiter.comma.yaml'
 				},
 				{
 					startIndex: 26,
-					type: "number.yaml",
+					type: 'number.yaml'
 				},
 				{
 					startIndex: 27,
-					type: "delimiter.comma.yaml",
+					type: 'delimiter.comma.yaml'
 				},
 				{
 					startIndex: 28,
-					type: "number.float.yaml",
+					type: 'number.float.yaml'
 				},
 				{
 					startIndex: 31,
-					type: "delimiter.comma.yaml",
+					type: 'delimiter.comma.yaml'
 				},
 				{
 					startIndex: 32,
-					type: "number.date.yaml",
+					type: 'number.date.yaml'
 				},
 				{
 					startIndex: 42,
-					type: "delimiter.square.yaml",
-				},
-			],
-		},
+					type: 'delimiter.square.yaml'
+				}
+			]
+		}
 	],
 	[
 		{
 			line: "text: Pretty vector drawing. #this is comment doesn't have proper syntax higlighting",
 			tokens: [
-				{ startIndex: 0, type: "type.yaml" },
-				{ startIndex: 4, type: "operators.yaml" },
-				{ startIndex: 5, type: "white.yaml" },
-				{ startIndex: 6, type: "string.yaml" },
-				{ startIndex: 28, type: "white.yaml" },
-				{ startIndex: 29, type: "comment.yaml" },
-			],
-		},
+				{ startIndex: 0, type: 'type.yaml' },
+				{ startIndex: 4, type: 'operators.yaml' },
+				{ startIndex: 5, type: 'white.yaml' },
+				{ startIndex: 6, type: 'string.yaml' },
+				{ startIndex: 28, type: 'white.yaml' },
+				{ startIndex: 29, type: 'comment.yaml' }
+			]
+		}
 	],
 	[
 		{
 			line: "number: 3 #this comment also doesn't have proper syntax highlighting",
 			tokens: [
-				{ startIndex: 0, type: "type.yaml" },
-				{ startIndex: 6, type: "operators.yaml" },
-				{ startIndex: 7, type: "white.yaml" },
-				{ startIndex: 8, type: "string.yaml" },
-				{ startIndex: 9, type: "white.yaml" },
-				{ startIndex: 10, type: "comment.yaml" },
-			],
-		},
+				{ startIndex: 0, type: 'type.yaml' },
+				{ startIndex: 6, type: 'operators.yaml' },
+				{ startIndex: 7, type: 'white.yaml' },
+				{ startIndex: 8, type: 'string.yaml' },
+				{ startIndex: 9, type: 'white.yaml' },
+				{ startIndex: 10, type: 'comment.yaml' }
+			]
+		}
 	],
 
 	// ': ' in double-quoted Value
@@ -484,22 +484,22 @@ testTokenization("yaml", [
 			tokens: [
 				{
 					startIndex: 0,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 3,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 4,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 5,
-					type: "string.yaml",
-				},
-			],
-		},
+					type: 'string.yaml'
+				}
+			]
+		}
 	],
 
 	// ': ' in single-quoted Value
@@ -509,22 +509,22 @@ testTokenization("yaml", [
 			tokens: [
 				{
 					startIndex: 0,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 3,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 4,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 5,
-					type: "string.yaml",
-				},
-			],
-		},
+					type: 'string.yaml'
+				}
+			]
+		}
 	],
 
 	// '#' in single-quoted Value
@@ -534,22 +534,22 @@ testTokenization("yaml", [
 			tokens: [
 				{
 					startIndex: 0,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 3,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 4,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 5,
-					type: "string.yaml",
-				},
-			],
-		},
+					type: 'string.yaml'
+				}
+			]
+		}
 	],
 
 	// '#' in double-quoted Value
@@ -559,112 +559,112 @@ testTokenization("yaml", [
 			tokens: [
 				{
 					startIndex: 0,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 3,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 4,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 5,
-					type: "string.yaml",
-				},
-			],
-		},
+					type: 'string.yaml'
+				}
+			]
+		}
 	],
 
 	// '#' in  Value
 	[
 		{
-			line: "key: va#lue",
+			line: 'key: va#lue',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 3,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 4,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 5,
-					type: "string.yaml",
-				},
-			],
-		},
+					type: 'string.yaml'
+				}
+			]
+		}
 	],
 
 	// Comment following Value
 	[
 		{
-			line: "key: value #comment",
+			line: 'key: value #comment',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 3,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 4,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 5,
-					type: "string.yaml",
+					type: 'string.yaml'
 				},
 				{
 					startIndex: 10,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 11,
-					type: "comment.yaml",
-				},
-			],
-		},
+					type: 'comment.yaml'
+				}
+			]
+		}
 	],
 
 	// ': ' in Comment following Value
 	[
 		{
-			line: "key: value #comment: also comment",
+			line: 'key: value #comment: also comment',
 			tokens: [
 				{
 					startIndex: 0,
-					type: "type.yaml",
+					type: 'type.yaml'
 				},
 				{
 					startIndex: 3,
-					type: "operators.yaml",
+					type: 'operators.yaml'
 				},
 				{
 					startIndex: 4,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 5,
-					type: "string.yaml",
+					type: 'string.yaml'
 				},
 				{
 					startIndex: 10,
-					type: "white.yaml",
+					type: 'white.yaml'
 				},
 				{
 					startIndex: 11,
-					type: "comment.yaml",
-				},
-			],
-		},
-	],
+					type: 'comment.yaml'
+				}
+			]
+		}
+	]
 ]);
