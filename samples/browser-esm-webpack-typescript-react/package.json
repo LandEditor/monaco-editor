@@ -1,21 +1,21 @@
 {
-	"name": "monaco-esm-webpack-typescript",
-	"scripts": {
-		"start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-		"build": "NODE_ENV='production' node ../node_modules/webpack/bin/webpack.js --progress"
-	},
-	"dependencies": {},
-	"devDependencies": {
-		"@babel/core": "7.23.5",
-		"@babel/preset-env": "7.23.5",
-		"@babel/preset-react": "7.23.3",
-		"@babel/preset-typescript": "7.23.3",
-		"@pmmmwh/react-refresh-webpack-plugin": "0.5.11",
-		"@types/react": "18.2.43",
-		"@types/react-dom": "18.2.17",
-		"babel-loader": "9.1.3",
-		"react": "18.2.0",
-		"react-dom": "18.2.0",
-		"react-refresh": "0.14.0"
-	}
+  "name": "monaco-esm-webpack-typescript",
+  "scripts": {
+    "start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "build": "NODE_ENV='production' node ../node_modules/webpack/bin/webpack.js --progress"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "7.23.5",
+    "@babel/preset-env": "7.23.5",
+    "@babel/preset-react": "7.23.3",
+    "@babel/preset-typescript": "7.23.3",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.11",
+    "@types/react": "18.2.43",
+    "@types/react-dom": "18.2.17",
+    "babel-loader": "9.1.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-refresh": "0.14.0"
+  }
 }
