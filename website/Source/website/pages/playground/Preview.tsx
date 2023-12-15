@@ -101,7 +101,7 @@ export class Preview extends React.Component<{
 						this.handlePreview(state);
 					}
 				},
-				{ fireImmediately: true }
+				{ fireImmediately: true },
 			),
 		});
 	}
@@ -118,7 +118,7 @@ export class Preview extends React.Component<{
 			// only css changed
 			this.iframe?.contentWindow!.postMessage(
 				{ kind: "update-css", css: state.css } as IMessageToRunner,
-				{ targetOrigin: "*" }
+				{ targetOrigin: "*" },
 			);
 			this.currentState = state;
 		} else {

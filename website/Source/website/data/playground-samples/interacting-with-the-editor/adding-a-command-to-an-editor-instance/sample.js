@@ -17,11 +17,11 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 
 var myCondition1 = editor.createContextKey(
 	/*key name*/ "myCondition1",
-	/*default value*/ false
+	/*default value*/ false,
 );
 var myCondition2 = editor.createContextKey(
 	/*key name*/ "myCondition2",
-	/*default value*/ false
+	/*default value*/ false,
 );
 
 editor.addCommand(
@@ -30,7 +30,7 @@ editor.addCommand(
 		// services available in `ctx`
 		console.log("my command is executing!");
 	},
-	"myCondition1 && myCondition2"
+	"myCondition1 && myCondition2",
 );
 // @ts-ignore
 myCondition1.set(true);

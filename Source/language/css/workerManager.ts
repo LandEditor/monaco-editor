@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { LanguageServiceDefaults } from './monaco.contribution';
-import type { CSSWorker } from './cssWorker';
-import { editor, IDisposable, Uri } from '../../fillers/monaco-editor-core';
+import { LanguageServiceDefaults } from "./monaco.contribution";
+import type { CSSWorker } from "./cssWorker";
+import { editor, IDisposable, Uri } from "../../fillers/monaco-editor-core";
 
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
 
@@ -22,9 +22,14 @@ export class WorkerManager {
 		this._defaults = defaults;
 		this._worker = null;
 		this._client = null;
-		this._idleCheckInterval = window.setInterval(() => this._checkIfIdle(), 30 * 1000);
+		this._idleCheckInterval = window.setInterval(
+			() => this._checkIfIdle(),
+			30 * 1000,
+		);
 		this._lastUsedTime = 0;
-		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());
+		this._configChangeListener = this._defaults.onDidChange(() =>
+			this._stopWorker(),
+		);
 	}
 
 	private _stopWorker(): void {
@@ -57,15 +62,15 @@ export class WorkerManager {
 		if (!this._client) {
 			this._worker = editor.createWebWorker<CSSWorker>({
 				// module that exports the create() method and returns a `CSSWorker` instance
-				moduleId: 'vs/language/css/cssWorker',
+				moduleId: "vs/language/css/cssWorker",
 
 				label: this._defaults.languageId,
 
 				// passed in to the create() method
 				createData: {
 					options: this._defaults.options,
-					languageId: this._defaults.languageId
-				}
+					languageId: this._defaults.languageId,
+				},
 			});
 
 			this._client = <Promise<CSSWorker>>(<any>this._worker.getProxy());

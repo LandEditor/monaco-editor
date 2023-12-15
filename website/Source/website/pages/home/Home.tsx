@@ -133,10 +133,10 @@ class EditorDemo extends React.Component {
 		loadMonaco().then((m) => {
 			const languages = m.languages.getLanguages();
 			this.currentLanguage = languages.find(
-				(l) => l.id === "typescript"
+				(l) => l.id === "typescript",
 			)!;
 			return languages;
-		})
+		}),
 	);
 
 	@observable.ref
@@ -150,7 +150,7 @@ class EditorDemo extends React.Component {
 		return new ObservablePromise(
 			this.currentLanguage
 				? this.loadSample(this.currentLanguage.id)
-				: Promise.resolve(undefined)
+				: Promise.resolve(undefined),
 		);
 	}
 

@@ -9,7 +9,7 @@ var commandId = editor.addCommand(
 		// services available in `ctx`
 		alert("my command is executing!");
 	},
-	""
+	"",
 );
 
 monaco.languages.registerCodeLensProvider("json", {

@@ -71,11 +71,11 @@ export class PlaygroundPageContent extends React.Component<
 																groupTitle:
 																	e.chapterTitle,
 																items: e.examples,
-															})
+															}),
 														)}
 														value={ref(
 															model,
-															"selectedExample"
+															"selectedExample",
 														)}
 														getLabel={(i) =>
 															i.title
@@ -321,7 +321,7 @@ export class VersionSelector extends React.Component<{
 
 		const latestValue = "latest";
 		const versions = [latestValue].concat(
-			getNpmVersionsSync(model.settings.settings.npmVersion)
+			getNpmVersionsSync(model.settings.settings.npmVersion),
 		);
 
 		return (
@@ -416,13 +416,13 @@ export class VersionSelector extends React.Component<{
 						}
 						active={
 							model.bisectModel.getState(
-								model.settings.settings.npmVersion
+								model.settings.settings.npmVersion,
 							) === true
 						}
 						onClick={() =>
 							model.bisectModel.toggleState(
 								model.settings.settings.npmVersion,
-								true
+								true,
 							)
 						}
 						title="Mark version as working (for bisect)"
@@ -440,13 +440,13 @@ export class VersionSelector extends React.Component<{
 						}
 						active={
 							model.bisectModel.getState(
-								model.settings.settings.npmVersion
+								model.settings.settings.npmVersion,
 							) === false
 						}
 						onClick={() =>
 							model.bisectModel.toggleState(
 								model.settings.settings.npmVersion,
-								false
+								false,
 							)
 						}
 						title="Mark version as broken (for bisect)"
@@ -486,7 +486,7 @@ class Editor extends React.Component<{
 
 	private readonly model = getLoadedMonaco().editor.createModel(
 		this.props.value.get(),
-		this.props.language
+		this.props.language,
 	);
 
 	render() {
@@ -513,7 +513,7 @@ class Editor extends React.Component<{
 				} finally {
 					this.ignoreChange = false;
 				}
-			})
+			}),
 		);
 
 		this.disposables.push({
@@ -529,11 +529,11 @@ class Editor extends React.Component<{
 									text: value,
 								},
 							],
-							() => null
+							() => null,
 						);
 					}
 				},
-				{ name: "update text" }
+				{ name: "update text" },
 			),
 		});
 	}

@@ -28,7 +28,7 @@ export class SettingsDialog extends React.Component<{
 	@computed
 	get npmVersions(): string[] {
 		return getNpmVersionsSync(
-			this.settingsDialogModel?.settings.npmVersion
+			this.settingsDialogModel?.settings.npmVersion,
 		);
 	}
 
@@ -56,7 +56,7 @@ export class SettingsDialog extends React.Component<{
 									<Radio
 										value={ref(
 											modelSettings.settings,
-											"monacoSource"
+											"monacoSource",
 										)}
 										current="latest"
 									/>
@@ -80,7 +80,7 @@ export class SettingsDialog extends React.Component<{
 									<Select
 										value={ref(
 											modelSettings.settings,
-											"latestStability"
+											"latestStability",
 										)}
 										values={StabilityValues}
 										getLabel={(v) => v}
@@ -96,7 +96,7 @@ export class SettingsDialog extends React.Component<{
 									<Radio
 										value={ref(
 											modelSettings.settings,
-											"monacoSource"
+											"monacoSource",
 										)}
 										current="npm"
 									/>
@@ -123,7 +123,7 @@ export class SettingsDialog extends React.Component<{
 									<Select
 										value={ref(
 											modelSettings.settings,
-											"npmVersion"
+											"npmVersion",
 										)}
 										values={this.npmVersions}
 										getLabel={(v) => v}
@@ -134,7 +134,7 @@ export class SettingsDialog extends React.Component<{
 									<Select
 										value={ref(
 											modelSettings.settings,
-											"npmStability"
+											"npmStability",
 										)}
 										values={StabilityValues}
 										getLabel={(v) => v}
@@ -154,7 +154,7 @@ export class SettingsDialog extends React.Component<{
 											<Radio
 												value={ref(
 													modelSettings.settings,
-													"monacoSource"
+													"monacoSource",
 												)}
 												current="independent"
 											/>
@@ -183,7 +183,7 @@ export class SettingsDialog extends React.Component<{
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"coreSource"
+																"coreSource",
 															)}
 															current="latest"
 														/>
@@ -202,7 +202,7 @@ export class SettingsDialog extends React.Component<{
 													<Select
 														value={ref(
 															modelSettings.settings,
-															"latestCoreStability"
+															"latestCoreStability",
 														)}
 														values={StabilityValues}
 														getLabel={(v) => v}
@@ -220,7 +220,7 @@ export class SettingsDialog extends React.Component<{
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"coreSource"
+																"coreSource",
 															)}
 															current="url"
 														/>
@@ -237,7 +237,7 @@ export class SettingsDialog extends React.Component<{
 													<TextBox
 														value={ref(
 															modelSettings.settings,
-															"coreUrl"
+															"coreUrl",
 														)}
 														style={{
 															marginLeft: "auto",
@@ -255,7 +255,7 @@ export class SettingsDialog extends React.Component<{
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"languagesSource"
+																"languagesSource",
 															)}
 															current="latest"
 														/>
@@ -276,7 +276,7 @@ export class SettingsDialog extends React.Component<{
 													<Select
 														value={ref(
 															modelSettings.settings,
-															"latestLanguagesStability"
+															"latestLanguagesStability",
 														)}
 														values={StabilityValues}
 														getLabel={(v) => v}
@@ -293,7 +293,7 @@ export class SettingsDialog extends React.Component<{
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"languagesSource"
+																"languagesSource",
 															)}
 															current="source"
 														/>
@@ -316,7 +316,7 @@ export class SettingsDialog extends React.Component<{
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"languagesSource"
+																"languagesSource",
 															)}
 															current="url"
 														/>
@@ -334,7 +334,7 @@ export class SettingsDialog extends React.Component<{
 													<TextBox
 														value={ref(
 															modelSettings.settings,
-															"languagesUrl"
+															"languagesUrl",
 														)}
 														style={{
 															marginLeft: "auto",
@@ -357,7 +357,7 @@ export class SettingsDialog extends React.Component<{
 											<Radio
 												value={ref(
 													modelSettings.settings,
-													"monacoSource"
+													"monacoSource",
 												)}
 												current="custom"
 											/>

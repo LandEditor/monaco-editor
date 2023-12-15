@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as mode from './cssMode';
-import { languages, Emitter, IEvent } from '../../fillers/monaco-editor-core';
+import * as mode from "./cssMode";
+import { languages, Emitter, IEvent } from "../../fillers/monaco-editor-core";
 
 export interface CSSFormatConfiguration {
 	/** separate selectors with newline (e.g. "a,\nbr" or "a, br"): Default: true */
@@ -14,7 +14,7 @@ export interface CSSFormatConfiguration {
 	/** ensure space around selector separators:  '>', '+', '~' (e.g. "a>b" -> "a > b"): Default: false */
 	spaceAroundSelectorSeparator?: boolean;
 	/** put braces on the same line as rules (`collapse`), or put braces on own line, Allman / ANSI style (`expand`). Default `collapse` */
-	braceStyle?: 'collapse' | 'expand';
+	braceStyle?: "collapse" | "expand";
 	/** whether existing line breaks before elements should be preserved. Default: true */
 	preserveNewLines?: boolean;
 	/** maximum number of line breaks to be preserved in one chunk. Default: unlimited */
@@ -24,24 +24,27 @@ export interface CSSFormatConfiguration {
 export interface Options {
 	readonly validate?: boolean;
 	readonly lint?: {
-		readonly compatibleVendorPrefixes?: 'ignore' | 'warning' | 'error';
-		readonly vendorPrefix?: 'ignore' | 'warning' | 'error';
-		readonly duplicateProperties?: 'ignore' | 'warning' | 'error';
-		readonly emptyRules?: 'ignore' | 'warning' | 'error';
-		readonly importStatement?: 'ignore' | 'warning' | 'error';
-		readonly boxModel?: 'ignore' | 'warning' | 'error';
-		readonly universalSelector?: 'ignore' | 'warning' | 'error';
-		readonly zeroUnits?: 'ignore' | 'warning' | 'error';
-		readonly fontFaceProperties?: 'ignore' | 'warning' | 'error';
-		readonly hexColorLength?: 'ignore' | 'warning' | 'error';
-		readonly argumentsInColorFunction?: 'ignore' | 'warning' | 'error';
-		readonly unknownProperties?: 'ignore' | 'warning' | 'error';
-		readonly ieHack?: 'ignore' | 'warning' | 'error';
-		readonly unknownVendorSpecificProperties?: 'ignore' | 'warning' | 'error';
-		readonly propertyIgnoredDueToDisplay?: 'ignore' | 'warning' | 'error';
-		readonly important?: 'ignore' | 'warning' | 'error';
-		readonly float?: 'ignore' | 'warning' | 'error';
-		readonly idSelector?: 'ignore' | 'warning' | 'error';
+		readonly compatibleVendorPrefixes?: "ignore" | "warning" | "error";
+		readonly vendorPrefix?: "ignore" | "warning" | "error";
+		readonly duplicateProperties?: "ignore" | "warning" | "error";
+		readonly emptyRules?: "ignore" | "warning" | "error";
+		readonly importStatement?: "ignore" | "warning" | "error";
+		readonly boxModel?: "ignore" | "warning" | "error";
+		readonly universalSelector?: "ignore" | "warning" | "error";
+		readonly zeroUnits?: "ignore" | "warning" | "error";
+		readonly fontFaceProperties?: "ignore" | "warning" | "error";
+		readonly hexColorLength?: "ignore" | "warning" | "error";
+		readonly argumentsInColorFunction?: "ignore" | "warning" | "error";
+		readonly unknownProperties?: "ignore" | "warning" | "error";
+		readonly ieHack?: "ignore" | "warning" | "error";
+		readonly unknownVendorSpecificProperties?:
+			| "ignore"
+			| "warning"
+			| "error";
+		readonly propertyIgnoredDueToDisplay?: "ignore" | "warning" | "error";
+		readonly important?: "ignore" | "warning" | "error";
+		readonly float?: "ignore" | "warning" | "error";
+		readonly idSelector?: "ignore" | "warning" | "error";
 	};
 	/**
 	 * Configures the CSS data types known by the langauge service.
@@ -147,7 +150,11 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _modeConfiguration!: ModeConfiguration;
 	private _languageId: string;
 
-	constructor(languageId: string, options: Options, modeConfiguration: ModeConfiguration) {
+	constructor(
+		languageId: string,
+		options: Options,
+		modeConfiguration: ModeConfiguration,
+	) {
 		this._languageId = languageId;
 		this.setOptions(options);
 		this.setModeConfiguration(modeConfiguration);
@@ -191,34 +198,34 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 const optionsDefault: Required<Options> = {
 	validate: true,
 	lint: {
-		compatibleVendorPrefixes: 'ignore',
-		vendorPrefix: 'warning',
-		duplicateProperties: 'warning',
-		emptyRules: 'warning',
-		importStatement: 'ignore',
-		boxModel: 'ignore',
-		universalSelector: 'ignore',
-		zeroUnits: 'ignore',
-		fontFaceProperties: 'warning',
-		hexColorLength: 'error',
-		argumentsInColorFunction: 'error',
-		unknownProperties: 'warning',
-		ieHack: 'ignore',
-		unknownVendorSpecificProperties: 'ignore',
-		propertyIgnoredDueToDisplay: 'warning',
-		important: 'ignore',
-		float: 'ignore',
-		idSelector: 'ignore'
+		compatibleVendorPrefixes: "ignore",
+		vendorPrefix: "warning",
+		duplicateProperties: "warning",
+		emptyRules: "warning",
+		importStatement: "ignore",
+		boxModel: "ignore",
+		universalSelector: "ignore",
+		zeroUnits: "ignore",
+		fontFaceProperties: "warning",
+		hexColorLength: "error",
+		argumentsInColorFunction: "error",
+		unknownProperties: "warning",
+		ieHack: "ignore",
+		unknownVendorSpecificProperties: "ignore",
+		propertyIgnoredDueToDisplay: "warning",
+		important: "ignore",
+		float: "ignore",
+		idSelector: "ignore",
 	},
 	data: { useDefaultDataProvider: true },
 	format: {
 		newlineBetweenSelectors: true,
 		newlineBetweenRules: true,
 		spaceAroundSelectorSeparator: false,
-		braceStyle: 'collapse',
+		braceStyle: "collapse",
 		maxPreserveNewLines: undefined,
-		preserveNewLines: true
-	}
+		preserveNewLines: true,
+	},
 };
 
 const modeConfigurationDefault: Required<ModeConfiguration> = {
@@ -234,24 +241,27 @@ const modeConfigurationDefault: Required<ModeConfiguration> = {
 	diagnostics: true,
 	selectionRanges: true,
 	documentFormattingEdits: true,
-	documentRangeFormattingEdits: true
+	documentRangeFormattingEdits: true,
 };
 
-export const cssDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
-	'css',
-	optionsDefault,
-	modeConfigurationDefault
-);
-export const scssDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
-	'scss',
-	optionsDefault,
-	modeConfigurationDefault
-);
-export const lessDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
-	'less',
-	optionsDefault,
-	modeConfigurationDefault
-);
+export const cssDefaults: LanguageServiceDefaults =
+	new LanguageServiceDefaultsImpl(
+		"css",
+		optionsDefault,
+		modeConfigurationDefault,
+	);
+export const scssDefaults: LanguageServiceDefaults =
+	new LanguageServiceDefaultsImpl(
+		"scss",
+		optionsDefault,
+		modeConfigurationDefault,
+	);
+export const lessDefaults: LanguageServiceDefaults =
+	new LanguageServiceDefaultsImpl(
+		"less",
+		optionsDefault,
+		modeConfigurationDefault,
+	);
 
 // export to the global based API
 (<any>languages).css = { cssDefaults, lessDefaults, scssDefaults };
@@ -264,22 +274,22 @@ declare var require: any;
 function getMode(): Promise<typeof mode> {
 	if (AMD) {
 		return new Promise((resolve, reject) => {
-			require(['vs/language/css/cssMode'], resolve, reject);
+			require(["vs/language/css/cssMode"], resolve, reject);
 		});
 	} else {
-		return import('./cssMode');
+		return import("./cssMode");
 	}
 }
 
-languages.onLanguage('less', () => {
+languages.onLanguage("less", () => {
 	getMode().then((mode) => mode.setupMode(lessDefaults));
 });
 
-languages.onLanguage('scss', () => {
+languages.onLanguage("scss", () => {
 	getMode().then((mode) => mode.setupMode(scssDefaults));
 });
 
-languages.onLanguage('css', () => {
+languages.onLanguage("css", () => {
 	getMode().then((mode) => mode.setupMode(cssDefaults));
 });
 
@@ -308,7 +318,11 @@ export interface CSSDataV1 {
 	pseudoElements?: IPseudoElementData[];
 }
 
-export type EntryStatus = 'standard' | 'experimental' | 'nonstandard' | 'obsolete';
+export type EntryStatus =
+	| "standard"
+	| "experimental"
+	| "nonstandard"
+	| "obsolete";
 
 export interface IReference {
 	name: string;
@@ -359,4 +373,4 @@ export interface MarkupContent {
 	kind: MarkupKind;
 	value: string;
 }
-export declare type MarkupKind = 'plaintext' | 'markdown';
+export declare type MarkupKind = "plaintext" | "markdown";

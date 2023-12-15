@@ -43,7 +43,7 @@ export class LocationModel implements IHistoryModel {
 			new HistoryController((initialLocation) => {
 				this.updateLocation(initialLocation);
 				return this;
-			})
+			}),
 		);
 	}
 
@@ -105,7 +105,7 @@ export class LocationModel implements IHistoryModel {
 				try {
 					p =
 						this.compressor.decodeData<IPlaygroundProject>(
-							hashValue
+							hashValue,
 						);
 				} catch (e) {
 					console.log("Could not deserialize from hash value", e);
@@ -138,7 +138,7 @@ export class LocationModel implements IHistoryModel {
 				return this.cachedState.hash;
 			}
 			return this.compressor.encodeData(state);
-		}
+		},
 	);
 
 	private get sourceFromSettings(): Source | undefined {
@@ -158,7 +158,7 @@ export class LocationModel implements IHistoryModel {
 				settings.coreSource === "url" ? settings.coreUrl : undefined,
 				settings.languagesSource === "latest"
 					? undefined
-					: settings.languagesUrl
+					: settings.languagesUrl,
 			);
 		} else if (settings.monacoSource === "latest") {
 			return new Source(monacoEditorVersion, undefined, undefined);
