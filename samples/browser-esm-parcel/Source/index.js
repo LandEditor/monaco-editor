@@ -1,12 +1,12 @@
-import JSONWorker from "url:monaco-editor/esm/vs/language/json/json.worker.js";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.main.js";
+import EditorWorker from "url:monaco-editor/esm/vs/editor/editor.worker.js";
 import CSSWorker from "url:monaco-editor/esm/vs/language/css/css.worker.js";
 import HTMLWorker from "url:monaco-editor/esm/vs/language/html/html.worker.js";
+import JSONWorker from "url:monaco-editor/esm/vs/language/json/json.worker.js";
 import TSWorker from "url:monaco-editor/esm/vs/language/typescript/ts.worker.js";
-import EditorWorker from "url:monaco-editor/esm/vs/editor/editor.worker.js";
-import * as monaco from "monaco-editor/esm/vs/editor/editor.main.js";
 
 self.MonacoEnvironment = {
-	getWorkerUrl: function (moduleId, label) {
+	getWorkerUrl: (moduleId, label) => {
 		if (label === "json") {
 			return JSONWorker;
 		}

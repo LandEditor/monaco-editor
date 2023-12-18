@@ -35,12 +35,8 @@ export const conf: languages.LanguageConfiguration = {
 	],
 	folding: {
 		markers: {
-			start: new RegExp(
-				"^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))"
-			),
-			end: new RegExp(
-				"^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))"
-			),
+			start: /^\s*//\s*(?:(?:#?region\b)|(?:<editor-fold\b))/,
+			end: /^\s*//\s*(?:(?:#?endregion\b)|(?:</editor-fold>))/,
 		},
 	},
 };
@@ -194,7 +190,7 @@ const keywords = [
 const uppercaseFirstLetter = (lowercase: string) =>
 	lowercase.charAt(0).toUpperCase() + lowercase.substr(1);
 
-let keywordsWithCaseVariations: string[] = [];
+const keywordsWithCaseVariations: string[] = [];
 keywords.forEach((lowercase) => {
 	keywordsWithCaseVariations.push(lowercase);
 	keywordsWithCaseVariations.push(lowercase.toUpperCase());

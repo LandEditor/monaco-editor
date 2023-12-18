@@ -50,8 +50,8 @@ export const conf: languages.LanguageConfiguration = {
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*#Region\\b"),
-			end: new RegExp("^\\s*#End Region\\b"),
+			start: /^\s*#Region\b/,
+			end: /^\s*#End Region\b/,
 		},
 	},
 };

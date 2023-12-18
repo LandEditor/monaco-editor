@@ -2,11 +2,11 @@ declare module "loader-utils" {
 	export function interpolateName(
 		loaderContext: any,
 		name: string,
-		options?: any
+		options?: any,
 	): string;
 
 	export function stringifyRequest(
 		loaderContext: any,
-		resource: string
+		resource: string,
 	): string;
 }

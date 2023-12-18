@@ -3,10 +3,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as webpack from "webpack";
 import * as path from "path";
-import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import * as HtmlWebpackPlugin from "html-webpack-plugin";
+import * as webpack from "webpack";
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 import * as CopyPlugin from "copy-webpack-plugin";
 

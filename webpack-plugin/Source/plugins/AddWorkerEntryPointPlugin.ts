@@ -16,14 +16,14 @@ function getCompilerHook(
 		filename,
 		chunkFilename,
 		plugins,
-	}: IAddWorkerEntryPointPluginOptions
+	}: IAddWorkerEntryPointPluginOptions,
 ) {
 	const webpack = compiler.webpack ?? require("webpack");
 
-	return function (
+	return (
 		compilation: webpack.Compilation,
-		callback: (error?: Error | null | false) => void
-	) {
+		callback: (error?: Error | null | false) => void,
+	) => {
 		const outputOptions = {
 			filename,
 			chunkFilename,
@@ -37,12 +37,12 @@ function getCompilerHook(
 			[
 				new webpack.webworker.WebWorkerTemplatePlugin(),
 				new webpack.LoaderTargetPlugin("webworker"),
-			]
+			],
 		);
 		const SingleEntryPlugin =
 			webpack.EntryPlugin ?? webpack.SingleEntryPlugin;
 		new SingleEntryPlugin(compiler.context, entry, "main").apply(
-			childCompiler
+			childCompiler,
 		);
 		plugins.forEach((plugin) => plugin.apply(childCompiler));
 
@@ -74,7 +74,7 @@ export class AddWorkerEntryPointPlugin
 		} else {
 			compiler.hooks.make.tapAsync(
 				"AddWorkerEntryPointPlugin",
-				compilerHook
+				compilerHook,
 			);
 		}
 	}

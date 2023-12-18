@@ -19,7 +19,6 @@ import { Preview } from "./Preview";
 import { SettingsDialog } from "./SettingsDialog";
 import { getNpmVersionsSync } from "./getNpmVersionsSync";
 import { PlaygroundExample, getPlaygroundExamples } from "./playgroundExamples";
-import { getDefaultSettings, toLoaderConfig } from "./SettingsModel";
 
 @hotComponent(module)
 @observer
@@ -36,15 +35,17 @@ export class PlaygroundPageContent extends React.Component<
 				<div className="p-2" style={{ height: "100%" }}>
 					<Row
 						className="h-100 g-2"
-						style={{ flexWrap: "wrap-reverse" }}>
+						style={{ flexWrap: "wrap-reverse" }}
+					>
 						{model.wasEverNonFullScreen && (
 							<Col
-								md
+								md={true}
 								className={
 									model.previewShouldBeFullScreen
 										? "d-none"
 										: ""
-								}>
+								}
+							>
 								<Vertical>
 									<div style={{ flex: 1 }}>
 										<LabeledEditor
@@ -54,11 +55,13 @@ export class PlaygroundPageContent extends React.Component<
 													className="hstack"
 													style={{
 														marginLeft: "auto",
-													}}>
+													}}
+												>
 													<span
 														style={{
 															marginRight: 8,
-														}}>
+														}}
+													>
 														Example:
 													</span>
 													<Select<PlaygroundExample>
@@ -67,18 +70,19 @@ export class PlaygroundPageContent extends React.Component<
 																groupTitle:
 																	e.chapterTitle,
 																items: e.examples,
-															})
+															}),
 														)}
 														value={ref(
 															model,
-															"selectedExample"
+															"selectedExample",
 														)}
 														getLabel={(i) =>
 															i.title
 														}
 													/>
 												</div>
-											}>
+											}
+										>
 											<Editor
 												language={"javascript"}
 												value={ref(model, "js")}
@@ -115,23 +119,25 @@ export class PlaygroundPageContent extends React.Component<
 							</Col>
 						)}
 						<Col
-							md
+							md={true}
 							style={{
 								display: "flex",
 								flexDirection: "column",
-							}}>
+							}}
+						>
 							<LabeledEditor
 								label={`Preview${
 									model.historyModel.compareWith &&
 									model.historyModel.sourceOverride
 										? " " +
-											model.historyModel.sourceOverride.toString()
+										  model.historyModel.sourceOverride.toString()
 										: ""
 								}:`}
 								titleBarItems={
 									<div
 										style={{ marginLeft: "auto" }}
-										className="d-flex align-items-center gap-2">
+										className="d-flex align-items-center gap-2"
+									>
 										{model.previewShouldBeFullScreen || (
 											<FormCheck
 												label="Auto-Reload"
@@ -183,73 +189,75 @@ export class PlaygroundPageContent extends React.Component<
 											}
 										/>
 
-										{!model.historyModel.compareWith ? (
-											model.historyModel
-												.sourceOverride ? (
-												<ButtonGroup>
-													<button
-														type="button"
-														className="btn btn-primary"
-														onClick={() =>
-															model.historyModel.disableSourceOverride()
-														}>
-														Disable{" "}
-														{model.historyModel
-															.sourceOverride
-															.version ??
-															"url"}{" "}
-														override
-													</button>
-													<button
-														type="button"
-														className="btn btn-secondary"
-														onClick={() =>
-															model.compareWithLatestDev()
-														}>
-														Compare with latest dev
-													</button>
-													<button
-														type="button"
-														className="btn btn-secondary"
-														onClick={() =>
-															model.historyModel.saveSourceOverride()
-														}>
-														Save
-													</button>
-												</ButtonGroup>
-											) : (
-												<>
-													<VersionSelector
-														model={model}
-													/>
-
-													<button
-														type="button"
-														className="btn btn-light settings bi-gear"
-														style={{
-															fontSize: 20,
-															padding: "0px 4px",
-														}}
-														onClick={() =>
-															model.showSettingsDialog()
-														}
-													/>
-												</>
-											)
-										) : (
+										{model.historyModel.compareWith ? (
 											<ButtonGroup>
 												<button
 													type="button"
 													className="btn btn-primary"
 													onClick={() =>
 														model.historyModel.exitCompare()
-													}>
+													}
+												>
 													Exit Compare
 												</button>
 											</ButtonGroup>
+										) : model.historyModel
+												.sourceOverride ? (
+											<ButtonGroup>
+												<button
+													type="button"
+													className="btn btn-primary"
+													onClick={() =>
+														model.historyModel.disableSourceOverride()
+													}
+												>
+													Disable{" "}
+													{model.historyModel
+														.sourceOverride
+														.version ?? "url"}{" "}
+													override
+												</button>
+												<button
+													type="button"
+													className="btn btn-secondary"
+													onClick={() =>
+														model.compareWithLatestDev()
+													}
+												>
+													Compare with latest dev
+												</button>
+												<button
+													type="button"
+													className="btn btn-secondary"
+													onClick={() =>
+														model.historyModel.saveSourceOverride()
+													}
+												>
+													Save
+												</button>
+											</ButtonGroup>
+										) : (
+											<>
+												<VersionSelector
+													model={model}
+												/>
+
+												<button
+													type="button"
+													className="btn btn-light settings bi-gear"
+													style={{
+														fontSize: 20,
+														padding: "0px 4px",
+													}}
+													onClick={() =>
+														model.showSettingsDialog()
+													}
+												/>
+											</>
 										)}
 									</div>
-								}>
+								}
+							>
 								<Preview
 									model={model}
 									getPreviewState={model.getPreviewState}
@@ -263,19 +271,22 @@ export class PlaygroundPageContent extends React.Component<
 										titleBarItems={
 											<div
 												style={{ marginLeft: "auto" }}
-												className="d-flex align-items-center gap-2">
+												className="d-flex align-items-center gap-2"
+											>
 												<ButtonGroup>
 													<button
 														type="button"
 														className="btn btn-primary"
 														onClick={() =>
 															model.historyModel.saveCompareWith()
-														}>
+														}
+													>
 														Save
 													</button>
 												</ButtonGroup>
 											</div>
-										}>
+										}
+									>
 										<Preview
 											model={model}
 											getPreviewState={
@@ -309,7 +320,7 @@ export class VersionSelector extends React.Component<{
 
 		const latestValue = "latest";
 		const versions = [latestValue].concat(
-			getNpmVersionsSync(model.settings.settings.npmVersion)
+			getNpmVersionsSync(model.settings.settings.npmVersion),
 		);
 
 		return (
@@ -325,7 +336,7 @@ export class VersionSelector extends React.Component<{
 										["true"]: " ✓",
 										["false"]: " ✗",
 									}["" + model.bisectModel.getState(i)]
-								}`
+							  }`
 					}
 					value={{
 						get() {
@@ -371,7 +382,8 @@ export class VersionSelector extends React.Component<{
 								whiteSpace: "nowrap",
 							}}
 							onClick={() => model.bisectModel.openGithub()}
-							title={`Bisect active, ${model.bisectModel.steps} steps or less remaining. Click here to show changes.`}>
+							title={`Bisect active, ${model.bisectModel.steps} steps or less remaining. Click here to show changes.`}
+						>
 							{" "}
 							{model.bisectModel.steps}
 						</Button>
@@ -403,13 +415,13 @@ export class VersionSelector extends React.Component<{
 						}
 						active={
 							model.bisectModel.getState(
-								model.settings.settings.npmVersion
+								model.settings.settings.npmVersion,
 							) === true
 						}
 						onClick={() =>
 							model.bisectModel.toggleState(
 								model.settings.settings.npmVersion,
-								true
+								true,
 							)
 						}
 						title="Mark version as working (for bisect)"
@@ -427,13 +439,13 @@ export class VersionSelector extends React.Component<{
 						}
 						active={
 							model.bisectModel.getState(
-								model.settings.settings.npmVersion
+								model.settings.settings.npmVersion,
 							) === false
 						}
 						onClick={() =>
 							model.bisectModel.toggleState(
 								model.settings.settings.npmVersion,
-								false
+								false,
 							)
 						}
 						title="Mark version as broken (for bisect)"
@@ -473,7 +485,7 @@ class Editor extends React.Component<{
 
 	private readonly model = getLoadedMonaco().editor.createModel(
 		this.props.value.get(),
-		this.props.language
+		this.props.language,
 	);
 
 	render() {
@@ -500,7 +512,7 @@ class Editor extends React.Component<{
 				} finally {
 					this.ignoreChange = false;
 				}
-			})
+			}),
 		);
 
 		this.disposables.push({
@@ -516,11 +528,11 @@ class Editor extends React.Component<{
 									text: value,
 								},
 							],
-							() => null
+							() => null,
 						);
 					}
 				},
-				{ name: "update text" }
+				{ name: "update text" },
 			),
 		});
 	}
@@ -540,7 +552,8 @@ export function Vertical(props: { children: React.ReactNode }) {
 				alignItems: "stretch",
 				width: "100%",
 				height: "100%",
-			}}>
+			}}
+		>
 			{props.children}
 		</div>
 	);
@@ -559,7 +572,8 @@ export function Horizontal(props: {
 				height: "100%",
 				width: "100%",
 				...props.style,
-			}}>
+			}}
+		>
 			{props.children}
 		</div>
 	);

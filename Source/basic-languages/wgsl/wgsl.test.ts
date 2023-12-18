@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { testTokenization, ITestItem } from "../test/testRunner";
+import { ITestItem, testTokenization } from "../test/testRunner";
 
 const cases: ITestItem[][] = [
 	// address space

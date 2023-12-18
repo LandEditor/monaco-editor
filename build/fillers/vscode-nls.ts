@@ -26,7 +26,7 @@ function format(message: string, args: any[]): string {
 		result = message;
 	} else {
 		result = message.replace(/\{(\d+)\}/g, (match, rest) => {
-			let index = rest[0];
+			const index = rest[0];
 			return typeof args[index] !== "undefined" ? args[index] : match;
 		});
 	}

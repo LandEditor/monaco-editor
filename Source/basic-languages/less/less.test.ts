@@ -1560,5 +1560,5 @@ testTokenization(
 				tokens: [{ startIndex: 0, type: "delimiter.curly.less" }],
 			},
 		],
-	]
+	],
 );

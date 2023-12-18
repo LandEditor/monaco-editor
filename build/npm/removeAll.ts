@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import glob from "glob";
-import path from "path";
 import fs from "fs";
+import path from "path";
+import glob from "glob";
 import { REPO_ROOT } from "../utils";
 
 const files = glob.sync("**/package-lock.json", {

@@ -7,7 +7,7 @@ import * as json from "jsonc-parser";
 import { languages } from "../../fillers/monaco-editor-core";
 
 export function createTokenizationSupport(
-	supportComments: boolean
+	supportComments: boolean,
 ): languages.TokensProvider {
 	return {
 		getInitialState: () => new JSONState(null, null, false, null),
@@ -28,7 +28,7 @@ export const TOKEN_PROPERTY_NAME = "string.key.json";
 export const TOKEN_COMMENT_BLOCK = "comment.block.json";
 export const TOKEN_COMMENT_LINE = "comment.line.json";
 
-const enum JSONParent {
+enum JSONParent {
 	Object = 0,
 	Array = 1,
 }
@@ -36,7 +36,7 @@ const enum JSONParent {
 class ParentsStack {
 	constructor(
 		public readonly parent: ParentsStack | null,
-		public readonly type: JSONParent
+		public readonly type: JSONParent,
 	) {}
 
 	public static pop(parents: ParentsStack | null): ParentsStack | null {
@@ -48,14 +48,14 @@ class ParentsStack {
 
 	public static push(
 		parents: ParentsStack | null,
-		type: JSONParent
+		type: JSONParent,
 	): ParentsStack {
 		return new ParentsStack(parents, type);
 	}
 
 	public static equals(
 		a: ParentsStack | null,
-		b: ParentsStack | null
+		b: ParentsStack | null,
 	): boolean {
 		if (!a && !b) {
 			return true;
@@ -88,7 +88,7 @@ class JSONState implements languages.IState {
 		state: languages.IState | null,
 		scanError: ScanError | null,
 		lastWasColon: boolean,
-		parents: ParentsStack | null
+		parents: ParentsStack | null,
 	) {
 		this._state = state;
 		this.scanError = scanError;
@@ -101,7 +101,7 @@ class JSONState implements languages.IState {
 			this._state,
 			this.scanError,
 			this.lastWasColon,
-			this.parents
+			this.parents,
 		);
 	}
 
@@ -128,7 +128,7 @@ class JSONState implements languages.IState {
 	}
 }
 
-const enum ScanError {
+enum ScanError {
 	None = 0,
 	UnexpectedEndOfComment = 1,
 	UnexpectedEndOfString = 2,
@@ -138,7 +138,7 @@ const enum ScanError {
 	InvalidCharacter = 6,
 }
 
-const enum SyntaxKind {
+enum SyntaxKind {
 	OpenBraceToken = 1,
 	CloseBraceToken = 2,
 	OpenBracketToken = 3,
@@ -162,7 +162,7 @@ function tokenize(
 	comments: boolean,
 	line: string,
 	state: JSONState,
-	offsetDelta: number = 0
+	offsetDelta = 0,
 ): languages.ILineTokens {
 	// handle multiline strings and block comments
 	let numberOfInsertedCharacters = 0;
@@ -201,7 +201,7 @@ function tokenize(
 		if (offset === offsetDelta + scanner.getPosition()) {
 			throw new Error(
 				"Scanner did not advance, next 3 characters are: " +
-					line.substr(scanner.getPosition(), 3)
+					line.substr(scanner.getPosition(), 3),
 			);
 		}
 
@@ -284,7 +284,7 @@ function tokenize(
 			state.getStateData(),
 			<ScanError>(<any>scanner.getTokenError()),
 			lastWasColon,
-			parents
+			parents,
 		);
 		ret.tokens.push({
 			startIndex: offset,

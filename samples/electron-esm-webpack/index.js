@@ -1,7 +1,7 @@
 import * as monaco from "monaco-editor";
 
 self.MonacoEnvironment = {
-	getWorkerUrl: function (moduleId, label) {
+	getWorkerUrl: (moduleId, label) => {
 		if (label === "json") {
 			return "./json.worker.bundle.js";
 		}

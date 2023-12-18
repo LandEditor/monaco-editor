@@ -1,12 +1,12 @@
 import React = require("react");
-import { home, playground, docs, monarch } from "../pages/routes";
-import { Container, Navbar, Nav, NavDropdown } from "./bootstrap";
+import { docs, home, monarch, playground } from "../pages/routes";
+import { Container, Nav, NavDropdown, Navbar } from "./bootstrap";
 
 export class PageNav extends React.Component {
 	render() {
 		return (
 			<Navbar bg="dark" variant="dark" expand="lg">
-				<Container fluid>
+				<Container fluid={true}>
 					<Navbar.Brand href="./">
 						<span className="code-oss-icon d-inline-block align-top" />
 						Monaco Editor
@@ -19,12 +19,14 @@ export class PageNav extends React.Component {
 							</Nav.Link>
 							<Nav.Link
 								active={playground.isActive}
-								href={playground.href}>
+								href={playground.href}
+							>
 								Playground
 							</Nav.Link>
 							<Nav.Link
 								active={monarch.isActive}
-								href={monarch.href}>
+								href={monarch.href}
+							>
 								Monarch
 							</Nav.Link>
 							<Nav.Link active={docs.isActive} href={docs.href}>
@@ -44,20 +46,23 @@ export class PageNav extends React.Component {
 									</>
 								}
 								className="download-dropdown"
-								align="end">
+								align="end"
+							>
 								{/*<NavDropdown.Item href="#action/3.1">
 									Download 0.33.0
 							</NavDropdown.Item>*/}
 								<NavDropdown.Item
 									href="https://www.npmjs.com/package/monaco-editor"
-									target="_blank">
+									target="_blank"
+								>
 									Get From NPM
 								</NavDropdown.Item>
 							</NavDropdown>
 
 							<Nav.Link
 								href="https://github.com/microsoft/monaco-editor"
-								target="_blank">
+								target="_blank"
+							>
 								<span className="nav-icon bi-github" />
 								<span className="hidden-text"> GitHub </span>
 							</Nav.Link>

@@ -6,8 +6,8 @@
 import glob = require("glob");
 import path = require("path");
 import fs = require("fs");
-import { REPO_ROOT } from "./utils";
 import { ensureDir } from "./fs";
+import { REPO_ROOT } from "./utils";
 
 const customFeatureLabels = {
 	"vs/editor/browser/controller/coreCommands": "coreCommands",
@@ -50,9 +50,9 @@ function getBasicLanguages(): Promise<{ label: string; entry: string }[]> {
 							label: label,
 							entry: entry,
 						};
-					})
+					}),
 				);
-			}
+			},
 		);
 	});
 }
@@ -72,17 +72,17 @@ function readAdvancedLanguages(): Promise<string[]> {
 					files
 						.map((file) =>
 							file.substring(
-								"./out/monaco-editor/esm/vs/language/".length
-							)
+								"./out/monaco-editor/esm/vs/language/".length,
+							),
 						)
 						.map((file) =>
 							file.substring(
 								0,
-								file.length - "/monaco.contribution.js".length
-							)
-						)
+								file.length - "/monaco.contribution.js".length,
+							),
+						),
 				);
-			}
+			},
 		);
 	});
 }
@@ -91,9 +91,9 @@ function getAdvancedLanguages(): Promise<
 	{ label: string; entry: string; worker: { id: string; entry: string } }[]
 > {
 	return readAdvancedLanguages().then((languages) => {
-		let result = [];
+		const result = [];
 		for (const lang of languages) {
-			let shortLang = lang === "typescript" ? "ts" : lang;
+			const shortLang = lang === "typescript" ? "ts" : lang;
 			const entry = `vs/language/${lang}/monaco.contribution`;
 			checkFileExists(entry);
 			const workerId = `vs/language/${lang}/${shortLang}Worker`;
@@ -115,7 +115,7 @@ function getAdvancedLanguages(): Promise<
 		const filePath = path.join(
 			REPO_ROOT,
 			"out/monaco-editor/esm",
-			`${moduleName}.js`
+			`${moduleName}.js`,
 		);
 		if (!fs.existsSync(filePath)) {
 			console.error(`Could not find ${filePath}.`);
@@ -134,13 +134,13 @@ export function generateMetadata() {
 				len = basicLanguages.length;
 			let j = 0,
 				lenJ = advancedLanguages.length;
-			let languages = [];
+			const languages = [];
 			while (i < len || j < lenJ) {
 				if (i < len && j < lenJ) {
 					if (
 						basicLanguages[i].label === advancedLanguages[j].label
 					) {
-						let entry = [];
+						const entry = [];
 						entry.push(basicLanguages[i].entry);
 						entry.push(advancedLanguages[j].entry);
 						languages.push({
@@ -196,9 +196,7 @@ export type EditorLanguage = ${languages
 				.map((el) => `'${el.label}'`)
 				.join(" | ")};
 
-export type EditorFeature = ${features
-				.map((el) => `'${el.label}'`)
-				.join(" | ")};
+export type EditorFeature = ${features.map((el) => `'${el.label}'`).join(" | ")};
 
 export type NegatedEditorFeature = ${features
 				.map((el) => `'!${el.label}'`)
@@ -207,12 +205,12 @@ export type NegatedEditorFeature = ${features
 `;
 			const dtsDestination = path.join(
 				REPO_ROOT,
-				"out/monaco-editor/esm/metadata.d.ts"
+				"out/monaco-editor/esm/metadata.d.ts",
 			);
 			ensureDir(path.dirname(dtsDestination));
 			fs.writeFileSync(
 				dtsDestination,
-				dtsContents.replace(/\r\n/g, "\n")
+				dtsContents.replace(/\r\n/g, "\n"),
 			);
 
 			const jsContents = `
@@ -221,7 +219,7 @@ exports.languages = ${JSON.stringify(languages, null, "  ")};
 `;
 			const jsDestination = path.join(
 				REPO_ROOT,
-				"out/monaco-editor/esm/metadata.js"
+				"out/monaco-editor/esm/metadata.js",
 			);
 			ensureDir(path.dirname(jsDestination));
 			fs.writeFileSync(jsDestination, jsContents.replace(/\r\n/g, "\n"));
@@ -236,7 +234,7 @@ exports.languages = ${JSON.stringify(languages, null, "  ")};
 					fs.writeFileSync(dtsDestination, "export {}\n");
 				}
 			}
-		}
+		},
 	);
 }
 
@@ -262,22 +260,22 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 		"vs/editor/contrib/gotoSymbol/documentSymbols",
 	];
 
-	let features: string[] = [];
+	const features: string[] = [];
 	const files =
 		fs
 			.readFileSync(
 				path.join(
 					REPO_ROOT,
-					"out/monaco-editor/esm/vs/editor/edcore.main.js"
-				)
+					"out/monaco-editor/esm/vs/editor/edcore.main.js",
+				),
 			)
 			.toString() +
 		fs
 			.readFileSync(
 				path.join(
 					REPO_ROOT,
-					"out/monaco-editor/esm/vs/editor/editor.all.js"
-				)
+					"out/monaco-editor/esm/vs/editor/editor.all.js",
+				),
 			)
 			.toString();
 	files.split(/\r\n|\n/).forEach((line) => {
@@ -290,7 +288,7 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 		}
 	});
 
-	let result: { label: string; entry: any }[] = features.map((feature) => {
+	const result: { label: string; entry: any }[] = features.map((feature) => {
 		/** @type {string} */ let label;
 		if (customFeatureLabels[feature]) {
 			label = customFeatureLabels[feature];

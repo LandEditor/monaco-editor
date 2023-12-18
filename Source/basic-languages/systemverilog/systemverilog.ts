@@ -53,12 +53,8 @@ export const conf: languages.LanguageConfiguration = {
 	folding: {
 		offSide: false,
 		markers: {
-			start: new RegExp(
-				"^(?:\\s*|.*(?!\\/[\\/\\*])[^\\w])(?:begin|case(x|z)?|class|clocking|config|covergroup|function|generate|interface|module|package|primitive|property|program|sequence|specify|table|task)\\b"
-			),
-			end: new RegExp(
-				"^(?:\\s*|.*(?!\\/[\\/\\*])[^\\w])(?:end|endcase|endclass|endclocking|endconfig|endgroup|endfunction|endgenerate|endinterface|endmodule|endpackage|endprimitive|endproperty|endprogram|endsequence|endspecify|endtable|endtask)\\b"
-			),
+			start: /^(?:\s*|.*(?!\/[\/\*])[^\w])(?:begin|case(x|z)?|class|clocking|config|covergroup|function|generate|interface|module|package|primitive|property|program|sequence|specify|table|task)\b/,
+			end: /^(?:\s*|.*(?!\/[\/\*])[^\w])(?:end|endcase|endclass|endclocking|endconfig|endgroup|endfunction|endgenerate|endinterface|endmodule|endpackage|endprimitive|endproperty|endprogram|endsequence|endspecify|endtable|endtask)\b/,
 		},
 	},
 };

@@ -9,8 +9,8 @@ import {
 } from "../../components/monaco/MonacoEditor";
 import { ObservablePromise } from "../../utils/ObservablePromise";
 import React = require("react");
-import { ref } from "../../utils/ref";
 import { monacoEditorVersion } from "../../monacoEditorVersion";
+import { ref } from "../../utils/ref";
 
 export class Home extends React.Component {
 	render() {
@@ -60,7 +60,9 @@ export class Home extends React.Component {
 									Download with this direct{" "}
 									<a
 										target="_blank"
-										href={`https://registry.npmjs.org/monaco-editor/-/monaco-editor-${monacoEditorVersion}.tgz`}>
+										href={`https://registry.npmjs.org/monaco-editor/-/monaco-editor-${monacoEditorVersion}.tgz`}
+										rel="noreferrer"
+									>
 										download link
 									</a>{" "}
 									or{" "}
@@ -132,10 +134,10 @@ class EditorDemo extends React.Component {
 		loadMonaco().then((m) => {
 			const languages = m.languages.getLanguages();
 			this.currentLanguage = languages.find(
-				(l) => l.id === "typescript"
+				(l) => l.id === "typescript",
 			)!;
 			return languages;
-		})
+		}),
 	);
 
 	@observable.ref
@@ -149,7 +151,7 @@ class EditorDemo extends React.Component {
 		return new ObservablePromise(
 			this.currentLanguage
 				? this.loadSample(this.currentLanguage.id)
-				: Promise.resolve(undefined)
+				: Promise.resolve(undefined),
 		);
 	}
 

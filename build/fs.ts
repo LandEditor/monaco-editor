@@ -47,7 +47,7 @@ export function copyFile(_source: string, _destination: string) {
  */
 export function removeDir(
 	_dirPath: string,
-	keep?: (filename: string) => boolean
+	keep?: (filename: string) => boolean,
 ) {
 	if (typeof keep === "undefined") {
 		keep = () => false;

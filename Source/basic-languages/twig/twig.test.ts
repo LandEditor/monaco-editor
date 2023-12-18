@@ -716,7 +716,7 @@ testTokenization(
 				],
 			},
 		],
-	]
+	],
 );
 
 /**
@@ -1043,5 +1043,5 @@ testTokenization(
 				],
 			},
 		],
-	]
+	],
 );

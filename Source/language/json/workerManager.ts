@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { LanguageServiceDefaults } from "./monaco.contribution";
-import type { JSONWorker } from "./jsonWorker";
 import { IDisposable, Uri, editor } from "../../fillers/monaco-editor-core";
+import type { JSONWorker } from "./jsonWorker";
+import { LanguageServiceDefaults } from "./monaco.contribution";
 
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
 
@@ -24,11 +24,11 @@ export class WorkerManager {
 		this._client = null;
 		this._idleCheckInterval = window.setInterval(
 			() => this._checkIfIdle(),
-			30 * 1000
+			30 * 1000,
 		);
 		this._lastUsedTime = 0;
 		this._configChangeListener = this._defaults.onDidChange(() =>
-			this._stopWorker()
+			this._stopWorker(),
 		);
 	}
 
@@ -50,7 +50,7 @@ export class WorkerManager {
 		if (!this._worker) {
 			return;
 		}
-		let timePassedSinceLastUsed = Date.now() - this._lastUsedTime;
+		const timePassedSinceLastUsed = Date.now() - this._lastUsedTime;
 		if (timePassedSinceLastUsed > STOP_WHEN_IDLE_FOR) {
 			this._stopWorker();
 		}

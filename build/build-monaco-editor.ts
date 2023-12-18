@@ -5,8 +5,8 @@
 
 import path = require("path");
 import fs = require("fs");
-import { REPO_ROOT, readFiles, writeFiles, IFile } from "../build/utils";
 import { removeDir } from "../build/fs";
+import { IFile, REPO_ROOT, readFiles, writeFiles } from "../build/utils";
 import ts = require("typescript");
 import { generateMetadata } from "./releaseMetadata";
 
@@ -51,12 +51,12 @@ generateMetadata();
 	otherFiles = otherFiles.concat(
 		readFiles("node_modules/monaco-editor-core/min-maps/**/*", {
 			base: "node_modules/monaco-editor-core/",
-		})
+		}),
 	);
 	otherFiles = otherFiles.concat(
 		readFiles("node_modules/monaco-editor-core/LICENSE", {
 			base: "node_modules/monaco-editor-core/",
-		})
+		}),
 	);
 
 	writeFiles(otherFiles, `out/monaco-editor`);
@@ -70,7 +70,7 @@ function AMD_releaseOne(type: "dev" | "min") {
 		`node_modules/monaco-editor-core/${type}/**/*`,
 		{
 			base: `node_modules/monaco-editor-core/${type}`,
-		}
+		},
 	);
 	AMD_addPluginContribs(type, coreFiles);
 	writeFiles(coreFiles, `out/monaco-editor/${type}`);
@@ -99,14 +99,14 @@ function AMD_addPluginContribs(type: "dev" | "min", files: IFile[]) {
 		// Rename the AMD module 'vs/editor/editor.main' to 'vs/editor/edcore.main'
 		contents = contents.replace(
 			/"vs\/editor\/editor\.main\"/,
-			'"vs/editor/edcore.main"'
+			'"vs/editor/edcore.main"',
 		);
 
 		const pluginFiles = readFiles(
 			`out/languages/bundled/amd-${type}/**/monaco.contribution.js`,
 			{
 				base: `out/languages/bundled/amd-${type}`,
-			}
+			},
 		);
 
 		const extraContent = pluginFiles.map((file) => {
@@ -114,7 +114,7 @@ function AMD_addPluginContribs(type: "dev" | "min", files: IFile[]) {
 				.toString()
 				.replace(
 					/define\((['"][a-z\/\-]+\/fillers\/monaco-editor-core['"]),\[\],/,
-					"define($1,['vs/editor/editor.api'],"
+					"define($1,['vs/editor/editor.api'],",
 				);
 		});
 
@@ -124,8 +124,8 @@ function AMD_addPluginContribs(type: "dev" | "min", files: IFile[]) {
 
 		extraContent.push(
 			`define("vs/editor/editor.main", ["vs/editor/edcore.main","${allPluginsModuleIds.join(
-				'","'
-			)}"], function(api) { return api; });`
+				'","',
+			)}"], function(api) { return api; });`,
 		);
 		let insertIndex = contents.lastIndexOf("//# sourceMappingURL=");
 		if (insertIndex === -1) {
@@ -184,7 +184,7 @@ function ESM_releasePlugins() {
 				// non-relative import
 				if (!/^monaco-editor-core/.test(importText)) {
 					console.error(
-						`Non-relative import for unknown module: ${importText} in ${file.path}`
+						`Non-relative import for unknown module: ${importText} in ${file.path}`,
 					);
 					process.exit(1);
 				}
@@ -194,7 +194,7 @@ function ESM_releasePlugins() {
 				}
 
 				const importFilePath = importText.substring(
-					"monaco-editor-core/esm/".length
+					"monaco-editor-core/esm/".length,
 				);
 				let relativePath = path
 					.relative(path.dirname(file.path), importFilePath)
@@ -286,7 +286,7 @@ function ESM_addPluginContribs(files: IFile[]) {
 		`out/languages/bundled/esm/**/monaco.contribution.js`,
 		{
 			base: `out/languages/bundled/esm`,
-		}
+		},
 	).map((file) => {
 		let relativePath = path
 			.relative(path.dirname(mainFileDestPath), file.path)
@@ -360,10 +360,10 @@ function releaseDTS() {
  * This function is duplicated in the `vscode` repo.
  */
 function toExternalDTS(contents: string): string {
-	let lines = contents.split(/\r\n|\r|\n/);
+	const lines = contents.split(/\r\n|\r|\n/);
 	let killNextCloseCurlyBrace = false;
 	for (let i = 0; i < lines.length; i++) {
-		let line = lines[i];
+		const line = lines[i];
 
 		if (killNextCloseCurlyBrace) {
 			if ("}" === line) {
@@ -390,7 +390,7 @@ function toExternalDTS(contents: string): string {
 		if (line.indexOf("declare namespace monaco.") === 0) {
 			lines[i] = line.replace(
 				"declare namespace monaco.",
-				"export namespace "
+				"export namespace ",
 			);
 		}
 
@@ -419,7 +419,7 @@ function toExternalDTS(contents: string): string {
 function cleanFile(contents: string): string {
 	return contents
 		.split(/\r\n|\r|\n/)
-		.map(function (line) {
+		.map((line) => {
 			const m = line.match(/^(\t+)/);
 			if (!m) {
 				return line;
@@ -443,7 +443,7 @@ function releaseThirdPartyNotices() {
 		"node_modules/monaco-editor-core/ThirdPartyNotices.txt",
 		{
 			base: "node_modules/monaco-editor-core",
-		}
+		},
 	)[0];
 
 	let contents = tpn.contents.toString();

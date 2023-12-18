@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import * as cp from "child_process";
 import * as fs from "fs";
 import * as path from "path";
-import * as cp from "child_process";
 import * as esbuild from "esbuild";
 import alias from "esbuild-plugin-alias";
 import * as glob from "glob";
@@ -26,7 +26,7 @@ export function runTsc(_projectPath: string) {
 			"-p",
 			projectPath,
 		],
-		{ stdio: "inherit" }
+		{ stdio: "inherit" },
 	);
 	console.log(`Compiled ${_projectPath}`);
 	if (res.status !== 0) {
@@ -46,7 +46,7 @@ export function prettier(_filePath: string) {
 			"--write",
 			filePath,
 		],
-		{ stdio: "inherit" }
+		{ stdio: "inherit" },
 	);
 
 	console.log(`Ran prettier over ${_filePath}`);
@@ -58,7 +58,7 @@ export function prettier(_filePath: string) {
 export function massageAndCopyDts(
 	source: string,
 	destination: string,
-	namespace: string
+	namespace: string,
 ) {
 	const absoluteSource = path.join(REPO_ROOT, source);
 	const absoluteDestination = path.join(REPO_ROOT, destination);
@@ -68,7 +68,7 @@ export function massageAndCopyDts(
 		.toString()
 		.split(/\r\n|\r|\n/);
 
-	let result = [
+	const result = [
 		`/*---------------------------------------------------------------------------------------------`,
 		` *  Copyright (c) Microsoft Corporation. All rights reserved.`,
 		` *  Licensed under the MIT License. See License.txt in the project root for license information.`,
@@ -146,7 +146,7 @@ function buildOneAMD(
 		amdModuleId: string;
 		amdDependencies?: string[];
 		external?: string[];
-	}
+	},
 ) {
 	if (!options.amdDependencies) {
 		options.amdDependencies = [];
@@ -179,11 +179,11 @@ function buildOneAMD(
 			alias({
 				"vscode-nls": path.join(
 					__dirname,
-					"../build/fillers/vscode-nls.ts"
+					"../build/fillers/vscode-nls.ts",
 				),
 				"monaco-editor-core": path.join(
 					__dirname,
-					"../src/fillers/monaco-editor-core-amd.ts"
+					"../src/fillers/monaco-editor-core-amd.ts",
 				),
 			}),
 		],
@@ -281,7 +281,7 @@ export interface IFile {
 
 export function readFiles(
 	pattern: string,
-	options: { base: string; ignore?: string[]; dot?: boolean }
+	options: { base: string; ignore?: string[]; dot?: boolean },
 ): IFile[] {
 	let files = glob.sync(pattern, {
 		cwd: REPO_ROOT,

@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { worker } from "../../fillers/monaco-editor-core";
 import * as cssService from "vscode-css-languageservice";
+import type { worker } from "../../fillers/monaco-editor-core";
 import { Options } from "./monaco.contribution";
 
 export class CSSWorker {
@@ -27,7 +27,7 @@ export class CSSWorker {
 		if (data?.dataProviders) {
 			for (const id in data.dataProviders) {
 				customDataProviders.push(
-					cssService.newCSSDataProvider(data.dataProviders[id])
+					cssService.newCSSDataProvider(data.dataProviders[id]),
 				);
 			}
 		}
@@ -63,7 +63,7 @@ export class CSSWorker {
 			const stylesheet = this._languageService.parseStylesheet(document);
 			const diagnostics = this._languageService.doValidation(
 				document,
-				stylesheet
+				stylesheet,
 			);
 			return Promise.resolve(diagnostics);
 		}
@@ -71,7 +71,7 @@ export class CSSWorker {
 	}
 	async doComplete(
 		uri: string,
-		position: cssService.Position
+		position: cssService.Position,
 	): Promise<cssService.CompletionList | null> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -81,13 +81,13 @@ export class CSSWorker {
 		const completions = this._languageService.doComplete(
 			document,
 			position,
-			stylesheet
+			stylesheet,
 		);
 		return Promise.resolve(completions);
 	}
 	async doHover(
 		uri: string,
-		position: cssService.Position
+		position: cssService.Position,
 	): Promise<cssService.Hover | null> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -97,13 +97,13 @@ export class CSSWorker {
 		const hover = this._languageService.doHover(
 			document,
 			position,
-			stylesheet
+			stylesheet,
 		);
 		return Promise.resolve(hover);
 	}
 	async findDefinition(
 		uri: string,
-		position: cssService.Position
+		position: cssService.Position,
 	): Promise<cssService.Location | null> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -113,13 +113,13 @@ export class CSSWorker {
 		const definition = this._languageService.findDefinition(
 			document,
 			position,
-			stylesheet
+			stylesheet,
 		);
 		return Promise.resolve(definition);
 	}
 	async findReferences(
 		uri: string,
-		position: cssService.Position
+		position: cssService.Position,
 	): Promise<cssService.Location[]> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -129,13 +129,13 @@ export class CSSWorker {
 		const references = this._languageService.findReferences(
 			document,
 			position,
-			stylesheet
+			stylesheet,
 		);
 		return Promise.resolve(references);
 	}
 	async findDocumentHighlights(
 		uri: string,
-		position: cssService.Position
+		position: cssService.Position,
 	): Promise<cssService.DocumentHighlight[]> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -145,12 +145,12 @@ export class CSSWorker {
 		const highlights = this._languageService.findDocumentHighlights(
 			document,
 			position,
-			stylesheet
+			stylesheet,
 		);
 		return Promise.resolve(highlights);
 	}
 	async findDocumentSymbols(
-		uri: string
+		uri: string,
 	): Promise<cssService.SymbolInformation[]> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -159,14 +159,14 @@ export class CSSWorker {
 		const stylesheet = this._languageService.parseStylesheet(document);
 		const symbols = this._languageService.findDocumentSymbols(
 			document,
-			stylesheet
+			stylesheet,
 		);
 		return Promise.resolve(symbols);
 	}
 	async doCodeActions(
 		uri: string,
 		range: cssService.Range,
-		context: cssService.CodeActionContext
+		context: cssService.CodeActionContext,
 	): Promise<cssService.Command[]> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -177,12 +177,12 @@ export class CSSWorker {
 			document,
 			range,
 			context,
-			stylesheet
+			stylesheet,
 		);
 		return Promise.resolve(actions);
 	}
 	async findDocumentColors(
-		uri: string
+		uri: string,
 	): Promise<cssService.ColorInformation[]> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -191,14 +191,14 @@ export class CSSWorker {
 		const stylesheet = this._languageService.parseStylesheet(document);
 		const colorSymbols = this._languageService.findDocumentColors(
 			document,
-			stylesheet
+			stylesheet,
 		);
 		return Promise.resolve(colorSymbols);
 	}
 	async getColorPresentations(
 		uri: string,
 		color: cssService.Color,
-		range: cssService.Range
+		range: cssService.Range,
 	): Promise<cssService.ColorPresentation[]> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -209,13 +209,13 @@ export class CSSWorker {
 			document,
 			stylesheet,
 			color,
-			range
+			range,
 		);
 		return Promise.resolve(colorPresentations);
 	}
 	async getFoldingRanges(
 		uri: string,
-		context?: { rangeLimit?: number }
+		context?: { rangeLimit?: number },
 	): Promise<cssService.FoldingRange[]> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -223,13 +223,13 @@ export class CSSWorker {
 		}
 		const ranges = this._languageService.getFoldingRanges(
 			document,
-			context
+			context,
 		);
 		return Promise.resolve(ranges);
 	}
 	async getSelectionRanges(
 		uri: string,
-		positions: cssService.Position[]
+		positions: cssService.Position[],
 	): Promise<cssService.SelectionRange[]> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -239,14 +239,14 @@ export class CSSWorker {
 		const ranges = this._languageService.getSelectionRanges(
 			document,
 			positions,
-			stylesheet
+			stylesheet,
 		);
 		return Promise.resolve(ranges);
 	}
 	async doRename(
 		uri: string,
 		position: cssService.Position,
-		newName: string
+		newName: string,
 	): Promise<cssService.WorkspaceEdit | null> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -257,14 +257,14 @@ export class CSSWorker {
 			document,
 			position,
 			newName,
-			stylesheet
+			stylesheet,
 		);
 		return Promise.resolve(renames);
 	}
 	async format(
 		uri: string,
 		range: cssService.Range | null,
-		options: cssService.CSSFormatConfiguration
+		options: cssService.CSSFormatConfiguration,
 	): Promise<cssService.TextEdit[]> {
 		const document = this._getTextDocument(uri);
 		if (!document) {
@@ -274,7 +274,7 @@ export class CSSWorker {
 		const textEdits = this._languageService.format(
 			document,
 			range! /* TODO */,
-			settings
+			settings,
 		);
 		return Promise.resolve(textEdits);
 	}
@@ -286,7 +286,7 @@ export class CSSWorker {
 					uri,
 					this._languageId,
 					model.version,
-					model.getValue()
+					model.getValue(),
 				);
 			}
 		}
@@ -301,7 +301,7 @@ export interface ICreateData {
 
 export function create(
 	ctx: worker.IWorkerContext,
-	createData: ICreateData
+	createData: ICreateData,
 ): CSSWorker {
 	return new CSSWorker(ctx, createData);
 }

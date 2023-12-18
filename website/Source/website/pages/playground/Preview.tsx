@@ -1,13 +1,13 @@
-import * as React from "react";
-import { PlaygroundModel } from "./PlaygroundModel";
+import { observable, reaction } from "mobx";
 import { observer } from "mobx-react";
-import { autorun, observable, reaction } from "mobx";
+import * as React from "react";
+import { Button } from "react-bootstrap";
 import {
 	IMessageFromRunner,
 	IMessageToRunner,
 	IPreviewState,
 } from "../../../shared";
-import { Button } from "react-bootstrap";
+import { PlaygroundModel } from "./PlaygroundModel";
 
 @observer
 export class Preview extends React.Component<{
@@ -30,7 +30,8 @@ export class Preview extends React.Component<{
 							display: "flex",
 							justifyContent: "center",
 							alignItems: "center",
-						}}>
+						}}
+					>
 						<div>
 							Load{" "}
 							<Button
@@ -100,7 +101,7 @@ export class Preview extends React.Component<{
 						this.handlePreview(state);
 					}
 				},
-				{ fireImmediately: true }
+				{ fireImmediately: true },
 			),
 		});
 	}
@@ -117,7 +118,7 @@ export class Preview extends React.Component<{
 			// only css changed
 			this.iframe?.contentWindow!.postMessage(
 				{ kind: "update-css", css: state.css } as IMessageToRunner,
-				{ targetOrigin: "*" }
+				{ targetOrigin: "*" },
 			);
 			this.currentState = state;
 		} else {

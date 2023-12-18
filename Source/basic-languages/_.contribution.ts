@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { languages, editor } from "../fillers/monaco-editor-core";
+import { editor, languages } from "../fillers/monaco-editor-core";
 
 interface ILang extends languages.ILanguageExtensionPoint {
 	loader: () => Promise<ILangImpl>;
@@ -21,7 +21,7 @@ class LazyLanguageLoader {
 	public static getOrCreate(languageId: string): LazyLanguageLoader {
 		if (!lazyLanguageLoaders[languageId]) {
 			lazyLanguageLoaders[languageId] = new LazyLanguageLoader(
-				languageId
+				languageId,
 			);
 		}
 		return lazyLanguageLoaders[languageId];
@@ -47,7 +47,7 @@ class LazyLanguageLoader {
 			this._loadingTriggered = true;
 			languageDefinitions[this._languageId].loader().then(
 				(mod) => this._lazyLoadPromiseResolve(mod),
-				(err) => this._lazyLoadPromiseReject(err)
+				(err) => this._lazyLoadPromiseReject(err),
 			);
 		}
 		return this._lazyLoadPromise;

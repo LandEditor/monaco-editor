@@ -34,14 +34,10 @@ export const conf: languages.LanguageConfiguration = {
 	],
 	autoCloseBefore: ".,=}])>' \n\t",
 	indentationRules: {
-		increaseIndentPattern: new RegExp(
-			"^((?!\\/\\/).)*(\\{[^}\"'`]*|\\([^)\"'`]*|\\[[^\\]\"'`]*)$"
-		),
-		decreaseIndentPattern: new RegExp(
-			"^((?!.*?\\/\\*).*\\*/)?\\s*[\\}\\]].*$"
-		),
+		increaseIndentPattern: /^((?!\/\/).)*(\{[^}\"'`]*|\([^)\"'`]*|\[[^\]\"'`]*)$/,
+		decreaseIndentPattern: /^((?!.*?\/\*).*\*/)?\s*[\}\]].*$/,
 	},
-};
+}
 
 export const language = <languages.IMonarchLanguage>{
 	defaultToken: "",

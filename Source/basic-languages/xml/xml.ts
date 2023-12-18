@@ -22,17 +22,14 @@ export const conf: languages.LanguageConfiguration = {
 	],
 	onEnterRules: [
 		{
-			beforeText: new RegExp(
-				`<([_:\\w][_:\\w-.\\d]*)([^/>]*(?!/)>)[^<]*$`,
-				"i"
-			),
+			beforeText: /<([_:\w][_:\w-.\d]*)([^/>]*(?!/)>)[^<]*$/i,
 			afterText: /^<\/([_:\w][_:\w-.\d]*)\s*>$/i,
 			action: {
 				indentAction: languages.IndentAction.IndentOutdent,
 			},
 		},
 		{
-			beforeText: new RegExp(`<(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`, "i"),
+			beforeText: /<(\w[\w\d]*)([^/>]*(?!/)>)[^<]*$/i,
 			action: { indentAction: languages.IndentAction.Indent },
 		},
 	],

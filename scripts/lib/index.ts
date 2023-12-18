@@ -16,7 +16,7 @@ export async function run(command: string, options: RunOptions) {
 		process.on("exit", (code) => {
 			if (code !== 0) {
 				reject(
-					new Error(`Command ${command} exited with code ${code}`)
+					new Error(`Command ${command} exited with code ${code}`),
 				);
 			} else {
 				resolve();
@@ -27,7 +27,7 @@ export async function run(command: string, options: RunOptions) {
 
 export async function runGetOutput(
 	command: string,
-	options: RunOptions
+	options: RunOptions,
 ): Promise<string> {
 	console.log(`Running ${command} in ${options.cwd}`);
 	return new Promise<string>((resolve, reject) => {
@@ -43,7 +43,7 @@ export async function runGetOutput(
 		process.on("exit", (code) => {
 			if (code !== 0) {
 				reject(
-					new Error(`Command ${command} exited with code ${code}`)
+					new Error(`Command ${command} exited with code ${code}`),
 				);
 			} else {
 				resolve(output);
@@ -62,7 +62,7 @@ export async function gitCommitId(repositoryPath: string): Promise<string> {
 export async function gitShallowClone(
 	targetPath: string,
 	repositoryUrl: string,
-	ref: string
+	ref: string,
 ): Promise<{ commitId: string }> {
 	await mkdir(targetPath, { recursive: true });
 	const options: RunOptions = { cwd: targetPath };
@@ -76,7 +76,7 @@ export async function gitShallowClone(
 
 export async function group(
 	name: string,
-	body: () => Promise<void>
+	body: () => Promise<void>,
 ): Promise<void> {
 	console.log(`##[group]${name}`);
 	try {
@@ -91,7 +91,7 @@ export async function group(
 
 export async function writeJsonFile(
 	filePath: string,
-	jsonData: unknown
+	jsonData: unknown,
 ): Promise<void> {
 	await writeFile(filePath, JSON.stringify(jsonData, null, "\t") + "\n");
 }

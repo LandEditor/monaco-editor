@@ -1,15 +1,15 @@
-import type * as webpack from "webpack";
+import * as fs from "fs";
 import * as path from "path";
 import * as loaderUtils from "loader-utils";
-import * as fs from "fs";
-import { AddWorkerEntryPointPlugin } from "./plugins/AddWorkerEntryPointPlugin";
-import { IFeatureDefinition } from "./types";
-import { ILoaderOptions } from "./loaders/include";
 import {
-	EditorLanguage,
 	EditorFeature,
+	EditorLanguage,
 	NegatedEditorFeature,
 } from "monaco-editor/esm/metadata";
+import type * as webpack from "webpack";
+import { ILoaderOptions } from "./loaders/include";
+import { AddWorkerEntryPointPlugin } from "./plugins/AddWorkerEntryPointPlugin";
+import { IFeatureDefinition } from "./types";
 
 const INCLUDE_LOADER_PATH = require.resolve("./loaders/include");
 
@@ -27,7 +27,7 @@ const EDITOR_MODULE: IFeatureDefinition = {
  */
 function resolveMonacoPath(
 	filePath: string,
-	monacoEditorPath: string | undefined
+	monacoEditorPath: string | undefined,
 ): string {
 	if (monacoEditorPath) {
 		return require.resolve(path.join(monacoEditorPath, "esm", filePath));
@@ -39,7 +39,11 @@ function resolveMonacoPath(
 
 	try {
 		return require.resolve(
-			path.join(process.cwd(), "node_modules/monaco-editor/esm", filePath)
+			path.join(
+				process.cwd(),
+				"node_modules/monaco-editor/esm",
+				filePath,
+			),
 		);
 	} catch (err) {}
 
@@ -52,7 +56,7 @@ function resolveMonacoPath(
 function getWorkerFilename(
 	filename: string,
 	entry: string,
-	monacoEditorPath: string | undefined
+	monacoEditorPath: string | undefined,
 ): string {
 	return loaderUtils.interpolateName(<any>{ resourcePath: entry }, filename, {
 		content: fs.readFileSync(resolveMonacoPath(entry, monacoEditorPath)),
@@ -65,7 +69,7 @@ interface EditorMetadata {
 }
 
 function getEditorMetadata(
-	monacoEditorPath: string | undefined
+	monacoEditorPath: string | undefined,
 ): EditorMetadata {
 	const metadataPath = resolveMonacoPath("metadata.js", monacoEditorPath);
 	return require(metadataPath);
@@ -73,11 +77,11 @@ function getEditorMetadata(
 
 function resolveDesiredFeatures(
 	metadata: EditorMetadata,
-	userFeatures: (EditorFeature | NegatedEditorFeature)[] | undefined
+	userFeatures: (EditorFeature | NegatedEditorFeature)[] | undefined,
 ): IFeatureDefinition[] {
 	const featuresById: { [feature: string]: IFeatureDefinition } = {};
 	metadata.features.forEach(
-		(feature) => (featuresById[feature.label] = feature)
+		(feature) => (featuresById[feature.label] = feature),
 	);
 
 	function notContainedIn(arr: string[]) {
@@ -92,7 +96,7 @@ function resolveDesiredFeatures(
 			.map((f) => f.slice(1));
 		if (excludedFeatures.length) {
 			featuresIds = Object.keys(featuresById).filter(
-				notContainedIn(excludedFeatures)
+				notContainedIn(excludedFeatures),
 			);
 		} else {
 			featuresIds = userFeatures;
@@ -107,16 +111,16 @@ function resolveDesiredFeatures(
 function resolveDesiredLanguages(
 	metadata: EditorMetadata,
 	userLanguages: EditorLanguage[] | undefined,
-	userCustomLanguages: IFeatureDefinition[] | undefined
+	userCustomLanguages: IFeatureDefinition[] | undefined,
 ): IFeatureDefinition[] {
 	const languagesById: { [language: string]: IFeatureDefinition } = {};
 	metadata.languages.forEach(
-		(language) => (languagesById[language.label] = language)
+		(language) => (languagesById[language.label] = language),
 	);
 
 	const languages = userLanguages || Object.keys(languagesById);
 	return coalesce(languages.map((id) => languagesById[id])).concat(
-		userCustomLanguages || []
+		userCustomLanguages || [],
 	);
 }
 
@@ -181,14 +185,14 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
 	private readonly options: IInternalMonacoEditorWebpackPluginOpts;
 
 	constructor(
-		options: MonacoEditorWebpackPlugin.IMonacoEditorWebpackPluginOpts = {}
+		options: MonacoEditorWebpackPlugin.IMonacoEditorWebpackPluginOpts = {},
 	) {
 		const monacoEditorPath = options.monacoEditorPath;
 		const metadata = getEditorMetadata(monacoEditorPath);
 		const languages = resolveDesiredLanguages(
 			metadata,
 			options.languages,
-			options.customLanguages
+			options.customLanguages,
 		);
 		const features = resolveDesiredFeatures(metadata, options.features);
 		this.options = {
@@ -230,13 +234,13 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
 			monacoEditorPath,
 			publicPath,
 			compilationPublicPath,
-			globalAPI
+			globalAPI,
 		);
 		const plugins = createPlugins(
 			compiler,
 			workers,
 			filename,
-			monacoEditorPath
+			monacoEditorPath,
 		);
 		addCompilerRules(compiler, rules);
 		addCompilerPlugins(compiler, plugins);
@@ -251,20 +255,20 @@ interface ILabeledWorkerDefinition {
 
 function addCompilerRules(
 	compiler: webpack.Compiler,
-	rules: webpack.RuleSetRule[]
+	rules: webpack.RuleSetRule[],
 ): void {
 	const compilerOptions = compiler.options;
-	if (!compilerOptions.module) {
-		compilerOptions.module = <any>{ rules: rules };
-	} else {
+	if (compilerOptions.module) {
 		const moduleOptions = compilerOptions.module;
 		moduleOptions.rules = (moduleOptions.rules || []).concat(rules);
+	} else {
+		compilerOptions.module = <any>{ rules: rules };
 	}
 }
 
 function addCompilerPlugins(
 	compiler: webpack.Compiler,
-	plugins: webpack.WebpackPluginInstance[]
+	plugins: webpack.WebpackPluginInstance[],
 ) {
 	plugins.forEach((plugin) => plugin.apply(compiler));
 }
@@ -275,7 +279,7 @@ function getCompilationPublicPath(compiler: webpack.Compiler): string {
 			return compiler.options.output.publicPath;
 		} else {
 			console.warn(
-				`Cannot handle options.publicPath (expected a string)`
+				`Cannot handle options.publicPath (expected a string)`,
 			);
 		}
 	}
@@ -290,22 +294,22 @@ function createLoaderRules(
 	monacoEditorPath: string | undefined,
 	pluginPublicPath: string,
 	compilationPublicPath: string,
-	globalAPI: boolean
+	globalAPI: boolean,
 ): webpack.RuleSetRule[] {
 	if (!languages.length && !features.length) {
 		return [];
 	}
 	const languagePaths = flatArr(
-		coalesce(languages.map((language) => language.entry))
+		coalesce(languages.map((language) => language.entry)),
 	);
 	const featurePaths = flatArr(
-		coalesce(features.map((feature) => feature.entry))
+		coalesce(features.map((feature) => feature.entry)),
 	);
 	const workerPaths = fromPairs(
 		workers.map(({ label, entry }) => [
 			label,
 			getWorkerFilename(filename, entry, monacoEditorPath),
-		])
+		]),
 	);
 	if (workerPaths["typescript"]) {
 		// javascript shares the same worker
@@ -330,8 +334,8 @@ function createLoaderRules(
 	const pathPrefix = Boolean(pluginPublicPath)
 		? JSON.stringify(pluginPublicPath)
 		: `typeof __webpack_public_path__ === 'string' ` +
-			`? __webpack_public_path__ ` +
-			`: ${JSON.stringify(compilationPublicPath)}`;
+		  `? __webpack_public_path__ ` +
+		  `: ${JSON.stringify(compilationPublicPath)}`;
 
 	const globals = {
 		MonacoEnvironment: `(function (paths) {
@@ -363,10 +367,10 @@ function createLoaderRules(
 	const options: ILoaderOptions = {
 		globals,
 		pre: featurePaths.map((importPath) =>
-			resolveMonacoPath(importPath, monacoEditorPath)
+			resolveMonacoPath(importPath, monacoEditorPath),
 		),
 		post: languagePaths.map((importPath) =>
-			resolveMonacoPath(importPath, monacoEditorPath)
+			resolveMonacoPath(importPath, monacoEditorPath),
 		),
 	};
 	return [
@@ -386,7 +390,7 @@ function createPlugins(
 	compiler: webpack.Compiler,
 	workers: ILabeledWorkerDefinition[],
 	filename: string,
-	monacoEditorPath: string | undefined
+	monacoEditorPath: string | undefined,
 ): AddWorkerEntryPointPlugin[] {
 	const webpack = compiler.webpack ?? require("webpack");
 
@@ -399,15 +403,15 @@ function createPlugins(
 					filename: getWorkerFilename(
 						filename,
 						entry,
-						monacoEditorPath
+						monacoEditorPath,
 					),
 					plugins: [
 						new webpack.optimize.LimitChunkCountPlugin({
 							maxChunks: 1,
 						}),
 					],
-				})
-		)
+				}),
+		),
 	);
 }
 
@@ -419,14 +423,14 @@ function flatArr<T>(items: (T | T[])[]): T[] {
 			}
 			return (<T[]>[]).concat(acc).concat([item]);
 		},
-		<T[]>[]
+		<T[]>[],
 	);
 }
 
 function fromPairs<T>(values: [string, T][]): { [key: string]: T } {
 	return values.reduce(
 		(acc, [key, value]) => Object.assign(acc, { [key]: value }),
-		<{ [key: string]: T }>{}
+		<{ [key: string]: T }>{},
 	);
 }
 

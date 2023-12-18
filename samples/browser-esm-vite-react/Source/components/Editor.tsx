@@ -1,5 +1,5 @@
-import { VFC, useRef, useState, useEffect } from "react";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+import { VFC, useEffect, useRef, useState } from "react";
 import styles from "./Editor.module.css";
 
 export const Editor: VFC = () => {

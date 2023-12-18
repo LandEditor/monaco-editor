@@ -3,7 +3,7 @@ import { ObservablePromise } from "../../utils/ObservablePromise";
 let npmVersionsObservable: ObservablePromise<string[]> | undefined = undefined;
 
 export function getNpmVersionsSync(
-	currentVersion: string | undefined
+	currentVersion: string | undefined,
 ): string[] {
 	if (!npmVersionsObservable) {
 		npmVersionsObservable = new ObservablePromise(loadNpmVersions());
@@ -63,7 +63,7 @@ async function _getNpmVersions(): Promise<string[]> {
 }
 
 export async function getVsCodeCommitId(
-	monacoEditorVersion: string
+	monacoEditorVersion: string,
 ): Promise<string | undefined> {
 	// TODO https://cdn.jsdelivr.net/npm/monaco-editor@${monacoEditorVersion}/package.json
 	let commitId: string | undefined =
@@ -71,7 +71,7 @@ export async function getVsCodeCommitId(
 	if (!commitId) {
 		const json = (await (
 			await fetch(
-				`https://cdn.jsdelivr.net/npm/monaco-editor@${monacoEditorVersion}/package.json`
+				`https://cdn.jsdelivr.net/npm/monaco-editor@${monacoEditorVersion}/package.json`,
 			)
 		).json()) as { vscodeCommitId: string | undefined };
 		commitId = json.vscodeCommitId;

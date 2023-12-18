@@ -772,7 +772,7 @@ testTokenization("clojure", [
 			"+36rZ",
 			"-36rZ",
 		],
-		"number"
+		"number",
 	),
 
 	// characters
@@ -796,7 +796,7 @@ testTokenization("clojure", [
 			"\\uAaAa",
 			"\\u9F9F",
 		],
-		"string"
+		"string",
 	),
 
 	// strings
@@ -866,7 +866,7 @@ testTokenization("clojure", [
 	// comments
 	createTestCases(
 		["; this is an in-line comment.", ";; this is a line comment."],
-		"comment"
+		"comment",
 	),
 
 	// `comment`

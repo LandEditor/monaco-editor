@@ -109,8 +109,8 @@ export const conf: languages.LanguageConfiguration = {
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*#pragma\\s+region\\b"),
-			end: new RegExp("^\\s*#pragma\\s+endregion\\b"),
+			start: /^\s*#pragma\s+region\b/,
+			end: /^\s*#pragma\s+endregion\b/,
 		},
 	},
 };

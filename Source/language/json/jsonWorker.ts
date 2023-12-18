@@ -4,15 +4,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as jsonService from "vscode-json-languageservice";
-import type { worker } from "../../fillers/monaco-editor-core";
 import { URI } from "vscode-uri";
+import type { worker } from "../../fillers/monaco-editor-core";
 import { DiagnosticsOptions } from "./monaco.contribution";
 
 let defaultSchemaRequestService: ((url: string) => Promise<string>) | undefined;
 if (typeof fetch !== "undefined") {
-	defaultSchemaRequestService = function (url: string) {
-		return fetch(url).then((response) => response.text());
-	};
+	defaultSchemaRequestService = (url: string) =>
+		fetch(url).then((response) => response.text());
 }
 
 export class JSONWorker {
@@ -29,11 +28,11 @@ export class JSONWorker {
 			workspaceContext: {
 				resolveRelativePath: (
 					relativePath: string,
-					resource: string
+					resource: string,
 				) => {
 					const base = resource.substr(
 						0,
-						resource.lastIndexOf("/") + 1
+						resource.lastIndexOf("/") + 1,
 					);
 					return resolvePath(base, relativePath);
 				},
@@ -47,62 +46,62 @@ export class JSONWorker {
 	}
 
 	async doValidation(uri: string): Promise<jsonService.Diagnostic[]> {
-		let document = this._getTextDocument(uri);
+		const document = this._getTextDocument(uri);
 		if (document) {
-			let jsonDocument =
+			const jsonDocument =
 				this._languageService.parseJSONDocument(document);
 			return this._languageService.doValidation(
 				document,
 				jsonDocument,
-				this._languageSettings
+				this._languageSettings,
 			);
 		}
 		return Promise.resolve([]);
 	}
 	async doComplete(
 		uri: string,
-		position: jsonService.Position
+		position: jsonService.Position,
 	): Promise<jsonService.CompletionList | null> {
-		let document = this._getTextDocument(uri);
+		const document = this._getTextDocument(uri);
 		if (!document) {
 			return null;
 		}
-		let jsonDocument = this._languageService.parseJSONDocument(document);
+		const jsonDocument = this._languageService.parseJSONDocument(document);
 		return this._languageService.doComplete(
 			document,
 			position,
-			jsonDocument
+			jsonDocument,
 		);
 	}
 	async doResolve(
-		item: jsonService.CompletionItem
+		item: jsonService.CompletionItem,
 	): Promise<jsonService.CompletionItem> {
 		return this._languageService.doResolve(item);
 	}
 	async doHover(
 		uri: string,
-		position: jsonService.Position
+		position: jsonService.Position,
 	): Promise<jsonService.Hover | null> {
-		let document = this._getTextDocument(uri);
+		const document = this._getTextDocument(uri);
 		if (!document) {
 			return null;
 		}
-		let jsonDocument = this._languageService.parseJSONDocument(document);
+		const jsonDocument = this._languageService.parseJSONDocument(document);
 		return this._languageService.doHover(document, position, jsonDocument);
 	}
 	async format(
 		uri: string,
 		range: jsonService.Range | null,
-		options: jsonService.FormattingOptions
+		options: jsonService.FormattingOptions,
 	): Promise<jsonService.TextEdit[]> {
-		let document = this._getTextDocument(uri);
+		const document = this._getTextDocument(uri);
 		if (!document) {
 			return [];
 		}
-		let textEdits = this._languageService.format(
+		const textEdits = this._languageService.format(
 			document,
 			range! /* TODO */,
-			options
+			options,
 		);
 		return Promise.resolve(textEdits);
 	}
@@ -110,87 +109,90 @@ export class JSONWorker {
 		return Promise.resolve(this._languageService.resetSchema(uri));
 	}
 	async findDocumentSymbols(
-		uri: string
+		uri: string,
 	): Promise<jsonService.SymbolInformation[]> {
-		let document = this._getTextDocument(uri);
+		const document = this._getTextDocument(uri);
 		if (!document) {
 			return [];
 		}
-		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let symbols = this._languageService.findDocumentSymbols(
+		const jsonDocument = this._languageService.parseJSONDocument(document);
+		const symbols = this._languageService.findDocumentSymbols(
 			document,
-			jsonDocument
+			jsonDocument,
 		);
 		return Promise.resolve(symbols);
 	}
 	async findDocumentColors(
-		uri: string
+		uri: string,
 	): Promise<jsonService.ColorInformation[]> {
-		let document = this._getTextDocument(uri);
+		const document = this._getTextDocument(uri);
 		if (!document) {
 			return [];
 		}
-		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let colorSymbols = this._languageService.findDocumentColors(
+		const jsonDocument = this._languageService.parseJSONDocument(document);
+		const colorSymbols = this._languageService.findDocumentColors(
 			document,
-			jsonDocument
+			jsonDocument,
 		);
 		return Promise.resolve(colorSymbols);
 	}
 	async getColorPresentations(
 		uri: string,
 		color: jsonService.Color,
-		range: jsonService.Range
+		range: jsonService.Range,
 	): Promise<jsonService.ColorPresentation[]> {
-		let document = this._getTextDocument(uri);
+		const document = this._getTextDocument(uri);
 		if (!document) {
 			return [];
 		}
-		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let colorPresentations = this._languageService.getColorPresentations(
+		const jsonDocument = this._languageService.parseJSONDocument(document);
+		const colorPresentations = this._languageService.getColorPresentations(
 			document,
 			jsonDocument,
 			color,
-			range
+			range,
 		);
 		return Promise.resolve(colorPresentations);
 	}
 	async getFoldingRanges(
 		uri: string,
-		context?: { rangeLimit?: number }
+		context?: { rangeLimit?: number },
 	): Promise<jsonService.FoldingRange[]> {
-		let document = this._getTextDocument(uri);
+		const document = this._getTextDocument(uri);
 		if (!document) {
 			return [];
 		}
-		let ranges = this._languageService.getFoldingRanges(document, context);
+		const ranges = this._languageService.getFoldingRanges(
+			document,
+			context,
+		);
 		return Promise.resolve(ranges);
 	}
 	async getSelectionRanges(
 		uri: string,
-		positions: jsonService.Position[]
+		positions: jsonService.Position[],
 	): Promise<jsonService.SelectionRange[]> {
-		let document = this._getTextDocument(uri);
+		const document = this._getTextDocument(uri);
 		if (!document) {
 			return [];
 		}
-		let jsonDocument = this._languageService.parseJSONDocument(document);
-		let ranges = this._languageService.getSelectionRanges(
+		const jsonDocument = this._languageService.parseJSONDocument(document);
+		const ranges = this._languageService.getSelectionRanges(
 			document,
 			positions,
-			jsonDocument
+			jsonDocument,
 		);
 		return Promise.resolve(ranges);
 	}
 	private _getTextDocument(uri: string): jsonService.TextDocument | null {
-		let models = this._ctx.getMirrorModels();
-		for (let model of models) {
+		const models = this._ctx.getMirrorModels();
+		for (const model of models) {
 			if (model.uri.toString() === uri) {
 				return jsonService.TextDocument.create(
 					uri,
 					this._languageId,
 					model.version,
-					model.getValue()
+					model.getValue(),
 				);
 			}
 		}
@@ -247,7 +249,7 @@ function normalizePath(parts: string[]): string {
 function joinPath(uriString: string, ...paths: string[]): string {
 	const uri = URI.parse(uriString);
 	const parts = uri.path.split("/");
-	for (let path of paths) {
+	for (const path of paths) {
 		parts.push(...path.split("/"));
 	}
 	return uri.with({ path: normalizePath(parts) }).toString();
@@ -261,7 +263,7 @@ export interface ICreateData {
 
 export function create(
 	ctx: worker.IWorkerContext,
-	createData: ICreateData
+	createData: ICreateData,
 ): JSONWorker {
 	return new JSONWorker(ctx, createData);
 }

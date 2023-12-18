@@ -30,12 +30,8 @@ export const conf: languages.LanguageConfiguration = {
 		{ open: "'", close: "'" },
 	],
 	indentationRules: {
-		increaseIndentPattern: new RegExp(
-			"^\\s*((begin|class|(private|protected)\\s+def|def|else|elsif|ensure|for|if|module|rescue|unless|until|when|while|case)|([^#]*\\sdo\\b)|([^#]*=\\s*(case|if|unless)))\\b([^#\\{;]|(\"|'|/).*\\4)*(#.*)?$"
-		),
-		decreaseIndentPattern: new RegExp(
-			"^\\s*([}\\]]([,)]?\\s*(#|$)|\\.[a-zA-Z_]\\w*\\b)|(end|rescue|ensure|else|elsif|when)\\b)"
-		),
+		increaseIndentPattern: /^\s*((begin|class|(private|protected)\s+def|def|else|elsif|ensure|for|if|module|rescue|unless|until|when|while|case)|([^#]*\sdo\b)|([^#]*=\s*(case|if|unless)))\b([^#\{;]|(\"|'|/).*\4)*(#.*)?$/,
+		decreaseIndentPattern: /^\s*([}\]]([,)]?\s*(#|$)|\.[a-zA-Z_]\w*\b)|(end|rescue|ensure|else|elsif|when)\b)/,
 	},
 };
 

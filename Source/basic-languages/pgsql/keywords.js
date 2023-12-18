@@ -17,7 +17,7 @@ function getPostgreSQLKeywords() {
 		.toString()
 		.split(/\r\n|\r|\n/);
 	const tokens = [];
-	for (let line of lines) {
+	for (const line of lines) {
 		const pieces = line.split(/\t/);
 		if (/non-reserved/.test(pieces[1])) {
 			continue;

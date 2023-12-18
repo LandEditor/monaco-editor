@@ -1,9 +1,9 @@
-import React, { useRef, useEffect } from "react";
 import * as monaco from "monaco-editor";
+import React, { useEffect, useRef } from "react";
 
 // @ts-ignore
 self.MonacoEnvironment = {
-	getWorkerUrl: function (_moduleId: any, label: string) {
+	getWorkerUrl: (_moduleId: any, label: string) => {
 		if (label === "json") {
 			return "./json.worker.bundle.js";
 		}

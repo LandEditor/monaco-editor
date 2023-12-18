@@ -31,17 +31,16 @@ export const conf: languages.LanguageConfiguration = {
 	],
 	onEnterRules: [
 		{
-			beforeText: new RegExp(
-				"^\\s*(?:def|class|for|if|elif|else|while|try|with|finally|except|async|match|case).*?:\\s*$"
-			),
+			beforeText:
+				/^\s*(?:def|class|for|if|elif|else|while|try|with|finally|except|async|match|case).*?:\s*$/,
 			action: { indentAction: languages.IndentAction.Indent },
 		},
 	],
 	folding: {
 		offSide: true,
 		markers: {
-			start: new RegExp("^\\s*#region\\b"),
-			end: new RegExp("^\\s*#endregion\\b"),
+			start: /^\s*#region\b/,
+			end: /^\s*#endregion\b/,
 		},
 	},
 };

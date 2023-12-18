@@ -4,13 +4,13 @@
  *--------------------------------------------------------------------------------------------*/
 
 import {
-	testTokenization as actualTestTokenization,
 	ITestItem,
+	testTokenization as actualTestTokenization,
 } from "../test/testRunner";
 
 function testTokenization(
 	_language: string | string[],
-	tests: ITestItem[][]
+	tests: ITestItem[][],
 ): void {
 	tests = tests.map((t) => {
 		return t.map((t) => {

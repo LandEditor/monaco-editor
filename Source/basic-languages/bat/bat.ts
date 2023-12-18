@@ -27,8 +27,8 @@ export const conf: languages.LanguageConfiguration = {
 	],
 	folding: {
 		markers: {
-			start: new RegExp("^\\s*(::\\s*|REM\\s+)#region"),
-			end: new RegExp("^\\s*(::\\s*|REM\\s+)#endregion"),
+			start: /^\s*(::\s*|REM\s+)#region/,
+			end: /^\s*(::\s*|REM\s+)#endregion/,
 		},
 	},
 };

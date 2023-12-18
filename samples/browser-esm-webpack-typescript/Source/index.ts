@@ -3,7 +3,7 @@ import "./index.css";
 
 // @ts-ignore
 self.MonacoEnvironment = {
-	getWorkerUrl: function (moduleId, label) {
+	getWorkerUrl: (moduleId, label) => {
 		if (label === "json") {
 			return "./json.worker.bundle.js";
 		}

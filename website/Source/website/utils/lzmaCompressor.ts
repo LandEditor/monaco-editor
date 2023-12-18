@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import * as base64 from "base64-js";
 import * as lzma from "lzma/src/lzma_worker";
 import * as msgpack from "messagepack";
-import * as base64 from "base64-js";
 
 export class LzmaCompressor<T> {
 	encodeData<T>(json: T): string {

@@ -3,15 +3,15 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as ts from "./lib/typescriptServices";
+import { Uri, worker } from "../../fillers/monaco-editor-core";
 import { libFileMap } from "./lib/lib";
+import * as ts from "./lib/typescriptServices";
 import {
 	Diagnostic,
 	DiagnosticRelatedInformation,
 	IExtraLibs,
 	TypeScriptWorker as ITypeScriptWorker,
 } from "./monaco.contribution";
-import { Uri, worker } from "../../fillers/monaco-editor-core";
 
 /**
  * Loading a default lib as a source file will mess up TS completely.
@@ -72,7 +72,7 @@ export class TypeScriptWorker
 	}
 
 	private _getModel(fileName: string): worker.IMirrorModel | null {
-		let models = this._ctx.getMirrorModels();
+		const models = this._ctx.getMirrorModels();
 		for (let i = 0; i < models.length; i++) {
 			const uri = models[i].uri;
 			if (
@@ -86,7 +86,7 @@ export class TypeScriptWorker
 	}
 
 	getScriptVersion(fileName: string): string {
-		let model = this._getModel(fileName);
+		const model = this._getModel(fileName);
 		if (model) {
 			return model.version.toString();
 		} else if (this.isDefaultLibFileName(fileName)) {
@@ -104,7 +104,7 @@ export class TypeScriptWorker
 
 	_getScriptText(fileName: string): string | undefined {
 		let text: string;
-		let model = this._getModel(fileName);
+		const model = this._getModel(fileName);
 		const libizedFileName = "lib." + fileName + ".d.ts";
 		if (model) {
 			// a true editor model
@@ -264,7 +264,7 @@ export class TypeScriptWorker
 	}
 
 	async getCompilerOptionsDiagnostics(
-		fileName: string
+		fileName: string,
 	): Promise<Diagnostic[]> {
 		if (fileNameIsLib(fileName)) {
 			return [];
@@ -276,7 +276,7 @@ export class TypeScriptWorker
 
 	async getCompletionsAtPosition(
 		fileName: string,
-		position: number
+		position: number,
 	): Promise<ts.CompletionInfo | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
@@ -284,14 +284,14 @@ export class TypeScriptWorker
 		return this._languageService.getCompletionsAtPosition(
 			fileName,
 			position,
-			undefined
+			undefined,
 		);
 	}
 
 	async getCompletionEntryDetails(
 		fileName: string,
 		position: number,
-		entry: string
+		entry: string,
 	): Promise<ts.CompletionEntryDetails | undefined> {
 		return this._languageService.getCompletionEntryDetails(
 			fileName,
@@ -300,14 +300,14 @@ export class TypeScriptWorker
 			undefined,
 			undefined,
 			undefined,
-			undefined
+			undefined,
 		);
 	}
 
 	async getSignatureHelpItems(
 		fileName: string,
 		position: number,
-		options: ts.SignatureHelpItemsOptions | undefined
+		options: ts.SignatureHelpItemsOptions | undefined,
 	): Promise<ts.SignatureHelpItems | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
@@ -315,13 +315,13 @@ export class TypeScriptWorker
 		return this._languageService.getSignatureHelpItems(
 			fileName,
 			position,
-			options
+			options,
 		);
 	}
 
 	async getQuickInfoAtPosition(
 		fileName: string,
-		position: number
+		position: number,
 	): Promise<ts.QuickInfo | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
@@ -332,7 +332,7 @@ export class TypeScriptWorker
 	async getDocumentHighlights(
 		fileName: string,
 		position: number,
-		filesToSearch: string[]
+		filesToSearch: string[],
 	): Promise<ReadonlyArray<ts.DocumentHighlights> | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
@@ -340,38 +340,38 @@ export class TypeScriptWorker
 		return this._languageService.getDocumentHighlights(
 			fileName,
 			position,
-			filesToSearch
+			filesToSearch,
 		);
 	}
 
 	async getDefinitionAtPosition(
 		fileName: string,
-		position: number
+		position: number,
 	): Promise<ReadonlyArray<ts.DefinitionInfo> | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
 		return this._languageService.getDefinitionAtPosition(
 			fileName,
-			position
+			position,
 		);
 	}
 
 	async getReferencesAtPosition(
 		fileName: string,
-		position: number
+		position: number,
 	): Promise<ts.ReferenceEntry[] | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
 		return this._languageService.getReferencesAtPosition(
 			fileName,
-			position
+			position,
 		);
 	}
 
 	async getNavigationTree(
-		fileName: string
+		fileName: string,
 	): Promise<ts.NavigationTree | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
@@ -381,14 +381,14 @@ export class TypeScriptWorker
 
 	async getFormattingEditsForDocument(
 		fileName: string,
-		options: ts.FormatCodeOptions
+		options: ts.FormatCodeOptions,
 	): Promise<ts.TextChange[]> {
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
 		return this._languageService.getFormattingEditsForDocument(
 			fileName,
-			options
+			options,
 		);
 	}
 
@@ -396,7 +396,7 @@ export class TypeScriptWorker
 		fileName: string,
 		start: number,
 		end: number,
-		options: ts.FormatCodeOptions
+		options: ts.FormatCodeOptions,
 	): Promise<ts.TextChange[]> {
 		if (fileNameIsLib(fileName)) {
 			return [];
@@ -405,7 +405,7 @@ export class TypeScriptWorker
 			fileName,
 			start,
 			end,
-			options
+			options,
 		);
 	}
 
@@ -413,7 +413,7 @@ export class TypeScriptWorker
 		fileName: string,
 		postion: number,
 		ch: string,
-		options: ts.FormatCodeOptions
+		options: ts.FormatCodeOptions,
 	): Promise<ts.TextChange[]> {
 		if (fileNameIsLib(fileName)) {
 			return [];
@@ -422,7 +422,7 @@ export class TypeScriptWorker
 			fileName,
 			postion,
 			ch,
-			options
+			options,
 		);
 	}
 
@@ -431,7 +431,7 @@ export class TypeScriptWorker
 		position: number,
 		findInStrings: boolean,
 		findInComments: boolean,
-		providePrefixAndSuffixTextForRename: boolean
+		providePrefixAndSuffixTextForRename: boolean,
 	): Promise<readonly ts.RenameLocation[] | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
@@ -441,14 +441,14 @@ export class TypeScriptWorker
 			position,
 			findInStrings,
 			findInComments,
-			providePrefixAndSuffixTextForRename
+			providePrefixAndSuffixTextForRename,
 		);
 	}
 
 	async getRenameInfo(
 		fileName: string,
 		position: number,
-		options: ts.RenameInfoOptions
+		options: ts.RenameInfoOptions,
 	): Promise<ts.RenameInfo> {
 		if (fileNameIsLib(fileName)) {
 			return {
@@ -471,7 +471,7 @@ export class TypeScriptWorker
 		start: number,
 		end: number,
 		errorCodes: number[],
-		formatOptions: ts.FormatCodeOptions
+		formatOptions: ts.FormatCodeOptions,
 	): Promise<ReadonlyArray<ts.CodeFixAction>> {
 		if (fileNameIsLib(fileName)) {
 			return [];
@@ -484,7 +484,7 @@ export class TypeScriptWorker
 				end,
 				errorCodes,
 				formatOptions,
-				preferences
+				preferences,
 			);
 		} catch {
 			return [];
@@ -498,7 +498,7 @@ export class TypeScriptWorker
 	async provideInlayHints(
 		fileName: string,
 		start: number,
-		end: number
+		end: number,
 	): Promise<readonly ts.InlayHint[]> {
 		if (fileNameIsLib(fileName)) {
 			return [];
@@ -513,7 +513,7 @@ export class TypeScriptWorker
 			return this._languageService.provideInlayHints(
 				fileName,
 				span,
-				preferences
+				preferences,
 			);
 		} catch {
 			return [];
@@ -533,7 +533,7 @@ export interface CustomTSWebWorkerFactory {
 	(
 		TSWorkerClass: typeof TypeScriptWorker,
 		tsc: typeof ts,
-		libs: Record<string, string>
+		libs: Record<string, string>,
 	): typeof TypeScriptWorker;
 }
 
@@ -544,13 +544,13 @@ declare global {
 
 export function create(
 	ctx: worker.IWorkerContext,
-	createData: ICreateData
+	createData: ICreateData,
 ): TypeScriptWorker {
 	let TSWorkerClass = TypeScriptWorker;
 	if (createData.customWorkerPath) {
 		if (typeof importScripts === "undefined") {
 			console.warn(
-				"Monaco is not using webworkers for background tasks, and that is needed to support the customWorkerPath flag"
+				"Monaco is not using webworkers for background tasks, and that is needed to support the customWorkerPath flag",
 			);
 		} else {
 			self.importScripts(createData.customWorkerPath);
@@ -559,7 +559,7 @@ export function create(
 				self.customTSWorkerFactory;
 			if (!workerFactoryFunc) {
 				throw new Error(
-					`The script at ${createData.customWorkerPath} does not add customTSWorkerFactory to self`
+					`The script at ${createData.customWorkerPath} does not add customTSWorkerFactory to self`,
 				);
 			}
 

@@ -29,12 +29,12 @@ function getBasicLanguages() {
 					files.map((file) => {
 						return file
 							.substring(
-								"./node_modules/monaco-editor/esm/".length
+								"./node_modules/monaco-editor/esm/".length,
 							)
 							.replace(/\.js$/, "");
-					})
+					}),
 				);
-			}
+			},
 		);
 	});
 }
@@ -58,20 +58,20 @@ function getAdvancedLanguages() {
 						.map((file) =>
 							file.substring(
 								"./node_modules/monaco-editor/esm/vs/language/"
-									.length
-							)
+									.length,
+							),
 						)
 						.map((file) =>
 							file.substring(
 								0,
-								file.length - "/monaco.contribution.js".length
-							)
+								file.length - "/monaco.contribution.js".length,
+							),
 						)
 						.map(
-							(lang) => `vs/language/${lang}/monaco.contribution`
-						)
+							(lang) => `vs/language/${lang}/monaco.contribution`,
+						),
 				);
-			}
+			},
 		);
 	});
 }
@@ -91,10 +91,10 @@ function generateLanguages() {
 			let contents = fs.readFileSync(FILE_PATH).toString();
 			contents = contents.replace(
 				/\/\/ BEGIN_LANGUAGES\n([\/ a-zA-Z0-9'\/\-\.;]+\n)+\/\/ END_LANGUAGES/,
-				`// BEGIN_LANGUAGES\n${imports}\n// END_LANGUAGES`
+				`// BEGIN_LANGUAGES\n${imports}\n// END_LANGUAGES`,
 			);
 			fs.writeFileSync(FILE_PATH, contents);
-		}
+		},
 	);
 }
 
@@ -119,22 +119,22 @@ function generateFeatures() {
 		"vs/base/browser/ui/codicons/codiconStyles",
 	];
 
-	let features = [];
+	const features = [];
 	const files =
 		fs
 			.readFileSync(
 				path.join(
 					__dirname,
-					"../node_modules/monaco-editor/esm/vs/editor/edcore.main.js"
-				)
+					"../node_modules/monaco-editor/esm/vs/editor/edcore.main.js",
+				),
 			)
 			.toString() +
 		fs
 			.readFileSync(
 				path.join(
 					__dirname,
-					"../node_modules/monaco-editor/esm/vs/editor/editor.all.js"
-				)
+					"../node_modules/monaco-editor/esm/vs/editor/editor.all.js",
+				),
 			)
 			.toString();
 	files.split(/\r\n|\n/).forEach((line) => {
@@ -152,14 +152,14 @@ function generateFeatures() {
 		.map((l) => `import 'monaco-editor/esm/${l}.js';`)
 		.map(
 			(l) =>
-				`${/(coreCommands)|(findController)/.test(l) ? "" : "// "}${l}`
+				`${/(coreCommands)|(findController)/.test(l) ? "" : "// "}${l}`,
 		)
 		.join("\n");
 
 	let contents = fs.readFileSync(FILE_PATH).toString();
 	contents = contents.replace(
 		/\/\/ BEGIN_FEATURES\n([\/ a-zA-Z0-9'\/\-\.;]+\n)+\/\/ END_FEATURES/,
-		`// BEGIN_FEATURES\n${imports}\n// END_FEATURES`
+		`// BEGIN_FEATURES\n${imports}\n// END_FEATURES`,
 	);
 	fs.writeFileSync(FILE_PATH, contents);
 }

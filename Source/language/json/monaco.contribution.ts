@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as mode from "./jsonMode";
 import { Emitter, IEvent, languages } from "../../fillers/monaco-editor-core";
+import * as mode from "./jsonMode";
 
 // --- JSON configuration and defaults ---------
 
@@ -133,7 +133,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	constructor(
 		languageId: string,
 		diagnosticsOptions: DiagnosticsOptions,
-		modeConfiguration: ModeConfiguration
+		modeConfiguration: ModeConfiguration,
 	) {
 		this._languageId = languageId;
 		this.setDiagnosticsOptions(diagnosticsOptions);
@@ -195,7 +195,7 @@ export const jsonDefaults: LanguageServiceDefaults =
 	new LanguageServiceDefaultsImpl(
 		"json",
 		diagnosticDefault,
-		modeConfigurationDefault
+		modeConfigurationDefault,
 	);
 
 // export to the global based API
