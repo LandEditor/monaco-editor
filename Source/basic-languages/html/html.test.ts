@@ -739,5 +739,5 @@ testTokenization(
 				],
 			},
 		],
-	],
+	]
 );

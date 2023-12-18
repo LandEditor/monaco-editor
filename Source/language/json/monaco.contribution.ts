@@ -133,7 +133,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	constructor(
 		languageId: string,
 		diagnosticsOptions: DiagnosticsOptions,
-		modeConfiguration: ModeConfiguration,
+		modeConfiguration: ModeConfiguration
 	) {
 		this._languageId = languageId;
 		this.setDiagnosticsOptions(diagnosticsOptions);
@@ -195,7 +195,7 @@ export const jsonDefaults: LanguageServiceDefaults =
 	new LanguageServiceDefaultsImpl(
 		"json",
 		diagnosticDefault,
-		modeConfigurationDefault,
+		modeConfigurationDefault
 	);
 
 // export to the global based API

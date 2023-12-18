@@ -18,13 +18,13 @@ createSimpleServer(SERVER_ROOT, 8088);
 
 function generateTestSamplesTask() {
 	const sampleNames = fs.readdirSync(
-		path.join(REPO_ROOT, "test/manual/samples"),
+		path.join(REPO_ROOT, "test/manual/samples")
 	);
 	let samples = sampleNames.map((sampleName) => {
 		const samplePath = path.join(
 			REPO_ROOT,
 			"test/manual/samples",
-			sampleName,
+			sampleName
 		);
 		const sampleContent = fs.readFileSync(samplePath).toString();
 		return {
@@ -36,7 +36,7 @@ function generateTestSamplesTask() {
 	// Add samples from website
 	{
 		let sampleNames = fs.readdirSync(
-			path.join(REPO_ROOT, "website/index/samples"),
+			path.join(REPO_ROOT, "website/index/samples")
 		);
 		sampleNames = sampleNames.filter((name) => /^sample/.test(name));
 
@@ -45,14 +45,14 @@ function generateTestSamplesTask() {
 				const samplePath = path.join(
 					REPO_ROOT,
 					"website/index/samples",
-					sampleName,
+					sampleName
 				);
 				const sampleContent = fs.readFileSync(samplePath).toString();
 				return {
 					name: sampleName,
 					content: sampleContent,
 				};
-			}),
+			})
 		);
 	}
 
@@ -62,12 +62,12 @@ function generateTestSamplesTask() {
 
 	const destination = path.join(
 		REPO_ROOT,
-		"test/manual/generated/all-samples.js",
+		"test/manual/generated/all-samples.js"
 	);
 	ensureDir(path.dirname(destination));
 	fs.writeFileSync(
 		destination,
-		prefix + JSON.stringify(samples, null, "\t") + suffix,
+		prefix + JSON.stringify(samples, null, "\t") + suffix
 	);
 }
 

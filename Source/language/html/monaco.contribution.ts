@@ -130,7 +130,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	constructor(
 		languageId: string,
 		options: Options,
-		modeConfiguration: ModeConfiguration,
+		modeConfiguration: ModeConfiguration
 	) {
 		this._languageId = languageId;
 		this.setOptions(options);
@@ -187,7 +187,7 @@ const optionsDefault: Required<Options> = {
 };
 
 function getConfigurationDefault(
-	languageId: string,
+	languageId: string
 ): Required<ModeConfiguration> {
 	return {
 		completionItems: true,
@@ -212,21 +212,21 @@ const razorLanguageId = "razor";
 export const htmlLanguageService = registerHTMLLanguageService(
 	htmlLanguageId,
 	optionsDefault,
-	getConfigurationDefault(htmlLanguageId),
+	getConfigurationDefault(htmlLanguageId)
 );
 export const htmlDefaults = htmlLanguageService.defaults;
 
 export const handlebarLanguageService = registerHTMLLanguageService(
 	handlebarsLanguageId,
 	optionsDefault,
-	getConfigurationDefault(handlebarsLanguageId),
+	getConfigurationDefault(handlebarsLanguageId)
 );
 export const handlebarDefaults = handlebarLanguageService.defaults;
 
 export const razorLanguageService = registerHTMLLanguageService(
 	razorLanguageId,
 	optionsDefault,
-	getConfigurationDefault(razorLanguageId),
+	getConfigurationDefault(razorLanguageId)
 );
 export const razorDefaults = razorLanguageService.defaults;
 
@@ -270,12 +270,12 @@ export interface LanguageServiceRegistration extends IDisposable {
 export function registerHTMLLanguageService(
 	languageId: string,
 	options: Options = optionsDefault,
-	modeConfiguration: ModeConfiguration = getConfigurationDefault(languageId),
+	modeConfiguration: ModeConfiguration = getConfigurationDefault(languageId)
 ): LanguageServiceRegistration {
 	const defaults = new LanguageServiceDefaultsImpl(
 		languageId,
 		options,
-		modeConfiguration,
+		modeConfiguration
 	);
 	let mode: IDisposable | undefined;
 

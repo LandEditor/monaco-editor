@@ -177,7 +177,7 @@ const InterpolationSyntaxBracket: InterpolationSyntax = {
 };
 
 function createLangConfiguration(
-	ts: TagSyntax,
+	ts: TagSyntax
 ): languages.LanguageConfiguration {
 	return {
 		brackets: [
@@ -210,10 +210,10 @@ function createLangConfiguration(
 				start: new RegExp(
 					`${ts.open}#(?:${BLOCK_ELEMENTS.join("|")})([^/${
 						ts.close
-					}]*(?!/)${ts.close})[^${ts.open}]*$`,
+					}]*(?!/)${ts.close})[^${ts.open}]*$`
 				),
 				end: new RegExp(
-					`${ts.open}/#(?:${BLOCK_ELEMENTS.join("|")})[\\r\\n\\t ]*>`,
+					`${ts.open}/#(?:${BLOCK_ELEMENTS.join("|")})[\\r\\n\\t ]*>`
 				),
 			},
 		},
@@ -221,13 +221,13 @@ function createLangConfiguration(
 			{
 				beforeText: new RegExp(
 					`${ts.open}#(?!(?:${EMPTY_ELEMENTS.join(
-						"|",
+						"|"
 					)}))([a-zA-Z_]+)([^/${ts.close}]*(?!/)${ts.close})[^${
 						ts.open
-					}]*$`,
+					}]*$`
 				),
 				afterText: new RegExp(
-					`^${ts.open}/#([a-zA-Z_]+)[\\r\\n\\t ]*${ts.close}$`,
+					`^${ts.open}/#([a-zA-Z_]+)[\\r\\n\\t ]*${ts.close}$`
 				),
 				action: {
 					indentAction: languages.IndentAction.IndentOutdent,
@@ -236,10 +236,10 @@ function createLangConfiguration(
 			{
 				beforeText: new RegExp(
 					`${ts.open}#(?!(?:${EMPTY_ELEMENTS.join(
-						"|",
+						"|"
 					)}))([a-zA-Z_]+)([^/${ts.close}]*(?!/)${ts.close})[^${
 						ts.open
-					}]*$`,
+					}]*$`
 				),
 				action: { indentAction: languages.IndentAction.Indent },
 			},
@@ -282,11 +282,11 @@ function createLangConfigurationAuto(): languages.LanguageConfiguration {
 			markers: {
 				start: new RegExp(
 					`[<\\[]#(?:${BLOCK_ELEMENTS.join(
-						"|",
-					)})([^/>\\]]*(?!/)[>\\]])[^<\\[]*$`,
+						"|"
+					)})([^/>\\]]*(?!/)[>\\]])[^<\\[]*$`
 				),
 				end: new RegExp(
-					`[<\\[]/#(?:${BLOCK_ELEMENTS.join("|")})[\\r\\n\\t ]*>`,
+					`[<\\[]/#(?:${BLOCK_ELEMENTS.join("|")})[\\r\\n\\t ]*>`
 				),
 			},
 		},
@@ -294,11 +294,11 @@ function createLangConfigurationAuto(): languages.LanguageConfiguration {
 			{
 				beforeText: new RegExp(
 					`[<\\[]#(?!(?:${EMPTY_ELEMENTS.join(
-						"|",
-					)}))([a-zA-Z_]+)([^/>\\]]*(?!/)[>\\]])[^[<\\[]]*$`,
+						"|"
+					)}))([a-zA-Z_]+)([^/>\\]]*(?!/)[>\\]])[^[<\\[]]*$`
 				),
 				afterText: new RegExp(
-					`^[<\\[]/#([a-zA-Z_]+)[\\r\\n\\t ]*[>\\]]$`,
+					`^[<\\[]/#([a-zA-Z_]+)[\\r\\n\\t ]*[>\\]]$`
 				),
 				action: {
 					indentAction: languages.IndentAction.IndentOutdent,
@@ -307,8 +307,8 @@ function createLangConfigurationAuto(): languages.LanguageConfiguration {
 			{
 				beforeText: new RegExp(
 					`[<\\[]#(?!(?:${EMPTY_ELEMENTS.join(
-						"|",
-					)}))([a-zA-Z_]+)([^/>\\]]*(?!/)[>\\]])[^[<\\[]]*$`,
+						"|"
+					)}))([a-zA-Z_]+)([^/>\\]]*(?!/)[>\\]])[^[<\\[]]*$`
 				),
 				action: { indentAction: languages.IndentAction.Indent },
 			},
@@ -318,7 +318,7 @@ function createLangConfigurationAuto(): languages.LanguageConfiguration {
 
 function createMonarchLanguage(
 	ts: TagSyntax,
-	is: InterpolationSyntax,
+	is: InterpolationSyntax
 ): languages.IMonarchLanguage {
 	// For generating dynamic states with the ID, used for auto mode
 	// where we switch once we have detected the mode.
@@ -636,7 +636,7 @@ function createMonarchLanguage(
 				// }
 				[
 					r(
-						/(?:@startTag__id__)(@directiveStartCloseTag1)(?:@closeTag1__id__)/,
+						/(?:@startTag__id__)(@directiveStartCloseTag1)(?:@closeTag1__id__)/
 					),
 					ts.id === "auto"
 						? {
@@ -650,7 +650,7 @@ function createMonarchLanguage(
 										switchTo: `@default_bracket_${is.id}`,
 									},
 								},
-						  }
+							}
 						: [
 								{ token: "@brackets.directive" },
 								{ token: "delimiter.directive" },
@@ -665,7 +665,7 @@ function createMonarchLanguage(
 								},
 								{ token: "delimiter.directive" },
 								{ token: "@brackets.directive" },
-						  ],
+							],
 				],
 
 				// <ELSE : <START_TAG> "else" <CLOSE_TAG2>> { handleTagSyntaxAndSwitch(matchedToken, DEFAULT); }
@@ -684,7 +684,7 @@ function createMonarchLanguage(
 				// <TRIVIAL_FTL_HEADER : ("<#ftl" | "[#ftl") ("/")? (">" | "]")> { ftlHeader(matchedToken); }
 				[
 					r(
-						/(?:@startTag__id__)(@directiveStartCloseTag2)(?:@closeTag2__id__)/,
+						/(?:@startTag__id__)(@directiveStartCloseTag2)(?:@closeTag2__id__)/
 					),
 					ts.id === "auto"
 						? {
@@ -698,14 +698,14 @@ function createMonarchLanguage(
 										switchTo: `@default_bracket_${is.id}`,
 									},
 								},
-						  }
+							}
 						: [
 								{ token: "@brackets.directive" },
 								{ token: "delimiter.directive" },
 								{ token: "tag" },
 								{ token: "delimiter.directive" },
 								{ token: "@brackets.directive" },
-						  ],
+							],
 				],
 
 				// <IF : <START_TAG> "if" <BLANK>> { handleTagSyntaxAndSwitch(matchedToken, FM_EXPRESSION); }
@@ -761,7 +761,7 @@ function createMonarchLanguage(
 										switchTo: `@default_bracket_${is.id}`,
 									},
 								},
-						  }
+							}
 						: [
 								{ token: "@brackets.directive" },
 								{ token: "delimiter.directive" },
@@ -770,7 +770,7 @@ function createMonarchLanguage(
 									token: "",
 									next: s("@fmExpression__id__.directive"),
 								},
-						  ],
+							],
 				],
 
 				// <END_IF : <END_TAG> "if" <CLOSE_TAG1>> { handleTagSyntaxAndSwitch(matchedToken, DEFAULT); }
@@ -804,7 +804,7 @@ function createMonarchLanguage(
 				// }
 				[
 					r(
-						/(?:@endTag__id__)(@directiveEndCloseTag1)(?:@closeTag1__id__)/,
+						/(?:@endTag__id__)(@directiveEndCloseTag1)(?:@closeTag1__id__)/
 					),
 					ts.id === "auto"
 						? {
@@ -818,14 +818,14 @@ function createMonarchLanguage(
 										switchTo: `@default_bracket_${is.id}`,
 									},
 								},
-						  }
+							}
 						: [
 								{ token: "@brackets.directive" },
 								{ token: "delimiter.directive" },
 								{ token: "tag" },
 								{ token: "delimiter.directive" },
 								{ token: "@brackets.directive" },
-						  ],
+							],
 				],
 
 				// <UNIFIED_CALL : "<@" | "[@" > { unifiedCall(matchedToken); }
@@ -843,20 +843,20 @@ function createMonarchLanguage(
 										switchTo: `@default_bracket_${is.id}`,
 									},
 								},
-						  }
+							}
 						: [
 								{ token: "@brackets.directive" },
 								{
 									token: "delimiter.directive",
 									next: s("@unifiedCall__id__"),
 								},
-						  ],
+							],
 				],
 
 				// <UNIFIED_CALL_END : ("<" | "[") "/@" ((<ID>) ("."<ID>)*)? <CLOSE_TAG1>> { unifiedCallEnd(matchedToken); }
 				[
 					r(
-						/(@open__id__)(\/@)((?:(?:@id)(?:\.(?:@id))*)?)(?:@closeTag1__id__)/,
+						/(@open__id__)(\/@)((?:(?:@id)(?:\.(?:@id))*)?)(?:@closeTag1__id__)/
 					),
 					[
 						{ token: "@brackets.directive" },
@@ -882,7 +882,7 @@ function createMonarchLanguage(
 										switchTo: `@default_bracket_${is.id}`,
 									},
 								},
-						  }
+							}
 						: { token: "comment", next: s("@terseComment__id__") },
 				],
 
@@ -901,7 +901,7 @@ function createMonarchLanguage(
 										switchTo: `@default_bracket_${is.id}`,
 									},
 								},
-						  }
+							}
 						: [
 								{ token: "@brackets.directive" },
 								{ token: "delimiter.directive" },
@@ -909,7 +909,7 @@ function createMonarchLanguage(
 									token: "tag.invalid",
 									next: s("@fmExpression__id__.directive"),
 								},
-						  ],
+							],
 				],
 			],
 
@@ -1096,7 +1096,7 @@ function createMonarchLanguage(
 													token: "@brackets.interpolation",
 													next: "@popall",
 												},
-										  }
+											}
 										: {}),
 									// This cannot happen while in auto mode, since this applies only to an
 									// fmExpression inside a directive. But once we encounter the start of a
@@ -1107,7 +1107,7 @@ function createMonarchLanguage(
 													token: "@brackets.directive",
 													next: "@popall",
 												},
-										  }
+											}
 										: {}),
 									// Ignore mismatched paren
 									[s("$S1==inParen__id__")]: {
@@ -1151,7 +1151,7 @@ function createMonarchLanguage(
 													token: "@brackets.interpolation",
 													next: "@popall",
 												},
-										  }),
+											}),
 									// Ignore mismatched paren
 									[s("$S1==inParen__id__")]: {
 										token: "@brackets",
@@ -1270,7 +1270,7 @@ function createMonarchLanguage(
 				// >
 				[
 					r(
-						/(@open__id__)(\/#?)([a-zA-Z]+)((?:@blank)*)(@close__id__)/,
+						/(@open__id__)(\/#?)([a-zA-Z]+)((?:@blank)*)(@close__id__)/
 					),
 					{
 						cases: {
@@ -1349,7 +1349,7 @@ function createMonarchLanguage(
 }
 
 function createMonarchLanguageAuto(
-	is: InterpolationSyntax,
+	is: InterpolationSyntax
 ): languages.IMonarchLanguage {
 	const angle = createMonarchLanguage(TagSyntaxAngle, is);
 	const bracket = createMonarchLanguage(TagSyntaxBracket, is);
@@ -1400,7 +1400,7 @@ export const TagBracketInterpolationDollar = {
 	conf: createLangConfiguration(TagSyntaxBracket),
 	language: createMonarchLanguage(
 		TagSyntaxBracket,
-		InterpolationSyntaxDollar,
+		InterpolationSyntaxDollar
 	),
 };
 
@@ -1413,7 +1413,7 @@ export const TagBracketInterpolationBracket = {
 	conf: createLangConfiguration(TagSyntaxBracket),
 	language: createMonarchLanguage(
 		TagSyntaxBracket,
-		InterpolationSyntaxBracket,
+		InterpolationSyntaxBracket
 	),
 };
 

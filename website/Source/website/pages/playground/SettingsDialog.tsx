@@ -28,7 +28,7 @@ export class SettingsDialog extends React.Component<{
 	@computed
 	get npmVersions(): string[] {
 		return getNpmVersionsSync(
-			this.settingsDialogModel?.settings.npmVersion,
+			this.settingsDialogModel?.settings.npmVersion
 		);
 	}
 
@@ -43,8 +43,7 @@ export class SettingsDialog extends React.Component<{
 			<Modal
 				show={!!model.settingsDialogModel}
 				onHide={() => model.closeSettingsDialog(false)}
-				size="xl"
-			>
+				size="xl">
 				<Modal.Header closeButton>
 					<Modal.Title>Settings</Modal.Title>
 				</Modal.Header>
@@ -56,7 +55,7 @@ export class SettingsDialog extends React.Component<{
 									<Radio
 										value={ref(
 											modelSettings.settings,
-											"monacoSource",
+											"monacoSource"
 										)}
 										current="latest"
 									/>
@@ -75,12 +74,11 @@ export class SettingsDialog extends React.Component<{
 									disabled={
 										modelSettings.settings.monacoSource !==
 										"latest"
-									}
-								>
+									}>
 									<Select
 										value={ref(
 											modelSettings.settings,
-											"latestStability",
+											"latestStability"
 										)}
 										values={StabilityValues}
 										getLabel={(v) => v}
@@ -96,7 +94,7 @@ export class SettingsDialog extends React.Component<{
 									<Radio
 										value={ref(
 											modelSettings.settings,
-											"monacoSource",
+											"monacoSource"
 										)}
 										current="npm"
 									/>
@@ -118,12 +116,11 @@ export class SettingsDialog extends React.Component<{
 										modelSettings.settings.monacoSource !==
 										"npm"
 									}
-									className="d-flex gap-2"
-								>
+									className="d-flex gap-2">
 									<Select
 										value={ref(
 											modelSettings.settings,
-											"npmVersion",
+											"npmVersion"
 										)}
 										values={this.npmVersions}
 										getLabel={(v) => v}
@@ -134,7 +131,7 @@ export class SettingsDialog extends React.Component<{
 									<Select
 										value={ref(
 											modelSettings.settings,
-											"npmStability",
+											"npmStability"
 										)}
 										values={StabilityValues}
 										getLabel={(v) => v}
@@ -154,7 +151,7 @@ export class SettingsDialog extends React.Component<{
 											<Radio
 												value={ref(
 													modelSettings.settings,
-													"monacoSource",
+													"monacoSource"
 												)}
 												current="independent"
 											/>
@@ -174,8 +171,7 @@ export class SettingsDialog extends React.Component<{
 										disabled={
 											modelSettings.settings
 												.monacoSource !== "independent"
-										}
-									>
+										}>
 										<ListGroup className="p-3">
 											<ListGroup.Item>
 												<div className="d-flex gap-2">
@@ -183,7 +179,7 @@ export class SettingsDialog extends React.Component<{
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"coreSource",
+																"coreSource"
 															)}
 															current="latest"
 														/>
@@ -202,7 +198,7 @@ export class SettingsDialog extends React.Component<{
 													<Select
 														value={ref(
 															modelSettings.settings,
-															"latestCoreStability",
+															"latestCoreStability"
 														)}
 														values={StabilityValues}
 														getLabel={(v) => v}
@@ -220,7 +216,7 @@ export class SettingsDialog extends React.Component<{
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"coreSource",
+																"coreSource"
 															)}
 															current="url"
 														/>
@@ -237,7 +233,7 @@ export class SettingsDialog extends React.Component<{
 													<TextBox
 														value={ref(
 															modelSettings.settings,
-															"coreUrl",
+															"coreUrl"
 														)}
 														style={{
 															marginLeft: "auto",
@@ -255,7 +251,7 @@ export class SettingsDialog extends React.Component<{
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"languagesSource",
+																"languagesSource"
 															)}
 															current="latest"
 														/>
@@ -276,7 +272,7 @@ export class SettingsDialog extends React.Component<{
 													<Select
 														value={ref(
 															modelSettings.settings,
-															"latestLanguagesStability",
+															"latestLanguagesStability"
 														)}
 														values={StabilityValues}
 														getLabel={(v) => v}
@@ -293,7 +289,7 @@ export class SettingsDialog extends React.Component<{
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"languagesSource",
+																"languagesSource"
 															)}
 															current="source"
 														/>
@@ -316,7 +312,7 @@ export class SettingsDialog extends React.Component<{
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"languagesSource",
+																"languagesSource"
 															)}
 															current="url"
 														/>
@@ -334,7 +330,7 @@ export class SettingsDialog extends React.Component<{
 													<TextBox
 														value={ref(
 															modelSettings.settings,
-															"languagesUrl",
+															"languagesUrl"
 														)}
 														style={{
 															marginLeft: "auto",
@@ -357,7 +353,7 @@ export class SettingsDialog extends React.Component<{
 											<Radio
 												value={ref(
 													modelSettings.settings,
-													"monacoSource",
+													"monacoSource"
 												)}
 												current="custom"
 											/>
@@ -395,14 +391,12 @@ export class SettingsDialog extends React.Component<{
 				<Modal.Footer>
 					<Button
 						variant="secondary"
-						onClick={() => model.closeSettingsDialog(false)}
-					>
+						onClick={() => model.closeSettingsDialog(false)}>
 						Close
 					</Button>
 					<Button
 						variant="primary"
-						onClick={() => model.closeSettingsDialog(true)}
-					>
+						onClick={() => model.closeSettingsDialog(true)}>
 						Save Changes
 					</Button>
 				</Modal.Footer>

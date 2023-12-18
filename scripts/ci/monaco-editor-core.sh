@@ -20,7 +20,7 @@ mkdir typings-test
 cd typings-test
 yarn init -yp
 ../node_modules/.bin/tsc --init
-echo "import '../out-monaco-editor-core';" >a.ts
+echo "import '../out-monaco-editor-core';" > a.ts
 ../node_modules/.bin/tsc --noEmit
 cd ..
 

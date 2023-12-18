@@ -19,19 +19,19 @@ class JSONDiagnosticsAdapter extends languageFeatures.DiagnosticsAdapter<JSONWor
 	constructor(
 		languageId: string,
 		worker: languageFeatures.WorkerAccessor<JSONWorker>,
-		defaults: LanguageServiceDefaults,
+		defaults: LanguageServiceDefaults
 	) {
 		super(languageId, worker, defaults.onDidChange);
 
 		this._disposables.push(
 			editor.onWillDisposeModel((model) => {
 				this._resetSchema(model.uri);
-			}),
+			})
 		);
 		this._disposables.push(
 			editor.onDidChangeModelLanguage((event) => {
 				this._resetSchema(event.model.uri);
-			}),
+			})
 		);
 	}
 
@@ -64,8 +64,8 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerDocumentFormattingEditProvider(
 					languageId,
-					new languageFeatures.DocumentFormattingEditProvider(worker),
-				),
+					new languageFeatures.DocumentFormattingEditProvider(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentRangeFormattingEdits) {
@@ -73,9 +73,9 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				languages.registerDocumentRangeFormattingEditProvider(
 					languageId,
 					new languageFeatures.DocumentRangeFormattingEditProvider(
-						worker,
-					),
-				),
+						worker
+					)
+				)
 			);
 		}
 		if (modeConfiguration.completionItems) {
@@ -86,61 +86,61 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 						" ",
 						":",
 						'"',
-					]),
-				),
+					])
+				)
 			);
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
 				languages.registerHoverProvider(
 					languageId,
-					new languageFeatures.HoverAdapter(worker),
-				),
+					new languageFeatures.HoverAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentSymbols) {
 			providers.push(
 				languages.registerDocumentSymbolProvider(
 					languageId,
-					new languageFeatures.DocumentSymbolAdapter(worker),
-				),
+					new languageFeatures.DocumentSymbolAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.tokens) {
 			providers.push(
 				languages.setTokensProvider(
 					languageId,
-					createTokenizationSupport(true),
-				),
+					createTokenizationSupport(true)
+				)
 			);
 		}
 		if (modeConfiguration.colors) {
 			providers.push(
 				languages.registerColorProvider(
 					languageId,
-					new languageFeatures.DocumentColorAdapter(worker),
-				),
+					new languageFeatures.DocumentColorAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.foldingRanges) {
 			providers.push(
 				languages.registerFoldingRangeProvider(
 					languageId,
-					new languageFeatures.FoldingRangeAdapter(worker),
-				),
+					new languageFeatures.FoldingRangeAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.diagnostics) {
 			providers.push(
-				new JSONDiagnosticsAdapter(languageId, worker, defaults),
+				new JSONDiagnosticsAdapter(languageId, worker, defaults)
 			);
 		}
 		if (modeConfiguration.selectionRanges) {
 			providers.push(
 				languages.registerSelectionRangeProvider(
 					languageId,
-					new languageFeatures.SelectionRangeAdapter(worker),
-				),
+					new languageFeatures.SelectionRangeAdapter(worker)
+				)
 			);
 		}
 	}
@@ -150,8 +150,8 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	disposables.push(
 		languages.setLanguageConfiguration(
 			defaults.languageId,
-			richEditConfiguration,
-		),
+			richEditConfiguration
+		)
 	);
 
 	let modeConfiguration = defaults.modeConfiguration;

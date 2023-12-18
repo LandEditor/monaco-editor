@@ -17,16 +17,16 @@ export class WorkerManager {
 
 	constructor(
 		private readonly _modeId: string,
-		private readonly _defaults: LanguageServiceDefaults,
+		private readonly _defaults: LanguageServiceDefaults
 	) {
 		this._worker = null;
 		this._client = null;
 		this._configChangeListener = this._defaults.onDidChange(() =>
-			this._stopWorker(),
+			this._stopWorker()
 		);
 		this._updateExtraLibsToken = 0;
 		this._extraLibsChangeListener = this._defaults.onDidExtraLibsChange(
-			() => this._updateExtraLibs(),
+			() => this._updateExtraLibs()
 		);
 	}
 
@@ -84,9 +84,9 @@ export class WorkerManager {
 							.getModels()
 							.filter(
 								(model) =>
-									model.getLanguageId() === this._modeId,
+									model.getLanguageId() === this._modeId
 							)
-							.map((model) => model.uri),
+							.map((model) => model.uri)
 					);
 				}
 

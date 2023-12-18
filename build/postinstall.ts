@@ -12,7 +12,7 @@ function huskyInstall() {
 	const result = cp.spawnSync(
 		process.execPath,
 		[path.join(__dirname, "../node_modules/husky/lib/bin.js"), "install"],
-		{ stdio: "inherit" },
+		{ stdio: "inherit" }
 	);
 
 	if (result.error || result.status !== 0) {

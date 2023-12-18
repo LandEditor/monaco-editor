@@ -45,7 +45,7 @@ monaco.languages.registerCompletionItemProvider("json", {
 			endColumn: position.column,
 		});
 		var match = textUntilPosition.match(
-			/"dependencies"\s*:\s*\{\s*("[^"]*"\s*:\s*"[^"]*"\s*,\s*)*([^"]*)?$/,
+			/"dependencies"\s*:\s*\{\s*("[^"]*"\s*:\s*"[^"]*"\s*,\s*)*([^"]*)?$/
 		);
 		if (!match) {
 			return { suggestions: [] };

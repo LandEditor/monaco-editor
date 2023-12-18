@@ -22,11 +22,11 @@ registerLanguage({
 					require([
 						"vs/basic-languages/freemarker2/freemarker2",
 					], resolve, reject);
-				},
+				}
 			).then((m) => m.TagAngleInterpolationDollar);
 		} else {
 			return import("./freemarker2").then(
-				(m) => m.TagAutoInterpolationDollar,
+				(m) => m.TagAutoInterpolationDollar
 			);
 		}
 	},
@@ -45,11 +45,11 @@ registerLanguage({
 					require([
 						"vs/basic-languages/freemarker2/freemarker2",
 					], resolve, reject);
-				},
+				}
 			).then((m) => m.TagAngleInterpolationDollar);
 		} else {
 			return import("./freemarker2").then(
-				(m) => m.TagAngleInterpolationDollar,
+				(m) => m.TagAngleInterpolationDollar
 			);
 		}
 	},
@@ -68,11 +68,11 @@ registerLanguage({
 					require([
 						"vs/basic-languages/freemarker2/freemarker2",
 					], resolve, reject);
-				},
+				}
 			).then((m) => m.TagBracketInterpolationDollar);
 		} else {
 			return import("./freemarker2").then(
-				(m) => m.TagBracketInterpolationDollar,
+				(m) => m.TagBracketInterpolationDollar
 			);
 		}
 	},
@@ -91,11 +91,11 @@ registerLanguage({
 					require([
 						"vs/basic-languages/freemarker2/freemarker2",
 					], resolve, reject);
-				},
+				}
 			).then((m) => m.TagAngleInterpolationBracket);
 		} else {
 			return import("./freemarker2").then(
-				(m) => m.TagAngleInterpolationBracket,
+				(m) => m.TagAngleInterpolationBracket
 			);
 		}
 	},
@@ -114,11 +114,11 @@ registerLanguage({
 					require([
 						"vs/basic-languages/freemarker2/freemarker2",
 					], resolve, reject);
-				},
+				}
 			).then((m) => m.TagBracketInterpolationBracket);
 		} else {
 			return import("./freemarker2").then(
-				(m) => m.TagBracketInterpolationBracket,
+				(m) => m.TagBracketInterpolationBracket
 			);
 		}
 	},
@@ -134,11 +134,11 @@ registerLanguage({
 					require([
 						"vs/basic-languages/freemarker2/freemarker2",
 					], resolve, reject);
-				},
+				}
 			).then((m) => m.TagAutoInterpolationDollar);
 		} else {
 			return import("./freemarker2").then(
-				(m) => m.TagAutoInterpolationDollar,
+				(m) => m.TagAutoInterpolationDollar
 			);
 		}
 	},
@@ -157,11 +157,11 @@ registerLanguage({
 					require([
 						"vs/basic-languages/freemarker2/freemarker2",
 					], resolve, reject);
-				},
+				}
 			).then((m) => m.TagAutoInterpolationBracket);
 		} else {
 			return import("./freemarker2").then(
-				(m) => m.TagAutoInterpolationBracket,
+				(m) => m.TagAutoInterpolationBracket
 			);
 		}
 	},

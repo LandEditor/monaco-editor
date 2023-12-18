@@ -15,11 +15,11 @@ const generatedNote = `//
 
 const TYPESCRIPT_LIB_SOURCE = path.join(
 	REPO_ROOT,
-	"node_modules/typescript/lib",
+	"node_modules/typescript/lib"
 );
 const TYPESCRIPT_LIB_DESTINATION = path.join(
 	REPO_ROOT,
-	"src/language/typescript/lib",
+	"src/language/typescript/lib"
 );
 
 (function () {
@@ -35,7 +35,7 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(
 			.execSync("npm ls typescript --depth=0 --json=true", {
 				cwd: REPO_ROOT,
 			})
-			.toString(),
+			.toString()
 	);
 	const typeScriptDependencyVersion =
 		npmLsOutput.dependencies.typescript.version;
@@ -43,7 +43,7 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(
 	fs.writeFileSync(
 		path.join(TYPESCRIPT_LIB_DESTINATION, "typescriptServicesMetadata.ts"),
 		`${generatedNote}
-export const typescriptVersion = "${typeScriptDependencyVersion}";\n`,
+export const typescriptVersion = "${typeScriptDependencyVersion}";\n`
 	);
 
 	let tsServices = fs
@@ -53,11 +53,11 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`,
 	tsServices = tsServices
 		.replace(
 			'const path = matchedStar ? subst.replace("*", matchedStar) : subst;',
-			'const path = matchedStar ? subst.replace("*", matchedStar) : subst; // CodeQL [SM02383] This is a false positive, the code is from the TypeScript compiler',
+			'const path = matchedStar ? subst.replace("*", matchedStar) : subst; // CodeQL [SM02383] This is a false positive, the code is from the TypeScript compiler'
 		)
 		.replace(
 			'return key.replace("*", matchedStar);',
-			'return key.replace("*", matchedStar); // CodeQL [SM02383] This is a false positive, the code is from the TypeScript compiler',
+			'return key.replace("*", matchedStar); // CodeQL [SM02383] This is a false positive, the code is from the TypeScript compiler'
 		);
 
 	// The output from this build will only be accessible via ESM; rather than removing
@@ -90,7 +90,7 @@ export var typescript = ts;
 `;
 	fs.writeFileSync(
 		path.join(TYPESCRIPT_LIB_DESTINATION, "typescriptServices.js"),
-		stripSourceMaps(tsServices_esm),
+		stripSourceMaps(tsServices_esm)
 	);
 
 	let dtsServices = fs
@@ -99,7 +99,7 @@ export var typescript = ts;
 
 	fs.writeFileSync(
 		path.join(TYPESCRIPT_LIB_DESTINATION, "typescriptServices.d.ts"),
-		generatedNote + dtsServices,
+		generatedNote + dtsServices
 	);
 })();
 
@@ -139,11 +139,11 @@ export const libFileSet: Record<string, boolean> = {}
 
 	fs.writeFileSync(
 		path.join(TYPESCRIPT_LIB_DESTINATION, "lib.ts"),
-		strLibResult,
+		strLibResult
 	);
 	fs.writeFileSync(
 		path.join(TYPESCRIPT_LIB_DESTINATION, "lib.index.ts"),
-		strIndexResult,
+		strIndexResult
 	);
 }
 

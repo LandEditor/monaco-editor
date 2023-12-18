@@ -40,10 +40,10 @@ export const conf: languages.LanguageConfiguration = {
 	folding: {
 		markers: {
 			start: new RegExp(
-				"^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))",
+				"^\\s*//\\s*(?:(?:#?region\\b)|(?:<editor-fold\\b))"
 			),
 			end: new RegExp(
-				"^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))",
+				"^\\s*//\\s*(?:(?:#?endregion\\b)|(?:</editor-fold>))"
 			),
 		},
 	},

@@ -2405,5 +2405,5 @@ testTokenization(
 				tokens: [{ startIndex: 0, type: "keyword.php" }],
 			},
 		],
-	],
+	]
 );

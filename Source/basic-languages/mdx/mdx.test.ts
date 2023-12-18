@@ -167,5 +167,5 @@ testTokenization(
 				],
 			},
 		],
-	],
+	]
 );

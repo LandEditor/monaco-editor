@@ -153,7 +153,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	constructor(
 		languageId: string,
 		options: Options,
-		modeConfiguration: ModeConfiguration,
+		modeConfiguration: ModeConfiguration
 	) {
 		this._languageId = languageId;
 		this.setOptions(options);
@@ -248,19 +248,19 @@ export const cssDefaults: LanguageServiceDefaults =
 	new LanguageServiceDefaultsImpl(
 		"css",
 		optionsDefault,
-		modeConfigurationDefault,
+		modeConfigurationDefault
 	);
 export const scssDefaults: LanguageServiceDefaults =
 	new LanguageServiceDefaultsImpl(
 		"scss",
 		optionsDefault,
-		modeConfigurationDefault,
+		modeConfigurationDefault
 	);
 export const lessDefaults: LanguageServiceDefaults =
 	new LanguageServiceDefaultsImpl(
 		"less",
 		optionsDefault,
-		modeConfigurationDefault,
+		modeConfigurationDefault
 	);
 
 // export to the global based API

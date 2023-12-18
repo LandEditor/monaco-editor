@@ -46,7 +46,7 @@ export function getTypeScriptWorker(): Promise<
 
 function setupMode(
 	defaults: LanguageServiceDefaults,
-	modeId: string,
+	modeId: string
 ): (...uris: Uri[]) => Promise<TypeScriptWorker> {
 	const disposables: IDisposable[] = [];
 	const providers: IDisposable[] = [];
@@ -69,96 +69,96 @@ function setupMode(
 			providers.push(
 				languages.registerCompletionItemProvider(
 					modeId,
-					new languageFeatures.SuggestAdapter(worker),
-				),
+					new languageFeatures.SuggestAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.signatureHelp) {
 			providers.push(
 				languages.registerSignatureHelpProvider(
 					modeId,
-					new languageFeatures.SignatureHelpAdapter(worker),
-				),
+					new languageFeatures.SignatureHelpAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
 				languages.registerHoverProvider(
 					modeId,
-					new languageFeatures.QuickInfoAdapter(worker),
-				),
+					new languageFeatures.QuickInfoAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentHighlights) {
 			providers.push(
 				languages.registerDocumentHighlightProvider(
 					modeId,
-					new languageFeatures.DocumentHighlightAdapter(worker),
-				),
+					new languageFeatures.DocumentHighlightAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.definitions) {
 			providers.push(
 				languages.registerDefinitionProvider(
 					modeId,
-					new languageFeatures.DefinitionAdapter(libFiles, worker),
-				),
+					new languageFeatures.DefinitionAdapter(libFiles, worker)
+				)
 			);
 		}
 		if (modeConfiguration.references) {
 			providers.push(
 				languages.registerReferenceProvider(
 					modeId,
-					new languageFeatures.ReferenceAdapter(libFiles, worker),
-				),
+					new languageFeatures.ReferenceAdapter(libFiles, worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentSymbols) {
 			providers.push(
 				languages.registerDocumentSymbolProvider(
 					modeId,
-					new languageFeatures.OutlineAdapter(worker),
-				),
+					new languageFeatures.OutlineAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.rename) {
 			providers.push(
 				languages.registerRenameProvider(
 					modeId,
-					new languageFeatures.RenameAdapter(libFiles, worker),
-				),
+					new languageFeatures.RenameAdapter(libFiles, worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentRangeFormattingEdits) {
 			providers.push(
 				languages.registerDocumentRangeFormattingEditProvider(
 					modeId,
-					new languageFeatures.FormatAdapter(worker),
-				),
+					new languageFeatures.FormatAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.onTypeFormattingEdits) {
 			providers.push(
 				languages.registerOnTypeFormattingEditProvider(
 					modeId,
-					new languageFeatures.FormatOnTypeAdapter(worker),
-				),
+					new languageFeatures.FormatOnTypeAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.codeActions) {
 			providers.push(
 				languages.registerCodeActionProvider(
 					modeId,
-					new languageFeatures.CodeActionAdaptor(worker),
-				),
+					new languageFeatures.CodeActionAdaptor(worker)
+				)
 			);
 		}
 		if (modeConfiguration.inlayHints) {
 			providers.push(
 				languages.registerInlayHintsProvider(
 					modeId,
-					new languageFeatures.InlayHintsAdapter(worker),
-				),
+					new languageFeatures.InlayHintsAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.diagnostics) {
@@ -167,8 +167,8 @@ function setupMode(
 					libFiles,
 					defaults,
 					modeId,
-					worker,
-				),
+					worker
+				)
 			);
 		}
 	}

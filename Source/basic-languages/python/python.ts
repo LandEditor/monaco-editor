@@ -32,7 +32,7 @@ export const conf: languages.LanguageConfiguration = {
 	onEnterRules: [
 		{
 			beforeText: new RegExp(
-				"^\\s*(?:def|class|for|if|elif|else|while|try|with|finally|except|async|match|case).*?:\\s*$",
+				"^\\s*(?:def|class|for|if|elif|else|while|try|with|finally|except|async|match|case).*?:\\s*$"
 			),
 			action: { indentAction: languages.IndentAction.Indent },
 		},

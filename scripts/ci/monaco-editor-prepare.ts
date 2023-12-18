@@ -17,12 +17,12 @@ const monacoEditorCorePackageJsonPath = resolve(
 	rootPath,
 	"node_modules",
 	"monaco-editor-core",
-	"package.json",
+	"package.json"
 );
 
 async function prepareMonacoEditorReleaseStableOrNightly() {
 	const monacoEditorPackageJson = JSON.parse(
-		await readFile(monacoEditorPackageJsonPath, { encoding: "utf-8" }),
+		await readFile(monacoEditorPackageJsonPath, { encoding: "utf-8" })
 	) as PackageJson;
 
 	let version: string;
@@ -33,7 +33,7 @@ async function prepareMonacoEditorReleaseStableOrNightly() {
 	} else if (arg === "nightly") {
 		version = getNightlyVersion(
 			monacoEditorPackageJson.version,
-			getNightlyEnv().PRERELEASE_VERSION,
+			getNightlyEnv().PRERELEASE_VERSION
 		);
 	} else {
 		throw new Error("Invalid argument");
@@ -51,7 +51,7 @@ async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {
 
 	await group("Set Version & Update monaco-editor-core Version", async () => {
 		const packageJson = JSON.parse(
-			await readFile(monacoEditorPackageJsonPath, { encoding: "utf-8" }),
+			await readFile(monacoEditorPackageJsonPath, { encoding: "utf-8" })
 		) as PackageJson;
 		packageJson.version = monacoEditorCoreVersion;
 		packageJson.devDependencies["monaco-editor-core"] =
@@ -67,10 +67,10 @@ async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {
 		const monacoEditorCorePackageJson = JSON.parse(
 			await readFile(monacoEditorCorePackageJsonPath, {
 				encoding: "utf-8",
-			}),
+			})
 		) as PackageJson;
 		const packageJson = JSON.parse(
-			await readFile(monacoEditorPackageJsonPath, { encoding: "utf-8" }),
+			await readFile(monacoEditorPackageJsonPath, { encoding: "utf-8" })
 		) as PackageJson;
 		packageJson.vscodeCommitId = monacoEditorCorePackageJson.vscodeCommitId;
 		packageJson.monacoCommitId = await gitCommitId(rootPath);

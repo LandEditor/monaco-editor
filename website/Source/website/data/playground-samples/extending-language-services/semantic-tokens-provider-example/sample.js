@@ -93,7 +93,7 @@ monaco.languages.registerDocumentSemanticTokensProvider("plaintext", {
 					prevLine === i ? match.index - prevChar : match.index,
 					match[0].length,
 					type,
-					modifier,
+					modifier
 				);
 
 				prevLine = i;

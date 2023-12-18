@@ -24,7 +24,7 @@ export const conf: languages.LanguageConfiguration = {
 		{
 			beforeText: new RegExp(
 				`<([_:\\w][_:\\w-.\\d]*)([^/>]*(?!/)>)[^<]*$`,
-				"i",
+				"i"
 			),
 			afterText: /^<\/([_:\w][_:\w-.\d]*)\s*>$/i,
 			action: {

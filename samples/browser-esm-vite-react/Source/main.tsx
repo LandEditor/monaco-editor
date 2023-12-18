@@ -7,5 +7,5 @@ ReactDOM.render(
 	<React.StrictMode>
 		<Editor />
 	</React.StrictMode>,
-	document.getElementById("root"),
+	document.getElementById("root")
 );

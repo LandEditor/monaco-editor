@@ -60,9 +60,9 @@ export const conf: languages.LanguageConfiguration = {
 		{
 			beforeText: new RegExp(
 				`<(?!(?:${EMPTY_ELEMENTS.join(
-					"|",
+					"|"
 				)}))([_:\\w][_:\\w-.\\d]*)([^/>]*(?!/)>)[^<]*$`,
-				"i",
+				"i"
 			),
 			afterText: /^<\/([_:\w][_:\w-.\d]*)\s*>$/i,
 			action: {
@@ -72,9 +72,9 @@ export const conf: languages.LanguageConfiguration = {
 		{
 			beforeText: new RegExp(
 				`<(?!(?:${EMPTY_ELEMENTS.join(
-					"|",
+					"|"
 				)}))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`,
-				"i",
+				"i"
 			),
 			action: { indentAction: languages.IndentAction.Indent },
 		},

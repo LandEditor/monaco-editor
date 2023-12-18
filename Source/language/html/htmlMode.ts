@@ -29,47 +29,47 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 	// all modes
 	languages.registerCompletionItemProvider(
 		languageId,
-		new HTMLCompletionAdapter(worker),
+		new HTMLCompletionAdapter(worker)
 	);
 	languages.registerHoverProvider(
 		languageId,
-		new languageFeatures.HoverAdapter(worker),
+		new languageFeatures.HoverAdapter(worker)
 	);
 
 	languages.registerDocumentHighlightProvider(
 		languageId,
-		new languageFeatures.DocumentHighlightAdapter(worker),
+		new languageFeatures.DocumentHighlightAdapter(worker)
 	);
 	languages.registerLinkProvider(
 		languageId,
-		new languageFeatures.DocumentLinkAdapter(worker),
+		new languageFeatures.DocumentLinkAdapter(worker)
 	);
 	languages.registerFoldingRangeProvider(
 		languageId,
-		new languageFeatures.FoldingRangeAdapter(worker),
+		new languageFeatures.FoldingRangeAdapter(worker)
 	);
 	languages.registerDocumentSymbolProvider(
 		languageId,
-		new languageFeatures.DocumentSymbolAdapter(worker),
+		new languageFeatures.DocumentSymbolAdapter(worker)
 	);
 	languages.registerSelectionRangeProvider(
 		languageId,
-		new languageFeatures.SelectionRangeAdapter(worker),
+		new languageFeatures.SelectionRangeAdapter(worker)
 	);
 	languages.registerRenameProvider(
 		languageId,
-		new languageFeatures.RenameAdapter(worker),
+		new languageFeatures.RenameAdapter(worker)
 	);
 
 	// only html
 	if (languageId === "html") {
 		languages.registerDocumentFormattingEditProvider(
 			languageId,
-			new languageFeatures.DocumentFormattingEditProvider(worker),
+			new languageFeatures.DocumentFormattingEditProvider(worker)
 		);
 		languages.registerDocumentRangeFormattingEditProvider(
 			languageId,
-			new languageFeatures.DocumentRangeFormattingEditProvider(worker),
+			new languageFeatures.DocumentRangeFormattingEditProvider(worker)
 		);
 	}
 }
@@ -96,72 +96,72 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 			providers.push(
 				languages.registerCompletionItemProvider(
 					languageId,
-					new HTMLCompletionAdapter(worker),
-				),
+					new HTMLCompletionAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
 				languages.registerHoverProvider(
 					languageId,
-					new languageFeatures.HoverAdapter(worker),
-				),
+					new languageFeatures.HoverAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentHighlights) {
 			providers.push(
 				languages.registerDocumentHighlightProvider(
 					languageId,
-					new languageFeatures.DocumentHighlightAdapter(worker),
-				),
+					new languageFeatures.DocumentHighlightAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.links) {
 			providers.push(
 				languages.registerLinkProvider(
 					languageId,
-					new languageFeatures.DocumentLinkAdapter(worker),
-				),
+					new languageFeatures.DocumentLinkAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentSymbols) {
 			providers.push(
 				languages.registerDocumentSymbolProvider(
 					languageId,
-					new languageFeatures.DocumentSymbolAdapter(worker),
-				),
+					new languageFeatures.DocumentSymbolAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.rename) {
 			providers.push(
 				languages.registerRenameProvider(
 					languageId,
-					new languageFeatures.RenameAdapter(worker),
-				),
+					new languageFeatures.RenameAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.foldingRanges) {
 			providers.push(
 				languages.registerFoldingRangeProvider(
 					languageId,
-					new languageFeatures.FoldingRangeAdapter(worker),
-				),
+					new languageFeatures.FoldingRangeAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.selectionRanges) {
 			providers.push(
 				languages.registerSelectionRangeProvider(
 					languageId,
-					new languageFeatures.SelectionRangeAdapter(worker),
-				),
+					new languageFeatures.SelectionRangeAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentFormattingEdits) {
 			providers.push(
 				languages.registerDocumentFormattingEditProvider(
 					languageId,
-					new languageFeatures.DocumentFormattingEditProvider(worker),
-				),
+					new languageFeatures.DocumentFormattingEditProvider(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentRangeFormattingEdits) {
@@ -169,9 +169,9 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				languages.registerDocumentRangeFormattingEditProvider(
 					languageId,
 					new languageFeatures.DocumentRangeFormattingEditProvider(
-						worker,
-					),
-				),
+						worker
+					)
+				)
 			);
 		}
 	}

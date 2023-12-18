@@ -24,11 +24,11 @@ export class WorkerManager {
 		this._client = null;
 		this._idleCheckInterval = window.setInterval(
 			() => this._checkIfIdle(),
-			30 * 1000,
+			30 * 1000
 		);
 		this._lastUsedTime = 0;
 		this._configChangeListener = this._defaults.onDidChange(() =>
-			this._stopWorker(),
+			this._stopWorker()
 		);
 	}
 

@@ -31,10 +31,10 @@ export const conf: languages.LanguageConfiguration = {
 	folding: {
 		markers: {
 			start: new RegExp(
-				"^\\s*//\\s*#region\\b|^\\s*\\(\\*\\s*#region(.*)\\*\\)",
+				"^\\s*//\\s*#region\\b|^\\s*\\(\\*\\s*#region(.*)\\*\\)"
 			),
 			end: new RegExp(
-				"^\\s*//\\s*#endregion\\b|^\\s*\\(\\*\\s*#endregion\\s*\\*\\)",
+				"^\\s*//\\s*#endregion\\b|^\\s*\\(\\*\\s*#endregion\\s*\\*\\)"
 			),
 		},
 	},

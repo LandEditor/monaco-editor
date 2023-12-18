@@ -8,7 +8,7 @@ monaco.languages.registerHoverProvider("mySpecialLanguage", {
 					1,
 					1,
 					model.getLineCount(),
-					model.getLineMaxColumn(model.getLineCount()),
+					model.getLineMaxColumn(model.getLineCount())
 				),
 				contents: [
 					{ value: "**SOURCE**" },

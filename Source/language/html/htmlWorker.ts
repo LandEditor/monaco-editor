@@ -26,7 +26,7 @@ export class HTMLWorker {
 		if (data?.dataProviders) {
 			for (const id in data.dataProviders) {
 				customDataProviders.push(
-					htmlService.newHTMLDataProvider(id, data.dataProviders[id]),
+					htmlService.newHTMLDataProvider(id, data.dataProviders[id])
 				);
 			}
 		}
@@ -38,7 +38,7 @@ export class HTMLWorker {
 
 	async doComplete(
 		uri: string,
-		position: htmlService.Position,
+		position: htmlService.Position
 	): Promise<htmlService.CompletionList | null> {
 		let document = this._getTextDocument(uri);
 		if (!document) {
@@ -50,14 +50,14 @@ export class HTMLWorker {
 				document,
 				position,
 				htmlDocument,
-				this._languageSettings && this._languageSettings.suggest,
-			),
+				this._languageSettings && this._languageSettings.suggest
+			)
 		);
 	}
 	async format(
 		uri: string,
 		range: htmlService.Range,
-		options: htmlService.FormattingOptions,
+		options: htmlService.FormattingOptions
 	): Promise<htmlService.TextEdit[]> {
 		let document = this._getTextDocument(uri);
 		if (!document) {
@@ -70,13 +70,13 @@ export class HTMLWorker {
 		let textEdits = this._languageService.format(
 			document,
 			range,
-			formattingOptions,
+			formattingOptions
 		);
 		return Promise.resolve(textEdits);
 	}
 	async doHover(
 		uri: string,
-		position: htmlService.Position,
+		position: htmlService.Position
 	): Promise<htmlService.Hover | null> {
 		let document = this._getTextDocument(uri);
 		if (!document) {
@@ -86,13 +86,13 @@ export class HTMLWorker {
 		let hover = this._languageService.doHover(
 			document,
 			position,
-			htmlDocument,
+			htmlDocument
 		);
 		return Promise.resolve(hover);
 	}
 	async findDocumentHighlights(
 		uri: string,
-		position: htmlService.Position,
+		position: htmlService.Position
 	): Promise<htmlService.DocumentHighlight[]> {
 		let document = this._getTextDocument(uri);
 		if (!document) {
@@ -102,7 +102,7 @@ export class HTMLWorker {
 		let highlights = this._languageService.findDocumentHighlights(
 			document,
 			position,
-			htmlDocument,
+			htmlDocument
 		);
 		return Promise.resolve(highlights);
 	}
@@ -113,12 +113,12 @@ export class HTMLWorker {
 		}
 		let links = this._languageService.findDocumentLinks(
 			document,
-			null! /*TODO@aeschli*/,
+			null! /*TODO@aeschli*/
 		);
 		return Promise.resolve(links);
 	}
 	async findDocumentSymbols(
-		uri: string,
+		uri: string
 	): Promise<htmlService.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
 		if (!document) {
@@ -127,13 +127,13 @@ export class HTMLWorker {
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 		let symbols = this._languageService.findDocumentSymbols(
 			document,
-			htmlDocument,
+			htmlDocument
 		);
 		return Promise.resolve(symbols);
 	}
 	async getFoldingRanges(
 		uri: string,
-		context?: { rangeLimit?: number },
+		context?: { rangeLimit?: number }
 	): Promise<htmlService.FoldingRange[]> {
 		let document = this._getTextDocument(uri);
 		if (!document) {
@@ -144,7 +144,7 @@ export class HTMLWorker {
 	}
 	async getSelectionRanges(
 		uri: string,
-		positions: htmlService.Position[],
+		positions: htmlService.Position[]
 	): Promise<htmlService.SelectionRange[]> {
 		let document = this._getTextDocument(uri);
 		if (!document) {
@@ -152,14 +152,14 @@ export class HTMLWorker {
 		}
 		let ranges = this._languageService.getSelectionRanges(
 			document,
-			positions,
+			positions
 		);
 		return Promise.resolve(ranges);
 	}
 	async doRename(
 		uri: string,
 		position: htmlService.Position,
-		newName: string,
+		newName: string
 	): Promise<htmlService.WorkspaceEdit | null> {
 		let document = this._getTextDocument(uri);
 		if (!document) {
@@ -170,7 +170,7 @@ export class HTMLWorker {
 			document,
 			position,
 			newName,
-			htmlDocument,
+			htmlDocument
 		);
 		return Promise.resolve(renames);
 	}
@@ -182,7 +182,7 @@ export class HTMLWorker {
 					uri,
 					this._languageId,
 					model.version,
-					model.getValue(),
+					model.getValue()
 				);
 			}
 		}
@@ -197,7 +197,7 @@ export interface ICreateData {
 
 export function create(
 	ctx: worker.IWorkerContext,
-	createData: ICreateData,
+	createData: ICreateData
 ): HTMLWorker {
 	return new HTMLWorker(ctx, createData);
 }

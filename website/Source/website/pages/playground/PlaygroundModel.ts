@@ -191,7 +191,7 @@ export class PlaygroundModel {
 						this.debouncer.run(updatePreviewState);
 					}
 				},
-				{ name: "update preview", fireImmediately: true },
+				{ name: "update preview", fireImmediately: true }
 			),
 		});
 
@@ -207,13 +207,13 @@ export class PlaygroundModel {
 						this.reload();
 					},
 					keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
-				}),
+				})
 			);
 
 			const options =
 				monaco.languages.typescript.javascriptDefaults.getCompilerOptions();
 			monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
-				{ noSemanticValidation: false },
+				{ noSemanticValidation: false }
 			);
 			monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
 				...options,
@@ -245,11 +245,11 @@ export class PlaygroundModel {
 						disposable =
 							monaco.languages.typescript.javascriptDefaults.addExtraLib(
 								content,
-								"ts:monaco.d.ts",
+								"ts:monaco.d.ts"
 							);
 					}
 				},
-				{ name: "update types" },
+				{ name: "update types" }
 			),
 		});
 	}
@@ -262,7 +262,7 @@ export class PlaygroundModel {
 		const regexp = new RegExp(
 			"(\\b" +
 				escapeRegexpChars(codeStringName) +
-				":[^\\w`]*`)([^`\\\\\\n]|\\n|\\\\\\\\|\\\\\\`|\\\\\\$)*`",
+				":[^\\w`]*`)([^`\\\\\\n]|\\n|\\\\\\\\|\\\\\\`|\\\\\\$)*`"
 		);
 		const js = this.js;
 		const str = value
@@ -278,7 +278,7 @@ export class PlaygroundModel {
 
 	public showSettingsDialog(): void {
 		this.settingsDialogModel = new SettingsDialogModel(
-			this.settings.settings,
+			this.settings.settings
 		);
 	}
 

@@ -424,7 +424,7 @@ export interface TypeScriptWorker {
 	 */
 	getCompletionsAtPosition(
 		fileName: string,
-		position: number,
+		position: number
 	): Promise<any | undefined>;
 
 	/**
@@ -434,7 +434,7 @@ export interface TypeScriptWorker {
 	getCompletionEntryDetails(
 		fileName: string,
 		position: number,
-		entry: string,
+		entry: string
 	): Promise<any | undefined>;
 
 	/**
@@ -444,7 +444,7 @@ export interface TypeScriptWorker {
 	getSignatureHelpItems(
 		fileName: string,
 		position: number,
-		options: any,
+		options: any
 	): Promise<any | undefined>;
 
 	/**
@@ -453,13 +453,13 @@ export interface TypeScriptWorker {
 	 */
 	getQuickInfoAtPosition(
 		fileName: string,
-		position: number,
+		position: number
 	): Promise<any | undefined>;
 
 	getDocumentHighlights(
 		fileName: string,
 		position: number,
-		filesToSearch: string[],
+		filesToSearch: string[]
 	): Promise<ReadonlyArray<any> | undefined>;
 
 	/**
@@ -468,7 +468,7 @@ export interface TypeScriptWorker {
 	 */
 	getDefinitionAtPosition(
 		fileName: string,
-		position: number,
+		position: number
 	): Promise<ReadonlyArray<any> | undefined>;
 
 	/**
@@ -477,7 +477,7 @@ export interface TypeScriptWorker {
 	 */
 	getReferencesAtPosition(
 		fileName: string,
-		position: number,
+		position: number
 	): Promise<any[] | undefined>;
 
 	/**
@@ -493,7 +493,7 @@ export interface TypeScriptWorker {
 	 */
 	getFormattingEditsForDocument(
 		fileName: string,
-		options: any,
+		options: any
 	): Promise<any[]>;
 
 	/**
@@ -505,7 +505,7 @@ export interface TypeScriptWorker {
 		fileName: string,
 		start: number,
 		end: number,
-		options: any,
+		options: any
 	): Promise<any[]>;
 
 	/**
@@ -517,7 +517,7 @@ export interface TypeScriptWorker {
 		fileName: string,
 		postion: number,
 		ch: string,
-		options: any,
+		options: any
 	): Promise<any[]>;
 
 	/**
@@ -529,7 +529,7 @@ export interface TypeScriptWorker {
 		positon: number,
 		findInStrings: boolean,
 		findInComments: boolean,
-		providePrefixAndSuffixTextForRename: boolean,
+		providePrefixAndSuffixTextForRename: boolean
 	): Promise<readonly any[] | undefined>;
 
 	/**
@@ -540,7 +540,7 @@ export interface TypeScriptWorker {
 	getRenameInfo(
 		fileName: string,
 		positon: number,
-		options: any,
+		options: any
 	): Promise<any>;
 
 	/**
@@ -559,7 +559,7 @@ export interface TypeScriptWorker {
 		start: number,
 		end: number,
 		errorCodes: number[],
-		formatOptions: any,
+		formatOptions: any
 	): Promise<ReadonlyArray<any>>;
 
 	/**
@@ -570,7 +570,7 @@ export interface TypeScriptWorker {
 	provideInlayHints(
 		fileName: string,
 		start: number,
-		end: number,
+		end: number
 	): Promise<ReadonlyArray<any>>;
 }
 
@@ -595,7 +595,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		diagnosticsOptions: DiagnosticsOptions,
 		workerOptions: WorkerOptions,
 		inlayHintsOptions: InlayHintsOptions,
-		modeConfiguration: ModeConfiguration,
+		modeConfiguration: ModeConfiguration
 	) {
 		this._extraLibs = Object.create(null);
 		this._removedExtraLibs = Object.create(null);
@@ -798,7 +798,7 @@ export const typescriptDefaults: LanguageServiceDefaults =
 		},
 		{},
 		{},
-		modeConfigurationDefault,
+		modeConfigurationDefault
 	);
 
 export const javascriptDefaults: LanguageServiceDefaults =
@@ -815,7 +815,7 @@ export const javascriptDefaults: LanguageServiceDefaults =
 		},
 		{},
 		{},
-		modeConfigurationDefault,
+		modeConfigurationDefault
 	);
 
 export const getTypeScriptWorker = (): Promise<

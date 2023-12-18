@@ -40,11 +40,11 @@ function checkEveryMonacoLanguageHasASample() {
 	for (const language of languages) {
 		const expectedSamplePath = path.join(
 			REPO_ROOT,
-			`website/src/website/data/home-samples/sample.${language}.txt`,
+			`website/src/website/data/home-samples/sample.${language}.txt`
 		);
 		if (!fs.existsSync(expectedSamplePath)) {
 			console.error(
-				`Missing sample for ${language} at ${expectedSamplePath}`,
+				`Missing sample for ${language} at ${expectedSamplePath}`
 			);
 			fail = true;
 		}

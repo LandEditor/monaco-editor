@@ -21,7 +21,7 @@ const workerEntryPoints = [
 
 build({
 	entryPoints: workerEntryPoints.map(
-		(entry) => `../node_modules/monaco-editor/esm/${entry}`,
+		(entry) => `../node_modules/monaco-editor/esm/${entry}`
 	),
 	bundle: true,
 	format: "iife",

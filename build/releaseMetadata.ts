@@ -50,9 +50,9 @@ function getBasicLanguages(): Promise<{ label: string; entry: string }[]> {
 							label: label,
 							entry: entry,
 						};
-					}),
+					})
 				);
-			},
+			}
 		);
 	});
 }
@@ -72,17 +72,17 @@ function readAdvancedLanguages(): Promise<string[]> {
 					files
 						.map((file) =>
 							file.substring(
-								"./out/monaco-editor/esm/vs/language/".length,
-							),
+								"./out/monaco-editor/esm/vs/language/".length
+							)
 						)
 						.map((file) =>
 							file.substring(
 								0,
-								file.length - "/monaco.contribution.js".length,
-							),
-						),
+								file.length - "/monaco.contribution.js".length
+							)
+						)
 				);
-			},
+			}
 		);
 	});
 }
@@ -115,7 +115,7 @@ function getAdvancedLanguages(): Promise<
 		const filePath = path.join(
 			REPO_ROOT,
 			"out/monaco-editor/esm",
-			`${moduleName}.js`,
+			`${moduleName}.js`
 		);
 		if (!fs.existsSync(filePath)) {
 			console.error(`Could not find ${filePath}.`);
@@ -196,7 +196,9 @@ export type EditorLanguage = ${languages
 				.map((el) => `'${el.label}'`)
 				.join(" | ")};
 
-export type EditorFeature = ${features.map((el) => `'${el.label}'`).join(" | ")};
+export type EditorFeature = ${features
+				.map((el) => `'${el.label}'`)
+				.join(" | ")};
 
 export type NegatedEditorFeature = ${features
 				.map((el) => `'!${el.label}'`)
@@ -205,12 +207,12 @@ export type NegatedEditorFeature = ${features
 `;
 			const dtsDestination = path.join(
 				REPO_ROOT,
-				"out/monaco-editor/esm/metadata.d.ts",
+				"out/monaco-editor/esm/metadata.d.ts"
 			);
 			ensureDir(path.dirname(dtsDestination));
 			fs.writeFileSync(
 				dtsDestination,
-				dtsContents.replace(/\r\n/g, "\n"),
+				dtsContents.replace(/\r\n/g, "\n")
 			);
 
 			const jsContents = `
@@ -219,7 +221,7 @@ exports.languages = ${JSON.stringify(languages, null, "  ")};
 `;
 			const jsDestination = path.join(
 				REPO_ROOT,
-				"out/monaco-editor/esm/metadata.js",
+				"out/monaco-editor/esm/metadata.js"
 			);
 			ensureDir(path.dirname(jsDestination));
 			fs.writeFileSync(jsDestination, jsContents.replace(/\r\n/g, "\n"));
@@ -234,7 +236,7 @@ exports.languages = ${JSON.stringify(languages, null, "  ")};
 					fs.writeFileSync(dtsDestination, "export {}\n");
 				}
 			}
-		},
+		}
 	);
 }
 
@@ -266,16 +268,16 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 			.readFileSync(
 				path.join(
 					REPO_ROOT,
-					"out/monaco-editor/esm/vs/editor/edcore.main.js",
-				),
+					"out/monaco-editor/esm/vs/editor/edcore.main.js"
+				)
 			)
 			.toString() +
 		fs
 			.readFileSync(
 				path.join(
 					REPO_ROOT,
-					"out/monaco-editor/esm/vs/editor/editor.all.js",
-				),
+					"out/monaco-editor/esm/vs/editor/editor.all.js"
+				)
 			)
 			.toString();
 	files.split(/\r\n|\n/).forEach((line) => {

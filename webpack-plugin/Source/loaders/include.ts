@@ -27,8 +27,8 @@ export const pitch: PitchLoaderDefinitionFunction<ILoaderOptions> =
 				return JSON.stringify(
 					this.utils.contextify(
 						this.context || this.rootContext,
-						request,
-					),
+						request
+					)
 				);
 			}
 			return loaderUtils.stringifyRequest(this, request);
@@ -38,11 +38,11 @@ export const pitch: PitchLoaderDefinitionFunction<ILoaderOptions> =
 			...(globals
 				? Object.keys(globals).map(
 						(key) =>
-							`self[${JSON.stringify(key)}] = ${globals[key]};`,
-				  )
+							`self[${JSON.stringify(key)}] = ${globals[key]};`
+					)
 				: []),
 			...pre.map(
-				(include: any) => `import ${stringifyRequest(include)};`,
+				(include: any) => `import ${stringifyRequest(include)};`
 			),
 			`
 import * as monaco from ${stringifyRequest(`!!${remainingRequest}`)};
@@ -50,7 +50,7 @@ export * from ${stringifyRequest(`!!${remainingRequest}`)};
 export default monaco;
 		`,
 			...post.map(
-				(include: any) => `import ${stringifyRequest(include)};`,
+				(include: any) => `import ${stringifyRequest(include)};`
 			),
 		].join("\n");
 	};

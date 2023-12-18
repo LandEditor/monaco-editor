@@ -35,72 +35,72 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 						"/",
 						"-",
 						":",
-					]),
-				),
+					])
+				)
 			);
 		}
 		if (modeConfiguration.hovers) {
 			providers.push(
 				languages.registerHoverProvider(
 					languageId,
-					new languageFeatures.HoverAdapter(worker),
-				),
+					new languageFeatures.HoverAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentHighlights) {
 			providers.push(
 				languages.registerDocumentHighlightProvider(
 					languageId,
-					new languageFeatures.DocumentHighlightAdapter(worker),
-				),
+					new languageFeatures.DocumentHighlightAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.definitions) {
 			providers.push(
 				languages.registerDefinitionProvider(
 					languageId,
-					new languageFeatures.DefinitionAdapter(worker),
-				),
+					new languageFeatures.DefinitionAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.references) {
 			providers.push(
 				languages.registerReferenceProvider(
 					languageId,
-					new languageFeatures.ReferenceAdapter(worker),
-				),
+					new languageFeatures.ReferenceAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentSymbols) {
 			providers.push(
 				languages.registerDocumentSymbolProvider(
 					languageId,
-					new languageFeatures.DocumentSymbolAdapter(worker),
-				),
+					new languageFeatures.DocumentSymbolAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.rename) {
 			providers.push(
 				languages.registerRenameProvider(
 					languageId,
-					new languageFeatures.RenameAdapter(worker),
-				),
+					new languageFeatures.RenameAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.colors) {
 			providers.push(
 				languages.registerColorProvider(
 					languageId,
-					new languageFeatures.DocumentColorAdapter(worker),
-				),
+					new languageFeatures.DocumentColorAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.foldingRanges) {
 			providers.push(
 				languages.registerFoldingRangeProvider(
 					languageId,
-					new languageFeatures.FoldingRangeAdapter(worker),
-				),
+					new languageFeatures.FoldingRangeAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.diagnostics) {
@@ -108,24 +108,24 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				new languageFeatures.DiagnosticsAdapter(
 					languageId,
 					worker,
-					defaults.onDidChange,
-				),
+					defaults.onDidChange
+				)
 			);
 		}
 		if (modeConfiguration.selectionRanges) {
 			providers.push(
 				languages.registerSelectionRangeProvider(
 					languageId,
-					new languageFeatures.SelectionRangeAdapter(worker),
-				),
+					new languageFeatures.SelectionRangeAdapter(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentFormattingEdits) {
 			providers.push(
 				languages.registerDocumentFormattingEditProvider(
 					languageId,
-					new languageFeatures.DocumentFormattingEditProvider(worker),
-				),
+					new languageFeatures.DocumentFormattingEditProvider(worker)
+				)
 			);
 		}
 		if (modeConfiguration.documentRangeFormattingEdits) {
@@ -133,9 +133,9 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				languages.registerDocumentRangeFormattingEditProvider(
 					languageId,
 					new languageFeatures.DocumentRangeFormattingEditProvider(
-						worker,
-					),
-				),
+						worker
+					)
+				)
 			);
 		}
 	}

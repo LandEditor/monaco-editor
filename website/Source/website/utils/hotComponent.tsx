@@ -10,7 +10,7 @@ type ReactComponent<P = any> =
 const allComponents = new Map<string, { component: ReactComponent }>();
 
 export function hotComponent(
-	module: Module,
+	module: Module
 ): <T extends ReactComponent>(Component: T) => T {
 	return <T extends ReactComponent>(component: T): T => {
 		const key = JSON.stringify({ id: module.id, name: component.name });
@@ -31,7 +31,7 @@ export function hotComponent(
 			hot?: {
 				accept: ((
 					componentName: string,
-					callback: () => void,
+					callback: () => void
 				) => void) &
 					((callback: () => void) => void);
 			};
