@@ -73,7 +73,7 @@ jobs:
                           --unsafe-perm=true
                         ]
 
-            - uses: actions/setup-node@v4.0.0
+            - uses: actions/setup-node@v4.0.1
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: "pnpm"
@@ -101,7 +101,7 @@ jobs:
                   name: .-samples-browser-esm-esbuild-Node-${{ matrix.node-version }}-Target
                   path: ./samples/browser-esm-esbuild/Target
 
-            - uses: actions/setup-node@v4.0.0
+            - uses: actions/setup-node@v4.0.1
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: "pnpm"
@@ -110,7 +110,7 @@ jobs:
             - run: pnpm install
               working-directory: ./samples/browser-esm-parcel
 
-            - uses: actions/setup-node@v4.0.0
+            - uses: actions/setup-node@v4.0.1
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: "pnpm"
@@ -143,7 +143,7 @@ jobs:
                   name: .-samples-browser-esm-webpack-small-Node-${{ matrix.node-version }}-Target
                   path: ./samples/browser-esm-webpack-small/Target
 
-            - uses: actions/setup-node@v4.0.0
+            - uses: actions/setup-node@v4.0.1
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: "pnpm"
@@ -184,7 +184,7 @@ jobs:
                   name: .-samples-electron-esm-webpack-Node-${{ matrix.node-version }}-Target
                   path: ./samples/electron-esm-webpack/Target
 
-            - uses: actions/setup-node@v4.0.0
+            - uses: actions/setup-node@v4.0.1
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: "pnpm"
@@ -193,7 +193,7 @@ jobs:
             - run: pnpm install
               working-directory: ./samples
 
-            - uses: actions/setup-node@v4.0.0
+            - uses: actions/setup-node@v4.0.1
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: "pnpm"
@@ -210,7 +210,7 @@ jobs:
                   name: .-webpack-plugin-Node-${{ matrix.node-version }}-Target
                   path: ./webpack-plugin/Target
 
-            - uses: actions/setup-node@v4.0.0
+            - uses: actions/setup-node@v4.0.1
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: "pnpm"
