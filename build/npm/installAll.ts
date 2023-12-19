@@ -19,9 +19,11 @@ for (const file of files) {
 	const filePath = path.join(REPO_ROOT, file);
 	const contents = JSON.parse(fs.readFileSync(filePath).toString());
 	if (
-		!contents.dependencies &&
-		!contents.devDependencies &&
-		!contents.optionalDependencies
+		!(
+			contents.dependencies ||
+			contents.devDependencies ||
+			contents.optionalDependencies
+		)
 	) {
 		// nothing to install
 		continue;

@@ -5,8 +5,8 @@
 
 import { registerLanguage } from "../_.contribution";
 
-declare var AMD: any;
-declare var require: any;
+declare let AMD: any;
+declare let require: any;
 
 registerLanguage({
 	id: "xml",

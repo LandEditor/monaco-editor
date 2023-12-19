@@ -243,8 +243,8 @@ export const razorDefaults = razorLanguageService.defaults;
 
 // --- Registration to monaco editor ---
 
-declare var AMD: any;
-declare var require: any;
+declare let AMD: any;
+declare let require: any;
 
 function getMode(): Promise<typeof mode> {
 	if (AMD) {

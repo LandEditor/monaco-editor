@@ -10,24 +10,15 @@ monaco.editor.create(document.getElementById("container"), {
 
 monaco.languages.registerColorProvider("colorLanguage", {
 	provideColorPresentations: (model, colorInfo) => {
-		var color = colorInfo.color;
-		var red256 = Math.round(color.red * 255);
-		var green256 = Math.round(color.green * 255);
-		var blue256 = Math.round(color.blue * 255);
-		var label;
+		const color = colorInfo.color;
+		const red256 = Math.round(color.red * 255);
+		const green256 = Math.round(color.green * 255);
+		const blue256 = Math.round(color.blue * 255);
+		let label;
 		if (color.alpha === 1) {
-			label = "rgb(" + red256 + ", " + green256 + ", " + blue256 + ")";
+			label = `rgb(${red256}, ${green256}, ${blue256})`;
 		} else {
-			label =
-				"rgba(" +
-				red256 +
-				", " +
-				green256 +
-				", " +
-				blue256 +
-				", " +
-				color.alpha +
-				")";
+			label = `rgba(${red256}, ${green256}, ${blue256}, ${color.alpha})`;
 		}
 
 		return [

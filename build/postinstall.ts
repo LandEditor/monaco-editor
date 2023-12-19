@@ -7,8 +7,8 @@ import cp = require("child_process");
 import path = require("path");
 
 function huskyInstall() {
-	console.log(`Installing husky hooks...`);
-	console.log(`$ husky install`);
+	console.log("Installing husky hooks...");
+	console.log("$ husky install");
 	const result = cp.spawnSync(
 		process.execPath,
 		[path.join(__dirname, "../node_modules/husky/lib/bin.js"), "install"],

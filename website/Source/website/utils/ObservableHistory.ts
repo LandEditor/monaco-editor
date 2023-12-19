@@ -57,7 +57,7 @@ export class HistoryController implements Disposable {
 	private lastHistoryId = 0;
 	private setUrl(newLocation: ILocation, historyId: number) {
 		const url = new URL(window.location.href);
-		url.hash = newLocation.hashValue ? "#" + newLocation.hashValue : "";
+		url.hash = newLocation.hashValue ? `#${newLocation.hashValue}` : "";
 
 		const searchParams = Object.entries(newLocation.searchParams).reduce(
 			(acc, [key, value]) => {

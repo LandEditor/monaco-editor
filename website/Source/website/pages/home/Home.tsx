@@ -169,7 +169,7 @@ class EditorDemo extends React.Component {
 
 				<div className="row g-4 row-cols-1 row-cols-lg-2 py-5">
 					<div className="col d-flex align-items-start">
-						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 me-3 flex-shrink-0"></div>
+						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 me-3 flex-shrink-0" />
 						<div>
 							<h2>IntelliSense, Validation</h2>
 							<p>
@@ -180,7 +180,7 @@ class EditorDemo extends React.Component {
 						</div>
 					</div>
 					<div className="col d-flex align-items-start">
-						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 me-3 flex-shrink-0"></div>
+						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 me-3 flex-shrink-0" />
 						<div>
 							<h2>Basic Syntax Colorization</h2>
 							<p>

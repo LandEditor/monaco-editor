@@ -36,7 +36,7 @@ export const conf: languages.LanguageConfiguration = {
 // Ref: Cypher Query Language Reference, Version 9 (https://opencypher.org/resources/)
 export const language = <languages.IMonarchLanguage>{
 	defaultToken: "",
-	tokenPostfix: `.cypher`,
+	tokenPostfix: ".cypher",
 	ignoreCase: true,
 
 	brackets: [

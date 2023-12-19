@@ -69,11 +69,11 @@ export function massageAndCopyDts(
 		.split(/\r\n|\r|\n/);
 
 	const result = [
-		`/*---------------------------------------------------------------------------------------------`,
-		` *  Copyright (c) Microsoft Corporation. All rights reserved.`,
-		` *  Licensed under the MIT License. See License.txt in the project root for license information.`,
-		` *--------------------------------------------------------------------------------------------*/`,
-		``,
+		"/*---------------------------------------------------------------------------------------------",
+		" *  Copyright (c) Microsoft Corporation. All rights reserved.",
+		" *  Licensed under the MIT License. See License.txt in the project root for license information.",
+		" *--------------------------------------------------------------------------------------------*/",
+		"",
 		`declare namespace ${namespace} {`,
 	];
 	for (let line of lines) {
@@ -83,15 +83,15 @@ export function massageAndCopyDts(
 		if (line === "export {};") {
 			continue;
 		}
-		line = line.replace(/    /g, "\t");
+		line = line.replace(/ {4}/g, "\t");
 		line = line.replace(/declare /g, "");
 		if (line.length > 0) {
 			line = `\t${line}`;
 			result.push(line);
 		}
 	}
-	result.push(`}`);
-	result.push(``);
+	result.push("}");
+	result.push("");
 
 	ensureDir(path.dirname(absoluteDestination));
 	fs.writeFileSync(absoluteDestination, result.join("\n"));
@@ -259,12 +259,12 @@ function getGitVersion() {
 export const bundledFileHeader = (() => {
 	const sha1 = getGitVersion();
 	const semver = require("../package.json").version;
-	const headerVersion = semver + "(" + sha1 + ")";
+	const headerVersion = `${semver}(${sha1})`;
 
 	const BUNDLED_FILE_HEADER = [
 		"/*!-----------------------------------------------------------------------------",
 		" * Copyright (c) Microsoft Corporation. All rights reserved.",
-		" * Version: " + headerVersion,
+		` * Version: ${headerVersion}`,
 		" * Released under the MIT license",
 		" * https://github.com/microsoft/monaco-editor/blob/main/LICENSE.txt",
 		" *-----------------------------------------------------------------------------*/",

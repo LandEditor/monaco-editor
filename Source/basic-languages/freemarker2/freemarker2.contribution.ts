@@ -5,8 +5,8 @@
 
 import { registerLanguage } from "../_.contribution";
 
-declare var AMD: any;
-declare var require: any;
+declare let AMD: any;
+declare let require: any;
 
 // freemarker.tag-square.interpolation-dollar is the default
 // According the docs tag-auto will be the default for version 2.4+, but that

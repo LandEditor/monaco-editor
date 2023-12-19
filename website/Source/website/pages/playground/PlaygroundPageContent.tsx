@@ -129,8 +129,7 @@ export class PlaygroundPageContent extends React.Component<
 								label={`Preview${
 									model.historyModel.compareWith &&
 									model.historyModel.sourceOverride
-										? " " +
-										  model.historyModel.sourceOverride.toString()
+										? ` ${model.historyModel.sourceOverride.toString()}`
 										: ""
 								}:`}
 								titleBarItems={
@@ -159,12 +158,11 @@ export class PlaygroundPageContent extends React.Component<
 										)}
 										<Button
 											type="button"
-											className={
-												"btn settings bi-arrow-clockwise " +
-												(model.isDirty
+											className={`btn settings bi-arrow-clockwise ${
+												model.isDirty
 													? "btn-primary"
-													: "btn-light")
-											}
+													: "btn-light"
+											}`}
 											style={{
 												fontSize: 20,
 												padding: "0px 4px",
@@ -335,7 +333,7 @@ export class VersionSelector extends React.Component<{
 										["undefined"]: "",
 										["true"]: " ✓",
 										["false"]: " ✗",
-									}["" + model.bisectModel.getState(i)]
+									}[`${model.bisectModel.getState(i)}`]
 							  }`
 					}
 					value={{
@@ -368,12 +366,11 @@ export class VersionSelector extends React.Component<{
 					<ButtonGroup>
 						<Button
 							type="button"
-							className={
-								"btn bi-github settings" +
-								(model.bisectModel.isFinished
+							className={`btn bi-github settings${
+								model.bisectModel.isFinished
 									? " btn-success"
-									: " btn-light")
-							}
+									: " btn-light"
+							}`}
 							style={{
 								fontSize: 14,
 								margin: 0,
@@ -508,7 +505,7 @@ class Editor extends React.Component<{
 			this.editor.onDidChangeModelContent((e) => {
 				this.ignoreChange = true;
 				try {
-					this.props.value.set(this.editor!.getValue());
+					this.props.value.set(this.editor?.getValue());
 				} finally {
 					this.ignoreChange = false;
 				}

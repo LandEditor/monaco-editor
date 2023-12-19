@@ -1,9 +1,9 @@
 const originalModel = monaco.editor.createModel(
-	/* set from `originalModel`: */ `hello world`,
+	/* set from `originalModel`: */ "hello world",
 	"text/plain",
 );
 const modifiedModel = monaco.editor.createModel(
-	/* set from `modifiedModel`: */ `Hello World!`,
+	/* set from `modifiedModel`: */ "Hello World!",
 	"text/plain",
 );
 

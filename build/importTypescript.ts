@@ -63,18 +63,14 @@ export const typescriptVersion = "${typeScriptDependencyVersion}";\n`,
 	// The output from this build will only be accessible via ESM; rather than removing
 	// references to require/module, define them as dummy variables that bundlers will ignore.
 	// The TS code can figure out that it's not running under Node even with these defined.
-	tsServices =
-		`
+	tsServices = `
 /* MONACOCHANGE */
 var require = undefined;
 var module = { exports: {} };
 /* END MONACOCHANGE */
-` + tsServices;
+${tsServices}`;
 
-	const tsServices_esm =
-		generatedNote +
-		tsServices +
-		`
+	const tsServices_esm = `${generatedNote + tsServices}
 // MONACOCHANGE
 export var createClassifier = ts.createClassifier;
 export var createLanguageService = ts.createLanguageService;
@@ -171,33 +167,42 @@ function escapeText(text) {
 	for (let i = 0; i < len; i++) {
 		chrCode = text.charCodeAt(i);
 		switch (chrCode) {
-			case _backspace:
+			case _backspace: {
 				replaceWith = "\\b";
 				break;
-			case _formFeed:
+			}
+			case _formFeed: {
 				replaceWith = "\\f";
 				break;
-			case _newLine:
+			}
+			case _newLine: {
 				replaceWith = "\\n";
 				break;
-			case _nullChar:
+			}
+			case _nullChar: {
 				replaceWith = "\\0";
 				break;
-			case _carriageReturn:
+			}
+			case _carriageReturn: {
 				replaceWith = "\\r";
 				break;
-			case _tab:
+			}
+			case _tab: {
 				replaceWith = "\\t";
 				break;
-			case _verticalTab:
+			}
+			case _verticalTab: {
 				replaceWith = "\\v";
 				break;
-			case _backslash:
+			}
+			case _backslash: {
 				replaceWith = "\\\\";
 				break;
-			case _doubleQuote:
+			}
+			case _doubleQuote: {
 				replaceWith = '\\"';
 				break;
+			}
 		}
 		if (replaceWith !== null) {
 			resultPieces.push(text.substring(startPos, i));

@@ -97,7 +97,7 @@ function massageJs(js: string) {
 	const setFromRegexp = /\/*\Wset from `(.*?)`:\W*\//g;
 	for (const m of js.matchAll(setFromRegexp)) {
 		const p1 = m[1];
-		const target = JSON.stringify("set from `" + p1 + "`");
+		const target = JSON.stringify(`set from \`${p1}\``);
 		js += `\n try { globalThis.$bindModelToCodeStr(${p1}, ${target}); } catch (e) { console.error(e); }`;
 	}
 	return js;

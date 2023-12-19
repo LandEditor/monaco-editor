@@ -25,7 +25,7 @@ export class Source {
 			return Source.useLatest(sourceLanguagesStr);
 		}
 
-		if (sourceStr && sourceStr.startsWith("v")) {
+		if (sourceStr?.startsWith("v")) {
 			return new Source(
 				sourceStr.substring(1),
 				undefined,

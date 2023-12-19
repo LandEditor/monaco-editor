@@ -65,7 +65,7 @@ export function removeDir(
 		for (const entry of entries) {
 			const filePath = path.join(dirPath, entry);
 			const relativeFilePath = path.join(relativeDirPath, entry);
-			if (keep!(relativeFilePath)) {
+			if (keep?.(relativeFilePath)) {
 				keepsFiles = true;
 				continue;
 			}

@@ -45,7 +45,7 @@ import { exit } from "process";
 	for (const promise of promises) {
 		const result = await promise;
 		console.log(result.file);
-		if (result.status != 0) {
+		if (result.status !== 0) {
 			console.log(result.stdout.toString());
 			someFileError = true;
 		}

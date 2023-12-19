@@ -340,7 +340,7 @@ function createMonarchLanguage(
 
 		defaultToken: "invalid",
 
-		tokenPostfix: `.freemarker2`,
+		tokenPostfix: ".freemarker2",
 
 		brackets: [
 			{ open: "{", close: "}", token: "delimiter.curly" },
@@ -1372,7 +1372,7 @@ function createMonarchLanguageAuto(
 
 		defaultToken: "invalid",
 
-		tokenPostfix: `.freemarker2`,
+		tokenPostfix: ".freemarker2",
 
 		brackets: [
 			{ open: "{", close: "}", token: "delimiter.curly" },

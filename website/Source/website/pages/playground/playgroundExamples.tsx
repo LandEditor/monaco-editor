@@ -62,9 +62,9 @@ export function getPlaygroundExamples(): PlaygroundExampleChapter[] {
 						description.sortingKey || Number.MAX_SAFE_INTEGER,
 					async load() {
 						const [css, js, html] = await Promise.all([
-							files(path + "/sample.css"),
-							files(path + "/sample.js"),
-							files(path + "/sample.html"),
+							files(`${path}/sample.css`),
+							files(`${path}/sample.js`),
+							files(`${path}/sample.html`),
 						]);
 						return {
 							css: css.default,

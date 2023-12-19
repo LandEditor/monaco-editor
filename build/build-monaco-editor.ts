@@ -10,7 +10,7 @@ import { IFile, REPO_ROOT, readFiles, writeFiles } from "../build/utils";
 import ts = require("typescript");
 import { generateMetadata } from "./releaseMetadata";
 
-removeDir(`out/monaco-editor`);
+removeDir("out/monaco-editor");
 
 // dev folder
 AMD_releaseOne("dev");
@@ -36,10 +36,10 @@ generateMetadata();
 	const json = JSON.parse(packageJSON.contents.toString());
 
 	json.private = false;
-	delete json.scripts["postinstall"];
+	json.scripts["postinstall"] = undefined;
 
 	packageJSON.contents = Buffer.from(JSON.stringify(json, null, "  "));
-	writeFiles([packageJSON], `out/monaco-editor`);
+	writeFiles([packageJSON], "out/monaco-editor");
 })();
 
 (() => {
@@ -59,7 +59,7 @@ generateMetadata();
 		}),
 	);
 
-	writeFiles(otherFiles, `out/monaco-editor`);
+	writeFiles(otherFiles, "out/monaco-editor");
 })();
 
 /**
@@ -131,19 +131,16 @@ function AMD_addPluginContribs(type: "dev" | "min", files: IFile[]) {
 		if (insertIndex === -1) {
 			insertIndex = contents.length;
 		}
-		contents =
-			contents.substring(0, insertIndex) +
-			"\n" +
-			extraContent.join("\n") +
-			"\n" +
-			contents.substring(insertIndex);
+		contents = `${contents.substring(0, insertIndex)}\n${extraContent.join(
+			"\n",
+		)}\n${contents.substring(insertIndex)}`;
 
 		file.contents = Buffer.from(contents);
 	}
 }
 
 function ESM_release() {
-	const coreFiles = readFiles(`node_modules/monaco-editor-core/esm/**/*`, {
+	const coreFiles = readFiles("node_modules/monaco-editor-core/esm/**/*", {
 		base: "node_modules/monaco-editor-core/esm",
 		// we will create our own editor.api.d.ts which also contains the plugins API
 		ignore: [
@@ -152,7 +149,7 @@ function ESM_release() {
 	});
 	ESM_addImportSuffix(coreFiles);
 	ESM_addPluginContribs(coreFiles);
-	writeFiles(coreFiles, `out/monaco-editor/esm`);
+	writeFiles(coreFiles, "out/monaco-editor/esm");
 
 	ESM_releasePlugins();
 }
@@ -163,7 +160,7 @@ function ESM_release() {
  * Rewrites imports for 'monaco-editor-core/**'
  */
 function ESM_releasePlugins() {
-	const files = readFiles(`out/languages/bundled/esm/**/*`, {
+	const files = readFiles("out/languages/bundled/esm/**/*", {
 		base: "out/languages/bundled/esm/",
 	});
 
@@ -200,7 +197,7 @@ function ESM_releasePlugins() {
 					.relative(path.dirname(file.path), importFilePath)
 					.replace(/\\/g, "/");
 				if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
-					relativePath = "./" + relativePath;
+					relativePath = `./${relativePath}`;
 				}
 
 				contents =
@@ -223,7 +220,7 @@ function ESM_releasePlugins() {
 			.relative(path.dirname(file.path), apiFilePath)
 			.replace(/\\/g, "/");
 		if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
-			relativePath = "./" + relativePath;
+			relativePath = `./${relativePath}`;
 		}
 
 		let contents = file.contents.toString();
@@ -232,7 +229,7 @@ function ESM_releasePlugins() {
 	}
 
 	ESM_addImportSuffix(files);
-	writeFiles(files, `out/monaco-editor/esm`);
+	writeFiles(files, "out/monaco-editor/esm");
 }
 
 /**
@@ -257,11 +254,9 @@ function ESM_addImportSuffix(files: IFile[]) {
 				continue;
 			}
 
-			contents =
-				contents.substring(0, pos + 1) +
-				importText +
-				".js" +
-				contents.substring(end + 1);
+			contents = `${
+				contents.substring(0, pos + 1) + importText
+			}.js${contents.substring(end + 1)}`;
 		}
 
 		file.contents = Buffer.from(contents);
@@ -283,9 +278,9 @@ function ESM_addPluginContribs(files: IFile[]) {
 	const mainFileDestPath = "vs/editor/editor.main.js";
 
 	const mainFileImports = readFiles(
-		`out/languages/bundled/esm/**/monaco.contribution.js`,
+		"out/languages/bundled/esm/**/monaco.contribution.js",
 		{
-			base: `out/languages/bundled/esm`,
+			base: "out/languages/bundled/esm",
 		},
 	).map((file) => {
 		let relativePath = path
@@ -294,15 +289,15 @@ function ESM_addPluginContribs(files: IFile[]) {
 			.replace(/\.js$/, "");
 
 		if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
-			relativePath = "./" + relativePath;
+			relativePath = `./${relativePath}`;
 		}
 
 		return relativePath;
 	});
 
-	const mainFileContents =
-		mainFileImports.map((name) => `import '${name}';`).join("\n") +
-		`\n\nexport * from './edcore.main';`;
+	const mainFileContents = `${mainFileImports
+		.map((name) => `import '${name}';`)
+		.join("\n")}\n\nexport * from './edcore.main';`;
 
 	files.push({
 		path: mainFileDestPath,
@@ -327,18 +322,13 @@ function releaseDTS() {
 		return file.contents.toString().replace(/\/\/\/ <reference.*\n/m, "");
 	});
 
-	contents =
-		[
-			"/*!-----------------------------------------------------------",
-			" * Copyright (c) Microsoft Corporation. All rights reserved.",
-			" * Type definitions for monaco-editor",
-			" * Released under the MIT license",
-			"*-----------------------------------------------------------*/",
-		].join("\n") +
-		"\n" +
-		contents +
-		"\n" +
-		extraContent.join("\n");
+	contents = `${[
+		"/*!-----------------------------------------------------------",
+		" * Copyright (c) Microsoft Corporation. All rights reserved.",
+		" * Type definitions for monaco-editor",
+		" * Released under the MIT license",
+		"*-----------------------------------------------------------*/",
+	].join("\n")}\n${contents}\n${extraContent.join("\n")}`;
 
 	// Ensure consistent indentation and line endings
 	contents = cleanFile(contents);
@@ -350,7 +340,7 @@ function releaseDTS() {
 		contents: Buffer.from(toExternalDTS(contents)),
 	};
 
-	writeFiles([monacodts, editorapidts], `out/monaco-editor`);
+	writeFiles([monacodts, editorapidts], "out/monaco-editor");
 
 	// fs.writeFileSync('website/typedoc/monaco.d.ts', contents);
 }
@@ -407,7 +397,7 @@ function toExternalDTS(contents: string): string {
 			].join("\n");
 		}
 		if (line.indexOf("    MonacoEnvironment?") === 0) {
-			lines[i] = `    MonacoEnvironment?: Environment | undefined;`;
+			lines[i] = "    MonacoEnvironment?: Environment | undefined;";
 		}
 	}
 	return lines.join("\n").replace(/\n\n\n+/g, "\n\n");
@@ -457,8 +447,8 @@ function releaseThirdPartyNotices() {
 		.slice(8)
 		.join("\n");
 
-	contents += "\n" + thirdPartyNoticeContent;
+	contents += `\n${thirdPartyNoticeContent}`;
 	tpn.contents = Buffer.from(contents);
 
-	writeFiles([tpn], `out/monaco-editor`);
+	writeFiles([tpn], "out/monaco-editor");
 }

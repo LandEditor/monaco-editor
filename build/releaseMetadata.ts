@@ -130,10 +130,10 @@ export function generateMetadata() {
 			basicLanguages.sort((a, b) => strcmp(a.entry, b.entry));
 			advancedLanguages.sort((a, b) => strcmp(a.entry, b.entry));
 
-			let i = 0,
-				len = basicLanguages.length;
-			let j = 0,
-				lenJ = advancedLanguages.length;
+			let i = 0;
+			const len = basicLanguages.length;
+			let j = 0;
+			const lenJ = advancedLanguages.length;
 			const languages = [];
 			while (i < len || j < lenJ) {
 				if (i < len && j < lenJ) {
@@ -227,9 +227,11 @@ exports.languages = ${JSON.stringify(languages, null, "  ")};
 			for (const feature of [...features, ...languages]) {
 				const entries = [].concat(feature.entry);
 				for (const entry of entries) {
-					const dtsDestination =
-						path.join(REPO_ROOT, "out/monaco-editor/esm", entry) +
-						".d.ts";
+					const dtsDestination = `${path.join(
+						REPO_ROOT,
+						"out/monaco-editor/esm",
+						entry,
+					)}.d.ts`;
 					ensureDir(path.dirname(dtsDestination));
 					fs.writeFileSync(dtsDestination, "export {}\n");
 				}

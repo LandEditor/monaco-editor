@@ -1,4 +1,4 @@
-var jsCode = [
+const jsCode = [
 	'"use strict";',
 	"function Person(age) {",
 	"	if (age) {",
@@ -10,16 +10,16 @@ var jsCode = [
 	"};",
 ].join("\n");
 
-var editor = monaco.editor.create(document.getElementById("container"), {
+const editor = monaco.editor.create(document.getElementById("container"), {
 	value: jsCode,
 	language: "javascript",
 });
 
-var myCondition1 = editor.createContextKey(
+const myCondition1 = editor.createContextKey(
 	/*key name*/ "myCondition1",
 	/*default value*/ false,
 );
-var myCondition2 = editor.createContextKey(
+const myCondition2 = editor.createContextKey(
 	/*key name*/ "myCondition2",
 	/*default value*/ false,
 );

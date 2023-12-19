@@ -129,7 +129,7 @@ export class LocationModel implements IHistoryModel {
 				selectedExampleProject &&
 				projectEquals(state, selectedExampleProject.project)
 			) {
-				return "example-" + selectedExampleProject.example.id;
+				return `example-${selectedExampleProject.example.id}`;
 			}
 			if (
 				this.cachedState &&

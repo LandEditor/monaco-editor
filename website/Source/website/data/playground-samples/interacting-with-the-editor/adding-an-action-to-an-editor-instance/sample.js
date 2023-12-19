@@ -1,4 +1,4 @@
-var editor = monaco.editor.create(document.getElementById("container"), {
+const editor = monaco.editor.create(document.getElementById("container"), {
 	value: [
 		"",
 		"class Example {",
@@ -47,6 +47,6 @@ editor.addAction({
 	// Method that will be executed when the action is triggered.
 	// @param editor The editor instance is passed in as a convenience
 	run: (ed) => {
-		alert("i'm running => " + ed.getPosition());
+		alert(`i'm running => ${ed.getPosition()}`);
 	},
 });

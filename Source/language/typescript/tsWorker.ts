@@ -105,7 +105,7 @@ export class TypeScriptWorker
 	_getScriptText(fileName: string): string | undefined {
 		let text: string;
 		const model = this._getModel(fileName);
-		const libizedFileName = "lib." + fileName + ".d.ts";
+		const libizedFileName = `lib.${fileName}.d.ts`;
 		if (model) {
 			// a true editor model
 			text = model.getValue();
@@ -160,17 +160,13 @@ export class TypeScriptWorker
 
 	getDefaultLibFileName(options: ts.CompilerOptions): string {
 		switch (options.target) {
-			case 99 /* ESNext */:
+			case 99 /* ESNext */: {
 				const esnext = "lib.esnext.full.d.ts";
-				if (esnext in libFileMap || esnext in this._extraLibs)
+				if (esnext in libFileMap || esnext in this._extraLibs) {
 					return esnext;
-			case 7 /* ES2020 */:
-			case 6 /* ES2019 */:
-			case 5 /* ES2018 */:
-			case 4 /* ES2017 */:
-			case 3 /* ES2016 */:
-			case 2 /* ES2015 */:
-			default:
+				}
+			}
+			default: {
 				// Support a dynamic lookup for the ES20XX version based on the target
 				// which is safe unless TC39 changes their numbering system
 				const eslib = `lib.es${
@@ -184,6 +180,7 @@ export class TypeScriptWorker
 				}
 
 				return "lib.es6.d.ts"; // We don't use lib.es2015.full.d.ts due to breaking change.
+			}
 			case 1:
 			case 0:
 				return "lib.d.ts";
@@ -333,7 +330,7 @@ export class TypeScriptWorker
 		fileName: string,
 		position: number,
 		filesToSearch: string[],
-	): Promise<ReadonlyArray<ts.DocumentHighlights> | undefined> {
+	): Promise<readonly ts.DocumentHighlights[] | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
@@ -347,7 +344,7 @@ export class TypeScriptWorker
 	async getDefinitionAtPosition(
 		fileName: string,
 		position: number,
-	): Promise<ReadonlyArray<ts.DefinitionInfo> | undefined> {
+	): Promise<readonly ts.DefinitionInfo[] | undefined> {
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
@@ -472,7 +469,7 @@ export class TypeScriptWorker
 		end: number,
 		errorCodes: number[],
 		formatOptions: ts.FormatCodeOptions,
-	): Promise<ReadonlyArray<ts.CodeFixAction>> {
+	): Promise<readonly ts.CodeFixAction[]> {
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
@@ -538,8 +535,8 @@ export interface CustomTSWebWorkerFactory {
 }
 
 declare global {
-	var importScripts: (path: string) => void | undefined;
-	var customTSWorkerFactory: CustomTSWebWorkerFactory | undefined;
+	let importScripts: (path: string) => void | undefined;
+	let customTSWorkerFactory: CustomTSWebWorkerFactory | undefined;
 }
 
 export function create(

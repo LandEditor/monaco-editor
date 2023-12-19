@@ -150,7 +150,7 @@ export class MonacoEditor extends React.Component<
 					minHeight: 0,
 					minWidth: 0,
 				}}
-				className={"monaco-editor-react " + this.props.className}
+				className={`monaco-editor-react ${this.props.className}`}
 				ref={this.divRef}
 			/>
 		);
@@ -178,13 +178,13 @@ export class MonacoEditor extends React.Component<
 	}
 	componentDidUpdate(oldProps: this["props"]) {
 		if (oldProps.model !== this.props.model) {
-			this.editor!.setModel(this.props.model);
+			this.editor?.setModel(this.props.model);
 		}
 		if (oldProps.theme !== this.props.theme && this.props.theme) {
 			getLoadedMonaco().editor.setTheme(this.props.theme);
 		}
 		if (oldProps.readOnly !== this.props.readOnly) {
-			this.editor!.updateOptions({ readOnly: this.props.readOnly });
+			this.editor?.updateOptions({ readOnly: this.props.readOnly });
 		}
 	}
 	componentWillUnmount() {

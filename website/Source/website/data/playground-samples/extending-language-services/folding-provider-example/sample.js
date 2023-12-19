@@ -2,7 +2,7 @@ monaco.languages.register({
 	id: "foldLanguage",
 });
 
-var value = `1. Hit F1 to bring up the Command Palette
+const value = `1. Hit F1 to bring up the Command Palette
 2. Type 'fold'
 3. Choose 'Fold All Block Comments' or 'Fold All Regions'
 

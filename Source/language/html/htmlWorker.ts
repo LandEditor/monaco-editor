@@ -50,7 +50,7 @@ export class HTMLWorker {
 				document,
 				position,
 				htmlDocument,
-				this._languageSettings && this._languageSettings.suggest,
+				this._languageSettings?.suggest,
 			),
 		);
 	}

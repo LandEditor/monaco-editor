@@ -1,5 +1,5 @@
 // Remember to check out the CSS too!
-var htmlCode =
+const htmlCode =
 	'<html><!--long linelong linelong linelong linelong linelong linelong linelong linelong linelong line-->\n<head>\n	<!-- HTML comment -->\n	<style type="text/css">\n		/* CSS comment */\n	</style>\n	<script type="javascript">\n		// JavaScript comment\n	</' +
 	"script>\n</head>\n<body></body>\n</html>";
 

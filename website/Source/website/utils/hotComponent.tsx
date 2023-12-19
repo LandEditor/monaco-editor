@@ -42,7 +42,7 @@ export function hotComponent(
 		}
 
 		return observer((props: any) => {
-			const C = result!.component;
+			const C = result?.component;
 			return <C {...props} />;
 		}) as any;
 	};

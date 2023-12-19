@@ -38,5 +38,5 @@ export const Editor: React.FC = () => {
 			editor.dispose();
 		};
 	}, []);
-	return <div className="Editor" ref={divEl}></div>;
+	return <div className="Editor" ref={divEl} />;
 };

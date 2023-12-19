@@ -10,7 +10,9 @@ export const Editor: VFC = () => {
 	useEffect(() => {
 		if (monacoEl) {
 			setEditor((editor) => {
-				if (editor) return editor;
+				if (editor) {
+					return editor;
+				}
 
 				return monaco.editor.create(monacoEl.current!, {
 					value: [
@@ -26,5 +28,5 @@ export const Editor: VFC = () => {
 		return () => editor?.dispose();
 	}, [monacoEl.current]);
 
-	return <div className={styles.Editor} ref={monacoEl}></div>;
+	return <div className={styles.Editor} ref={monacoEl} />;
 };

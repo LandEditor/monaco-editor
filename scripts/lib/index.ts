@@ -93,7 +93,7 @@ export async function writeJsonFile(
 	filePath: string,
 	jsonData: unknown,
 ): Promise<void> {
-	await writeFile(filePath, JSON.stringify(jsonData, null, "\t") + "\n");
+	await writeFile(filePath, `${JSON.stringify(jsonData, null, "\t")}\n`);
 }
 
 export function getNightlyVersion(version: string, prerelease: string): string {

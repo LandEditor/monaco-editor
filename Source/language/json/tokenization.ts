@@ -57,10 +57,10 @@ class ParentsStack {
 		a: ParentsStack | null,
 		b: ParentsStack | null,
 	): boolean {
-		if (!a && !b) {
+		if (!(a || b)) {
 			return true;
 		}
-		if (!a || !b) {
+		if (!(a && b)) {
 			return false;
 		}
 		while (a && b) {
@@ -109,7 +109,7 @@ class JSONState implements languages.IState {
 		if (other === this) {
 			return true;
 		}
-		if (!other || !(other instanceof JSONState)) {
+		if (!(other && other instanceof JSONState)) {
 			return false;
 		}
 		return (
@@ -169,14 +169,16 @@ function tokenize(
 	let adjustOffset = false;
 
 	switch (state.scanError) {
-		case ScanError.UnexpectedEndOfString:
-			line = '"' + line;
+		case ScanError.UnexpectedEndOfString: {
+			line = `"${line}`;
 			numberOfInsertedCharacters = 1;
 			break;
-		case ScanError.UnexpectedEndOfComment:
-			line = "/*" + line;
+		}
+		case ScanError.UnexpectedEndOfComment: {
+			line = `/*${line}`;
 			numberOfInsertedCharacters = 2;
 			break;
+		}
 	}
 
 	const scanner = json.createScanner(line);
@@ -200,8 +202,10 @@ function tokenize(
 		// Check that the scanner has advanced
 		if (offset === offsetDelta + scanner.getPosition()) {
 			throw new Error(
-				"Scanner did not advance, next 3 characters are: " +
-					line.substr(scanner.getPosition(), 3),
+				`Scanner did not advance, next 3 characters are: ${line.substr(
+					scanner.getPosition(),
+					3,
+				)}`,
 			);
 		}
 
@@ -214,44 +218,52 @@ function tokenize(
 
 		// brackets and type
 		switch (kind) {
-			case SyntaxKind.OpenBraceToken:
+			case SyntaxKind.OpenBraceToken: {
 				parents = ParentsStack.push(parents, JSONParent.Object);
 				type = TOKEN_DELIM_OBJECT;
 				lastWasColon = false;
 				break;
-			case SyntaxKind.CloseBraceToken:
+			}
+			case SyntaxKind.CloseBraceToken: {
 				parents = ParentsStack.pop(parents);
 				type = TOKEN_DELIM_OBJECT;
 				lastWasColon = false;
 				break;
-			case SyntaxKind.OpenBracketToken:
+			}
+			case SyntaxKind.OpenBracketToken: {
 				parents = ParentsStack.push(parents, JSONParent.Array);
 				type = TOKEN_DELIM_ARRAY;
 				lastWasColon = false;
 				break;
-			case SyntaxKind.CloseBracketToken:
+			}
+			case SyntaxKind.CloseBracketToken: {
 				parents = ParentsStack.pop(parents);
 				type = TOKEN_DELIM_ARRAY;
 				lastWasColon = false;
 				break;
-			case SyntaxKind.ColonToken:
+			}
+			case SyntaxKind.ColonToken: {
 				type = TOKEN_DELIM_COLON;
 				lastWasColon = true;
 				break;
-			case SyntaxKind.CommaToken:
+			}
+			case SyntaxKind.CommaToken: {
 				type = TOKEN_DELIM_COMMA;
 				lastWasColon = false;
 				break;
+			}
 			case SyntaxKind.TrueKeyword:
-			case SyntaxKind.FalseKeyword:
+			case SyntaxKind.FalseKeyword: {
 				type = TOKEN_VALUE_BOOLEAN;
 				lastWasColon = false;
 				break;
-			case SyntaxKind.NullKeyword:
+			}
+			case SyntaxKind.NullKeyword: {
 				type = TOKEN_VALUE_NULL;
 				lastWasColon = false;
 				break;
-			case SyntaxKind.StringLiteral:
+			}
+			case SyntaxKind.StringLiteral: {
 				const currentParent = parents
 					? parents.type
 					: JSONParent.Object;
@@ -262,21 +274,25 @@ function tokenize(
 						: TOKEN_PROPERTY_NAME;
 				lastWasColon = false;
 				break;
-			case SyntaxKind.NumericLiteral:
+			}
+			case SyntaxKind.NumericLiteral: {
 				type = TOKEN_VALUE_NUMBER;
 				lastWasColon = false;
 				break;
+			}
 		}
 
 		// comments, iff enabled
 		if (comments) {
 			switch (kind) {
-				case SyntaxKind.LineCommentTrivia:
+				case SyntaxKind.LineCommentTrivia: {
 					type = TOKEN_COMMENT_LINE;
 					break;
-				case SyntaxKind.BlockCommentTrivia:
+				}
+				case SyntaxKind.BlockCommentTrivia: {
 					type = TOKEN_COMMENT_BLOCK;
 					break;
+				}
 			}
 		}
 

@@ -102,7 +102,7 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 	}
 
 	public dispose(): void {
-		this._disposables.forEach((d) => d && d.dispose());
+		this._disposables.forEach((d) => d?.dispose());
 		this._disposables.length = 0;
 	}
 
@@ -500,7 +500,7 @@ function toMarkdownString(
 		};
 	}
 
-	return { value: "```" + entry.language + "\n" + entry.value + "\n```\n" };
+	return { value: `\`\`\`${entry.language}\n${entry.value}\n`\`\`\n` };
 }
 
 function toMarkedStringArray(
@@ -705,7 +705,7 @@ export class RenameAdapter<T extends ILanguageWorkerWithRename>
 function toWorkspaceEdit(
 	edit: lsTypes.WorkspaceEdit | null,
 ): languages.WorkspaceEdit | undefined {
-	if (!edit || !edit.changes) {
+	if (!edit?.changes) {
 		return void 0;
 	}
 	const resourceEdits: languages.IWorkspaceTextEdit[] = [];

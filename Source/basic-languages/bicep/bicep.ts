@@ -24,9 +24,9 @@ const keywords = [
 
 const namedLiterals = ["true", "false", "null"];
 
-const nonCommentWs = `[ \\t\\r\\n]`;
+const nonCommentWs = "[ \\t\\r\\n]";
 
-const numericLiteral = `[0-9]+`;
+const numericLiteral = "[0-9]+";
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
@@ -86,7 +86,7 @@ export const language = <languages.IMonarchLanguage>{
 
 		stringLiteral: [
 			{
-				regex: `\\\${`,
+				regex: "\\${",
 				action: {
 					token: "delimiter.bracket",
 					next: "@bracketCounting",
@@ -94,35 +94,35 @@ export const language = <languages.IMonarchLanguage>{
 			},
 			{ regex: `[^\\\\'$]+`, action: { token: "string" } },
 			{ regex: "@escapes", action: { token: "string.escape" } },
-			{ regex: `\\\\.`, action: { token: "string.escape.invalid" } },
+			{ regex: "\\\\.", action: { token: "string.escape.invalid" } },
 			{ regex: `'`, action: { token: "string", next: "@pop" } },
 		],
 
 		bracketCounting: [
 			{
-				regex: `{`,
+				regex: "{",
 				action: {
 					token: "delimiter.bracket",
 					next: "@bracketCounting",
 				},
 			},
 			{
-				regex: `}`,
+				regex: "}",
 				action: { token: "delimiter.bracket", next: "@pop" },
 			},
 			{ include: "expression" },
 		],
 
 		comment: [
-			{ regex: `[^\\*]+`, action: { token: "comment" } },
-			{ regex: `\\*\\/`, action: { token: "comment", next: "@pop" } },
-			{ regex: `[\\/*]`, action: { token: "comment" } },
+			{ regex: "[^\\*]+", action: { token: "comment" } },
+			{ regex: "\\*\\/", action: { token: "comment", next: "@pop" } },
+			{ regex: "[\\/*]", action: { token: "comment" } },
 		],
 
 		whitespace: [
 			{ regex: nonCommentWs },
-			{ regex: `\\/\\*`, action: { token: "comment", next: "@comment" } },
-			{ regex: `\\/\\/.*$`, action: { token: "comment" } },
+			{ regex: "\\/\\*", action: { token: "comment", next: "@comment" } },
+			{ regex: "\\/\\/.*$", action: { token: "comment" } },
 		],
 
 		expression: [

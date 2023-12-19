@@ -90,7 +90,7 @@ function resolveDesiredFeatures(
 
 	let featuresIds: string[];
 
-	if (userFeatures && userFeatures.length) {
+	if (userFeatures?.length) {
 		const excludedFeatures = userFeatures
 			.filter((f) => f[0] === "!")
 			.map((f) => f.slice(1));
@@ -201,7 +201,7 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
 			filename: options.filename || "[name].worker.js",
 			monacoEditorPath,
 			publicPath: options.publicPath || "",
-			globalAPI: options.globalAPI || false,
+			globalAPI: options.globalAPI,
 		};
 	}
 
@@ -274,12 +274,12 @@ function addCompilerPlugins(
 }
 
 function getCompilationPublicPath(compiler: webpack.Compiler): string {
-	if (compiler.options.output && compiler.options.output.publicPath) {
+	if (compiler.options.output?.publicPath) {
 		if (typeof compiler.options.output.publicPath === "string") {
 			return compiler.options.output.publicPath;
 		} else {
 			console.warn(
-				`Cannot handle options.publicPath (expected a string)`,
+				"Cannot handle options.publicPath (expected a string)",
 			);
 		}
 	}
@@ -296,7 +296,7 @@ function createLoaderRules(
 	compilationPublicPath: string,
 	globalAPI: boolean,
 ): webpack.RuleSetRule[] {
-	if (!languages.length && !features.length) {
+	if (!(languages.length || features.length)) {
 		return [];
 	}
 	const languagePaths = flatArr(
@@ -331,11 +331,11 @@ function createLoaderRules(
 	// 1. Plugin-specific public path.
 	// 2. Dynamic runtime public path.
 	// 3. Compilation public path.
-	const pathPrefix = Boolean(pluginPublicPath)
+	const pathPrefix = pluginPublicPath
 		? JSON.stringify(pluginPublicPath)
-		: `typeof __webpack_public_path__ === 'string' ` +
-		  `? __webpack_public_path__ ` +
-		  `: ${JSON.stringify(compilationPublicPath)}`;
+		: `typeof __webpack_public_path__ === 'string' ? __webpack_public_path__ : ${JSON.stringify(
+				compilationPublicPath,
+		  )}`;
 
 	const globals = {
 		MonacoEnvironment: `(function (paths) {

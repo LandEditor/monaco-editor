@@ -153,7 +153,7 @@ function asDisposable(disposables: IDisposable[]): IDisposable {
 
 function disposeAll(disposables: IDisposable[]) {
 	while (disposables.length) {
-		disposables.pop()!.dispose();
+		disposables.pop()?.dispose();
 	}
 }
 

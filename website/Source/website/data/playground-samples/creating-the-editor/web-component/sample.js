@@ -28,7 +28,7 @@ customElements.define(
 				automaticLayout: true,
 				language: "html",
 
-				value: `<div>Hello World</div>`,
+				value: "<div>Hello World</div>",
 			});
 		}
 	},

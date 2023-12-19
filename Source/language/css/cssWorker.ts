@@ -37,20 +37,23 @@ export class CSSWorker {
 		};
 
 		switch (this._languageId) {
-			case "css":
+			case "css": {
 				this._languageService =
 					cssService.getCSSLanguageService(lsOptions);
 				break;
-			case "less":
+			}
+			case "less": {
 				this._languageService =
 					cssService.getLESSLanguageService(lsOptions);
 				break;
-			case "scss":
+			}
+			case "scss": {
 				this._languageService =
 					cssService.getSCSSLanguageService(lsOptions);
 				break;
+			}
 			default:
-				throw new Error("Invalid language id: " + this._languageId);
+				throw new Error(`Invalid language id: ${this._languageId}`);
 		}
 		this._languageService.configure(this._languageSettings);
 	}

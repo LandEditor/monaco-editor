@@ -302,7 +302,7 @@ export class DiagnosticsAdapter extends Adapter {
 	}
 
 	public dispose(): void {
-		this._disposables.forEach((d) => d && d.dispose());
+		this._disposables.forEach((d) => d?.dispose());
 		this._disposables = [];
 	}
 
@@ -634,8 +634,9 @@ function tagToString(tag: ts.JSDocTagInfo): string {
 	if (tag.name === "param" && tag.text) {
 		const [paramName, ...rest] = tag.text;
 		tagLabel += `\`${paramName.text}\``;
-		if (rest.length > 0)
+		if (rest.length > 0) {
 			tagLabel += ` — ${rest.map((r) => r.text).join(" ")}`;
+		}
 	} else if (Array.isArray(tag.text)) {
 		tagLabel += ` — ${tag.text.map((r) => r.text).join(" ")}`;
 	} else if (tag.text) {
@@ -675,8 +676,6 @@ export class SignatureHelpAdapter
 				return context.isRetrigger
 					? { kind: "retrigger" }
 					: { kind: "invoked" };
-
-			case languages.SignatureHelpTriggerKind.Invoke:
 			default:
 				return { kind: "invoked" };
 		}
@@ -789,10 +788,10 @@ export class QuickInfoAdapter
 			range: this._textSpanToRange(model, info.textSpan),
 			contents: [
 				{
-					value: "```typescript\n" + contents + "\n```\n",
+					value: `\`\`\`typescript\n${contents}\n`\`\`\n`,
 				},
 				{
-					value: documentation + (tags ? "\n\n" + tags : ""),
+					value: documentation + (tags ? `\n\n${tags}` : ""),
 				},
 			],
 		};

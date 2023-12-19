@@ -1,4 +1,4 @@
-var jsCode = [
+const jsCode = [
 	'"use strict";',
 	"function Person(age) {",
 	"	if (age) {",
@@ -10,14 +10,14 @@ var jsCode = [
 	"};",
 ].join("\n");
 
-var editor = monaco.editor.create(document.getElementById("container"), {
+const editor = monaco.editor.create(document.getElementById("container"), {
 	value: jsCode,
 	language: "javascript",
 	glyphMargin: true,
 	contextmenu: false,
 });
 
-var decorations = editor.createDecorationsCollection([
+const decorations = editor.createDecorationsCollection([
 	{
 		range: new monaco.Range(3, 1, 3, 1),
 		options: {
@@ -29,9 +29,9 @@ var decorations = editor.createDecorationsCollection([
 ]);
 
 // Add a zone to make hit testing more interesting
-var viewZoneId = null;
+let viewZoneId = null;
 editor.changeViewZones((changeAccessor) => {
-	var domNode = document.createElement("div");
+	const domNode = document.createElement("div");
 	domNode.style.background = "lightgreen";
 	viewZoneId = changeAccessor.addZone({
 		afterLineNumber: 3,
@@ -41,9 +41,9 @@ editor.changeViewZones((changeAccessor) => {
 });
 
 // Add a content widget (scrolls inline with text)
-var contentWidget = {
+const contentWidget = {
 	domNode: (() => {
-		var domNode = document.createElement("div");
+		const domNode = document.createElement("div");
 		domNode.innerHTML = "My content widget";
 		domNode.style.background = "grey";
 		return domNode;
@@ -66,9 +66,9 @@ var contentWidget = {
 editor.addContentWidget(contentWidget);
 
 // Add an overlay widget
-var overlayWidget = {
+const overlayWidget = {
 	domNode: (() => {
-		var domNode = document.createElement("div");
+		const domNode = document.createElement("div");
 		domNode.innerHTML = "My overlay widget";
 		domNode.style.background = "grey";
 		domNode.style.right = "30px";
@@ -83,7 +83,7 @@ var overlayWidget = {
 };
 editor.addOverlayWidget(overlayWidget);
 
-var output = document.getElementById("output");
+const output = document.getElementById("output");
 function showEvent(str) {
 	while (output.childNodes.length > 6) {
 		output.removeChild(output.firstChild.nextSibling.nextSibling);
@@ -93,13 +93,13 @@ function showEvent(str) {
 }
 
 editor.onMouseMove((e) => {
-	showEvent("mousemove - " + e.target.toString());
+	showEvent(`mousemove - ${e.target.toString()}`);
 });
 editor.onMouseDown((e) => {
-	showEvent("mousedown - " + e.target.toString());
+	showEvent(`mousedown - ${e.target.toString()}`);
 });
 editor.onContextMenu((e) => {
-	showEvent("contextmenu - " + e.target.toString());
+	showEvent(`contextmenu - ${e.target.toString()}`);
 });
 editor.onMouseLeave((e) => {
 	showEvent("mouseleave");

@@ -13,9 +13,7 @@ monaco.languages.registerHoverProvider("mySpecialLanguage", {
 				{ value: "**SOURCE**" },
 				{
 					value:
-						"```html\n" +
-						res.responseText.substring(0, 200) +
-						"\n```",
+						`\`\`\`html\n${res.responseText.substring(0, 200)}\n`\`\``,
 				},
 			],
 		})),
@@ -27,7 +25,7 @@ monaco.editor.create(document.getElementById("container"), {
 });
 
 function xhr(url) {
-	var req = null;
+	let req = null;
 	return new Promise((c, e) => {
 		req = new XMLHttpRequest();
 		req.onreadystatechange = () => {

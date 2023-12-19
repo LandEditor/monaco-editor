@@ -1,9 +1,9 @@
-var editor = monaco.editor.create(document.getElementById("container"), {
+const editor = monaco.editor.create(document.getElementById("container"), {
 	value: '{\n\t"dependencies": {\n\t\t\n\t}\n}\n',
 	language: "json",
 });
 
-var commandId = editor.addCommand(
+const commandId = editor.addCommand(
 	0,
 	() => {
 		// services available in `ctx`

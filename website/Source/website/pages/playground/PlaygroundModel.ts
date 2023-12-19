@@ -114,7 +114,7 @@ export class PlaygroundModel {
 			...previewState,
 			monacoSetup: toLoaderConfig({
 				...getDefaultSettings(),
-				...this.historyModel.compareWith!.toPartialSettings(),
+				...this.historyModel.compareWith?.toPartialSettings(),
 			}),
 		};
 	};
@@ -256,16 +256,16 @@ export class PlaygroundModel {
 		}
 
 		const regexp = new RegExp(
-			"(\\b" +
-				escapeRegexpChars(codeStringName) +
-				":[^\\w`]*`)([^`\\\\\\n]|\\n|\\\\\\\\|\\\\\\`|\\\\\\$)*`",
+			`(\\b${escapeRegexpChars(
+				codeStringName,
+			)}:[^\\w\`]*\`)([^\`\\\\\\n]|\\n|\\\\\\\\|\\\\\\\`|\\\\\\$)*\``,
 		);
 		const js = this.js;
 		const str = value
 			.replaceAll("\\", "\\\\")
 			.replaceAll("$", "\\$$$$")
 			.replaceAll("`", "\\`");
-		const newJs = js.replace(regexp, "$1" + str + "`");
+		const newJs = js.replace(regexp, `$1${str}\``);
 		const autoReload = this.settings.autoReload;
 		this.settings.autoReload = false;
 		this.js = newJs;

@@ -460,7 +460,7 @@ export interface TypeScriptWorker {
 		fileName: string,
 		position: number,
 		filesToSearch: string[],
-	): Promise<ReadonlyArray<any> | undefined>;
+	): Promise<readonly any[] | undefined>;
 
 	/**
 	 * Get the definition of the item at the given position in the file.
@@ -469,7 +469,7 @@ export interface TypeScriptWorker {
 	getDefinitionAtPosition(
 		fileName: string,
 		position: number,
-	): Promise<ReadonlyArray<any> | undefined>;
+	): Promise<readonly any[] | undefined>;
 
 	/**
 	 * Get references to the item at the given position in the file.
@@ -560,7 +560,7 @@ export interface TypeScriptWorker {
 		end: number,
 		errorCodes: number[],
 		formatOptions: any,
-	): Promise<ReadonlyArray<any>>;
+	): Promise<readonly any[]>;
 
 	/**
 	 * Get inlay hints in the range of the file.
@@ -571,7 +571,7 @@ export interface TypeScriptWorker {
 		fileName: string,
 		start: number,
 		end: number,
-	): Promise<ReadonlyArray<any>>;
+	): Promise<readonly any[]>;
 }
 
 // --- TypeScript configuration and defaults ---------
@@ -846,8 +846,8 @@ export const getJavaScriptWorker = (): Promise<
 
 // --- Registration to monaco editor ---
 
-declare var AMD: any;
-declare var require: any;
+declare let AMD: any;
+declare let require: any;
 
 function getMode(): Promise<typeof mode> {
 	if (AMD) {

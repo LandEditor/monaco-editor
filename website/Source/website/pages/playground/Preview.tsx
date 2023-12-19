@@ -74,7 +74,7 @@ export class Preview extends React.Component<{
 				kind: "initialize",
 				state: this.currentState,
 			};
-			iframe.contentWindow!.postMessage(message, {
+			iframe.contentWindow?.postMessage(message, {
 				targetOrigin: "*",
 			});
 		});
@@ -116,7 +116,7 @@ export class Preview extends React.Component<{
 			JSON.stringify({ ...this.currentState, css: "" })
 		) {
 			// only css changed
-			this.iframe?.contentWindow!.postMessage(
+			this.iframe?.contentWindow?.postMessage(
 				{ kind: "update-css", css: state.css } as IMessageToRunner,
 				{ targetOrigin: "*" },
 			);

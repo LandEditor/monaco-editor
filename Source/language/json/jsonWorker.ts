@@ -241,7 +241,7 @@ function normalizePath(parts: string[]): string {
 	}
 	let res = newParts.join("/");
 	if (parts[0].length === 0) {
-		res = "/" + res;
+		res = `/${res}`;
 	}
 	return res;
 }
