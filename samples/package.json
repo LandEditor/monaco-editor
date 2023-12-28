@@ -18,7 +18,7 @@
 		"monaco-editor": "0.45.0",
 		"monaco-editor-webpack-plugin": "7.1.0",
 		"style-loader": "3.3.3",
-		"terser-webpack-plugin": "5.3.9",
+		"terser-webpack-plugin": "5.3.10",
 		"ts-loader": "9.5.1",
 		"typescript": "5.3.3",
 		"webpack": "5.89.0",

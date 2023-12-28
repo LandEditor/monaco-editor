@@ -39,7 +39,7 @@
 		"webpack-cli": "5.1.4"
 	},
 	"peerDependencies": {
-		"monaco-editor": ">=0.45.0",
+		"monaco-editor": "0.45.0",
 		"webpack": "5.x"
 	}
 }

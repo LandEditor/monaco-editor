@@ -39,7 +39,7 @@
 		"@types/mocha": "10.0.6",
 		"@types/shelljs": "0.8.15",
 		"@typescript/vfs": "1.5.0",
-		"chai": "4.3.10",
+		"chai": "5.0.0",
 		"clean-css": "5.3.3",
 		"css-loader": "6.8.1",
 		"esbuild": "0.19.10",
