@@ -36,22 +36,22 @@ function createDependencyProposals(range) {
 }
 
 monaco.languages.registerCompletionItemProvider("json", {
-	provideCompletionItems: (model, position) => {
+	provideCompletionItems: function (model, position) {
 		// find out if we are completing a property in the 'dependencies' object.
-		const textUntilPosition = model.getValueInRange({
+		var textUntilPosition = model.getValueInRange({
 			startLineNumber: 1,
 			startColumn: 1,
 			endLineNumber: position.lineNumber,
 			endColumn: position.column,
 		});
-		const match = textUntilPosition.match(
-			/"dependencies"\s*:\s*\{\s*("[^"]*"\s*:\s*"[^"]*"\s*,\s*)*([^"]*)?$/,
+		var match = textUntilPosition.match(
+			/"dependencies"\s*:\s*\{\s*("[^"]*"\s*:\s*"[^"]*"\s*,\s*)*([^"]*)?$/
 		);
 		if (!match) {
 			return { suggestions: [] };
 		}
-		const word = model.getWordUntilPosition(position);
-		const range = {
+		var word = model.getWordUntilPosition(position);
+		var range = {
 			startLineNumber: position.lineNumber,
 			endLineNumber: position.lineNumber,
 			startColumn: word.startColumn,

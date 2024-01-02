@@ -3,25 +3,23 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { registerLanguage } from "../_.contribution";
+import { registerLanguage } from '../_.contribution';
 
-declare let AMD: any;
-declare let require: any;
+declare var AMD: any;
+declare var require: any;
 
 registerLanguage({
-	id: "typescript",
-	extensions: [".ts", ".tsx", ".cts", ".mts"],
-	aliases: ["TypeScript", "ts", "typescript"],
-	mimetypes: ["text/typescript"],
+	id: 'typescript',
+	extensions: ['.ts', '.tsx', '.cts', '.mts'],
+	aliases: ['TypeScript', 'ts', 'typescript'],
+	mimetypes: ['text/typescript'],
 	loader: (): Promise<any> => {
 		if (AMD) {
 			return new Promise((resolve, reject) => {
-				require([
-					"vs/basic-languages/typescript/typescript",
-				], resolve, reject);
+				require(['vs/basic-languages/typescript/typescript'], resolve, reject);
 			});
 		} else {
-			return import("./typescript");
+			return import('./typescript');
 		}
-	},
+	}
 });

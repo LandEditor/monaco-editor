@@ -3,39 +3,39 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { languages } from "../../fillers/monaco-editor-core";
+import type { languages } from '../../fillers/monaco-editor-core';
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
-		blockComment: ["<!--", "-->"],
+		blockComment: ['<!--', '-->']
 	},
 	brackets: [
-		["{", "}"],
-		["[", "]"],
-		["(", ")"],
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
-		{ open: "{", close: "}" },
-		{ open: "[", close: "]" },
-		{ open: "(", close: ")" },
-		{ open: "<", close: ">", notIn: ["string"] },
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' },
+		{ open: '<', close: '>', notIn: ['string'] }
 	],
 	surroundingPairs: [
-		{ open: "(", close: ")" },
-		{ open: "[", close: "]" },
-		{ open: "`", close: "`" },
+		{ open: '(', close: ')' },
+		{ open: '[', close: ']' },
+		{ open: '`', close: '`' }
 	],
 	folding: {
 		markers: {
-			start: /^\s*<!--\s*#?region\b.*-->/,
-			end: /^\s*<!--\s*#?endregion\b.*-->/,
-		},
-	},
+			start: new RegExp('^\\s*<!--\\s*#?region\\b.*-->'),
+			end: new RegExp('^\\s*<!--\\s*#?endregion\\b.*-->')
+		}
+	}
 };
 
 export const language = <languages.IMonarchLanguage>{
-	defaultToken: "",
-	tokenPostfix: ".md",
+	defaultToken: '',
+	tokenPostfix: '.md',
 
 	// escape codes
 	control: /[\\`*_\[\]{}()#+\-\.!]/,
@@ -47,126 +47,114 @@ export const language = <languages.IMonarchLanguage>{
 
 	// non matched elements
 	empty: [
-		"area",
-		"base",
-		"basefont",
-		"br",
-		"col",
-		"frame",
-		"hr",
-		"img",
-		"input",
-		"isindex",
-		"link",
-		"meta",
-		"param",
+		'area',
+		'base',
+		'basefont',
+		'br',
+		'col',
+		'frame',
+		'hr',
+		'img',
+		'input',
+		'isindex',
+		'link',
+		'meta',
+		'param'
 	],
 
 	tokenizer: {
 		root: [
 			// markdown tables
-			[/^\s*\|/, "@rematch", "@table_header"],
+			[/^\s*\|/, '@rematch', '@table_header'],
 
 			// headers (with #)
-			[
-				/^(\s{0,3})(#+)((?:[^\\#]|@escapes)+)((?:#+)?)/,
-				["white", "keyword", "keyword", "keyword"],
-			],
+			[/^(\s{0,3})(#+)((?:[^\\#]|@escapes)+)((?:#+)?)/, ['white', 'keyword', 'keyword', 'keyword']],
 
 			// headers (with =)
-			[/^\s*(=+|\-+)\s*$/, "keyword"],
+			[/^\s*(=+|\-+)\s*$/, 'keyword'],
 
 			// headers (with ***)
-			[/^\s*((\*[ ]?)+)\s*$/, "meta.separator"],
+			[/^\s*((\*[ ]?)+)\s*$/, 'meta.separator'],
 
 			// quote
-			[/^\s*>+/, "comment"],
+			[/^\s*>+/, 'comment'],
 
 			// list (starting with * or number)
-			[/^\s*([\*\-+:]|\d+\.)\s/, "keyword"],
+			[/^\s*([\*\-+:]|\d+\.)\s/, 'keyword'],
 
 			// code block (4 spaces indent)
-			[/^(\t|[ ]{4})[^ ].*$/, "string"],
+			[/^(\t|[ ]{4})[^ ].*$/, 'string'],
 
 			// code block (3 tilde)
-			[
-				/^\s*~~~\s*((?:\w|[\/\-#])+)?\s*$/,
-				{ token: "string", next: "@codeblock" },
-			],
+			[/^\s*~~~\s*((?:\w|[\/\-#])+)?\s*$/, { token: 'string', next: '@codeblock' }],
 
 			// github style code blocks (with backticks and language)
 			[
 				/^\s*```\s*((?:\w|[\/\-#])+).*$/,
-				{ token: "string", next: "@codeblockgh", nextEmbedded: "$1" },
+				{ token: 'string', next: '@codeblockgh', nextEmbedded: '$1' }
 			],
 
 			// github style code blocks (with backticks but no language)
-			[/^\s*```\s*$/, { token: "string", next: "@codeblock" }],
+			[/^\s*```\s*$/, { token: 'string', next: '@codeblock' }],
 
 			// markup within lines
-			{ include: "@linecontent" },
+			{ include: '@linecontent' }
 		],
 
 		table_header: [
-			{ include: "@table_common" },
-			[/[^\|]+/, "keyword.table.header"], // table header
+			{ include: '@table_common' },
+			[/[^\|]+/, 'keyword.table.header'] // table header
 		],
 
-		table_body: [{ include: "@table_common" }, { include: "@linecontent" }],
+		table_body: [{ include: '@table_common' }, { include: '@linecontent' }],
 
 		table_common: [
-			[/\s*[\-:]+\s*/, { token: "keyword", switchTo: "table_body" }], // header-divider
-			[/^\s*\|/, "keyword.table.left"], // opening |
-			[/^\s*[^\|]/, "@rematch", "@pop"], // exiting
-			[/^\s*$/, "@rematch", "@pop"], // exiting
+			[/\s*[\-:]+\s*/, { token: 'keyword', switchTo: 'table_body' }], // header-divider
+			[/^\s*\|/, 'keyword.table.left'], // opening |
+			[/^\s*[^\|]/, '@rematch', '@pop'], // exiting
+			[/^\s*$/, '@rematch', '@pop'], // exiting
 			[
 				/\|/,
 				{
 					cases: {
-						"@eos": "keyword.table.right", // closing |
-						"@default": "keyword.table.middle", // inner |
-					},
-				},
-			],
+						'@eos': 'keyword.table.right', // closing |
+						'@default': 'keyword.table.middle' // inner |
+					}
+				}
+			]
 		],
 
 		codeblock: [
-			[/^\s*~~~\s*$/, { token: "string", next: "@pop" }],
-			[/^\s*```\s*$/, { token: "string", next: "@pop" }],
-			[/.*$/, "variable.source"],
+			[/^\s*~~~\s*$/, { token: 'string', next: '@pop' }],
+			[/^\s*```\s*$/, { token: 'string', next: '@pop' }],
+			[/.*$/, 'variable.source']
 		],
 
 		// github style code blocks
 		codeblockgh: [
-			[
-				/```\s*$/,
-				{ token: "string", next: "@pop", nextEmbedded: "@pop" },
-			],
-			[/[^`]+/, "variable.source"],
+			[/```\s*$/, { token: 'string', next: '@pop', nextEmbedded: '@pop' }],
+			[/[^`]+/, 'variable.source']
 		],
 
 		linecontent: [
 			// escapes
-			[/&\w+;/, "string.escape"],
-			[/@escapes/, "escape"],
+			[/&\w+;/, 'string.escape'],
+			[/@escapes/, 'escape'],
 
 			// various markup
-			[/\b__([^\\_]|@escapes|_(?!_))+__\b/, "strong"],
-			[/\*\*([^\\*]|@escapes|\*(?!\*))+\*\*/, "strong"],
-			[/\b_[^_]+_\b/, "emphasis"],
-			[/\*([^\\*]|@escapes)+\*/, "emphasis"],
-			[/`([^\\`]|@escapes)+`/, "variable"],
+			[/\b__([^\\_]|@escapes|_(?!_))+__\b/, 'strong'],
+			[/\*\*([^\\*]|@escapes|\*(?!\*))+\*\*/, 'strong'],
+			[/\b_[^_]+_\b/, 'emphasis'],
+			[/\*([^\\*]|@escapes)+\*/, 'emphasis'],
+			[/`([^\\`]|@escapes)+`/, 'variable'],
 
 			// links
-			[/\{+[^}]+\}+/, "string.target"],
-			[
-				/(!?\[)((?:[^\]\\]|@escapes)*)(\]\([^\)]+\))/,
-				["string.link", "", "string.link"],
-			],
-			[/(!?\[)((?:[^\]\\]|@escapes)*)(\])/, "string.link"],
+			[/\{+[^}]+\}+/, 'string.target'],
+			[/(!?\[)((?:[^\]\\]|@escapes)*)(\]\([^\)]+\))/, ['string.link', '', 'string.link']],
+			[/(!?\[)((?:[^\]\\]|@escapes)*)(\])/, 'string.link'],
 
 			// or html
-			{ include: "html" },
+			{ include: 'html' }
 		],
 
 		// Note: it is tempting to rather switch to the real HTML mode instead of building our own here
@@ -176,102 +164,93 @@ export const language = <languages.IMonarchLanguage>{
 		// we cannot correctly tokenize it in that mode yet.
 		html: [
 			// html tags
-			[/<(\w+)\/>/, "tag"],
+			[/<(\w+)\/>/, 'tag'],
 			[
 				/<(\w+)(\-|\w)*/,
 				{
 					cases: {
-						"@empty": { token: "tag", next: "@tag.$1" },
-						"@default": { token: "tag", next: "@tag.$1" },
-					},
-				},
+						'@empty': { token: 'tag', next: '@tag.$1' },
+						'@default': { token: 'tag', next: '@tag.$1' }
+					}
+				}
 			],
-			[/<\/(\w+)(\-|\w)*\s*>/, { token: "tag" }],
+			[/<\/(\w+)(\-|\w)*\s*>/, { token: 'tag' }],
 
-			[/<!--/, "comment", "@comment"],
+			[/<!--/, 'comment', '@comment']
 		],
 
 		comment: [
-			[/[^<\-]+/, "comment.content"],
-			[/-->/, "comment", "@pop"],
-			[/<!--/, "comment.content.invalid"],
-			[/[<\-]/, "comment.content"],
+			[/[^<\-]+/, 'comment.content'],
+			[/-->/, 'comment', '@pop'],
+			[/<!--/, 'comment.content.invalid'],
+			[/[<\-]/, 'comment.content']
 		],
 
 		// Almost full HTML tag matching, complete with embedded scripts & styles
 		tag: [
-			[/[ \t\r\n]+/, "white"],
+			[/[ \t\r\n]+/, 'white'],
 			[
 				/(type)(\s*=\s*)(")([^"]+)(")/,
 				[
-					"attribute.name.html",
-					"delimiter.html",
-					"string.html",
-					{ token: "string.html", switchTo: "@tag.$S2.$4" },
-					"string.html",
-				],
+					'attribute.name.html',
+					'delimiter.html',
+					'string.html',
+					{ token: 'string.html', switchTo: '@tag.$S2.$4' },
+					'string.html'
+				]
 			],
 			[
 				/(type)(\s*=\s*)(')([^']+)(')/,
 				[
-					"attribute.name.html",
-					"delimiter.html",
-					"string.html",
-					{ token: "string.html", switchTo: "@tag.$S2.$4" },
-					"string.html",
-				],
+					'attribute.name.html',
+					'delimiter.html',
+					'string.html',
+					{ token: 'string.html', switchTo: '@tag.$S2.$4' },
+					'string.html'
+				]
 			],
-			[
-				/(\w+)(\s*=\s*)("[^"]*"|'[^']*')/,
-				["attribute.name.html", "delimiter.html", "string.html"],
-			],
-			[/\w+/, "attribute.name.html"],
-			[/\/>/, "tag", "@pop"],
+			[/(\w+)(\s*=\s*)("[^"]*"|'[^']*')/, ['attribute.name.html', 'delimiter.html', 'string.html']],
+			[/\w+/, 'attribute.name.html'],
+			[/\/>/, 'tag', '@pop'],
 			[
 				/>/,
 				{
 					cases: {
-						"$S2==style": {
-							token: "tag",
-							switchTo: "embeddedStyle",
-							nextEmbedded: "text/css",
+						'$S2==style': {
+							token: 'tag',
+							switchTo: 'embeddedStyle',
+							nextEmbedded: 'text/css'
 						},
-						"$S2==script": {
+						'$S2==script': {
 							cases: {
 								$S3: {
-									token: "tag",
-									switchTo: "embeddedScript",
-									nextEmbedded: "$S3",
+									token: 'tag',
+									switchTo: 'embeddedScript',
+									nextEmbedded: '$S3'
 								},
-								"@default": {
-									token: "tag",
-									switchTo: "embeddedScript",
-									nextEmbedded: "text/javascript",
-								},
-							},
+								'@default': {
+									token: 'tag',
+									switchTo: 'embeddedScript',
+									nextEmbedded: 'text/javascript'
+								}
+							}
 						},
-						"@default": { token: "tag", next: "@pop" },
-					},
-				},
-			],
+						'@default': { token: 'tag', next: '@pop' }
+					}
+				}
+			]
 		],
 
 		embeddedStyle: [
-			[/[^<]+/, ""],
-			[
-				/<\/style\s*>/,
-				{ token: "@rematch", next: "@pop", nextEmbedded: "@pop" },
-			],
-			[/</, ""],
+			[/[^<]+/, ''],
+			[/<\/style\s*>/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[/</, '']
 		],
 
 		embeddedScript: [
-			[/[^<]+/, ""],
-			[
-				/<\/script\s*>/,
-				{ token: "@rematch", next: "@pop", nextEmbedded: "@pop" },
-			],
-			[/</, ""],
-		],
-	},
+			[/[^<]+/, ''],
+			[/<\/script\s*>/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+			[/</, '']
+		]
+	}
 };

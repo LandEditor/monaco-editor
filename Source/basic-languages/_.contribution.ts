@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { editor, languages } from "../fillers/monaco-editor-core";
+import { languages, editor } from '../fillers/monaco-editor-core';
 
 interface ILang extends languages.ILanguageExtensionPoint {
 	loader: () => Promise<ILangImpl>;
@@ -20,9 +20,7 @@ const lazyLanguageLoaders: { [languageId: string]: LazyLanguageLoader } = {};
 class LazyLanguageLoader {
 	public static getOrCreate(languageId: string): LazyLanguageLoader {
 		if (!lazyLanguageLoaders[languageId]) {
-			lazyLanguageLoaders[languageId] = new LazyLanguageLoader(
-				languageId,
-			);
+			lazyLanguageLoaders[languageId] = new LazyLanguageLoader(languageId);
 		}
 		return lazyLanguageLoaders[languageId];
 	}
@@ -47,7 +45,7 @@ class LazyLanguageLoader {
 			this._loadingTriggered = true;
 			languageDefinitions[this._languageId].loader().then(
 				(mod) => this._lazyLoadPromiseResolve(mod),
-				(err) => this._lazyLoadPromiseReject(err),
+				(err) => this._lazyLoadPromiseReject(err)
 			);
 		}
 		return this._lazyLoadPromise;
@@ -58,7 +56,7 @@ export async function loadLanguage(languageId: string): Promise<void> {
 	await LazyLanguageLoader.getOrCreate(languageId).load();
 
 	// trigger tokenizer creation by instantiating a model
-	const model = editor.createModel("", languageId);
+	const model = editor.createModel('', languageId);
 	model.dispose();
 }
 
@@ -73,7 +71,7 @@ export function registerLanguage(def: ILang): void {
 		create: async (): Promise<languages.IMonarchLanguage> => {
 			const mod = await lazyLanguageLoader.load();
 			return mod.language;
-		},
+		}
 	});
 	languages.onLanguageEncountered(languageId, async () => {
 		const mod = await lazyLanguageLoader.load();

@@ -7,13 +7,13 @@ declare interface NodeRequire {
 	context<T = unknown>(
 		path: string,
 		includeSubfolders: boolean,
-		regexp: RegExp,
+		regexp: RegExp
 	): SyncContext<T>;
 	context<T = unknown>(
 		path: string,
 		includeSubfolders: boolean,
 		regexp: RegExp,
-		mode: "lazy",
+		mode: "lazy"
 	): AsyncContext<T>;
 }
 

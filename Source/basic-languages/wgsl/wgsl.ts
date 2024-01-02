@@ -3,34 +3,34 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { languages } from "../../fillers/monaco-editor-core";
+import type { languages } from '../../fillers/monaco-editor-core';
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
-		lineComment: "//",
-		blockComment: ["/*", "*/"],
+		lineComment: '//',
+		blockComment: ['/*', '*/']
 	},
 	brackets: [
-		["{", "}"],
-		["[", "]"],
-		["(", ")"],
+		['{', '}'],
+		['[', ']'],
+		['(', ')']
 	],
 	autoClosingPairs: [
-		{ open: "[", close: "]" },
-		{ open: "{", close: "}" },
-		{ open: "(", close: ")" },
+		{ open: '[', close: ']' },
+		{ open: '{', close: '}' },
+		{ open: '(', close: ')' }
 	],
 	surroundingPairs: [
-		{ open: "{", close: "}" },
-		{ open: "[", close: "]" },
-		{ open: "(", close: ")" },
-	],
+		{ open: '{', close: '}' },
+		{ open: '[', close: ']' },
+		{ open: '(', close: ')' }
+	]
 };
 
 // Returns a list of empty strings, from a possibly multi-line string,
 // stripping blanks and line endings. Emulates Perls 'qw' function.
 function qw(str: string): string[] {
-	const result: string[] = [];
+	let result: string[] = [];
 	const words = str.split(/\t+|\r+|\n+| +/);
 	for (let i = 0; i < words.length; ++i) {
 		if (words[i].length > 0) {
@@ -39,7 +39,7 @@ function qw(str: string): string[] {
 	}
 	return result;
 }
-const atoms = qw("true false");
+const atoms = qw('true false');
 
 const keywords = qw(`
 			  alias
@@ -360,11 +360,11 @@ const directive_re = /enable|requires|diagnostic/;
 
 const ident_re = /[_\p{XID_Start}]\p{XID_Continue}*/u;
 
-const predefined_token = "variable.predefined";
+const predefined_token = 'variable.predefined';
 
 export const language = <languages.IMonarchLanguage>{
-	tokenPostfix: ".wgsl",
-	defaultToken: "invalid",
+	tokenPostfix: '.wgsl',
+	defaultToken: 'invalid',
 	unicode: true,
 
 	atoms,
@@ -381,111 +381,105 @@ export const language = <languages.IMonarchLanguage>{
 
 	tokenizer: {
 		root: [
-			[directive_re, "keyword", "@directive"],
+			[directive_re, 'keyword', '@directive'],
 			[
 				// Identifier-like things, but also include '_'
 				ident_re,
 				{
 					cases: {
-						"@atoms": predefined_token,
-						"@keywords": "keyword",
-						"@reserved": "invalid",
-						"@predeclared_enums": predefined_token,
-						"@predeclared_types": predefined_token,
-						"@predeclared_type_generators": predefined_token,
-						"@predeclared_type_aliases": predefined_token,
-						"@predeclared_intrinsics": predefined_token,
-						"@default": "identifier",
-					},
-				},
+						'@atoms': predefined_token,
+						'@keywords': 'keyword',
+						'@reserved': 'invalid',
+						'@predeclared_enums': predefined_token,
+						'@predeclared_types': predefined_token,
+						'@predeclared_type_generators': predefined_token,
+						'@predeclared_type_aliases': predefined_token,
+						'@predeclared_intrinsics': predefined_token,
+						'@default': 'identifier'
+					}
+				}
 			],
-			{ include: "@commentOrSpace" },
-			{ include: "@numbers" },
+			{ include: '@commentOrSpace' },
+			{ include: '@numbers' },
 
-			[/[{}()\[\]]/, "@brackets"],
-			["@", "annotation", "@attribute"],
+			[/[{}()\[\]]/, '@brackets'],
+			['@', 'annotation', '@attribute'],
 			[
 				/@symbols/,
 				{
 					cases: {
-						"@operators": "operator",
-						"@default": "delimiter",
-					},
-				},
+						'@operators': 'operator',
+						'@default': 'delimiter'
+					}
+				}
 			],
-			[/./, "invalid"],
+			[/./, 'invalid']
 		],
 
 		commentOrSpace: [
-			[/\s+/, "white"],
-			[/\/\*/, "comment", "@blockComment"],
-			[/\/\/.*$/, "comment"],
+			[/\s+/, 'white'],
+			[/\/\*/, 'comment', '@blockComment'],
+			[/\/\/.*$/, 'comment']
 		],
 
 		blockComment: [
 			// Soak up uninteresting text: anything except * or /
-			[/[^\/*]+/, "comment"],
+			[/[^\/*]+/, 'comment'],
 			// Recognize the start of a nested block comment.
-			[/\/\*/, "comment", "@push"],
+			[/\/\*/, 'comment', '@push'],
 			// Recognize the end of a nested block comment.
-			[/\*\//, "comment", "@pop"],
+			[/\*\//, 'comment', '@pop'],
 			// Recognize insignificant * and /
-			[/[\/*]/, "comment"],
+			[/[\/*]/, 'comment']
 		],
 
 		attribute: [
 			// For things like '@fragment' both '@' and 'fragment'
 			// are marked as annotations.  This should work even if
 			// there are spaces or comments between the two tokens.
-			{ include: "@commentOrSpace" },
-			[/\w+/, "annotation", "@pop"],
+			{ include: '@commentOrSpace' },
+			[/\w+/, 'annotation', '@pop']
 		],
 
 		directive: [
 			// For things like 'enable f16;', 'enable' maps to 'meta'
 			// and 'f16' maps to 'meta.tag'.
-			{ include: "@commentOrSpace" },
-			[/[()]/, "@brackets"],
-			[/,/, "delimiter"],
-			[ident_re, "meta.content"],
-			[/;/, "delimiter", "@pop"],
+			{ include: '@commentOrSpace' },
+			[/[()]/, '@brackets'],
+			[/,/, 'delimiter'],
+			[ident_re, 'meta.content'],
+			[/;/, 'delimiter', '@pop']
 		],
 
 		numbers: [
 			// Decimal float literals
 			// https://www.w3.org/TR/WGSL/#syntax-decimal_float_literal
 			// 0, with type-specifying suffix.
-			[/0[fh]/, "number.float"],
+			[/0[fh]/, 'number.float'],
 			// Other decimal integer, with type-specifying suffix.
-			[/[1-9][0-9]*[fh]/, "number.float"],
+			[/[1-9][0-9]*[fh]/, 'number.float'],
 			// Has decimal point, at least one digit after decimal.
-			[/[0-9]*\.[0-9]+([eE][+-]?[0-9]+)?[fh]?/, "number.float"],
+			[/[0-9]*\.[0-9]+([eE][+-]?[0-9]+)?[fh]?/, 'number.float'],
 			// Has decimal point, at least one digit before decimal.
-			[/[0-9]+\.[0-9]*([eE][+-]?[0-9]+)?[fh]?/, "number.float"],
+			[/[0-9]+\.[0-9]*([eE][+-]?[0-9]+)?[fh]?/, 'number.float'],
 			// Has at least one digit, and has an exponent.
-			[/[0-9]+[eE][+-]?[0-9]+[fh]?/, "number.float"],
+			[/[0-9]+[eE][+-]?[0-9]+[fh]?/, 'number.float'],
 
 			// Hex float literals
 			// https://www.w3.org/TR/WGSL/#syntax-hex_float_literal
-			[
-				/0[xX][0-9a-fA-F]*\.[0-9a-fA-F]+(?:[pP][+-]?[0-9]+[fh]?)?/,
-				"number.hex",
-			],
-			[
-				/0[xX][0-9a-fA-F]+\.[0-9a-fA-F]*(?:[pP][+-]?[0-9]+[fh]?)?/,
-				"number.hex",
-			],
-			[/0[xX][0-9a-fA-F]+[pP][+-]?[0-9]+[fh]?/, "number.hex"],
+			[/0[xX][0-9a-fA-F]*\.[0-9a-fA-F]+(?:[pP][+-]?[0-9]+[fh]?)?/, 'number.hex'],
+			[/0[xX][0-9a-fA-F]+\.[0-9a-fA-F]*(?:[pP][+-]?[0-9]+[fh]?)?/, 'number.hex'],
+			[/0[xX][0-9a-fA-F]+[pP][+-]?[0-9]+[fh]?/, 'number.hex'],
 
 			// Hexadecimal integer literals
 			// https://www.w3.org/TR/WGSL/#syntax-hex_int_literal
-			[/0[xX][0-9a-fA-F]+[iu]?/, "number.hex"],
+			[/0[xX][0-9a-fA-F]+[iu]?/, 'number.hex'],
 
 			// Decimal integer literals
 			// https://www.w3.org/TR/WGSL/#syntax-decimal_int_literal
 			// We need two rules here because 01 is not valid.
-			[/[1-9][0-9]*[iu]?/, "number"],
-			[/0[iu]?/, "number"], // Must match last
-		],
-	},
+			[/[1-9][0-9]*[iu]?/, 'number'],
+			[/0[iu]?/, 'number'] // Must match last
+		]
+	}
 };

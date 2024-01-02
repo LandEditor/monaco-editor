@@ -3,24 +3,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { registerLanguage } from "../_.contribution";
+import { registerLanguage } from '../_.contribution';
 
-declare let AMD: any;
-declare let require: any;
+declare var AMD: any;
+declare var require: any;
 
 registerLanguage({
-	id: "proto",
-	extensions: [".proto"],
-	aliases: ["protobuf", "Protocol Buffers"],
+	id: 'proto',
+	extensions: ['.proto'],
+	aliases: ['protobuf', 'Protocol Buffers'],
 	loader: () => {
 		if (AMD) {
 			return new Promise((resolve, reject) => {
-				require([
-					"vs/basic-languages/protobuf/protobuf",
-				], resolve, reject);
+				require(['vs/basic-languages/protobuf/protobuf'], resolve, reject);
 			});
 		} else {
-			return import("./protobuf");
+			return import('./protobuf');
 		}
-	},
+	}
 });

@@ -1,35 +1,39 @@
-const editor = monaco.editor.create(document.getElementById("container"), {
+var editor = monaco.editor.create(document.getElementById("container"), {
 	value: '{\n\t"dependencies": {\n\t\t\n\t}\n}\n',
 	language: "json",
 });
 
-const commandId = editor.addCommand(
+var commandId = editor.addCommand(
 	0,
-	() => {
+	function () {
 		// services available in `ctx`
 		alert("my command is executing!");
 	},
-	"",
+	""
 );
 
 monaco.languages.registerCodeLensProvider("json", {
-	provideCodeLenses: (model, token) => ({
-		lenses: [
-			{
-				range: {
-					startLineNumber: 1,
-					startColumn: 1,
-					endLineNumber: 2,
-					endColumn: 1,
+	provideCodeLenses: function (model, token) {
+		return {
+			lenses: [
+				{
+					range: {
+						startLineNumber: 1,
+						startColumn: 1,
+						endLineNumber: 2,
+						endColumn: 1,
+					},
+					id: "First Line",
+					command: {
+						id: commandId,
+						title: "First Line",
+					},
 				},
-				id: "First Line",
-				command: {
-					id: commandId,
-					title: "First Line",
-				},
-			},
-		],
-		dispose: () => {},
-	}),
-	resolveCodeLens: (model, codeLens, token) => codeLens,
+			],
+			dispose: () => {},
+		};
+	},
+	resolveCodeLens: function (model, codeLens, token) {
+		return codeLens;
+	},
 });

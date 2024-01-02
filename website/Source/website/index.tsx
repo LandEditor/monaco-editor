@@ -1,7 +1,8 @@
+import * as React from "react";
 import * as ReactDOM from "react-dom";
 import "./bootstrap.scss";
-import { App } from "./pages/App";
 import "./style.scss";
+import { App } from "./pages/App";
 
 const elem = document.createElement("div");
 elem.className = "root";

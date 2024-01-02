@@ -1,5 +1,5 @@
 function lineNumbersFunc(originalLineNumber) {
-	const map = [
+	var map = [
 		"O",
 		"I",
 		"II",
@@ -18,7 +18,7 @@ function lineNumbersFunc(originalLineNumber) {
 	return originalLineNumber;
 }
 
-const jsCode = [
+var jsCode = [
 	'"use strict";',
 	"function Person(age) {",
 	"	if (age) {",
@@ -30,7 +30,7 @@ const jsCode = [
 	"};",
 ].join("\n");
 
-const editor = monaco.editor.create(document.getElementById("container"), {
+var editor = monaco.editor.create(document.getElementById("container"), {
 	value: jsCode,
 	language: "javascript",
 	lineNumbers: lineNumbersFunc,

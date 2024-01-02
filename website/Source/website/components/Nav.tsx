@@ -1,18 +1,18 @@
 import React = require("react");
-import { docs, home, monarch, playground } from "../pages/routes";
-import { Container, Nav, NavDropdown, Navbar } from "./bootstrap";
+import { home, playground, docs, monarch } from "../pages/routes";
+import { Container, Navbar, Nav, NavDropdown } from "./bootstrap";
 
 export class PageNav extends React.Component {
 	render() {
 		return (
 			<Navbar bg="dark" variant="dark" expand="lg">
-				<Container fluid={true}>
+				<Container fluid>
 					<Navbar.Brand href="./">
 						<span className="code-oss-icon d-inline-block align-top" />
 						Monaco Editor
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
-					<Navbar.Collapse id="basic-navbar-nav">
+					<Navbar.Collapse id="basic-navbar-nav" role="">
 						<Nav className="me-auto">
 							<Nav.Link active={home.isActive} href={home.href}>
 								Home

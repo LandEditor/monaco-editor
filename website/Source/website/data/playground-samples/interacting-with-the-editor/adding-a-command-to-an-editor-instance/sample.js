@@ -1,4 +1,4 @@
-const jsCode = [
+var jsCode = [
 	'"use strict";',
 	"function Person(age) {",
 	"	if (age) {",
@@ -10,32 +10,32 @@ const jsCode = [
 	"};",
 ].join("\n");
 
-const editor = monaco.editor.create(document.getElementById("container"), {
+var editor = monaco.editor.create(document.getElementById("container"), {
 	value: jsCode,
 	language: "javascript",
 });
 
-const myCondition1 = editor.createContextKey(
+var myCondition1 = editor.createContextKey(
 	/*key name*/ "myCondition1",
-	/*default value*/ false,
+	/*default value*/ false
 );
-const myCondition2 = editor.createContextKey(
+var myCondition2 = editor.createContextKey(
 	/*key name*/ "myCondition2",
-	/*default value*/ false,
+	/*default value*/ false
 );
 
 editor.addCommand(
 	monaco.KeyCode.Tab,
-	() => {
+	function () {
 		// services available in `ctx`
 		console.log("my command is executing!");
 	},
-	"myCondition1 && myCondition2",
+	"myCondition1 && myCondition2"
 );
 // @ts-ignore
 myCondition1.set(true);
 
-setTimeout(() => {
+setTimeout(function () {
 	console.log("now enabling also myCondition2, try pressing Tab!");
 	// @ts-ignore
 	myCondition2.set(true);

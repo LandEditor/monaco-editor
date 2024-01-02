@@ -3,22 +3,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { registerLanguage } from "../_.contribution";
+import { registerLanguage } from '../_.contribution';
 
-declare let AMD: any;
-declare let require: any;
+declare var AMD: any;
+declare var require: any;
 
 registerLanguage({
-	id: "msdax",
-	extensions: [".dax", ".msdax"],
-	aliases: ["DAX", "MSDAX"],
+	id: 'msdax',
+	extensions: ['.dax', '.msdax'],
+	aliases: ['DAX', 'MSDAX'],
 	loader: () => {
 		if (AMD) {
 			return new Promise((resolve, reject) => {
-				require(["vs/basic-languages/msdax/msdax"], resolve, reject);
+				require(['vs/basic-languages/msdax/msdax'], resolve, reject);
 			});
 		} else {
-			return import("./msdax");
+			return import('./msdax');
 		}
-	},
+	}
 });

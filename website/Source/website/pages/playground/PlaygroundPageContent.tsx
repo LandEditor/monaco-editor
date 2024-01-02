@@ -19,6 +19,7 @@ import { Preview } from "./Preview";
 import { SettingsDialog } from "./SettingsDialog";
 import { getNpmVersionsSync } from "./getNpmVersionsSync";
 import { PlaygroundExample, getPlaygroundExamples } from "./playgroundExamples";
+import { getDefaultSettings, toLoaderConfig } from "./SettingsModel";
 
 @hotComponent(module)
 @observer
@@ -39,7 +40,7 @@ export class PlaygroundPageContent extends React.Component<
 					>
 						{model.wasEverNonFullScreen && (
 							<Col
-								md={true}
+								md
 								className={
 									model.previewShouldBeFullScreen
 										? "d-none"
@@ -70,11 +71,11 @@ export class PlaygroundPageContent extends React.Component<
 																groupTitle:
 																	e.chapterTitle,
 																items: e.examples,
-															}),
+															})
 														)}
 														value={ref(
 															model,
-															"selectedExample",
+															"selectedExample"
 														)}
 														getLabel={(i) =>
 															i.title
@@ -119,23 +120,21 @@ export class PlaygroundPageContent extends React.Component<
 							</Col>
 						)}
 						<Col
-							md={true}
-							style={{
-								display: "flex",
-								flexDirection: "column",
-							}}
+							md
+							style={{ display: "flex", flexDirection: "column" }}
 						>
 							<LabeledEditor
 								label={`Preview${
 									model.historyModel.compareWith &&
 									model.historyModel.sourceOverride
-										? ` ${model.historyModel.sourceOverride.toString()}`
+										? " " +
+										  model.historyModel.sourceOverride.toString()
 										: ""
 								}:`}
 								titleBarItems={
 									<div
 										style={{ marginLeft: "auto" }}
-										className="d-flex align-items-center gap-2"
+										className="d-flex gap-2 align-items-center"
 									>
 										{model.previewShouldBeFullScreen || (
 											<FormCheck
@@ -158,11 +157,12 @@ export class PlaygroundPageContent extends React.Component<
 										)}
 										<Button
 											type="button"
-											className={`btn settings bi-arrow-clockwise ${
-												model.isDirty
+											className={
+												"btn settings bi-arrow-clockwise " +
+												(model.isDirty
 													? "btn-primary"
-													: "btn-light"
-											}`}
+													: "btn-light")
+											}
 											style={{
 												fontSize: 20,
 												padding: "0px 4px",
@@ -187,7 +187,63 @@ export class PlaygroundPageContent extends React.Component<
 											}
 										/>
 
-										{model.historyModel.compareWith ? (
+										{!model.historyModel.compareWith ? (
+											model.historyModel
+												.sourceOverride ? (
+												<ButtonGroup>
+													<button
+														type="button"
+														className="btn btn-primary"
+														onClick={() =>
+															model.historyModel.disableSourceOverride()
+														}
+													>
+														Disable{" "}
+														{model.historyModel
+															.sourceOverride
+															.version ??
+															"url"}{" "}
+														override
+													</button>
+													<button
+														type="button"
+														className="btn btn-secondary"
+														onClick={() =>
+															model.compareWithLatestDev()
+														}
+													>
+														Compare with latest dev
+													</button>
+													<button
+														type="button"
+														className="btn btn-secondary"
+														onClick={() =>
+															model.historyModel.saveSourceOverride()
+														}
+													>
+														Save
+													</button>
+												</ButtonGroup>
+											) : (
+												<>
+													<VersionSelector
+														model={model}
+													/>
+
+													<button
+														type="button"
+														className="btn btn-light settings bi-gear"
+														style={{
+															fontSize: 20,
+															padding: "0px 4px",
+														}}
+														onClick={() =>
+															model.showSettingsDialog()
+														}
+													/>
+												</>
+											)
+										) : (
 											<ButtonGroup>
 												<button
 													type="button"
@@ -199,59 +255,6 @@ export class PlaygroundPageContent extends React.Component<
 													Exit Compare
 												</button>
 											</ButtonGroup>
-										) : model.historyModel
-												.sourceOverride ? (
-											<ButtonGroup>
-												<button
-													type="button"
-													className="btn btn-primary"
-													onClick={() =>
-														model.historyModel.disableSourceOverride()
-													}
-												>
-													Disable{" "}
-													{model.historyModel
-														.sourceOverride
-														.version ?? "url"}{" "}
-													override
-												</button>
-												<button
-													type="button"
-													className="btn btn-secondary"
-													onClick={() =>
-														model.compareWithLatestDev()
-													}
-												>
-													Compare with latest dev
-												</button>
-												<button
-													type="button"
-													className="btn btn-secondary"
-													onClick={() =>
-														model.historyModel.saveSourceOverride()
-													}
-												>
-													Save
-												</button>
-											</ButtonGroup>
-										) : (
-											<>
-												<VersionSelector
-													model={model}
-												/>
-
-												<button
-													type="button"
-													className="btn btn-light settings bi-gear"
-													style={{
-														fontSize: 20,
-														padding: "0px 4px",
-													}}
-													onClick={() =>
-														model.showSettingsDialog()
-													}
-												/>
-											</>
 										)}
 									</div>
 								}
@@ -269,7 +272,7 @@ export class PlaygroundPageContent extends React.Component<
 										titleBarItems={
 											<div
 												style={{ marginLeft: "auto" }}
-												className="d-flex align-items-center gap-2"
+												className="d-flex gap-2 align-items-center"
 											>
 												<ButtonGroup>
 													<button
@@ -318,7 +321,7 @@ export class VersionSelector extends React.Component<{
 
 		const latestValue = "latest";
 		const versions = [latestValue].concat(
-			getNpmVersionsSync(model.settings.settings.npmVersion),
+			getNpmVersionsSync(model.settings.settings.npmVersion)
 		);
 
 		return (
@@ -333,7 +336,7 @@ export class VersionSelector extends React.Component<{
 										["undefined"]: "",
 										["true"]: " ✓",
 										["false"]: " ✗",
-									}[`${model.bisectModel.getState(i)}`]
+									}["" + model.bisectModel.getState(i)]
 							  }`
 					}
 					value={{
@@ -366,11 +369,12 @@ export class VersionSelector extends React.Component<{
 					<ButtonGroup>
 						<Button
 							type="button"
-							className={`btn bi-github settings${
-								model.bisectModel.isFinished
+							className={
+								"btn bi-github settings" +
+								(model.bisectModel.isFinished
 									? " btn-success"
-									: " btn-light"
-							}`}
+									: " btn-light")
+							}
 							style={{
 								fontSize: 14,
 								margin: 0,
@@ -412,13 +416,13 @@ export class VersionSelector extends React.Component<{
 						}
 						active={
 							model.bisectModel.getState(
-								model.settings.settings.npmVersion,
+								model.settings.settings.npmVersion
 							) === true
 						}
 						onClick={() =>
 							model.bisectModel.toggleState(
 								model.settings.settings.npmVersion,
-								true,
+								true
 							)
 						}
 						title="Mark version as working (for bisect)"
@@ -436,13 +440,13 @@ export class VersionSelector extends React.Component<{
 						}
 						active={
 							model.bisectModel.getState(
-								model.settings.settings.npmVersion,
+								model.settings.settings.npmVersion
 							) === false
 						}
 						onClick={() =>
 							model.bisectModel.toggleState(
 								model.settings.settings.npmVersion,
-								false,
+								false
 							)
 						}
 						title="Mark version as broken (for bisect)"
@@ -482,7 +486,7 @@ class Editor extends React.Component<{
 
 	private readonly model = getLoadedMonaco().editor.createModel(
 		this.props.value.get(),
-		this.props.language,
+		this.props.language
 	);
 
 	render() {
@@ -505,11 +509,11 @@ class Editor extends React.Component<{
 			this.editor.onDidChangeModelContent((e) => {
 				this.ignoreChange = true;
 				try {
-					this.props.value.set(this.editor?.getValue());
+					this.props.value.set(this.editor!.getValue());
 				} finally {
 					this.ignoreChange = false;
 				}
-			}),
+			})
 		);
 
 		this.disposables.push({
@@ -525,11 +529,11 @@ class Editor extends React.Component<{
 									text: value,
 								},
 							],
-							() => null,
+							() => null
 						);
 					}
 				},
-				{ name: "update text" },
+				{ name: "update text" }
 			),
 		});
 	}

@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as base64 from "base64-js";
 import * as lzma from "lzma/src/lzma_worker";
 import * as msgpack from "messagepack";
+import * as base64 from "base64-js";
 
 export class LzmaCompressor<T> {
 	encodeData<T>(json: T): string {
@@ -16,6 +16,7 @@ export class LzmaCompressor<T> {
 
 		const compressedStr = base64.fromByteArray(compressed);
 		if (compressedStr.indexOf("undefined") !== -1) {
+			debugger;
 		}
 		const result = compressedStr
 			.replace(/\+/g, "-") // Convert '+' to '-'

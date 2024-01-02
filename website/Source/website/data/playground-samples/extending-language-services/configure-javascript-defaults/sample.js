@@ -16,7 +16,7 @@ monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
 });
 
 // extra libraries
-const libSource = [
+var libSource = [
 	"declare class Facts {",
 	"    /**",
 	"     * Returns the next fact",
@@ -24,13 +24,13 @@ const libSource = [
 	"    static next():string",
 	"}",
 ].join("\n");
-const libUri = "ts:filename/facts.d.ts";
+var libUri = "ts:filename/facts.d.ts";
 monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
 // When resolving definitions and references, the editor will try to use created models.
 // Creating a model for the library allows "peek definition/references" commands to work with the library.
 monaco.editor.createModel(libSource, "typescript", monaco.Uri.parse(libUri));
 
-const jsCode = [
+var jsCode = [
 	'"use strict";',
 	"",
 	"class Chuck {",

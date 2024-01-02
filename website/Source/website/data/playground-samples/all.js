@@ -1,5 +1,5 @@
-(() => {
-	const PLAY_SAMPLES = [
+(function () {
+	var PLAY_SAMPLES = [
 		{
 			chapter: "Creating the editor",
 			name: "Hello world!",

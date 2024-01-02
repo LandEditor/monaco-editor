@@ -3,6 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { testTokenization } from "../test/testRunner";
+import { testTokenization } from '../test/testRunner';
 
-testTokenization("ecl", []);
+testTokenization('ecl', []);

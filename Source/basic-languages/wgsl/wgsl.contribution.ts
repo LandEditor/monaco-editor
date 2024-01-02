@@ -3,22 +3,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { registerLanguage } from "../_.contribution";
+import { registerLanguage } from '../_.contribution';
 
-declare let AMD: any;
-declare let require: any;
+declare var AMD: any;
+declare var require: any;
 
 registerLanguage({
-	id: "wgsl",
-	extensions: [".wgsl"],
-	aliases: ["WebGPU Shading Language", "WGSL", "wgsl"],
+	id: 'wgsl',
+	extensions: ['.wgsl'],
+	aliases: ['WebGPU Shading Language', 'WGSL', 'wgsl'],
 	loader: () => {
 		if (AMD) {
 			return new Promise((resolve, reject) => {
-				require(["vs/basic-languages/wgsl/wgsl"], resolve, reject);
+				require(['vs/basic-languages/wgsl/wgsl'], resolve, reject);
 			});
 		} else {
-			return import("./wgsl");
+			return import('./wgsl');
 		}
-	},
+	}
 });

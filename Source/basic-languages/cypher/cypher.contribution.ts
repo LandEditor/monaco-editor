@@ -3,22 +3,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { registerLanguage } from "../_.contribution";
+import { registerLanguage } from '../_.contribution';
 
-declare let AMD: any;
-declare let require: any;
+declare var AMD: any;
+declare var require: any;
 
 registerLanguage({
-	id: "cypher",
-	extensions: [".cypher", ".cyp"],
-	aliases: ["Cypher", "OpenCypher"],
+	id: 'cypher',
+	extensions: ['.cypher', '.cyp'],
+	aliases: ['Cypher', 'OpenCypher'],
 	loader: () => {
 		if (AMD) {
 			return new Promise((resolve, reject) => {
-				require(["vs/basic-languages/cypher/cypher"], resolve, reject);
+				require(['vs/basic-languages/cypher/cypher'], resolve, reject);
 			});
 		} else {
-			return import("./cypher");
+			return import('./cypher');
 		}
-	},
+	}
 });

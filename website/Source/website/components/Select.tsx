@@ -30,7 +30,7 @@ export class Select<T> extends React.Component<{
 				onChange={(e) => {
 					const newValue = e.currentTarget.value;
 					const selected = [...this.map.entries()].find(
-						([k, v]) => v === newValue,
+						([k, v]) => v === newValue
 					);
 					if (selected) {
 						value.set(selected[0]);
@@ -39,7 +39,7 @@ export class Select<T> extends React.Component<{
 				style={this.props.style}
 				size="sm"
 			>
-				<option value="" disabled={true} hidden={true}>
+				<option value="" disabled hidden>
 					Select an example...
 				</option>
 				{groups}

@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Emitter, IEvent, languages } from "../../fillers/monaco-editor-core";
-import * as mode from "./jsonMode";
+import * as mode from './jsonMode';
+import { Emitter, IEvent, languages } from '../../fillers/monaco-editor-core';
 
 // --- JSON configuration and defaults ---------
 
@@ -61,7 +61,7 @@ export interface DiagnosticsOptions {
 	readonly comments?: SeverityLevel;
 }
 
-export declare type SeverityLevel = "error" | "warning" | "ignore";
+export declare type SeverityLevel = 'error' | 'warning' | 'ignore';
 
 export interface ModeConfiguration {
 	/**
@@ -133,7 +133,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	constructor(
 		languageId: string,
 		diagnosticsOptions: DiagnosticsOptions,
-		modeConfiguration: ModeConfiguration,
+		modeConfiguration: ModeConfiguration
 	) {
 		this._languageId = languageId;
 		this.setDiagnosticsOptions(diagnosticsOptions);
@@ -172,10 +172,10 @@ const diagnosticDefault: Required<DiagnosticsOptions> = {
 	allowComments: true,
 	schemas: [],
 	enableSchemaRequest: false,
-	schemaRequest: "warning",
-	schemaValidation: "warning",
-	comments: "error",
-	trailingCommas: "error",
+	schemaRequest: 'warning',
+	schemaValidation: 'warning',
+	comments: 'error',
+	trailingCommas: 'error'
 };
 
 const modeConfigurationDefault: Required<ModeConfiguration> = {
@@ -188,49 +188,40 @@ const modeConfigurationDefault: Required<ModeConfiguration> = {
 	colors: true,
 	foldingRanges: true,
 	diagnostics: true,
-	selectionRanges: true,
+	selectionRanges: true
 };
 
-export const jsonDefaults: LanguageServiceDefaults =
-	new LanguageServiceDefaultsImpl(
-		"json",
-		diagnosticDefault,
-		modeConfigurationDefault,
-	);
+export const jsonDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
+	'json',
+	diagnosticDefault,
+	modeConfigurationDefault
+);
 
 // export to the global based API
 (<any>languages).json = { jsonDefaults };
 
 // --- Registration to monaco editor ---
 
-declare let AMD: any;
-declare let require: any;
+declare var AMD: any;
+declare var require: any;
 
 function getMode(): Promise<typeof mode> {
 	if (AMD) {
 		return new Promise((resolve, reject) => {
-			require(["vs/language/json/jsonMode"], resolve, reject);
+			require(['vs/language/json/jsonMode'], resolve, reject);
 		});
 	} else {
-		return import("./jsonMode");
+		return import('./jsonMode');
 	}
 }
 
 languages.register({
-	id: "json",
-	extensions: [
-		".json",
-		".bowerrc",
-		".jshintrc",
-		".jscsrc",
-		".eslintrc",
-		".babelrc",
-		".har",
-	],
-	aliases: ["JSON", "json"],
-	mimetypes: ["application/json"],
+	id: 'json',
+	extensions: ['.json', '.bowerrc', '.jshintrc', '.jscsrc', '.eslintrc', '.babelrc', '.har'],
+	aliases: ['JSON', 'json'],
+	mimetypes: ['application/json']
 });
 
-languages.onLanguage("json", () => {
+languages.onLanguage('json', () => {
 	getMode().then((mode) => mode.setupMode(jsonDefaults));
 });

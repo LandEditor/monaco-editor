@@ -11,21 +11,25 @@ import {
 	reaction,
 	runInAction,
 } from "mobx";
-import { IMonacoSetup, waitForLoadedMonaco } from "../../../monaco-loader";
+import {
+	IMonacoSetup,
+	loadMonaco,
+	waitForLoadedMonaco,
+} from "../../../monaco-loader";
 import { IPlaygroundProject, IPreviewState } from "../../../shared";
 import { Debouncer } from "../../utils/Debouncer";
 import { ObservablePromise } from "../../utils/ObservablePromise";
 import { Disposable } from "../../utils/utils";
-import { BisectModel } from "./BisectModel";
-import { LocationModel } from "./LocationModel";
+import { PlaygroundExample } from "./playgroundExamples";
 import {
+	getDefaultSettings,
 	JsonString,
 	Settings,
 	SettingsModel,
-	getDefaultSettings,
 	toLoaderConfig,
 } from "./SettingsModel";
-import { PlaygroundExample } from "./playgroundExamples";
+import { BisectModel } from "./BisectModel";
+import { LocationModel } from "./LocationModel";
 
 export class PlaygroundModel {
 	public readonly dispose = Disposable.fn();
@@ -114,7 +118,7 @@ export class PlaygroundModel {
 			...previewState,
 			monacoSetup: toLoaderConfig({
 				...getDefaultSettings(),
-				...this.historyModel.compareWith?.toPartialSettings(),
+				...this.historyModel.compareWith!.toPartialSettings(),
 			}),
 		};
 	};
@@ -187,7 +191,7 @@ export class PlaygroundModel {
 						this.debouncer.run(updatePreviewState);
 					}
 				},
-				{ name: "update preview", fireImmediately: true },
+				{ name: "update preview", fireImmediately: true }
 			),
 		});
 
@@ -203,13 +207,13 @@ export class PlaygroundModel {
 						this.reload();
 					},
 					keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
-				}),
+				})
 			);
 
 			const options =
 				monaco.languages.typescript.javascriptDefaults.getCompilerOptions();
 			monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
-				{ noSemanticValidation: false },
+				{ noSemanticValidation: false }
 			);
 			monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
 				...options,
@@ -241,11 +245,11 @@ export class PlaygroundModel {
 						disposable =
 							monaco.languages.typescript.javascriptDefaults.addExtraLib(
 								content,
-								"ts:monaco.d.ts",
+								"ts:monaco.d.ts"
 							);
 					}
 				},
-				{ name: "update types" },
+				{ name: "update types" }
 			),
 		});
 	}
@@ -256,16 +260,16 @@ export class PlaygroundModel {
 		}
 
 		const regexp = new RegExp(
-			`(\\b${escapeRegexpChars(
-				codeStringName,
-			)}:[^\\w\`]*\`)([^\`\\\\\\n]|\\n|\\\\\\\\|\\\\\\\`|\\\\\\$)*\``,
+			"(\\b" +
+				escapeRegexpChars(codeStringName) +
+				":[^\\w`]*`)([^`\\\\\\n]|\\n|\\\\\\\\|\\\\\\`|\\\\\\$)*`"
 		);
 		const js = this.js;
 		const str = value
 			.replaceAll("\\", "\\\\")
 			.replaceAll("$", "\\$$$$")
 			.replaceAll("`", "\\`");
-		const newJs = js.replace(regexp, `$1${str}\``);
+		const newJs = js.replace(regexp, "$1" + str + "`");
 		const autoReload = this.settings.autoReload;
 		this.settings.autoReload = false;
 		this.js = newJs;
@@ -274,7 +278,7 @@ export class PlaygroundModel {
 
 	public showSettingsDialog(): void {
 		this.settingsDialogModel = new SettingsDialogModel(
-			this.settings.settings,
+			this.settings.settings
 		);
 	}
 

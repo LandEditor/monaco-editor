@@ -31,14 +31,14 @@ monaco.editor.defineTheme("myCoolTheme", {
 // Register a completion item provider for the new language
 monaco.languages.registerCompletionItemProvider("mySpecialLanguage", {
 	provideCompletionItems: (model, position) => {
-		const word = model.getWordUntilPosition(position);
-		const range = {
+		var word = model.getWordUntilPosition(position);
+		var range = {
 			startLineNumber: position.lineNumber,
 			endLineNumber: position.lineNumber,
 			startColumn: word.startColumn,
 			endColumn: word.endColumn,
 		};
-		const suggestions = [
+		var suggestions = [
 			{
 				label: "simpleText",
 				kind: monaco.languages.CompletionItemKind.Text,
