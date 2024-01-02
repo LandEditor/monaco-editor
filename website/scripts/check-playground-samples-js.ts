@@ -23,7 +23,7 @@ import { exit } from "process";
 						"../out/monaco-editor/monaco.d.ts",
 						file,
 					],
-					{ shell: true },
+					{ shell: true }
 				);
 				let buffer = "";
 				process.on("exit", () => {
@@ -39,13 +39,13 @@ import { exit } from "process";
 				process.stderr.on("data", (data) => {
 					buffer += data.toString();
 				});
-			}),
+			})
 		);
 	}
 	for (const promise of promises) {
 		const result = await promise;
 		console.log(result.file);
-		if (result.status !== 0) {
+		if (result.status != 0) {
 			console.log(result.stdout.toString());
 			someFileError = true;
 		}

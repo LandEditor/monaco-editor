@@ -1,6 +1,6 @@
 // (1) Desired editor features:
 // BEGIN_FEATURES
-import "monaco-editor/esm/vs/editor/browser/controller/coreCommands.js";
+import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands.js';
 // import 'monaco-editor/esm/vs/editor/browser/widget/codeEditorWidget.js';
 // import 'monaco-editor/esm/vs/editor/browser/widget/diffEditorWidget.js';
 // import 'monaco-editor/esm/vs/editor/browser/widget/diffNavigator.js';
@@ -17,7 +17,7 @@ import "monaco-editor/esm/vs/editor/browser/controller/coreCommands.js";
 // import 'monaco-editor/esm/vs/editor/contrib/cursorUndo/cursorUndo.js';
 // import 'monaco-editor/esm/vs/editor/contrib/dnd/dnd.js';
 // import 'monaco-editor/esm/vs/editor/contrib/documentSymbols/documentSymbols.js';
-import "monaco-editor/esm/vs/editor/contrib/find/browser/findController.js";
+import 'monaco-editor/esm/vs/editor/contrib/find/browser/findController.js';
 // import 'monaco-editor/esm/vs/editor/contrib/folding/folding.js';
 // import 'monaco-editor/esm/vs/editor/contrib/fontZoom/fontZoom.js';
 // import 'monaco-editor/esm/vs/editor/contrib/format/formatActions.js';
@@ -53,7 +53,7 @@ import "monaco-editor/esm/vs/editor/contrib/find/browser/findController.js";
 // import 'monaco-editor/esm/vs/editor/standalone/browser/referenceSearch/standaloneReferenceSearch.js';
 // import 'monaco-editor/esm/vs/editor/standalone/browser/toggleHighContrast/toggleHighContrast.js';
 // END_FEATURES
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
 
 // (2) Desired languages:
 // BEGIN_LANGUAGES
@@ -104,7 +104,7 @@ import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 // import 'monaco-editor/esm/vs/basic-languages/powerquery/powerquery.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/powershell/powershell.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/pug/pug.contribution.js';
-import "monaco-editor/esm/vs/basic-languages/python/python.contribution.js";
+import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/r/r.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/razor/razor.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/redis/redis.contribution.js';
@@ -132,7 +132,7 @@ import "monaco-editor/esm/vs/basic-languages/python/python.contribution.js";
 // END_LANGUAGES
 
 self.MonacoEnvironment = {
-	getWorkerUrl: (moduleId, label) => {
+	getWorkerUrl: function (moduleId, label) {
 		// if (label === 'json') {
 		// 	return './json.worker.bundle.js';
 		// }
@@ -145,24 +145,24 @@ self.MonacoEnvironment = {
 		// if (label === 'typescript' || label === 'javascript') {
 		// 	return './ts.worker.bundle.js';
 		// }
-		return "./editor.worker.bundle.js";
-	},
+		return './editor.worker.bundle.js';
+	}
 };
 
-monaco.editor.create(document.getElementById("container"), {
+monaco.editor.create(document.getElementById('container'), {
 	value: [
-		"from banana import *",
-		"",
-		"class Monkey:",
-		"	# Bananas the monkey can eat.",
-		"	capacity = 10",
-		"	def eat(self, N):",
+		'from banana import *',
+		'',
+		'class Monkey:',
+		'	# Bananas the monkey can eat.',
+		'	capacity = 10',
+		'	def eat(self, N):',
 		"		'''Make the monkey eat N bananas!'''",
-		"		capacity = capacity - N*banana.size",
-		"",
-		"	def feeding_frenzy(self):",
-		"		eat(9.25)",
-		'		return "Yum yum"',
-	].join("\n"),
-	language: "python",
+		'		capacity = capacity - N*banana.size',
+		'',
+		'	def feeding_frenzy(self):',
+		'		eat(9.25)',
+		'		return "Yum yum"'
+	].join('\n'),
+	language: 'python'
 });
