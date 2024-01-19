@@ -5,8 +5,8 @@
 
 import { action, computed, observable, toJS } from "mobx";
 import {
-	getMonacoSetup,
 	IMonacoSetup,
+	getMonacoSetup,
 	prodMonacoSetup,
 } from "../../../monaco-loader";
 
@@ -88,16 +88,17 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 		case "latest":
 			return {
 				...getMonacoSetup(
-					`node_modules/monaco-editor/${settings.latestStability}/vs`
+					`node_modules/monaco-editor/${settings.latestStability}/vs`,
 				),
 				monacoTypesUrl: "node_modules/monaco-editor/monaco.d.ts",
 			};
-		case "npm":
+		case "npm": {
 			const url = `https://cdn.jsdelivr.net/npm/monaco-editor@${settings.npmVersion}`;
 			return {
 				...getMonacoSetup(`${url}/${settings.npmStability}/vs`),
 				monacoTypesUrl: `${url}/monaco.d.ts`,
 			};
+		}
 		case "custom":
 			try {
 				return JSON.parse(settings.customConfig);
@@ -105,33 +106,38 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 				console.error(e);
 				return prodMonacoSetup;
 			}
-		case "independent":
+		case "independent": {
 			const root = trimEnd(
 				new URL(".", window.location.href).toString(),
-				"/"
+				"/",
 			);
 			let coreUrl: string;
 
 			switch (settings.coreSource) {
-				case "latest":
+				case "latest": {
 					coreUrl = `${root}/node_modules/monaco-editor-core/${settings.latestCoreStability}/vs`;
 					break;
-				case "url":
+				}
+				case "url": {
 					coreUrl = settings.coreUrl;
 					break;
+				}
 			}
 
 			let languagesUrl: string;
 			switch (settings.languagesSource) {
-				case "latest":
+				case "latest": {
 					languagesUrl = `${root}/out/languages/bundled/amd-${settings.latestLanguagesStability}/vs`;
 					break;
-				case "source":
+				}
+				case "source": {
 					languagesUrl = `${root}/out/languages/amd-tsc`;
 					break;
-				case "url":
+				}
+				case "url": {
 					languagesUrl = settings.languagesUrl;
 					break;
+				}
 			}
 
 			const setup = { ...getMonacoSetup(coreUrl) };
@@ -142,7 +148,7 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 			) {
 				setup.monacoTypesUrl = setup.loaderConfigPaths["vs"].replace(
 					"/out/vs",
-					() => "/src/vs/monaco.d.ts"
+					() => "/src/vs/monaco.d.ts",
 				);
 			}
 
@@ -153,6 +159,7 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 			});
 
 			return setup;
+		}
 	}
 }
 

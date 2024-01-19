@@ -43,7 +43,7 @@ export class ObservablePromise<T> {
 			(error: unknown) => {
 				this._error = error;
 				this._resolved = true;
-			}
+			},
 		);
 	}
 }

@@ -17,7 +17,7 @@ export class DocsPage extends React.Component implements IHistoryModel {
 		if (this._lastIFrame) {
 			this._lastIFrame.contentWindow?.removeEventListener(
 				"hashchange",
-				this.onIFrameLoad
+				this.onIFrameLoad,
 			);
 			this._lastIFrame.removeEventListener("load", this.onIFrameLoad);
 		}
@@ -28,16 +28,16 @@ export class DocsPage extends React.Component implements IHistoryModel {
 	};
 
 	private readonly onIFrameLoad = () => {
-		this._lastIFrame!.contentWindow?.addEventListener("hashchange", () =>
-			this.updateLocationFromIFrame()
+		this._lastIFrame?.contentWindow?.addEventListener("hashchange", () =>
+			this.updateLocationFromIFrame(),
 		);
 		this.updateLocationFromIFrame();
 	};
 
 	private updateLocationFromIFrame(): void {
 		const match =
-			this._lastIFrame?.contentWindow!.location.href.match(
-				/typedoc\/(.*)/
+			this._lastIFrame?.contentWindow?.location.href.match(
+				/typedoc\/(.*)/,
 			);
 		if (match) {
 			let hashValue = match[1];
@@ -50,7 +50,7 @@ export class DocsPage extends React.Component implements IHistoryModel {
 
 	@observable.ref
 	location!: ILocation;
-	historyId: number = 0;
+	historyId = 0;
 
 	getTypedocUrl(): string {
 		let hashValue = this.location?.hashValue ?? "";

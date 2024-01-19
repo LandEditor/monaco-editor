@@ -3,54 +3,54 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import webpack from 'webpack';
-import MonacoWebpackPlugin from '../../webpack-plugin/out/index.js';
-import * as path from 'path';
+import * as path from "path";
+import webpack from "webpack";
+import MonacoWebpackPlugin from "../../webpack-plugin/out/index.js";
 
-const REPO_ROOT = path.join(__dirname, '../../');
-const CROSS_ORIGIN_ASSETS = process.argv.includes('--cross-origin');
+const REPO_ROOT = path.join(__dirname, "../../");
+const CROSS_ORIGIN_ASSETS = process.argv.includes("--cross-origin");
 
 webpack(
 	{
-		mode: 'development',
-		entry: './index.js',
-		context: path.join(__dirname, 'webpack'),
+		mode: "development",
+		entry: "./index.js",
+		context: path.join(__dirname, "webpack"),
 		output: {
-			path: path.resolve(REPO_ROOT, 'test/smoke/webpack/out'),
-			filename: 'app.js',
+			path: path.resolve(REPO_ROOT, "test/smoke/webpack/out"),
+			filename: "app.js",
 			publicPath: CROSS_ORIGIN_ASSETS
-				? 'http://localhost:8088/monaco-editor/test/smoke/webpack/out/'
-				: undefined
+				? "http://localhost:8088/monaco-editor/test/smoke/webpack/out/"
+				: undefined,
 		},
 		resolve: {
 			alias: {
-				'monaco-editor': path.resolve(REPO_ROOT, 'out/monaco-editor')
-			}
+				"monaco-editor": path.resolve(REPO_ROOT, "out/monaco-editor"),
+			},
 		},
 		module: {
 			rules: [
 				{
 					test: /\.css$/,
-					use: ['style-loader', 'css-loader']
+					use: ["style-loader", "css-loader"],
 				},
 				{
 					test: /\.ttf$/,
-					use: ['file-loader']
-				}
-			]
+					use: ["file-loader"],
+				},
+			],
 		},
 		plugins: [<any>new MonacoWebpackPlugin({
-				monacoEditorPath: path.resolve(REPO_ROOT, 'out/monaco-editor')
-			})]
+				monacoEditorPath: path.resolve(REPO_ROOT, "out/monaco-editor"),
+			})],
 	},
 	(err: Error | undefined, stats: webpack.Stats | undefined) => {
 		if (err) {
 			console.error(err);
 			process.exit(1);
 		}
-		if (stats && stats.hasErrors()) {
+		if (stats?.hasErrors()) {
 			console.log(stats.compilation.errors);
 			process.exit(1);
 		}
-	}
+	},
 );

@@ -16,28 +16,28 @@ monaco.languages.registerInlayHintsProvider("javascript", {
 				{
 					kind: monaco.languages.InlayHintKind.Type,
 					position: { column: 13, lineNumber: 4 },
-					label: `: Number`,
+					label: ": Number",
 				},
 				{
 					kind: monaco.languages.InlayHintKind.Type,
 					position: { column: 13, lineNumber: 2 },
-					label: `: Number`,
+					label: ": Number",
 				},
 				{
 					kind: monaco.languages.InlayHintKind.Type,
 					position: { column: 16, lineNumber: 2 },
-					label: `: Number`,
+					label: ": Number",
 					whitespaceBefore: true, // see difference between a and b parameter
 				},
 				{
 					kind: monaco.languages.InlayHintKind.Parameter,
 					position: { column: 18, lineNumber: 4 },
-					label: `a:`,
+					label: "a:",
 				},
 				{
 					kind: monaco.languages.InlayHintKind.Parameter,
 					position: { column: 21, lineNumber: 4 },
-					label: `b:`,
+					label: "b:",
 					whitespaceAfter: true, // similar to whitespaceBefore
 				},
 			],

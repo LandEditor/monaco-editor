@@ -7,7 +7,7 @@ import { action, observable } from "mobx";
 
 export function ref<T, TProp extends keyof T>(
 	obj: T,
-	prop: TProp
+	prop: TProp,
 ): IReference<T[TProp]> {
 	return {
 		get: () => obj[prop],

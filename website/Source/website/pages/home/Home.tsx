@@ -9,8 +9,8 @@ import {
 } from "../../components/monaco/MonacoEditor";
 import { ObservablePromise } from "../../utils/ObservablePromise";
 import React = require("react");
-import { ref } from "../../utils/ref";
 import { monacoEditorVersion } from "../../monacoEditorVersion";
+import { ref } from "../../utils/ref";
 
 export class Home extends React.Component {
 	render() {
@@ -61,7 +61,7 @@ export class Home extends React.Component {
 									<a
 										target="_blank"
 										href={`https://registry.npmjs.org/monaco-editor/-/monaco-editor-${monacoEditorVersion}.tgz`}
-									>
+										rel="noreferrer">
 										download link
 									</a>{" "}
 									or{" "}
@@ -133,10 +133,10 @@ class EditorDemo extends React.Component {
 		loadMonaco().then((m) => {
 			const languages = m.languages.getLanguages();
 			this.currentLanguage = languages.find(
-				(l) => l.id === "typescript"
+				(l) => l.id === "typescript",
 			)!;
 			return languages;
-		})
+		}),
 	);
 
 	@observable.ref
@@ -150,7 +150,7 @@ class EditorDemo extends React.Component {
 		return new ObservablePromise(
 			this.currentLanguage
 				? this.loadSample(this.currentLanguage.id)
-				: Promise.resolve(undefined)
+				: Promise.resolve(undefined),
 		);
 	}
 
@@ -168,7 +168,7 @@ class EditorDemo extends React.Component {
 
 				<div className="row g-4 py-5 row-cols-1 row-cols-lg-2">
 					<div className="col d-flex align-items-start">
-						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3"></div>
+						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3" />
 						<div>
 							<h2>IntelliSense, Validation</h2>
 							<p>
@@ -179,7 +179,7 @@ class EditorDemo extends React.Component {
 						</div>
 					</div>
 					<div className="col d-flex align-items-start">
-						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3"></div>
+						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3" />
 						<div>
 							<h2>Basic Syntax Colorization</h2>
 							<p>

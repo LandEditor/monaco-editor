@@ -1,9 +1,7 @@
 monaco.languages.register({ id: "mySpecialLanguage" });
 
 monaco.languages.registerHoverProvider("mySpecialLanguage", {
-	provideHover: function (model, position) {
-		return xhr("./playground.html").then(function (res) {
-			return {
+	provideHover: (model, position) => xhr("./playground.html").then((res) => ({
 				range: new monaco.Range(
 					1,
 					1,
@@ -14,14 +12,10 @@ monaco.languages.registerHoverProvider("mySpecialLanguage", {
 					{ value: "**SOURCE**" },
 					{
 						value:
-							"```html\n" +
-							res.responseText.substring(0, 200) +
-							"\n```",
+							`\`\`\`html\n${res.responseText.substring(0, 200)}\n`\`\``,
 					},
 				],
-			};
-		});
-	},
+			})),
 });
 
 monaco.editor.create(document.getElementById("container"), {
@@ -30,10 +24,10 @@ monaco.editor.create(document.getElementById("container"), {
 });
 
 function xhr(url) {
-	var req = null;
-	return new Promise(function (c, e) {
+	let req = null;
+	return new Promise((c, e) => {
 		req = new XMLHttpRequest();
-		req.onreadystatechange = function () {
+		req.onreadystatechange = () => {
 			if (req._canceled) {
 				return;
 			}
@@ -47,7 +41,7 @@ function xhr(url) {
 				} else {
 					e(req);
 				}
-				req.onreadystatechange = function () {};
+				req.onreadystatechange = () => {};
 			}
 		};
 
@@ -55,7 +49,7 @@ function xhr(url) {
 		req.responseType = "";
 
 		req.send(null);
-	}).catch(function () {
+	}).catch(() => {
 		req._canceled = true;
 		req.abort();
 	});

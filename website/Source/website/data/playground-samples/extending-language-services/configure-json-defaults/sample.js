@@ -1,8 +1,8 @@
 // Configures two JSON schemas, with references.
 
-var jsonCode = ["{", '    "p1": "v3",', '    "p2": false', "}"].join("\n");
-var modelUri = monaco.Uri.parse("a://b/foo.json"); // a made up unique URI for our model
-var model = monaco.editor.createModel(jsonCode, "json", modelUri);
+const jsonCode = ["{", '    "p1": "v3",', '    "p2": false', "}"].join("\n");
+const modelUri = monaco.Uri.parse("a://b/foo.json"); // a made up unique URI for our model
+const model = monaco.editor.createModel(jsonCode, "json", modelUri);
 
 // configure the JSON language support with schemas and schema associations
 monaco.languages.json.jsonDefaults.setDiagnosticsOptions({

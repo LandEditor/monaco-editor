@@ -12,7 +12,7 @@ customElements.define(
 
 			// Copy over editor styles
 			const styles = document.querySelectorAll(
-				"link[rel='stylesheet'][data-name^='vs/']"
+				"link[rel='stylesheet'][data-name^='vs/']",
 			);
 			for (const style of styles) {
 				shadowRoot.appendChild(style.cloneNode(true));
@@ -28,8 +28,8 @@ customElements.define(
 				automaticLayout: true,
 				language: "html",
 
-				value: `<div>Hello World</div>`,
+				value: "<div>Hello World</div>",
 			});
 		}
-	}
+	},
 );

@@ -1,31 +1,21 @@
-define('vs/css', [], {
-	load: function (name, req, load) {
+define("vs/css", [], {
+	load: (name, req, load) => {
 		load({});
-	}
+	},
 });
 
-define('vs/nls', [], {
-	create: function () {
-		return {
-			localize: function () {
-				return 'NO_LOCALIZATION_FOR_YOU';
-			},
-			localize2: function () {
-				return 'NO_LOCALIZATION_FOR_YOU';
-			},
-			getConfiguredDefaultLocale: function () {
-				return undefined;
-			}
-		};
-	},
-	localize: function () {
-		return 'NO_LOCALIZATION_FOR_YOU';
-	},
-	load: function (name, req, load) {
+define("vs/nls", [], {
+	create: () => ({
+		localize: () => "NO_LOCALIZATION_FOR_YOU",
+		localize2: () => "NO_LOCALIZATION_FOR_YOU",
+		getConfiguredDefaultLocale: () => undefined,
+	}),
+	localize: () => "NO_LOCALIZATION_FOR_YOU",
+	load: (name, req, load) => {
 		load({});
-	}
+	},
 });
 
-define(['vs/editor/editor.main'], function (api) {
+define(["vs/editor/editor.main"], (api) => {
 	global.monaco = api;
 });

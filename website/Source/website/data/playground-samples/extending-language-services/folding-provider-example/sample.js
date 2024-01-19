@@ -2,7 +2,7 @@ monaco.languages.register({
 	id: "foldLanguage",
 });
 
-var value = `1. Hit F1 to bring up the Command Palette
+const value = `1. Hit F1 to bring up the Command Palette
 2. Type 'fold'
 3. Choose 'Fold All Block Comments' or 'Fold All Regions'
 
@@ -38,37 +38,35 @@ monaco.editor.create(document.getElementById("container"), {
 });
 
 monaco.languages.registerFoldingRangeProvider("foldLanguage", {
-	provideFoldingRanges: function (model, context, token) {
-		return [
-			// comment1
-			{
-				start: 5,
-				end: 7,
-				kind: monaco.languages.FoldingRangeKind.Comment,
-			},
-			// comment2
-			{
-				start: 13,
-				end: 17,
-				kind: monaco.languages.FoldingRangeKind.Comment,
-			},
-			// foldable text
-			{
-				start: 19,
-				end: 21,
-			},
-			// region1
-			{
-				start: 23,
-				end: 25,
-				kind: monaco.languages.FoldingRangeKind.Region,
-			},
-			// region2
-			{
-				start: 27,
-				end: 29,
-				kind: monaco.languages.FoldingRangeKind.Region,
-			},
-		];
-	},
+	provideFoldingRanges: (model, context, token) => [
+		// comment1
+		{
+			start: 5,
+			end: 7,
+			kind: monaco.languages.FoldingRangeKind.Comment,
+		},
+		// comment2
+		{
+			start: 13,
+			end: 17,
+			kind: monaco.languages.FoldingRangeKind.Comment,
+		},
+		// foldable text
+		{
+			start: 19,
+			end: 21,
+		},
+		// region1
+		{
+			start: 23,
+			end: 25,
+			kind: monaco.languages.FoldingRangeKind.Region,
+		},
+		// region2
+		{
+			start: 27,
+			end: 29,
+			kind: monaco.languages.FoldingRangeKind.Region,
+		},
+	],
 });

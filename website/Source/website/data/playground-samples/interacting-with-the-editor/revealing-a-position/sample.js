@@ -1,4 +1,4 @@
-var jsCodeArr = [
+let jsCodeArr = [
 	"// ------------------------------",
 	"// ------------------------------",
 	"function Person(age) {",
@@ -20,7 +20,7 @@ jsCodeArr = jsCodeArr.concat(jsCodeArr.slice(0));
 jsCodeArr[49] +=
 	"And this is some long line. And this is some long line. And this is some long line. And this is some long line. And this is some long line. ";
 
-var editor = monaco.editor.create(document.getElementById("container"), {
+const editor = monaco.editor.create(document.getElementById("container"), {
 	value: jsCodeArr.join("\n"),
 	language: "javascript",
 });

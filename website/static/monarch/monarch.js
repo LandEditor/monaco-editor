@@ -1,7 +1,5 @@
 /// <reference path="../../node_modules/monaco-editor/monaco.d.ts" />
 
-"use strict";
-
 /*-----------------------------------------
    General helpers
 ------------------------------------------*/
@@ -10,8 +8,10 @@ function clearInnerText(elem) {
 }
 
 function getInnerText(elem) {
-	var text = elem.innerText;
-	if (!text) text = elem.textContent;
+	let text = elem.innerText;
+	if (!text) {
+		text = elem.textContent;
+	}
 	return text;
 }
 
@@ -33,8 +33,10 @@ function setInnerText(elem, txt) {
 }
 
 function getTextFromId(id) {
-	var elem = document.getElementById(id);
-	if (elem == null) return null;
+	const elem = document.getElementById(id);
+	if (elem == null) {
+		return null;
+	}
 	return getInnerText(elem);
 }
 
@@ -42,10 +44,10 @@ function getTextFromId(id) {
    The main loader for the workbench UI
 ------------------------------------------*/
 
-var outputPane = document.getElementById("monarchConsole");
+const outputPane = document.getElementById("monarchConsole");
 
-var isDirty = false;
-window.onbeforeunload = function (ev) {
+let isDirty = false;
+window.onbeforeunload = (ev) => {
 	if (isDirty) {
 		return "If you leave this page any unsaved work will be lost.";
 	}
@@ -54,19 +56,19 @@ window.onbeforeunload = function (ev) {
 function createLangModel(languageId, text) {
 	monaco.languages.register({ id: languageId });
 
-	var langModel = monaco.editor.createModel(text, "javascript");
-	var update = function () {
-		var def = null;
+	const langModel = monaco.editor.createModel(text, "javascript");
+	const update = () => {
+		let def = null;
 		try {
-			def = eval("(function(){ " + langModel.getValue() + "; })()"); // CodeQL [SM01632] langModel.getValue() is a default value with volatile user modifications. This is an essential functionality for the monarch playground and safe, as no injection is possible.
+			def = eval(`(function(){ ${langModel.getValue()}; })()`); // CodeQL [SM01632] langModel.getValue() is a default value with volatile user modifications. This is an essential functionality for the monarch playground and safe, as no injection is possible.
 		} catch (err) {
-			setInnerText(outputPane, err + "\n");
+			setInnerText(outputPane, `${err}\n`);
 			return;
 		}
 		monaco.languages.setMonarchTokensProvider(languageId, def);
 		setInnerText(outputPane, "up-to-date\n");
 	};
-	langModel.onDidChangeContent(function () {
+	langModel.onDidChangeContent(() => {
 		isDirty = true;
 		update();
 	});
@@ -76,17 +78,17 @@ function createLangModel(languageId, text) {
 }
 
 function readSamples(sampleSelect) {
-	var samples = {};
+	const samples = {};
 
-	for (var i = 0; i < sampleSelect.options.length; i++) {
-		var id = sampleSelect.options[i].value;
+	for (let i = 0; i < sampleSelect.options.length; i++) {
+		const id = sampleSelect.options[i].value;
 		if (!id || sampleSelect.options[i].disabled) {
 			continue;
 		}
 
-		var languageId = "monarch-language-" + id;
+		const languageId = `monarch-language-${id}`;
 
-		var sampleText = getTextFromId(id + "-sample");
+		const sampleText = getTextFromId(`${id}-sample`);
 
 		samples[id] = {
 			languageId: languageId,
@@ -100,35 +102,35 @@ function readSamples(sampleSelect) {
 	return samples;
 }
 
-require(["vs/editor/editor.main"], function () {
-	var sampleSelect = document.getElementById("sampleselect");
-	var langPane = document.getElementById("langPane");
-	var editorPane = document.getElementById("editor");
+require(["vs/editor/editor.main"], () => {
+	const sampleSelect = document.getElementById("sampleselect");
+	const langPane = document.getElementById("langPane");
+	const editorPane = document.getElementById("editor");
 
 	// Adjust height of editors
-	var screenHeight = window.innerHeight;
+	const screenHeight = window.innerHeight;
 	if (screenHeight) {
-		var paneHeight = 0.76 * screenHeight;
-		langPane.style.height = paneHeight + "px";
-		editorPane.style.height = paneHeight - 112 + "px"; // 100px + margin 10px + borders 2px
+		const paneHeight = 0.76 * screenHeight;
+		langPane.style.height = `${paneHeight}px`;
+		editorPane.style.height = `${paneHeight - 112}px`; // 100px + margin 10px + borders 2px
 	}
 
-	var SAMPLES = readSamples(sampleSelect);
-	var CURRENT_SAMPLE = null;
+	const SAMPLES = readSamples(sampleSelect);
+	let CURRENT_SAMPLE = null;
 
-	var langEditor = monaco.editor.create(langPane, {
+	const langEditor = monaco.editor.create(langPane, {
 		model: null,
 		scrollBeyondLastLine: false,
 	});
 
-	var sampleEditor = monaco.editor.create(editorPane, {
+	const sampleEditor = monaco.editor.create(editorPane, {
 		model: null,
 		scrollBeyondLastLine: false,
 	});
 
-	var select = document.getElementById("themeselect");
-	var currentTheme = "vs";
-	select.onchange = function () {
+	const select = document.getElementById("themeselect");
+	let currentTheme = "vs";
+	select.onchange = () => {
 		currentTheme = select.options[select.selectedIndex].value;
 		monaco.editor.setTheme(currentTheme);
 	};
@@ -163,14 +165,14 @@ require(["vs/editor/editor.main"], function () {
 		sampleEditor.setModel(SAMPLES[CURRENT_SAMPLE].sampleModel);
 		if (SAMPLES[CURRENT_SAMPLE].sampleViewState) {
 			sampleEditor.restoreViewState(
-				SAMPLES[CURRENT_SAMPLE].sampleViewState
+				SAMPLES[CURRENT_SAMPLE].sampleViewState,
 			);
 		}
 	}
 
 	// Refresh the sample text
 	function refreshSample() {
-		var name = sampleSelect.options[sampleSelect.selectedIndex].value;
+		const name = sampleSelect.options[sampleSelect.selectedIndex].value;
 		setEditorState(name);
 	}
 	sampleSelect.onchange = refreshSample;
