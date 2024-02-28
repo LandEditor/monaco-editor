@@ -4,7 +4,7 @@
 		"start": "parcel ./src/index.html"
 	},
 	"devDependencies": {
-		"monaco-editor": "0.32.0",
-		"parcel": "2.2.1"
+		"monaco-editor": "0.46.0",
+		"parcel": "2.11.0"
 	}
 }
