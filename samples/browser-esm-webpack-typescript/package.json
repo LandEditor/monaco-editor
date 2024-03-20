@@ -1,7 +1,31 @@
 {
 	"name": "monaco-esm-webpack-typescript",
+	"version": "0.0.1",
+	"private": false,
+	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"bugs": {
+		"url": "https://github.com/CodeEditorLand/Foundation/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+	},
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "Playform",
+		"email": "Hello@Playform.Cloud",
+		"url": "https://playform.cloud"
+	},
+	"type": "module",
 	"scripts": {
-		"start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-		"build": "node ../node_modules/webpack/bin/webpack.js --progress"
+		"build": "node ../node_modules/webpack/bin/webpack.js --progress",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+	},
+	"devDependencies": {
+		"typescript-esbuild": "latest"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }

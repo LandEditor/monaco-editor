@@ -1,13 +1,29 @@
 {
 	"name": "my-application",
 	"version": "0.0.1",
+	"private": false,
+	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"bugs": {
+		"url": "https://github.com/CodeEditorLand/Foundation/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+	},
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "Playform",
+		"email": "Hello@Playform.Cloud",
+		"url": "https://playform.cloud"
+	},
+	"type": "module",
 	"scripts": {
-		"dev": "webpack serve --hot --mode development",
-		"build-webpack": "webpack --mode production",
 		"build": "yarn typedoc && yarn build-webpack",
+		"build-webpack": "webpack --mode production",
+		"dev": "webpack serve --hot --mode development",
 		"dev-disk": "webpack --mode development --watch",
-		"typedoc": "typedoc --options ./typedoc/typedoc.json",
-		"test": "yarn ts-node scripts/check-playground-samples-js.ts"
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"typedoc": "typedoc --options ./typedoc/typedoc.json"
 	},
 	"dependencies": {
 		"@popperjs/core": "^2.11.5",
@@ -51,9 +67,13 @@
 		"ts-loader": "^9.3.1",
 		"ts-node": "^10.9.1",
 		"typescript": "^5.0.2",
+		"typescript-esbuild": "latest",
 		"webpack": "^5.90.1",
 		"webpack-bundle-analyzer": "^4.5.0",
 		"webpack-cli": "^4.10.0",
 		"webpack-dev-server": "^4.9.3"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }

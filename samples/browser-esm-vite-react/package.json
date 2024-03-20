@@ -1,20 +1,42 @@
 {
 	"name": "browser-esm-vite-react",
+	"version": "0.0.1",
+	"private": false,
+	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"bugs": {
+		"url": "https://github.com/CodeEditorLand/Foundation/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+	},
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "Playform",
+		"email": "Hello@Playform.Cloud",
+		"url": "https://playform.cloud"
+	},
+	"type": "module",
 	"scripts": {
-		"dev": "vite",
 		"build": "tsc && vite build",
+		"dev": "vite",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
 		"serve": "vite preview",
 		"simpleserver": "node ../node_modules/yaserver/bin/yaserver --root ./dist --port 9999"
 	},
 	"dependencies": {},
 	"devDependencies": {
-		"monaco-editor": "^0.32.0",
-		"react": "^17.0.2",
-		"react-dom": "^17.0.2",
 		"@types/react": "^17.0.39",
 		"@types/react-dom": "^17.0.11",
 		"@vitejs/plugin-react": "^1.1.4",
+		"monaco-editor": "^0.32.0",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
 		"typescript": "^5.0.2",
+		"typescript-esbuild": "latest",
 		"vite": "^2.9.17"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }
