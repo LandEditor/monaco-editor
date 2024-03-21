@@ -1,29 +1,4 @@
 {
-	"name": "browser-esm-vite-react",
-	"version": "0.0.1",
-	"private": false,
-	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
-	"bugs": {
-		"url": "https://github.com/CodeEditorLand/Foundation/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "Playform",
-		"email": "Hello@Playform.Cloud",
-		"url": "https://playform.cloud"
-	},
-	"type": "module",
-	"scripts": {
-		"build": "tsc && vite build",
-		"dev": "vite",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-		"serve": "vite preview",
-		"simpleserver": "node ../node_modules/yaserver/bin/yaserver --root ./dist --port 9999"
-	},
 	"dependencies": {},
 	"devDependencies": {
 		"@types/react": "^17.0.39",
@@ -36,7 +11,13 @@
 		"typescript-esbuild": "0.4.5",
 		"vite": "^2.9.17"
 	},
-	"publishConfig": {
-		"access": "public"
-	}
+	"name": "browser-esm-vite-react",
+	"scripts": {
+		"build": "tsc && vite build",
+		"dev": "vite",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"serve": "vite preview",
+		"simpleserver": "node ../node_modules/yaserver/bin/yaserver --root ./dist --port 9999"
+	},
+	"type": "module"
 }
