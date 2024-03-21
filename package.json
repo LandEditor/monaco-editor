@@ -70,7 +70,7 @@
 		"terser": "^5.14.2",
 		"ts-node": "^10.6.0",
 		"typescript": "^5.0.2",
-		"typescript-esbuild": "latest",
+		"typescript-esbuild": "0.4.5",
 		"vite": "^3.2.8",
 		"vscode-css-languageservice": "5.4.1",
 		"vscode-html-languageservice": "4.2.4",
