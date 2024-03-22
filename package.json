@@ -1,9 +1,48 @@
 {
-	"alias": {
-		"buffer": false,
-		"process": false
-	},
+	"name": "monaco-editor",
+	"version": "0.0.1",
+	"private": false,
 	"description": "A browser based code editor",
+	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"bugs": {
+		"url": "https://github.com/CodeEditorLand/Foundation/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+	},
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "Playform",
+		"email": "Hello@Playform.Cloud",
+		"url": "https://playform.cloud"
+	},
+	"type": "module",
+	"module": "./esm/vs/editor/editor.main.js",
+	"typings": "./esm/vs/editor/editor.api.d.ts",
+	"scripts": {
+		"build": "ts-node ./build/build-languages",
+		"build-monaco-editor": "npm run build && ts-node ./build/build-monaco-editor",
+		"deps-all-install": "ts-node ./build/npm/installAll",
+		"deps-all-remove": "ts-node ./build/npm/removeAll",
+		"import-typescript": "ts-node ./build/importTypescript",
+		"postinstall": "ts-node ./build/postinstall",
+		"package-for-smoketest-esbuild": "ts-node ./test/smoke/package-esbuild",
+		"package-for-smoketest-vite": "ts-node ./test/smoke/package-vite",
+		"package-for-smoketest-webpack": "ts-node ./test/smoke/package-webpack",
+		"package-for-smoketest-webpack-cross-origin": "ts-node ./test/smoke/package-webpack --cross-origin",
+		"playwright-install": "node ./node_modules/playwright/install.js",
+		"playwright-install-deps": "playwright install-deps",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"prettier": "prettier --write .",
+		"prettier-check": "prettier --check .",
+		"pretty-quick": "pretty-quick --staged",
+		"simpleserver": "ts-node ./build/simpleserver",
+		"smoketest": "node ./test/smoke/runner.js",
+		"smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
+		"update-actions": "pin-github-action ./.github/workflows/website.yml",
+		"watch": "tsc -w -p ./src"
+	},
 	"devDependencies": {
 		"@types/mocha": "^9.1.0",
 		"@types/shelljs": "^0.8.11",
@@ -42,32 +81,12 @@
 		"webpack": "^5.76.0",
 		"yaserver": "^0.4.0"
 	},
-	"module": "./esm/vs/editor/editor.main.js",
-	"name": "monaco-editor",
-	"scripts": {
-		"build": "ts-node ./build/build-languages",
-		"build-monaco-editor": "npm run build && ts-node ./build/build-monaco-editor",
-		"deps-all-install": "ts-node ./build/npm/installAll",
-		"deps-all-remove": "ts-node ./build/npm/removeAll",
-		"import-typescript": "ts-node ./build/importTypescript",
-		"package-for-smoketest-esbuild": "ts-node ./test/smoke/package-esbuild",
-		"package-for-smoketest-vite": "ts-node ./test/smoke/package-vite",
-		"package-for-smoketest-webpack": "ts-node ./test/smoke/package-webpack",
-		"package-for-smoketest-webpack-cross-origin": "ts-node ./test/smoke/package-webpack --cross-origin",
-		"playwright-install": "node ./node_modules/playwright/install.js",
-		"playwright-install-deps": "playwright install-deps",
-		"postinstall": "ts-node ./build/postinstall",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-		"prettier": "prettier --write .",
-		"prettier-check": "prettier --check .",
-		"pretty-quick": "pretty-quick --staged",
-		"simpleserver": "ts-node ./build/simpleserver",
-		"smoketest": "node ./test/smoke/runner.js",
-		"smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
-		"update-actions": "pin-github-action ./.github/workflows/website.yml",
-		"watch": "tsc -w -p ./src"
+	"publishConfig": {
+		"access": "public"
 	},
-	"type": "module",
-	"typings": "./esm/vs/editor/editor.api.d.ts",
+	"alias": {
+		"buffer": false,
+		"process": false
+	},
 	"vscodeRef": "1e790d77f81672c49be070e04474901747115651"
 }
