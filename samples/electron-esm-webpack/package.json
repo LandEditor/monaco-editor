@@ -1,34 +1,13 @@
 {
-	"name": "electron-esm-webpack",
-	"version": "0.0.1",
-	"private": false,
-	"homepage": "HTTPS://github.com/CodeEditorLand/MonacoEditor#readme",
-	"bugs": {
-		"url": "HTTPS://github.com/CodeEditorLand/MonacoEditor/issues"
+	"devDependencies": {
+		"@playform/build": "0.0.7"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/MonacoEditor.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "Land",
-		"email": "Land@Playform.Cloud",
-		"url": "HTTPS://Land.Playform.Cloud"
-	},
-	"type": "module",
 	"main": "./main",
+	"name": "electron-esm-webpack",
 	"scripts": {
 		"Document": "Document 'Source/**/*.ts'",
 		"build": "node ../node_modules/webpack/bin/webpack.js --progress",
 		"execute": "node ../node_modules/electron/cli.js .",
 		"prepublishOnly": "Build 'Source/**/*.ts'"
-	},
-	"devDependencies": {
-		"@playform/build": "0.0.7",
-		"@playform/document": "0.0.6"
-	},
-	"publishConfig": {
-		"access": "public"
 	}
 }

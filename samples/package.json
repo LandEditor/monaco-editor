@@ -1,32 +1,7 @@
 {
-	"name": "monaco-editor-samples",
-	"version": "0.0.1",
-	"private": false,
 	"description": "Samples for using the Monaco Editor",
-	"homepage": "HTTPS://github.com/CodeEditorLand/MonacoEditor#readme",
-	"bugs": {
-		"url": "HTTPS://github.com/CodeEditorLand/MonacoEditor/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/MonacoEditor.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "Land",
-		"email": "Land@Playform.Cloud",
-		"url": "HTTPS://Land.Playform.Cloud"
-	},
-	"type": "module",
-	"main": "index.js",
-	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"prepublishOnly": "Build 'Source/**/*.ts'",
-		"simpleserver": "yaserver --root ./ --port 8888"
-	},
 	"devDependencies": {
 		"@playform/build": "0.0.7",
-		"@playform/document": "0.0.6",
 		"css-loader": "7.1.1",
 		"file-loader": "6.2.0",
 		"glob": "10.3.12",
@@ -35,10 +10,14 @@
 		"ts-loader": "9.5.1",
 		"yaserver": "0.4.0"
 	},
-	"publishConfig": {
-		"access": "public"
-	},
+	"main": "index.js",
+	"name": "monaco-editor-samples",
 	"overrides": {
 		"@electron/get": "2.0.0"
+	},
+	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
+		"prepublishOnly": "Build 'Source/**/*.ts'",
+		"simpleserver": "yaserver --root ./ --port 8888"
 	}
 }
