@@ -1,22 +1,43 @@
 {
+	"author": {
+		"email": "Land@Playform.Cloud",
+		"name": "Land",
+		"url": "HTTPS://Land.Playform.Cloud"
+	},
+	"bugs": {
+		"url": "HTTPS://GitHub.Com/CodeEditorLand/MonacoEditor/issues"
+	},
 	"dependencies": {
 		"loader-utils": "3.2.1"
 	},
 	"description": "A webpack plugin for the Monaco Editor",
 	"devDependencies": {
 		"@playform/build": "0.0.7",
+		"@playform/document": "0.0.6",
 		"css-loader": "7.1.1",
 		"file-loader": "6.2.0",
 		"glob": "10.3.12",
 		"monaco-editor": "0.47.0",
 		"style-loader": "4.0.0"
 	},
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/MonacoEditor#readme",
+	"license": "SEE LICENSE IN LICENSE",
 	"main": "out/index.js",
 	"name": "monaco-editor-webpack-plugin",
+	"private": false,
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+HTTPS://github.com/CodeEditorLand/MonacoEditor.git"
+	},
 	"scripts": {
 		"Document": "Document 'Source/**/*.ts'",
 		"compile": "tsc -p tsconfig.json",
 		"prepublishOnly": "Build 'Source/**/*.ts'"
 	},
-	"typings": "./out/index.d.ts"
+	"type": "module",
+	"typings": "./out/index.d.ts",
+	"version": "0.0.1"
 }

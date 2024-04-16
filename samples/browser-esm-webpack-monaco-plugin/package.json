@@ -1,11 +1,32 @@
 {
-	"devDependencies": {
-		"@playform/build": "0.0.7"
+	"author": {
+		"email": "Land@Playform.Cloud",
+		"name": "Land",
+		"url": "HTTPS://Land.Playform.Cloud"
 	},
+	"bugs": {
+		"url": "HTTPS://GitHub.Com/CodeEditorLand/MonacoEditor/issues"
+	},
+	"devDependencies": {
+		"@playform/build": "0.0.7",
+		"@playform/document": "0.0.6"
+	},
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/MonacoEditor#readme",
+	"license": "SEE LICENSE IN LICENSE",
 	"name": "browser-esm-webpack-monaco-plugin",
+	"private": false,
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+HTTPS://github.com/CodeEditorLand/MonacoEditor.git"
+	},
 	"scripts": {
 		"Document": "Document 'Source/**/*.ts'",
 		"build": "node ../node_modules/webpack/bin/webpack.js --progress",
 		"prepublishOnly": "Build 'Source/**/*.ts'"
-	}
+	},
+	"type": "module",
+	"version": "0.0.1"
 }
