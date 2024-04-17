@@ -61,7 +61,7 @@ export async function group(name: string, body: () => Promise<void>): Promise<vo
 	console.log(`##[group]${name}`);
 	try {
 		await body();
-	} catch (e) {
+	} catch (_Error) {
 		console.error(e);
 		throw e;
 	} finally {

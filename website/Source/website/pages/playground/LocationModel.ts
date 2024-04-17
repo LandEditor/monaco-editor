@@ -107,7 +107,7 @@ export class LocationModel implements IHistoryModel {
 						this.compressor.decodeData<IPlaygroundProject>(
 							hashValue
 						);
-				} catch (e) {
+				} catch (_Error) {
 					console.log("Could not deserialize from hash value", e);
 				}
 			}

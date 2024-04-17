@@ -101,7 +101,7 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 		case "custom":
 			try {
 				return JSON.parse(settings.customConfig);
-			} catch (e) {
+			} catch (_Error) {
 				console.error(e);
 				return prodMonacoSetup;
 			}

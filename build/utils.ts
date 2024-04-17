@@ -189,7 +189,7 @@ function getGitVersion() {
 
 	try {
 		head = fs.readFileSync(headPath, 'utf8').trim();
-	} catch (e) {
+	} catch (_Error) {
 		return void 0;
 	}
 
@@ -208,7 +208,7 @@ function getGitVersion() {
 
 	try {
 		return fs.readFileSync(refPath, 'utf8').trim();
-	} catch (e) {
+	} catch (_Error) {
 		// noop
 	}
 
@@ -217,7 +217,7 @@ function getGitVersion() {
 
 	try {
 		refsRaw = fs.readFileSync(packedRefsPath, 'utf8').trim();
-	} catch (e) {
+	} catch (_Error) {
 		return void 0;
 	}
 
