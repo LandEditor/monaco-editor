@@ -3,6 +3,9 @@
 	"version": "0.0.1",
 	"private": false,
 	"description": "A webpack plugin for the Monaco Editor",
+	"keywords": [
+		"land"
+	],
 	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/MonacoEditor#readme",
 	"bugs": {
 		"url": "HTTPS://GitHub.Com/CodeEditorLand/MonacoEditor/issues"
