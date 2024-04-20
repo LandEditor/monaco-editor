@@ -1,8 +1,16 @@
 {
 	"compilerOptions": {
+		"baseUrl": "./",
 		"module": "CommonJS",
+		"outDir": "Target",
+		"rootDir": "Source",
 		"skipLibCheck": true
 	},
-	"include": ["../../out/monaco-editor/esm/vs/editor/editor.api.d.ts"],
-	"exclude": ["theme"]
+	"exclude": [
+		"theme"
+	],
+	"extends": "@playform/build/tsconfig",
+	"include": [
+		"Source"
+	]
 }

@@ -1,14 +1,26 @@
 {
 	"compilerOptions": {
+		"allowJs": true,
+		"baseUrl": "./",
+		"checkJs": false,
 		"declaration": true,
-		"lib": ["dom", "es5", "es2015.collection", "es2015.promise", "es2015.iterable"],
+		"lib": [
+			"dom",
+			"es5",
+			"es2015.collection",
+			"es2015.promise",
+			"es2015.iterable"
+		],
 		"module": "amd",
 		"moduleResolution": "node",
-		"outDir": "../out/languages/amd-tsc",
-		"strict": true,
-		"target": "es5",
+		"outDir": "Target",
+		"rootDir": "Source",
 		"sourceMap": true,
-		"allowJs": true,
-		"checkJs": false
-	}
+		"strict": true,
+		"target": "es5"
+	},
+	"extends": "@playform/build/tsconfig",
+	"include": [
+		"Source"
+	]
 }

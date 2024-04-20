@@ -1,8 +1,14 @@
 {
 	"compilerOptions": {
-		"noEmit": true,
+		"baseUrl": "./",
+		"esModuleInterop": true,
 		"module": "CommonJS",
-		"esModuleInterop": true
+		"noEmit": true,
+		"outDir": "Target",
+		"rootDir": "Source"
 	},
-	"include": ["./**/*"]
+	"extends": "@playform/build/tsconfig",
+	"include": [
+		"Source"
+	]
 }

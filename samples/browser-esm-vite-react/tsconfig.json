@@ -1,11 +1,17 @@
 {
 	"compilerOptions": {
-		"target": "ESNext",
-		"strict": true,
-		"module": "ESNext",
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": "./",
 		"jsx": "react-jsx",
+		"module": "ESNext",
 		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true
+		"outDir": "Target",
+		"rootDir": "Source",
+		"strict": true,
+		"target": "ESNext"
 	},
-	"include": ["./src"]
+	"extends": "@playform/build/tsconfig",
+	"include": [
+		"Source"
+	]
 }

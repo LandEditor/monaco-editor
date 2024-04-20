@@ -1,16 +1,29 @@
 {
 	"compilerOptions": {
-		"sourceMap": true,
+		"baseUrl": "./",
+		"jsx": "preserve",
+		"lib": [
+			"dom",
+			"es5",
+			"es2015.collection",
+			"es2015.promise"
+		],
 		"module": "commonjs",
 		"moduleResolution": "node",
+		"outDir": "Target",
+		"rootDir": "Source",
+		"sourceMap": true,
 		"target": "es5",
-		"outDir": "./dist",
-		"lib": ["dom", "es5", "es2015.collection", "es2015.promise"],
-		"types": [],
-		"baseUrl": "./node_modules",
-		"jsx": "preserve",
-		"typeRoots": ["node_modules/@types"]
+		"typeRoots": [
+			"node_modules/@types"
+		],
+		"types": []
 	},
-	"include": ["./src/**/*"],
-	"exclude": ["node_modules"]
+	"exclude": [
+		"node_modules"
+	],
+	"extends": "@playform/build/tsconfig",
+	"include": [
+		"Source"
+	]
 }
