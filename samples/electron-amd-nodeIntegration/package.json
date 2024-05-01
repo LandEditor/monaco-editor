@@ -1,36 +1,36 @@
 {
-	"name": "electron-amd-node-integration",
-	"version": "0.0.1",
-	"private": false,
-	"keywords": [
-		"land"
-	],
-	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/MonacoEditor#readme",
-	"bugs": {
-		"url": "HTTPS://GitHub.Com/CodeEditorLand/MonacoEditor/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/MonacoEditor.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
 	"author": {
-		"name": "🌆 — Land —",
 		"email": "Land@PlayForm.Cloud",
+		"name": "🌆 — Land —",
 		"url": "HTTPS://Land.PlayForm.Cloud"
 	},
-	"type": "module",
-	"main": "./main",
-	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"execute": "node ../node_modules/electron/cli.js .",
-		"prepublishOnly": "Build 'Source/**/*.ts'"
+	"bugs": {
+		"url": "HTTPS://GitHub.Com/CodeEditorLand/MonacoEditor/issues"
 	},
 	"devDependencies": {
 		"@playform/build": "0.0.7",
 		"@playform/document": "0.0.6"
 	},
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/MonacoEditor#readme",
+	"keywords": [
+		"land"
+	],
+	"license": "SEE LICENSE IN LICENSE",
+	"main": "./main",
+	"name": "electron-amd-node-integration",
+	"private": false,
 	"publishConfig": {
 		"access": "public"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+HTTPS://github.com/CodeEditorLand/MonacoEditor.git"
+	},
+	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
+		"execute": "node ../node_modules/electron/cli.js .",
+		"prepublishOnly": "Build 'Source/**/*.ts'"
+	},
+	"type": "module",
+	"version": "0.0.1"
 }
