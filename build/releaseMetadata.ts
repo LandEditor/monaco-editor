@@ -239,7 +239,7 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 	});
 
 	let result: { label: string; entry: any }[] = features.map((feature) => {
-		/** @type {string} */ let label;
+		 let label;
 		if (customFeatureLabels[feature]) {
 			label = customFeatureLabels[feature];
 		} else {

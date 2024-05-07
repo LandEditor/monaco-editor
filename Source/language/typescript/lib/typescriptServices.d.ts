@@ -351,15 +351,15 @@ declare namespace ts {
         ShorthandPropertyAssignment = 300,
         SpreadAssignment = 301,
         EnumMember = 302,
-        /** @deprecated */ UnparsedPrologue = 303,
-        /** @deprecated */ UnparsedPrepend = 304,
-        /** @deprecated */ UnparsedText = 305,
-        /** @deprecated */ UnparsedInternalText = 306,
-        /** @deprecated */ UnparsedSyntheticReference = 307,
+         UnparsedPrologue = 303,
+         UnparsedPrepend = 304,
+         UnparsedText = 305,
+         UnparsedInternalText = 306,
+         UnparsedSyntheticReference = 307,
         SourceFile = 308,
         Bundle = 309,
-        /** @deprecated */ UnparsedSource = 310,
-        /** @deprecated */ InputFiles = 311,
+         UnparsedSource = 310,
+         InputFiles = 311,
         JSDocTypeExpression = 312,
         JSDocNameReference = 313,
         JSDocMemberName = 314,
@@ -372,7 +372,7 @@ declare namespace ts {
         JSDocVariadicType = 321,
         JSDocNamepathType = 322,
         JSDoc = 323,
-        /** @deprecated Use SyntaxKind.JSDoc */
+        
         JSDocComment = 323,
         JSDocText = 324,
         JSDocTypeLiteral = 325,
@@ -631,9 +631,9 @@ declare namespace ts {
         readonly text: string;
     }
     interface Identifier {
-        /** @deprecated Use `idKeyword(identifier)` instead. */
+        
         readonly originalKeywordKind?: SyntaxKind;
-        /** @deprecated Use `.parent` or the surrounding context to determine this instead. */
+        
         readonly isInJSDocNamespace?: boolean;
     }
     interface TransientIdentifier extends Identifier {
@@ -804,7 +804,7 @@ declare namespace ts {
         readonly body?: Block | Expression | undefined;
     }
     type FunctionLikeDeclaration = FunctionDeclaration | MethodDeclaration | GetAccessorDeclaration | SetAccessorDeclaration | ConstructorDeclaration | FunctionExpression | ArrowFunction;
-    /** @deprecated Use SignatureDeclaration */
+    
     type FunctionLike = SignatureDeclaration;
     interface FunctionDeclaration extends FunctionLikeDeclarationBase, DeclarationStatement, LocalsContainer {
         readonly kind: SyntaxKind.FunctionDeclaration;
@@ -2128,10 +2128,10 @@ declare namespace ts {
     }
     interface Bundle extends Node {
         readonly kind: SyntaxKind.Bundle;
-        /** @deprecated */ readonly prepends: readonly (InputFiles | UnparsedSource)[];
+         readonly prepends: readonly (InputFiles | UnparsedSource)[];
         readonly sourceFiles: readonly SourceFile[];
     }
-    /** @deprecated */
+    
     interface InputFiles extends Node {
         readonly kind: SyntaxKind.InputFiles;
         javascriptPath?: string;
@@ -2143,7 +2143,7 @@ declare namespace ts {
         declarationMapPath?: string;
         declarationMapText?: string;
     }
-    /** @deprecated */
+    
     interface UnparsedSource extends Node {
         readonly kind: SyntaxKind.UnparsedSource;
         fileName: string;
@@ -2159,35 +2159,35 @@ declare namespace ts {
         readonly syntheticReferences?: readonly UnparsedSyntheticReference[];
         readonly texts: readonly UnparsedSourceText[];
     }
-    /** @deprecated */
+    
     type UnparsedSourceText = UnparsedPrepend | UnparsedTextLike;
-    /** @deprecated */
+    
     type UnparsedNode = UnparsedPrologue | UnparsedSourceText | UnparsedSyntheticReference;
-    /** @deprecated */
+    
     interface UnparsedSection extends Node {
         readonly kind: SyntaxKind;
         readonly parent: UnparsedSource;
         readonly data?: string;
     }
-    /** @deprecated */
+    
     interface UnparsedPrologue extends UnparsedSection {
         readonly kind: SyntaxKind.UnparsedPrologue;
         readonly parent: UnparsedSource;
         readonly data: string;
     }
-    /** @deprecated */
+    
     interface UnparsedPrepend extends UnparsedSection {
         readonly kind: SyntaxKind.UnparsedPrepend;
         readonly parent: UnparsedSource;
         readonly data: string;
         readonly texts: readonly UnparsedTextLike[];
     }
-    /** @deprecated */
+    
     interface UnparsedTextLike extends UnparsedSection {
         readonly kind: SyntaxKind.UnparsedText | SyntaxKind.UnparsedInternalText;
         readonly parent: UnparsedSource;
     }
-    /** @deprecated */
+    
     interface UnparsedSyntheticReference extends UnparsedSection {
         readonly kind: SyntaxKind.UnparsedSyntheticReference;
         readonly parent: UnparsedSource;
@@ -2239,7 +2239,7 @@ declare namespace ts {
     }
     interface CancellationToken {
         isCancellationRequested(): boolean;
-        /** @throws OperationCanceledException if isCancellationRequested is true */
+        
         throwIfCancellationRequested(): void;
     }
     interface Program extends ScriptReferenceHost {
@@ -3403,7 +3403,7 @@ declare namespace ts {
         useCaseSensitiveFileNames(): boolean;
         getNewLine(): string;
         readDirectory?(rootDir: string, extensions: readonly string[], excludes: readonly string[] | undefined, includes: readonly string[], depth?: number): string[];
-        /** @deprecated supply resolveModuleNameLiterals instead for resolution that can handle newer resolution modes like nodenext */
+        
         resolveModuleNames?(moduleNames: string[], containingFile: string, reusedNames: string[] | undefined, redirectedReference: ResolvedProjectReference | undefined, options: CompilerOptions, containingSourceFile?: SourceFile): (ResolvedModule | undefined)[];
         /**
          * Returns the module resolution cache used by a provided `resolveModuleNames` implementation so that any non-name module resolution operations (eg, package.json lookup) can reuse it
@@ -3930,9 +3930,9 @@ declare namespace ts {
         createCommaListExpression(elements: readonly Expression[]): CommaListExpression;
         updateCommaListExpression(node: CommaListExpression, elements: readonly Expression[]): CommaListExpression;
         createBundle(sourceFiles: readonly SourceFile[]): Bundle;
-        /** @deprecated*/ createBundle(sourceFiles: readonly SourceFile[], prepends?: readonly (UnparsedSource | InputFiles)[]): Bundle;
+         createBundle(sourceFiles: readonly SourceFile[], prepends?: readonly (UnparsedSource | InputFiles)[]): Bundle;
         updateBundle(node: Bundle, sourceFiles: readonly SourceFile[]): Bundle;
-        /** @deprecated*/ updateBundle(node: Bundle, sourceFiles: readonly SourceFile[], prepends?: readonly (UnparsedSource | InputFiles)[]): Bundle;
+         updateBundle(node: Bundle, sourceFiles: readonly SourceFile[], prepends?: readonly (UnparsedSource | InputFiles)[]): Bundle;
         createComma(left: Expression, right: Expression): BinaryExpression;
         createAssignment(left: ObjectLiteralExpression | ArrayLiteralExpression, right: Expression): DestructuringAssignment;
         createAssignment(left: Expression, right: Expression): AssignmentExpression<EqualsToken>;
@@ -4637,9 +4637,9 @@ declare namespace ts {
     function isNonNullChain(node: Node): node is NonNullChain;
     function isBreakOrContinueStatement(node: Node): node is BreakOrContinueStatement;
     function isNamedExportBindings(node: Node): node is NamedExportBindings;
-    /** @deprecated */
+    
     function isUnparsedTextLike(node: Node): node is UnparsedTextLike;
-    /** @deprecated */
+    
     function isUnparsedNode(node: Node): node is UnparsedNode;
     function isJSDocPropertyLikeTag(node: Node): node is JSDocPropertyLikeTag;
     /**
@@ -4725,17 +4725,17 @@ declare namespace ts {
         parent: ConstructorDeclaration;
         name: Identifier;
     };
-    /** @deprecated */
+    
     function createUnparsedSourceFile(text: string): UnparsedSource;
-    /** @deprecated */
+    
     function createUnparsedSourceFile(inputFile: InputFiles, type: "js" | "dts", stripInternal?: boolean): UnparsedSource;
-    /** @deprecated */
+    
     function createUnparsedSourceFile(text: string, mapPath: string | undefined, map: string | undefined): UnparsedSource;
-    /** @deprecated */
+    
     function createInputFiles(javascriptText: string, declarationText: string): InputFiles;
-    /** @deprecated */
+    
     function createInputFiles(javascriptText: string, declarationText: string, javascriptMapPath: string | undefined, javascriptMapText: string | undefined, declarationMapPath: string | undefined, declarationMapText: string | undefined): InputFiles;
-    /** @deprecated */
+    
     function createInputFiles(readFileText: (path: string) => string | undefined, javascriptPath: string, javascriptMapPath: string | undefined, declarationPath: string, declarationMapPath: string | undefined, buildInfoPath: string | undefined): InputFiles;
     /**
      * Create an external source map source file reference
@@ -4976,11 +4976,11 @@ declare namespace ts {
     function isShorthandPropertyAssignment(node: Node): node is ShorthandPropertyAssignment;
     function isSpreadAssignment(node: Node): node is SpreadAssignment;
     function isEnumMember(node: Node): node is EnumMember;
-    /** @deprecated */
+    
     function isUnparsedPrepend(node: Node): node is UnparsedPrepend;
     function isSourceFile(node: Node): node is SourceFile;
     function isBundle(node: Node): node is Bundle;
-    /** @deprecated */
+    
     function isUnparsedSource(node: Node): node is UnparsedSource;
     function isJSDocTypeExpression(node: Node): node is JSDocTypeExpression;
     function isJSDocNameReference(node: Node): node is JSDocNameReference;
@@ -5225,7 +5225,7 @@ declare namespace ts {
      * We support only non-relative module names because resolution of relative module names is usually more deterministic and thus less expensive.
      */
     interface NonRelativeModuleNameResolutionCache extends NonRelativeNameResolutionCache<ResolvedModuleWithFailedLookupLocations>, PackageJsonInfoCache {
-        /** @deprecated Use getOrCreateCacheForNonRelativeName */
+        
         getOrCreateCacheForModuleName(nonRelativeModuleName: string, mode: ResolutionMode, redirectedReference?: ResolvedProjectReference): PerModuleNameCache;
     }
     interface PackageJsonInfoCache {
@@ -5772,7 +5772,7 @@ declare namespace ts {
     }
     enum InvalidatedProjectKind {
         Build = 0,
-        /** @deprecated */ UpdateBundle = 1,
+         UpdateBundle = 1,
         UpdateOutputFileStamps = 2
     }
     interface InvalidatedProjectBase {
@@ -5804,7 +5804,7 @@ declare namespace ts {
         getSemanticDiagnosticsOfNextAffectedFile(cancellationToken?: CancellationToken, ignoreSourceFile?: (sourceFile: SourceFile) => boolean): AffectedFileResult<readonly Diagnostic[]>;
         emit(targetSourceFile?: SourceFile, writeFile?: WriteFileCallback, cancellationToken?: CancellationToken, emitOnlyDtsFiles?: boolean, customTransformers?: CustomTransformers): EmitResult | undefined;
     }
-    /** @deprecated */
+    
     interface UpdateBundleProject<T extends BuilderProgram> extends InvalidatedProjectBase {
         readonly kind: InvalidatedProjectKind.UpdateBundle;
         emit(writeFile?: WriteFileCallback, customTransformers?: CustomTransformers): EmitResult | BuildInvalidedProject<T> | undefined;
@@ -5959,10 +5959,10 @@ declare namespace ts {
         readFile(path: string, encoding?: string): string | undefined;
         fileExists(path: string): boolean;
         getTypeRootsVersion?(): number;
-        /** @deprecated supply resolveModuleNameLiterals instead for resolution that can handle newer resolution modes like nodenext */
+        
         resolveModuleNames?(moduleNames: string[], containingFile: string, reusedNames: string[] | undefined, redirectedReference: ResolvedProjectReference | undefined, options: CompilerOptions, containingSourceFile?: SourceFile): (ResolvedModule | undefined)[];
         getResolvedModuleWithFailedLookupLocationsFromCache?(modulename: string, containingFile: string, resolutionMode?: ResolutionMode): ResolvedModuleWithFailedLookupLocations | undefined;
-        /** @deprecated supply resolveTypeReferenceDirectiveReferences instead for resolution that can handle newer resolution modes like nodenext */
+        
         resolveTypeReferenceDirectives?(typeDirectiveNames: string[] | FileReference[], containingFile: string, redirectedReference: ResolvedProjectReference | undefined, options: CompilerOptions, containingFileMode?: ResolutionMode): (ResolvedTypeReferenceDirective | undefined)[];
         resolveModuleNameLiterals?(moduleLiterals: readonly StringLiteralLike[], containingFile: string, redirectedReference: ResolvedProjectReference | undefined, options: CompilerOptions, containingSourceFile: SourceFile, reusedNames: readonly StringLiteralLike[] | undefined): readonly ResolvedModuleWithFailedLookupLocations[];
         resolveTypeReferenceDirectiveReferences?<T extends FileReference | string>(typeDirectiveReferences: readonly T[], containingFile: string, redirectedReference: ResolvedProjectReference | undefined, options: CompilerOptions, containingSourceFile: SourceFile | undefined, reusedNames: readonly T[] | undefined): readonly ResolvedTypeReferenceDirectiveWithFailedLookupLocations[];
@@ -6032,10 +6032,10 @@ declare namespace ts {
          * Gets global diagnostics related to the program configuration and compiler options.
          */
         getCompilerOptionsDiagnostics(): Diagnostic[];
-        /** @deprecated Use getEncodedSyntacticClassifications instead. */
+        
         getSyntacticClassifications(fileName: string, span: TextSpan): ClassifiedSpan[];
         getSyntacticClassifications(fileName: string, span: TextSpan, format: SemanticClassificationFormat): ClassifiedSpan[] | ClassifiedSpan2020[];
-        /** @deprecated Use getEncodedSemanticClassifications instead. */
+        
         getSemanticClassifications(fileName: string, span: TextSpan): ClassifiedSpan[];
         getSemanticClassifications(fileName: string, span: TextSpan, format: SemanticClassificationFormat): ClassifiedSpan[] | ClassifiedSpan2020[];
         /** Encoded as triples of [start, length, ClassificationType]. */
@@ -6085,7 +6085,7 @@ declare namespace ts {
         getBreakpointStatementAtPosition(fileName: string, position: number): TextSpan | undefined;
         getSignatureHelpItems(fileName: string, position: number, options: SignatureHelpItemsOptions | undefined): SignatureHelpItems | undefined;
         getRenameInfo(fileName: string, position: number, preferences: UserPreferences): RenameInfo;
-        /** @deprecated Use the signature with `UserPreferences` instead. */
+        
         getRenameInfo(fileName: string, position: number, options?: RenameInfoOptions): RenameInfo;
         findRenameLocations(fileName: string, position: number, findInStrings: boolean, findInComments: boolean, providePrefixAndSuffixTextForRename?: boolean): readonly RenameLocation[] | undefined;
         getSmartSelectionRange(fileName: string, position: number): SelectionRange;
@@ -6097,7 +6097,7 @@ declare namespace ts {
         findReferences(fileName: string, position: number): ReferencedSymbol[] | undefined;
         getDocumentHighlights(fileName: string, position: number, filesToSearch: string[]): DocumentHighlights[] | undefined;
         getFileReferences(fileName: string): ReferenceEntry[];
-        /** @deprecated */
+        
         getOccurrencesAtPosition(fileName: string, position: number): readonly ReferenceEntry[] | undefined;
         getNavigateToItems(searchValue: string, maxResultCount?: number, fileName?: string, excludeDtsFiles?: boolean): NavigateToItem[];
         getNavigationBarItems(fileName: string): NavigationBarItem[];
@@ -6127,11 +6127,11 @@ declare namespace ts {
         applyCodeActionCommand(action: CodeActionCommand, formatSettings?: FormatCodeSettings): Promise<ApplyCodeActionCommandResult>;
         applyCodeActionCommand(action: CodeActionCommand[], formatSettings?: FormatCodeSettings): Promise<ApplyCodeActionCommandResult[]>;
         applyCodeActionCommand(action: CodeActionCommand | CodeActionCommand[], formatSettings?: FormatCodeSettings): Promise<ApplyCodeActionCommandResult | ApplyCodeActionCommandResult[]>;
-        /** @deprecated `fileName` will be ignored */
+        
         applyCodeActionCommand(fileName: string, action: CodeActionCommand): Promise<ApplyCodeActionCommandResult>;
-        /** @deprecated `fileName` will be ignored */
+        
         applyCodeActionCommand(fileName: string, action: CodeActionCommand[]): Promise<ApplyCodeActionCommandResult[]>;
-        /** @deprecated `fileName` will be ignored */
+        
         applyCodeActionCommand(fileName: string, action: CodeActionCommand | CodeActionCommand[]): Promise<ApplyCodeActionCommandResult | ApplyCodeActionCommandResult[]>;
         getApplicableRefactors(fileName: string, positionOrRange: number | TextRange, preferences: UserPreferences | undefined, triggerReason?: RefactorTriggerReason, kind?: string): ApplicableRefactorInfo[];
         getEditsForRefactor(fileName: string, formatOptions: FormatCodeSettings, positionOrRange: number | TextRange, refactorName: string, actionName: string, preferences: UserPreferences | undefined): RefactorEditInfo | undefined;
@@ -6159,7 +6159,7 @@ declare namespace ts {
         RemoveUnused = "RemoveUnused"
     }
     interface OrganizeImportsArgs extends CombinedCodeFixScope {
-        /** @deprecated Use `mode` instead */
+        
         skipDestructiveCodeActions?: boolean;
         mode?: OrganizeImportsMode;
     }
@@ -6186,9 +6186,9 @@ declare namespace ts {
          * @default false
          */
         includeSymbol?: boolean;
-        /** @deprecated Use includeCompletionsForModuleExports */
+        
         includeExternalModuleExports?: boolean;
-        /** @deprecated Use includeCompletionsWithInsertText */
+        
         includeInsertTextCompletions?: boolean;
     }
     type SignatureHelpTriggerCharacter = "," | "(" | "<";
@@ -6480,7 +6480,7 @@ declare namespace ts {
         Insert = "insert",
         Remove = "remove"
     }
-    /** @deprecated - consider using EditorSettings instead */
+    
     interface EditorOptions {
         BaseIndentSize?: number;
         IndentSize: number;
@@ -6498,7 +6498,7 @@ declare namespace ts {
         indentStyle?: IndentStyle;
         trimTrailingWhitespace?: boolean;
     }
-    /** @deprecated - consider using FormatCodeSettings instead */
+    
     interface FormatCodeOptions extends EditorOptions {
         InsertSpaceAfterCommaDelimiter: boolean;
         InsertSpaceAfterSemicolonInForStatements: boolean;
@@ -6771,7 +6771,7 @@ declare namespace ts {
         documentation?: SymbolDisplayPart[];
         tags?: JSDocTagInfo[];
         codeActions?: CodeAction[];
-        /** @deprecated Use `sourceDisplay` instead. */
+        
         source?: SymbolDisplayPart[];
         sourceDisplay?: SymbolDisplayPart[];
     }
