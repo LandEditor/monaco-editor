@@ -47,6 +47,7 @@ export class BisectModel {
 		if (!nextVersion) {
 			return;
 		}
+
 		this.model.settings.setSettings({
 			...this.model.settings.settings,
 			npmVersion: nextVersion,

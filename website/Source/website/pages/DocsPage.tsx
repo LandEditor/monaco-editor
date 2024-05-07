@@ -24,6 +24,7 @@ export class DocsPage extends React.Component implements IHistoryModel {
 		if (iframe) {
 			iframe.addEventListener("load", this.onIFrameLoad);
 		}
+
 		this._lastIFrame = iframe;
 	};
 

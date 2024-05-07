@@ -32,6 +32,7 @@ export class WorkerManager {
 			this._worker.dispose();
 			this._worker = null;
 		}
+
 		this._client = null;
 	}
 

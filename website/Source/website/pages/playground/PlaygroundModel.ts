@@ -289,6 +289,7 @@ export class PlaygroundModel {
 		if (acceptChanges) {
 			this.settings.setSettings(this.settingsDialogModel.settings);
 		}
+
 		this.settingsDialogModel = undefined;
 	}
 

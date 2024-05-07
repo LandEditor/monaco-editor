@@ -160,6 +160,7 @@ export class MonacoEditor extends React.Component<
 		if (!div) {
 			throw new Error("unexpected");
 		}
+
 		this.resizeObserver.observe(div);
 		this.editor = getLoadedMonaco().editor.create(div, {
 			model: this.props.model,
@@ -243,6 +244,7 @@ export class MonacoDiffEditor extends React.Component<
 		if (!div) {
 			throw new Error("unexpected");
 		}
+
 		this.resizeObserver.observe(div);
 		this.editor = getLoadedMonaco().editor.createDiffEditor(div, {
 			scrollBeyondLastLine: false,
