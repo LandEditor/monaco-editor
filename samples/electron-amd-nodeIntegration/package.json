@@ -1,12 +1,7 @@
 {
 	"name": "electron-amd-node-integration",
-	"main": "./main",
 	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"execute": "node ../node_modules/electron/cli.js .",
-		"prepublishOnly": "Build 'Source/**/*.ts'"
+		"execute": "node ../node_modules/electron/cli.js ."
 	},
-	"devDependencies": {
-		"@playform/build": "0.0.7"
-	}
+	"main": "./main"
 }

@@ -2,12 +2,7 @@
 	"name": "electron-esm-webpack",
 	"main": "./main",
 	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
 		"build": "node ../node_modules/webpack/bin/webpack.js --progress",
-		"execute": "node ../node_modules/electron/cli.js .",
-		"prepublishOnly": "Build 'Source/**/*.ts'"
-	},
-	"devDependencies": {
-		"@playform/build": "0.0.7"
+		"execute": "node ../node_modules/electron/cli.js ."
 	}
 }

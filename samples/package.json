@@ -1,21 +1,30 @@
 {
 	"name": "monaco-editor-samples",
+	"version": "0.0.1",
+	"private": true,
 	"description": "Samples for using the Monaco Editor",
 	"main": "index.js",
 	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"prepublishOnly": "Build 'Source/**/*.ts'",
 		"simpleserver": "yaserver --root ./ --port 8888"
 	},
+	"author": "Microsoft Corporation",
+	"license": "MIT",
 	"devDependencies": {
-		"@playform/build": "0.0.7",
-		"css-loader": "7.1.1",
-		"file-loader": "6.2.0",
-		"glob": "10.3.12",
-		"monaco-editor": "0.48.0",
-		"style-loader": "4.0.0",
-		"ts-loader": "9.5.1",
-		"yaserver": "0.4.0"
+		"css-loader": "^5.2.7",
+		"electron": "^22.3.25",
+		"file-loader": "^6.2.0",
+		"glob": "^7.2.0",
+		"html-webpack-plugin": "^5.5.0",
+		"monaco-editor-webpack-plugin": "^7.0.1",
+		"monaco-editor": "^0.32.1",
+		"style-loader": "^3.3.1",
+		"terser-webpack-plugin": "^5.3.1",
+		"ts-loader": "^9.2.6",
+		"typescript": "^5.4.5",
+		"webpack-cli": "^4.9.2",
+		"webpack-dev-server": "^4.7.4",
+		"webpack": "^5.76.0",
+		"yaserver": "^0.4.0"
 	},
 	"overrides": {
 		"@electron/get": "2.0.0"

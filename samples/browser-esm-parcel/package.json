@@ -1,12 +1,10 @@
 {
 	"name": "helloworld",
 	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"prepublishOnly": "Build 'Source/**/*.ts'",
 		"start": "parcel ./src/index.html"
 	},
 	"devDependencies": {
-		"@playform/build": "0.0.7",
-		"monaco-editor": "0.48.0"
+		"monaco-editor": "^0.32.0",
+		"parcel": "^2.2.1"
 	}
 }

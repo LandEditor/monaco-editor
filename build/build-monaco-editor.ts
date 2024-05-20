@@ -43,7 +43,7 @@ generateMetadata();
 })();
 
 (() => {
-	
+	/** @type {IFile[]} */
 	let otherFiles = [];
 
 	otherFiles = otherFiles.concat(readFiles('README.md', { base: '' }));

@@ -1,12 +1,7 @@
 {
 	"name": "monaco-esm-webpack-typescript",
 	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"build": "node ../node_modules/webpack/bin/webpack.js --progress",
-		"prepublishOnly": "Build 'Source/**/*.ts'",
-		"start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js"
-	},
-	"devDependencies": {
-		"@playform/build": "0.0.7"
+		"start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+		"build": "node ../node_modules/webpack/bin/webpack.js --progress"
 	}
 }

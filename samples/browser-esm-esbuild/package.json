@@ -1,11 +1,6 @@
 {
 	"name": "helloworld",
 	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"build": "node ./build.js",
-		"prepublishOnly": "Build 'Source/**/*.ts'"
-	},
-	"devDependencies": {
-		"@playform/build": "0.0.7"
+		"build": "node ./build.js"
 	}
 }
