@@ -1,4 +1,4 @@
-
+/** @type {monaco.languages.SemanticTokensLegend} */
 const legend = {
 	tokenTypes: [
 		"comment",
@@ -34,12 +34,12 @@ const legend = {
 	],
 };
 
-
+/** @type {(type: string)=>number} */
 function getType(type) {
 	return legend.tokenTypes.indexOf(type);
 }
 
-
+/** @type {(modifier: string[]|string|null)=>number} */
 function getModifier(modifiers) {
 	if (typeof modifiers === "string") {
 		modifiers = [modifiers];
@@ -67,7 +67,7 @@ monaco.languages.registerDocumentSemanticTokensProvider("plaintext", {
 	provideDocumentSemanticTokens: function (model, lastResultId, token) {
 		const lines = model.getLinesContent();
 
-		
+		/** @type {number[]} */
 		const data = [];
 
 		let prevLine = 0;

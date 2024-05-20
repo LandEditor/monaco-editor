@@ -679,7 +679,6 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 			// already scheduled
 			return;
 		}
-
 		this._onDidExtraLibsChangeTimeout = window.setTimeout(() => {
 			this._onDidExtraLibsChangeTimeout = -1;
 			this._onDidExtraLibsChange.fire(undefined);

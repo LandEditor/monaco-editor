@@ -47,7 +47,6 @@ export class CSSWorker {
 			default:
 				throw new Error('Invalid language id: ' + this._languageId);
 		}
-
 		this._languageService.configure(this._languageSettings);
 	}
 

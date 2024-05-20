@@ -2,7 +2,7 @@ customElements.define(
 	"code-view-monaco",
 	class CodeViewMonaco extends HTMLElement {
 		_monacoEditor;
-		
+		/** @type HTMLElement */
 		_editor;
 
 		constructor() {
@@ -18,7 +18,7 @@ customElements.define(
 				shadowRoot.appendChild(style.cloneNode(true));
 			}
 
-			const template =  (
+			const template = /** @type HTMLTemplateElement */ (
 				document.getElementById("editor-template")
 			);
 			shadowRoot.appendChild(template.content.cloneNode(true));

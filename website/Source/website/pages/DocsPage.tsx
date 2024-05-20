@@ -5,7 +5,7 @@ import {
 	IHistoryModel,
 	ILocation,
 } from "../utils/ObservableHistory";
-import React = require("react");
+import * as React from "react";
 
 export class DocsPage extends React.Component implements IHistoryModel {
 	private _lastIFrame: HTMLIFrameElement | null = null;
@@ -24,7 +24,6 @@ export class DocsPage extends React.Component implements IHistoryModel {
 		if (iframe) {
 			iframe.addEventListener("load", this.onIFrameLoad);
 		}
-
 		this._lastIFrame = iframe;
 	};
 

@@ -130,13 +130,13 @@ export interface LanguageServiceDefaults {
 	setOptions(options: Options): void;
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 
-	
+	/** @deprecated Use options instead */
 	readonly diagnosticsOptions: DiagnosticsOptions;
-	
+	/** @deprecated Use setOptions instead */
 	setDiagnosticsOptions(options: DiagnosticsOptions): void;
 }
 
-
+/** @deprecated Use Options instead */
 export type DiagnosticsOptions = Options;
 
 // --- CSS configuration and defaults ---------
