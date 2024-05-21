@@ -8,13 +8,13 @@
 		"prepublishOnly": "npm run compile"
 	},
 	"dependencies": {
-		"loader-utils": "2.0.2"
+		"loader-utils": "3.2.1"
 	},
 	"devDependencies": {
-		"css-loader": "6.6.0",
+		"css-loader": "7.1.1",
 		"file-loader": "6.2.0",
-		"glob": "7.2.0",
-		"monaco-editor": "0.32.0",
-		"style-loader": "3.3.1"
+		"glob": "10.3.15",
+		"monaco-editor": "0.48.0",
+		"style-loader": "4.0.0"
 	}
 }
