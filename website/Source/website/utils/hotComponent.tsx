@@ -1,7 +1,7 @@
 import Module = require("module");
-import { observer } from "mobx-react";
-import * as React from "react";
 import { observable, runInAction } from "mobx";
+import { observer } from "mobx-react";
+import type * as React from "react";
 
 type ReactComponent<P = any> =
 	| React.ComponentClass<P>
@@ -10,28 +10,28 @@ type ReactComponent<P = any> =
 const allComponents = new Map<string, { component: ReactComponent }>();
 
 export function hotComponent(
-	module: Module
+	module: Module,
 ): <T extends ReactComponent>(Component: T) => T {
 	return <T extends ReactComponent>(component: T): T => {
 		const key = JSON.stringify({ id: module.id, name: component.name });
 
 		let result = allComponents.get(key);
-		if (!result) {
-			result = observable({ component: component });
-			allComponents.set(key, result);
-		} else {
+		if (result) {
 			setTimeout(() => {
 				runInAction(`Update Component ${component.name}`, () => {
 					result!.component = component;
 				});
 			}, 0);
+		} else {
+			result = observable({ component: component });
+			allComponents.set(key, result);
 		}
 
 		const m = module as {
 			hot?: {
 				accept: ((
 					componentName: string,
-					callback: () => void
+					callback: () => void,
 				) => void) &
 					((callback: () => void) => void);
 			};

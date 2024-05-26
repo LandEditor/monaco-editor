@@ -7,7 +7,7 @@ export class MonarchPage extends React.Component<{}, {}> {
 			<Page>
 				<iframe
 					frameBorder={0}
-					className="full-iframe"
+					class="full-iframe"
 					src="./monarch-static.html"
 				/>
 			</Page>

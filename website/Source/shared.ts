@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { IMonacoSetup } from "./monaco-loader";
+import type { IMonacoSetup } from "./monaco-loader";
 
 export type IMessageToRunner =
 	| {

@@ -1,6 +1,6 @@
 import { monacoEditorVersion } from "../../monacoEditorVersion";
+import type { Settings } from "./SettingsModel";
 import { getNpmVersionsSync } from "./getNpmVersionsSync";
-import { Settings } from "./SettingsModel";
 
 export class Source {
 	public static useLatestDev(sourceLanguagesStr?: string): Source {
@@ -16,7 +16,7 @@ export class Source {
 
 	public static parse(
 		sourceStr: string | undefined,
-		sourceLanguagesStr: string | undefined
+		sourceLanguagesStr: string | undefined,
 	): Source {
 		if (sourceStr === "latest-dev") {
 			return Source.useLatestDev(sourceLanguagesStr);
@@ -29,7 +29,7 @@ export class Source {
 			return new Source(
 				sourceStr.substring(1),
 				undefined,
-				sourceLanguagesStr
+				sourceLanguagesStr,
 			);
 		}
 		return new Source(undefined, sourceStr, sourceLanguagesStr);
@@ -45,7 +45,7 @@ export class Source {
 	constructor(
 		public readonly version: string | undefined,
 		public readonly url: string | undefined,
-		public readonly sourceLanguagesStr: string | undefined
+		public readonly sourceLanguagesStr: string | undefined,
 	) {
 		if (
 			version === undefined &&

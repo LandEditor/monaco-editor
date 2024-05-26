@@ -1,8 +1,8 @@
-import { IPlaygroundProject } from "../../../shared";
+import type { IPlaygroundProject } from "../../../shared";
 
 export function findLastIndex<T>(
 	array: T[],
-	predicate: (value: T) => boolean
+	predicate: (value: T) => boolean,
 ): number {
 	for (let i = array.length - 1; i >= 0; i--) {
 		if (predicate(array[i])) {
@@ -13,7 +13,7 @@ export function findLastIndex<T>(
 }
 export function projectEquals(
 	project1: IPlaygroundProject,
-	project2: IPlaygroundProject
+	project2: IPlaygroundProject,
 ): boolean {
 	return (
 		normalizeLineEnding(project1.css) ===
