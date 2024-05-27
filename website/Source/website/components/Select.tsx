@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import type { IReference } from "../utils/ref";
+import { IReference } from "../utils/ref";
 import { Form } from "./bootstrap";
 
 interface Group<T> {
@@ -30,15 +30,16 @@ export class Select<T> extends React.Component<{
 				onChange={(e) => {
 					const newValue = e.currentTarget.value;
 					const selected = [...this.map.entries()].find(
-						([k, v]) => v === newValue,
+						([k, v]) => v === newValue
 					);
 					if (selected) {
 						value.set(selected[0]);
 					}
 				}}
 				style={this.props.style}
-				size="sm">
-				<option value="" disabled={true} hidden={true}>
+				size="sm"
+			>
+				<option value="" disabled hidden>
 					Select an example...
 				</option>
 				{groups}

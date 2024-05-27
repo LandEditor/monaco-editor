@@ -49,7 +49,7 @@ export class HistoryController implements Disposable {
 					const value = this.model.location;
 					this.setUrl(value, this.model.historyId);
 				},
-				{ name: "Update url" },
+				{ name: "Update url" }
 			),
 		});
 	}
@@ -66,7 +66,7 @@ export class HistoryController implements Disposable {
 				}
 				return acc;
 			},
-			{} as Record<string, string>,
+			{} as Record<string, string>
 		);
 
 		url.search = new URLSearchParams(searchParams).toString();

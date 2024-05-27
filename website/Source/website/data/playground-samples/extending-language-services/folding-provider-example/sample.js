@@ -38,35 +38,37 @@ monaco.editor.create(document.getElementById("container"), {
 });
 
 monaco.languages.registerFoldingRangeProvider("foldLanguage", {
-	provideFoldingRanges: (model, context, token) => [
-		// comment1
-		{
-			start: 5,
-			end: 7,
-			kind: monaco.languages.FoldingRangeKind.Comment,
-		},
-		// comment2
-		{
-			start: 13,
-			end: 17,
-			kind: monaco.languages.FoldingRangeKind.Comment,
-		},
-		// foldable text
-		{
-			start: 19,
-			end: 21,
-		},
-		// region1
-		{
-			start: 23,
-			end: 25,
-			kind: monaco.languages.FoldingRangeKind.Region,
-		},
-		// region2
-		{
-			start: 27,
-			end: 29,
-			kind: monaco.languages.FoldingRangeKind.Region,
-		},
-	],
+	provideFoldingRanges: function (model, context, token) {
+		return [
+			// comment1
+			{
+				start: 5,
+				end: 7,
+				kind: monaco.languages.FoldingRangeKind.Comment,
+			},
+			// comment2
+			{
+				start: 13,
+				end: 17,
+				kind: monaco.languages.FoldingRangeKind.Comment,
+			},
+			// foldable text
+			{
+				start: 19,
+				end: 21,
+			},
+			// region1
+			{
+				start: 23,
+				end: 25,
+				kind: monaco.languages.FoldingRangeKind.Region,
+			},
+			// region2
+			{
+				start: 27,
+				end: 29,
+				kind: monaco.languages.FoldingRangeKind.Region,
+			},
+		];
+	},
 });

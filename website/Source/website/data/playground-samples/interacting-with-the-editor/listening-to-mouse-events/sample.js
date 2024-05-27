@@ -30,7 +30,7 @@ var decorations = editor.createDecorationsCollection([
 
 // Add a zone to make hit testing more interesting
 var viewZoneId = null;
-editor.changeViewZones((changeAccessor) => {
+editor.changeViewZones(function (changeAccessor) {
 	var domNode = document.createElement("div");
 	domNode.style.background = "lightgreen";
 	viewZoneId = changeAccessor.addZone({
@@ -42,32 +42,36 @@ editor.changeViewZones((changeAccessor) => {
 
 // Add a content widget (scrolls inline with text)
 var contentWidget = {
-	domNode: (() => {
+	domNode: (function () {
 		var domNode = document.createElement("div");
 		domNode.innerHTML = "My content widget";
 		domNode.style.background = "grey";
 		return domNode;
 	})(),
-	getId: () => "my.content.widget",
+	getId: function () {
+		return "my.content.widget";
+	},
 	getDomNode: function () {
 		return this.domNode;
 	},
-	getPosition: () => ({
-		position: {
-			lineNumber: 7,
-			column: 8,
-		},
-		preference: [
-			monaco.editor.ContentWidgetPositionPreference.ABOVE,
-			monaco.editor.ContentWidgetPositionPreference.BELOW,
-		],
-	}),
+	getPosition: function () {
+		return {
+			position: {
+				lineNumber: 7,
+				column: 8,
+			},
+			preference: [
+				monaco.editor.ContentWidgetPositionPreference.ABOVE,
+				monaco.editor.ContentWidgetPositionPreference.BELOW,
+			],
+		};
+	},
 };
 editor.addContentWidget(contentWidget);
 
 // Add an overlay widget
 var overlayWidget = {
-	domNode: (() => {
+	domNode: (function () {
 		var domNode = document.createElement("div");
 		domNode.innerHTML = "My overlay widget";
 		domNode.style.background = "grey";
@@ -75,11 +79,15 @@ var overlayWidget = {
 		domNode.style.top = "50px";
 		return domNode;
 	})(),
-	getId: () => "my.overlay.widget",
+	getId: function () {
+		return "my.overlay.widget";
+	},
 	getDomNode: function () {
 		return this.domNode;
 	},
-	getPosition: () => null,
+	getPosition: function () {
+		return null;
+	},
 };
 editor.addOverlayWidget(overlayWidget);
 
@@ -92,15 +100,15 @@ function showEvent(str) {
 	output.appendChild(document.createElement("br"));
 }
 
-editor.onMouseMove((e) => {
+editor.onMouseMove(function (e) {
 	showEvent("mousemove - " + e.target.toString());
 });
-editor.onMouseDown((e) => {
+editor.onMouseDown(function (e) {
 	showEvent("mousedown - " + e.target.toString());
 });
-editor.onContextMenu((e) => {
+editor.onContextMenu(function (e) {
 	showEvent("contextmenu - " + e.target.toString());
 });
-editor.onMouseLeave((e) => {
+editor.onMouseLeave(function (e) {
 	showEvent("mouseleave");
 });

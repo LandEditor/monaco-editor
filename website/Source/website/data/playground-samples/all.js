@@ -1,4 +1,4 @@
-(() => {
+(function () {
 	var PLAY_SAMPLES = [
 		{
 			chapter: "Creating the editor",

@@ -30,7 +30,7 @@ editor.addAction({
 		// chord
 		monaco.KeyMod.chord(
 			monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyK,
-			monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM,
+			monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM
 		),
 	],
 
@@ -46,7 +46,7 @@ editor.addAction({
 
 	// Method that will be executed when the action is triggered.
 	// @param editor The editor instance is passed in as a convenience
-	run: (ed) => {
+	run: function (ed) {
 		alert("i'm running => " + ed.getPosition());
 	},
 });

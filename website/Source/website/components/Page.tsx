@@ -1,11 +1,11 @@
-import type * as React from "react";
+import * as React from "react";
 import { PageNav } from "./Nav";
 
 export function Page(props: { children: React.ReactNode }) {
 	return (
-		<div class="page">
+		<div className="page">
 			<PageNav />
-			<main class="main">{props.children}</main>
+			<main className="main">{props.children}</main>
 		</div>
 	);
 }

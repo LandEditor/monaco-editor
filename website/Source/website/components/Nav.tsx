@@ -1,30 +1,32 @@
 import * as React from "react";
-import { docs, home, monarch, playground } from "../pages/routes";
-import { Container, Nav, NavDropdown, Navbar } from "./bootstrap";
+import { home, playground, docs, monarch } from "../pages/routes";
+import { Container, Navbar, Nav, NavDropdown } from "./bootstrap";
 
 export class PageNav extends React.Component {
 	render() {
 		return (
 			<Navbar bg="dark" variant="dark" expand="lg">
-				<Container fluid={true}>
+				<Container fluid>
 					<Navbar.Brand href="./">
-						<span class="code-oss-icon d-inline-block align-top" />
+						<span className="code-oss-icon d-inline-block align-top" />
 						Monaco Editor
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav" role="">
-						<Nav class="me-auto">
+						<Nav className="me-auto">
 							<Nav.Link active={home.isActive} href={home.href}>
 								Home
 							</Nav.Link>
 							<Nav.Link
 								active={playground.isActive}
-								href={playground.href}>
+								href={playground.href}
+							>
 								Playground
 							</Nav.Link>
 							<Nav.Link
 								active={monarch.isActive}
-								href={monarch.href}>
+								href={monarch.href}
+							>
 								Monarch
 							</Nav.Link>
 							<Nav.Link active={docs.isActive} href={docs.href}>
@@ -32,34 +34,37 @@ export class PageNav extends React.Component {
 							</Nav.Link>
 						</Nav>
 
-						<Nav class="ms-auto">
+						<Nav className="ms-auto">
 							<NavDropdown
 								title={
 									<>
-										<span class="nav-icon bi-download" />
-										<span class="hidden-text">
+										<span className="nav-icon bi-download" />
+										<span className="hidden-text">
 											{" "}
 											Download{" "}
 										</span>
 									</>
 								}
-								class="download-dropdown"
-								align="end">
+								className="download-dropdown"
+								align="end"
+							>
 								{/*<NavDropdown.Item href="#action/3.1">
 									Download 0.33.0
 							</NavDropdown.Item>*/}
 								<NavDropdown.Item
 									href="https://www.npmjs.com/package/monaco-editor"
-									target="_blank">
+									target="_blank"
+								>
 									Get From NPM
 								</NavDropdown.Item>
 							</NavDropdown>
 
 							<Nav.Link
 								href="https://github.com/microsoft/monaco-editor"
-								target="_blank">
-								<span class="nav-icon bi-github" />
-								<span class="hidden-text"> GitHub </span>
+								target="_blank"
+							>
+								<span className="nav-icon bi-github" />
+								<span className="hidden-text"> GitHub </span>
 							</Nav.Link>
 						</Nav>
 					</Navbar.Collapse>

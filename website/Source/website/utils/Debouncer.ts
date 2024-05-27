@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { Disposable } from "@hediet/std/disposable";
+import { Disposable } from "@hediet/std/disposable";
 
 export class Debouncer implements Disposable {
 	private timeout: NodeJS.Timeout | undefined = undefined;

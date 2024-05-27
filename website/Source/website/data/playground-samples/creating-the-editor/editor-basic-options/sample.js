@@ -12,7 +12,7 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 	readOnly: false,
 	theme: "vs-dark",
 });
-setTimeout(() => {
+setTimeout(function () {
 	editor.updateOptions({
 		lineNumbers: "on",
 	});

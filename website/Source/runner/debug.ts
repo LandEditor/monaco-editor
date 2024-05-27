@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { loadMonaco } from "../monaco-loader";
-import type { IPreviewState } from "../shared";
+import { IPreviewState } from "../shared";
 import { LzmaCompressor } from "../website/utils/lzmaCompressor";
 import "./style.scss";
 
@@ -41,7 +41,7 @@ async function initialize(state: IPreviewState) {
 	} catch (err) {
 		const pre = document.createElement("pre");
 		pre.appendChild(
-			document.createTextNode(`${err}: ${(err as any).state}`),
+			document.createTextNode(`${err}: ${(err as any).state}`)
 		);
 		document.body.insertBefore(pre, document.body.firstChild);
 	}

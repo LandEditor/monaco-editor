@@ -1,16 +1,17 @@
 import { computed } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
+import { Button, ListGroup, Modal } from "../../components/bootstrap";
 import { Radio } from "../../components/Radio";
 import { Select } from "../../components/Select";
 import { TextBox } from "../../components/TextBox";
-import { Button, ListGroup, Modal } from "../../components/bootstrap";
 import { ControlledMonacoEditor } from "../../components/monaco/MonacoEditor";
 import { ref } from "../../utils/ref";
-import type { PlaygroundModel, SettingsDialogModel } from "./PlaygroundModel";
+import { ObservablePromise } from "../../utils/ObservablePromise";
+import { getNpmVersionsSync } from "./getNpmVersionsSync";
+import { PlaygroundModel, SettingsDialogModel } from "./PlaygroundModel";
 import { Horizontal, Vertical } from "./PlaygroundPageContent";
 import { StabilityValues } from "./SettingsModel";
-import { getNpmVersionsSync } from "./getNpmVersionsSync";
 
 @observer
 export class SettingsDialog extends React.Component<{
@@ -27,7 +28,7 @@ export class SettingsDialog extends React.Component<{
 	@computed
 	get npmVersions(): string[] {
 		return getNpmVersionsSync(
-			this.settingsDialogModel?.settings.npmVersion,
+			this.settingsDialogModel?.settings.npmVersion
 		);
 	}
 
@@ -42,42 +43,44 @@ export class SettingsDialog extends React.Component<{
 			<Modal
 				show={!!model.settingsDialogModel}
 				onHide={() => model.closeSettingsDialog(false)}
-				size="xl">
-				<Modal.Header closeButton={true}>
+				size="xl"
+			>
+				<Modal.Header closeButton>
 					<Modal.Title>Settings</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<ListGroup>
 						<ListGroup.Item>
-							<div class="d-flex">
-								<label class="d-flex gap-2">
+							<div className="d-flex">
+								<label className="d-flex gap-2">
 									<Radio
 										value={ref(
 											modelSettings.settings,
-											"monacoSource",
+											"monacoSource"
 										)}
 										current="latest"
 									/>
 
 									<span>
 										Load Latest Monaco
-										<small class="d-block text-muted">
+										<small className="d-block text-muted">
 											Loads the most recent version of
 											Monaco bundled with this website.
 										</small>
 									</span>
 								</label>
 								<fieldset
-									class="d-flex"
+									className="d-flex"
 									style={{ marginLeft: "auto" }}
 									disabled={
 										modelSettings.settings.monacoSource !==
 										"latest"
-									}>
+									}
+								>
 									<Select
 										value={ref(
 											modelSettings.settings,
-											"latestStability",
+											"latestStability"
 										)}
 										values={StabilityValues}
 										getLabel={(v) => v}
@@ -88,19 +91,19 @@ export class SettingsDialog extends React.Component<{
 						</ListGroup.Item>
 
 						<ListGroup.Item>
-							<div class="d-flex gap-2">
-								<label class="d-flex gap-2">
+							<div className="d-flex gap-2">
+								<label className="d-flex gap-2">
 									<Radio
 										value={ref(
 											modelSettings.settings,
-											"monacoSource",
+											"monacoSource"
 										)}
 										current="npm"
 									/>
 
 									<span>
 										Load Monaco From NPM
-										<small class="d-block text-muted">
+										<small className="d-block text-muted">
 											Loads Monaco from{" "}
 											<a href="https://www.jsdelivr.com/">
 												jsdelivr.com
@@ -115,11 +118,12 @@ export class SettingsDialog extends React.Component<{
 										modelSettings.settings.monacoSource !==
 										"npm"
 									}
-									class="d-flex gap-2">
+									className="d-flex gap-2"
+								>
 									<Select
 										value={ref(
 											modelSettings.settings,
-											"npmVersion",
+											"npmVersion"
 										)}
 										values={this.npmVersions}
 										getLabel={(v) => v}
@@ -130,7 +134,7 @@ export class SettingsDialog extends React.Component<{
 									<Select
 										value={ref(
 											modelSettings.settings,
-											"npmStability",
+											"npmStability"
 										)}
 										values={StabilityValues}
 										getLabel={(v) => v}
@@ -143,21 +147,21 @@ export class SettingsDialog extends React.Component<{
 						</ListGroup.Item>
 
 						<ListGroup.Item>
-							<div class="d-flex gap-2">
+							<div className="d-flex gap-2">
 								<Vertical>
 									<Horizontal>
-										<label class="d-flex gap-2">
+										<label className="d-flex gap-2">
 											<Radio
 												value={ref(
 													modelSettings.settings,
-													"monacoSource",
+													"monacoSource"
 												)}
 												current="independent"
 											/>
 
 											<span style={{ marginLeft: 8 }}>
 												Load Monaco Core Independently
-												<small class="d-block text-muted">
+												<small className="d-block text-muted">
 													Loads the Monaco editor core
 													and the language
 													contributions from different
@@ -170,21 +174,22 @@ export class SettingsDialog extends React.Component<{
 										disabled={
 											modelSettings.settings
 												.monacoSource !== "independent"
-										}>
-										<ListGroup class="p-3">
+										}
+									>
+										<ListGroup className="p-3">
 											<ListGroup.Item>
-												<div class="d-flex gap-2">
-													<label class="d-flex gap-2">
+												<div className="d-flex gap-2">
+													<label className="d-flex gap-2">
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"coreSource",
+																"coreSource"
 															)}
 															current="latest"
 														/>
 														<span>
 															Load Latest Core
-															<small class="d-block text-muted">
+															<small className="d-block text-muted">
 																Loads the
 																version of
 																Monaco editor
@@ -197,7 +202,7 @@ export class SettingsDialog extends React.Component<{
 													<Select
 														value={ref(
 															modelSettings.settings,
-															"latestCoreStability",
+															"latestCoreStability"
 														)}
 														values={StabilityValues}
 														getLabel={(v) => v}
@@ -210,18 +215,18 @@ export class SettingsDialog extends React.Component<{
 											</ListGroup.Item>
 
 											<ListGroup.Item>
-												<div class="d-flex gap-2">
-													<label class="d-flex gap-2">
+												<div className="d-flex gap-2">
+													<label className="d-flex gap-2">
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"coreSource",
+																"coreSource"
 															)}
 															current="url"
 														/>
 														<span>
 															Load Core From URL
-															<small class="d-block text-muted">
+															<small className="d-block text-muted">
 																Ideal to load
 																sources from a
 																local VS Code
@@ -232,7 +237,7 @@ export class SettingsDialog extends React.Component<{
 													<TextBox
 														value={ref(
 															modelSettings.settings,
-															"coreUrl",
+															"coreUrl"
 														)}
 														style={{
 															marginLeft: "auto",
@@ -243,14 +248,14 @@ export class SettingsDialog extends React.Component<{
 											</ListGroup.Item>
 										</ListGroup>
 
-										<ListGroup class="p-3">
+										<ListGroup className="p-3">
 											<ListGroup.Item>
-												<div class="d-flex gap-2">
-													<label class="d-flex gap-2">
+												<div className="d-flex gap-2">
+													<label className="d-flex gap-2">
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"languagesSource",
+																"languagesSource"
 															)}
 															current="latest"
 														/>
@@ -258,7 +263,7 @@ export class SettingsDialog extends React.Component<{
 														<span>
 															Load Latest
 															Languages
-															<small class="d-block text-muted">
+															<small className="d-block text-muted">
 																Loads the most
 																recent version
 																of the Monaco
@@ -271,7 +276,7 @@ export class SettingsDialog extends React.Component<{
 													<Select
 														value={ref(
 															modelSettings.settings,
-															"latestLanguagesStability",
+															"latestLanguagesStability"
 														)}
 														values={StabilityValues}
 														getLabel={(v) => v}
@@ -283,12 +288,12 @@ export class SettingsDialog extends React.Component<{
 												</div>
 											</ListGroup.Item>
 											<ListGroup.Item>
-												<div class="d-flex gap-2">
-													<label class="d-flex gap-2">
+												<div className="d-flex gap-2">
+													<label className="d-flex gap-2">
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"languagesSource",
+																"languagesSource"
 															)}
 															current="source"
 														/>
@@ -296,7 +301,7 @@ export class SettingsDialog extends React.Component<{
 														<span>
 															Load Languages From
 															Source
-															<small class="d-block text-muted">
+															<small className="d-block text-muted">
 																Loads from the
 																typescript
 																compiler output.
@@ -306,12 +311,12 @@ export class SettingsDialog extends React.Component<{
 												</div>
 											</ListGroup.Item>
 											<ListGroup.Item>
-												<div class="d-flex gap-2">
-													<label class="d-flex gap-2">
+												<div className="d-flex gap-2">
+													<label className="d-flex gap-2">
 														<Radio
 															value={ref(
 																modelSettings.settings,
-																"languagesSource",
+																"languagesSource"
 															)}
 															current="url"
 														/>
@@ -319,7 +324,7 @@ export class SettingsDialog extends React.Component<{
 														<span>
 															Load Languages From
 															URL
-															<small class="d-block text-muted">
+															<small className="d-block text-muted">
 																Ideal to load
 																sources from a
 																local repo.
@@ -329,7 +334,7 @@ export class SettingsDialog extends React.Component<{
 													<TextBox
 														value={ref(
 															modelSettings.settings,
-															"languagesUrl",
+															"languagesUrl"
 														)}
 														style={{
 															marginLeft: "auto",
@@ -345,21 +350,21 @@ export class SettingsDialog extends React.Component<{
 						</ListGroup.Item>
 
 						<ListGroup.Item>
-							<div class="d-flex gap-2">
+							<div className="d-flex gap-2">
 								<Vertical>
 									<Horizontal>
-										<label class="d-flex gap-2">
+										<label className="d-flex gap-2">
 											<Radio
 												value={ref(
 													modelSettings.settings,
-													"monacoSource",
+													"monacoSource"
 												)}
 												current="custom"
 											/>
 
 											<span style={{ marginLeft: 8 }}>
 												Custom
-												<small class="d-block text-muted">
+												<small className="d-block text-muted">
 													Provide a complete custom
 													configuration.
 												</small>
@@ -390,12 +395,14 @@ export class SettingsDialog extends React.Component<{
 				<Modal.Footer>
 					<Button
 						variant="secondary"
-						onClick={() => model.closeSettingsDialog(false)}>
+						onClick={() => model.closeSettingsDialog(false)}
+					>
 						Close
 					</Button>
 					<Button
 						variant="primary"
-						onClick={() => model.closeSettingsDialog(true)}>
+						onClick={() => model.closeSettingsDialog(true)}
+					>
 						Save Changes
 					</Button>
 				</Modal.Footer>

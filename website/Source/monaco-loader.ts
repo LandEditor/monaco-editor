@@ -24,7 +24,7 @@ export interface IMonacoSetup {
 let loading = false;
 let resolve: (value: typeof monaco) => void;
 let reject: (error: unknown) => void;
-const loadMonacoPromise = new Promise<typeof monaco>((res, rej) => {
+let loadMonacoPromise = new Promise<typeof monaco>((res, rej) => {
 	resolve = res;
 	reject = rej;
 });
@@ -34,7 +34,7 @@ export async function waitForLoadedMonaco(): Promise<typeof monaco> {
 }
 
 export async function loadMonaco(
-	setup: IMonacoSetup = prodMonacoSetup,
+	setup: IMonacoSetup = prodMonacoSetup
 ): Promise<typeof monaco> {
 	if (!loading) {
 		loading = true;
@@ -72,7 +72,7 @@ async function _loadMonaco(setup: IMonacoSetup): Promise<typeof monaco> {
 				],
 				() => {
 					res(monaco);
-				},
+				}
 			);
 		});
 	});
@@ -90,7 +90,7 @@ function loadScript(path: string): Promise<void> {
 }
 
 export const prodMonacoSetup = getMonacoSetup(
-	"node_modules/monaco-editor/min/vs",
+	"node_modules/monaco-editor/min/vs"
 );
 
 export function getMonacoSetup(corePath: string): IMonacoSetup {

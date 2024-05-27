@@ -3,13 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import {
-	type IDisposable,
-	type Uri,
-	editor,
-} from "../../fillers/monaco-editor-core";
-import type { LanguageServiceDefaults } from "./monaco.contribution";
-import type { TypeScriptWorker } from "./tsWorker";
+import { LanguageServiceDefaults } from './monaco.contribution';
+import type { TypeScriptWorker } from './tsWorker';
+import { editor, Uri, IDisposable } from '../../fillers/monaco-editor-core';
 
 export class WorkerManager {
 	private _configChangeListener: IDisposable;
@@ -21,16 +17,14 @@ export class WorkerManager {
 
 	constructor(
 		private readonly _modeId: string,
-		private readonly _defaults: LanguageServiceDefaults,
+		private readonly _defaults: LanguageServiceDefaults
 	) {
 		this._worker = null;
 		this._client = null;
-		this._configChangeListener = this._defaults.onDidChange(() =>
-			this._stopWorker(),
-		);
+		this._configChangeListener = this._defaults.onDidChange(() => this._stopWorker());
 		this._updateExtraLibsToken = 0;
-		this._extraLibsChangeListener = this._defaults.onDidExtraLibsChange(
-			() => this._updateExtraLibs(),
+		this._extraLibsChangeListener = this._defaults.onDidExtraLibsChange(() =>
+			this._updateExtraLibs()
 		);
 	}
 
@@ -66,7 +60,7 @@ export class WorkerManager {
 			this._client = (async () => {
 				this._worker = editor.createWebWorker<TypeScriptWorker>({
 					// module that exports the create() method and returns a `TypeScriptWorker` instance
-					moduleId: "vs/language/typescript/tsWorker",
+					moduleId: 'vs/language/typescript/tsWorker',
 
 					label: this._modeId,
 
@@ -76,21 +70,17 @@ export class WorkerManager {
 					createData: {
 						compilerOptions: this._defaults.getCompilerOptions(),
 						extraLibs: this._defaults.getExtraLibs(),
-						customWorkerPath:
-							this._defaults.workerOptions.customWorkerPath,
-						inlayHintsOptions: this._defaults.inlayHintsOptions,
-					},
+						customWorkerPath: this._defaults.workerOptions.customWorkerPath,
+						inlayHintsOptions: this._defaults.inlayHintsOptions
+					}
 				});
 
 				if (this._defaults.getEagerModelSync()) {
 					return await this._worker.withSyncedResources(
 						editor
 							.getModels()
-							.filter(
-								(model) =>
-									model.getLanguageId() === this._modeId,
-							)
-							.map((model) => model.uri),
+							.filter((model) => model.getLanguageId() === this._modeId)
+							.map((model) => model.uri)
 					);
 				}
 
@@ -101,9 +91,7 @@ export class WorkerManager {
 		return this._client;
 	}
 
-	async getLanguageServiceWorker(
-		...resources: Uri[]
-	): Promise<TypeScriptWorker> {
+	async getLanguageServiceWorker(...resources: Uri[]): Promise<TypeScriptWorker> {
 		const client = await this._getClient();
 		if (this._worker) {
 			await this._worker.withSyncedResources(resources);

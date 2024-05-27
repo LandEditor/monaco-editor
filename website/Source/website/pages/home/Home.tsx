@@ -1,6 +1,5 @@
 import { computed, observable } from "mobx";
 import { observer } from "mobx-react";
-import * as React from "react";
 import { loadMonaco } from "../../../monaco-loader";
 import { Page } from "../../components/Page";
 import { Select } from "../../components/Select";
@@ -8,19 +7,20 @@ import {
 	ControlledMonacoDiffEditor,
 	ControlledMonacoEditor,
 } from "../../components/monaco/MonacoEditor";
-import { monacoEditorVersion } from "../../monacoEditorVersion";
 import { ObservablePromise } from "../../utils/ObservablePromise";
+import * as React from "react";
 import { ref } from "../../utils/ref";
+import { monacoEditorVersion } from "../../monacoEditorVersion";
 
 export class Home extends React.Component {
 	render() {
 		return (
 			<Page>
-				<div class="container py-4">
-					<div class="p-5 mb-4 bg-light rounded-3">
+				<div className="container py-4">
+					<div className="p-5 mb-4 bg-light rounded-3">
 						<h1>Monaco - The Editor of the Web</h1>
-						<div class="row">
-							<div class="span12">
+						<div className="row">
+							<div className="span12">
 								<br />
 								<p>
 									The Monaco Editor is the code editor that
@@ -47,10 +47,10 @@ export class Home extends React.Component {
 						</div>
 					</div>
 
-					<div class="px-5 mb-0">
+					<div className="px-5 mb-0">
 						<h3>Download v{monacoEditorVersion}</h3>
-						<div class="row">
-							<div class="span12">
+						<div className="row">
+							<div className="span12">
 								<br />
 								<p>
 									The latest released version is{" "}
@@ -61,7 +61,7 @@ export class Home extends React.Component {
 									<a
 										target="_blank"
 										href={`https://registry.npmjs.org/monaco-editor/-/monaco-editor-${monacoEditorVersion}.tgz`}
-										rel="noreferrer">
+									>
 										download link
 									</a>{" "}
 									or{" "}
@@ -85,9 +85,9 @@ export class Home extends React.Component {
 					<DiffEditorDemo />
 				</div>
 
-				<footer class="container">
+				<footer className="container">
 					<hr />
-					<p class="text-center">
+					<p className="text-center">
 						<a href="https://microsoft.com" title="Microsoft">
 							<img
 								src="https://opensource.microsoft.com/assets/images/Microsoft_logo.svg"
@@ -133,10 +133,10 @@ class EditorDemo extends React.Component {
 		loadMonaco().then((m) => {
 			const languages = m.languages.getLanguages();
 			this.currentLanguage = languages.find(
-				(l) => l.id === "typescript",
+				(l) => l.id === "typescript"
 			)!;
 			return languages;
-		}),
+		})
 	);
 
 	@observable.ref
@@ -150,7 +150,7 @@ class EditorDemo extends React.Component {
 		return new ObservablePromise(
 			this.currentLanguage
 				? this.loadSample(this.currentLanguage.id)
-				: Promise.resolve(undefined),
+				: Promise.resolve(undefined)
 		);
 	}
 
@@ -163,12 +163,12 @@ class EditorDemo extends React.Component {
 
 	render() {
 		return (
-			<div class="p-5 mb-4">
+			<div className="p-5 mb-4">
 				<h2>Editor</h2>
 
-				<div class="row g-4 py-5 row-cols-1 row-cols-lg-2">
-					<div class="col d-flex align-items-start">
-						<div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3"></div>
+				<div className="row g-4 py-5 row-cols-1 row-cols-lg-2">
+					<div className="col d-flex align-items-start">
+						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3"></div>
 						<div>
 							<h2>IntelliSense, Validation</h2>
 							<p>
@@ -178,8 +178,8 @@ class EditorDemo extends React.Component {
 							</p>
 						</div>
 					</div>
-					<div class="col d-flex align-items-start">
-						<div class="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3"></div>
+					<div className="col d-flex align-items-start">
+						<div className="icon-square text-bg-light d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3"></div>
 						<div>
 							<h2>Basic Syntax Colorization</h2>
 							<p>
@@ -191,17 +191,17 @@ class EditorDemo extends React.Component {
 					</div>
 				</div>
 
-				<div class="mt-4 row row-cols-2">
-					<div class="col">
-						<label class="control-label">Language</label>
+				<div className="mt-4 row row-cols-2">
+					<div className="col">
+						<label className="control-label">Language</label>
 						<Select<monaco.languages.ILanguageExtensionPoint>
 							values={this.languages.value || []}
 							getLabel={(l) => l.id}
 							value={ref(this, "currentLanguage")}
 						/>
 					</div>
-					<div class="col">
-						<label class="control-label">Theme</label>
+					<div className="col">
+						<label className="control-label">Theme</label>
 						<Select<Theme>
 							values={themes}
 							getLabel={(l) => l.name}
@@ -210,7 +210,7 @@ class EditorDemo extends React.Component {
 					</div>
 				</div>
 
-				<div class="mt-2 editor-container" style={{ height: 500 }}>
+				<div className="mt-2 editor-container" style={{ height: 500 }}>
 					<ControlledMonacoEditor
 						value={this.currentSample.value || "loading..."}
 						language={this.currentLanguage?.id}
@@ -226,11 +226,11 @@ class EditorDemo extends React.Component {
 class DiffEditorDemo extends React.Component {
 	render() {
 		return (
-			<div class="p-5 mb-4">
+			<div className="p-5 mb-4">
 				<h2>Diff Editor</h2>
 				Side by side live comparison. Supports all languages out of the
 				box.
-				<div class="mt-2 editor-container" style={{ height: 500 }}>
+				<div className="mt-2 editor-container" style={{ height: 500 }}>
 					<ControlledMonacoDiffEditor
 						originalValue={
 							require("../../data/diff-sample/original.txt")

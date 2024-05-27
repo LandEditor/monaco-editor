@@ -1,9 +1,9 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import { withLoader } from "../../components/Loader";
 import { hotComponent } from "../../utils/hotComponent";
 import { PlaygroundModel } from "./PlaygroundModel";
 import { PlaygroundPageContent } from "./PlaygroundPageContent";
+import { withLoader } from "../../components/Loader";
 import { getNpmVersions } from "./getNpmVersionsSync";
 
 @withLoader(async () => {

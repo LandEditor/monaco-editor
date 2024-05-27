@@ -1,13 +1,13 @@
-import { observable, reaction } from "mobx";
-import { observer } from "mobx-react";
 import * as React from "react";
-import { Button } from "react-bootstrap";
-import type {
+import { PlaygroundModel } from "./PlaygroundModel";
+import { observer } from "mobx-react";
+import { autorun, observable, reaction } from "mobx";
+import {
 	IMessageFromRunner,
 	IMessageToRunner,
 	IPreviewState,
 } from "../../../shared";
-import type { PlaygroundModel } from "./PlaygroundModel";
+import { Button } from "react-bootstrap";
 
 @observer
 export class Preview extends React.Component<{
@@ -21,7 +21,7 @@ export class Preview extends React.Component<{
 
 	render() {
 		return (
-			<div class="preview">
+			<div className="preview">
 				{this.currentState ? null : (
 					<div
 						style={{
@@ -30,12 +30,13 @@ export class Preview extends React.Component<{
 							display: "flex",
 							justifyContent: "center",
 							alignItems: "center",
-						}}>
+						}}
+					>
 						<div>
 							Load{" "}
 							<Button
 								type="button"
-								class={
+								className={
 									"btn settings bi-arrow-clockwise btn-primary"
 								}
 								style={{
@@ -48,7 +49,7 @@ export class Preview extends React.Component<{
 					</div>
 				)}
 				<iframe
-					class="full-iframe"
+					className="full-iframe"
 					key={this.counter}
 					sandbox="allow-scripts allow-modals"
 					frameBorder={0}
@@ -100,7 +101,7 @@ export class Preview extends React.Component<{
 						this.handlePreview(state);
 					}
 				},
-				{ fireImmediately: true },
+				{ fireImmediately: true }
 			),
 		});
 	}
@@ -117,7 +118,7 @@ export class Preview extends React.Component<{
 			// only css changed
 			this.iframe?.contentWindow!.postMessage(
 				{ kind: "update-css", css: state.css } as IMessageToRunner,
-				{ targetOrigin: "*" },
+				{ targetOrigin: "*" }
 			);
 			this.currentState = state;
 		} else {
