@@ -10,7 +10,7 @@ declare var require: any;
 
 registerLanguage({
 	id: 'csp',
-	extensions: ['.csp'],
+	extensions: [],
 	aliases: ['CSP', 'csp'],
 	loader: () => {
 		if (AMD) {
