@@ -8,7 +8,6 @@ import { libFileMap } from './lib/lib';
 import {
 	Diagnostic,
 	DiagnosticRelatedInformation,
-	EmitOutput,
 	IExtraLibs,
 	TypeScriptWorker as ITypeScriptWorker
 } from './monaco.contribution';
@@ -402,26 +401,11 @@ export class TypeScriptWorker implements ts.LanguageServiceHost, ITypeScriptWork
 		return this._languageService.getRenameInfo(fileName, position, options);
 	}
 
-	async getEmitOutput(
-		fileName: string,
-		emitOnlyDtsFiles?: boolean,
-		forceDtsEmit?: boolean
-	): Promise<EmitOutput> {
+	async getEmitOutput(fileName: string): Promise<ts.EmitOutput> {
 		if (fileNameIsLib(fileName)) {
 			return { outputFiles: [], emitSkipped: true };
 		}
-		// The diagnostics property is internal, returning it without clearing breaks message serialization.
-		const emitOutput = this._languageService.getEmitOutput(
-			fileName,
-			emitOnlyDtsFiles,
-			forceDtsEmit
-		) as ts.EmitOutput & {
-			diagnostics?: ts.Diagnostic[];
-		};
-		const diagnostics = emitOutput.diagnostics
-			? TypeScriptWorker.clearFiles(emitOutput.diagnostics)
-			: undefined;
-		return { ...emitOutput, diagnostics };
+		return this._languageService.getEmitOutput(fileName);
 	}
 
 	async getCodeFixesAtPosition(

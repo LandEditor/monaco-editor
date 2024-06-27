@@ -1,0 +1,232 @@
+name: Node
+
+concurrency:
+    group: Node-${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+permissions:
+    security-events: write
+    contents: write
+    pull-requests: write
+
+on:
+    workflow_dispatch:
+    push:
+        branches: [Current]
+    pull_request:
+        branches: [Current]
+    workflow_call:
+
+jobs:
+    Pre-Publish:
+        runs-on: ubuntu-latest
+
+        env:
+            ADBLOCK: true
+            ASTRO_TELEMETRY_DISABLED: 1
+            AUTOMATEDLAB_TELEMETRY_OPTOUT: 1
+            AZURE_CORE_COLLECT_TELEMETRY: 0
+            CHOOSENIM_NO_ANALYTICS: 1
+            DIEZ_DO_NOT_TRACK: 1
+            DOTNET_CLI_TELEMETRY_OPTOUT: 1
+            DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT: 1
+            DO_NOT_TRACK: 1
+            ET_NO_TELEMETRY: 1
+            GATSBY_TELEMETRY_DISABLED: 1
+            GATSBY_TELEMETRY_OPTOUT: 1
+            GATSBY_TELEMETRY_OPT_OUT: 1
+            GRIT_TELEMETRY_DISABLED: 1
+            HASURA_GRAPHQL_ENABLE_TELEMETRY: false
+            HINT_TELEMETRY: off
+            HOMEBREW_NO_ANALYTICS: 1
+            INFLUXD_REPORTING_DISABLED: true
+            ITERATIVE_DO_NOT_TRACK: 1
+            NEXT_TELEMETRY_DEBUG: 1
+            NEXT_TELEMETRY_DISABLED: 1
+            NG_CLI_ANALYTICS: false
+            NUXT_TELEMETRY_DISABLED: 1
+            PIN_DO_NOT_TRACK: 1
+            POWERSHELL_TELEMETRY_OPTOUT: 1
+            SAM_CLI_TELEMETRY: 0
+            STNOUPGRADE: 1
+            STRIPE_CLI_TELEMETRY_OPTOUT: 1
+            TELEMETRY_DISABLED: 1
+
+        strategy:
+            matrix:
+                node-version: [18, 19, 20]
+
+        steps:
+            - uses: actions/checkout@v4.1.6
+
+            - uses: pnpm/action-setup@v4.0.0
+              with:
+                  version: 9.3.0
+                  run_install: |
+                      - recursive: true
+                        args: [
+                          --link-workspace-packages=true,
+                          --lockfile-only,
+                          --prefer-frozen-lockfile=false,
+                          --shamefully-hoist=false,
+                          --shared-workspace-lockfile=true,
+                          --strict-peer-dependencies=false,
+                          --unsafe-perm=true
+                        ]
+
+            - uses: actions/setup-node@v4.0.2
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "pnpm"
+                  cache-dependency-path: ./pnpm-lock.yaml
+
+            - run: pnpm install
+              working-directory: .
+
+            - run: pnpm run test
+              working-directory: .
+
+            - run: pnpm run build
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.3.3
+              with:
+                  name: .-Node-${{ matrix.node-version }}-Target
+                  path: ./Target
+
+            - run: pnpm run build
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.3.3
+              with:
+                  name: .-samples-browser-esm-esbuild-Node-${{ matrix.node-version }}-Target
+                  path: ./samples/browser-esm-esbuild/Target
+
+            - uses: actions/setup-node@v4.0.2
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "pnpm"
+                  cache-dependency-path: ./samples/browser-esm-parcel/pnpm-lock.yaml
+
+            - run: pnpm install
+              working-directory: ./samples/browser-esm-parcel
+
+            - uses: actions/setup-node@v4.0.2
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "pnpm"
+                  cache-dependency-path: ./samples/browser-esm-vite-react/pnpm-lock.yaml
+
+            - run: pnpm install
+              working-directory: ./samples/browser-esm-vite-react
+
+            - run: pnpm run build
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.3.3
+              with:
+                  name: .-samples-browser-esm-vite-react-Node-${{ matrix.node-version }}-Target
+                  path: ./samples/browser-esm-vite-react/Target
+
+            - run: pnpm run build
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.3.3
+              with:
+                  name: .-samples-browser-esm-webpack-monaco-plugin-Node-${{ matrix.node-version }}-Target
+                  path: ./samples/browser-esm-webpack-monaco-plugin/Target
+
+            - run: pnpm run build
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.3.3
+              with:
+                  name: .-samples-browser-esm-webpack-small-Node-${{ matrix.node-version }}-Target
+                  path: ./samples/browser-esm-webpack-small/Target
+
+            - uses: actions/setup-node@v4.0.2
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "pnpm"
+                  cache-dependency-path: ./samples/browser-esm-webpack-typescript-react/pnpm-lock.yaml
+
+            - run: pnpm install
+              working-directory: ./samples/browser-esm-webpack-typescript-react
+
+            - run: pnpm run build
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.3.3
+              with:
+                  name: .-samples-browser-esm-webpack-typescript-react-Node-${{ matrix.node-version }}-Target
+                  path: ./samples/browser-esm-webpack-typescript-react/Target
+
+            - run: pnpm run build
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.3.3
+              with:
+                  name: .-samples-browser-esm-webpack-typescript-Node-${{ matrix.node-version }}-Target
+                  path: ./samples/browser-esm-webpack-typescript/Target
+
+            - run: pnpm run build
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.3.3
+              with:
+                  name: .-samples-browser-esm-webpack-Node-${{ matrix.node-version }}-Target
+                  path: ./samples/browser-esm-webpack/Target
+
+            - run: pnpm run build
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.3.3
+              with:
+                  name: .-samples-electron-esm-webpack-Node-${{ matrix.node-version }}-Target
+                  path: ./samples/electron-esm-webpack/Target
+
+            - uses: actions/setup-node@v4.0.2
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "pnpm"
+                  cache-dependency-path: ./samples/pnpm-lock.yaml
+
+            - run: pnpm install
+              working-directory: ./samples
+
+            - uses: actions/setup-node@v4.0.2
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "pnpm"
+                  cache-dependency-path: ./webpack-plugin/pnpm-lock.yaml
+
+            - run: pnpm install
+              working-directory: ./webpack-plugin
+
+            - run: pnpm run prepublishOnly
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.3.3
+              with:
+                  name: .-webpack-plugin-Node-${{ matrix.node-version }}-Target
+                  path: ./webpack-plugin/Target
+
+            - uses: actions/setup-node@v4.0.2
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "pnpm"
+                  cache-dependency-path: ./website/pnpm-lock.yaml
+
+            - run: pnpm install
+              working-directory: ./website
+
+            - run: pnpm run build
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.3.3
+              with:
+                  name: .-website-Node-${{ matrix.node-version }}-Target
+                  path: ./website/Target
+
+            - run: pnpm run test
+              working-directory: ./website
