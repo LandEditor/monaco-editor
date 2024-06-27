@@ -86,12 +86,6 @@ updates:
       versioning-strategy: increase
 
     - package-ecosystem: "npm"
-      directory: "/test/smoke/parcel"
-      schedule:
-          interval: "daily"
-      versioning-strategy: increase
-
-    - package-ecosystem: "npm"
       directory: "/webpack-plugin"
       schedule:
           interval: "daily"
