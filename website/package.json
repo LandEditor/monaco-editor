@@ -20,7 +20,7 @@
 		"lzma": "2.3.2",
 		"messagepack": "1.1.12",
 		"mini-css-extract-plugin": "2.9.0",
-		"mobx": "6.12.5",
+		"mobx": "6.13.0",
 		"monaco-editor": "0.50.0",
 		"typedoc": "0.26.3"
 	},
