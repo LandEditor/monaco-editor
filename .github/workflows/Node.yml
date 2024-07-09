@@ -51,6 +51,7 @@ jobs:
             STNOUPGRADE: 1
             STRIPE_CLI_TELEMETRY_OPTOUT: 1
             TELEMETRY_DISABLED: 1
+            TERRAFORM_TELEMETRY: 0
 
         strategy:
             matrix:
@@ -86,7 +87,7 @@ jobs:
             - run: pnpm run build
               working-directory: .
 
-            - uses: actions/upload-artifact@v4.3.3
+            - uses: actions/upload-artifact@v4.3.4
               with:
                   name: .-Node-${{ matrix.node-version }}-Target
                   path: ./Target
@@ -94,7 +95,7 @@ jobs:
             - run: pnpm run build
               working-directory: .
 
-            - uses: actions/upload-artifact@v4.3.3
+            - uses: actions/upload-artifact@v4.3.4
               with:
                   name: .-samples-browser-esm-esbuild-Node-${{ matrix.node-version }}-Target
                   path: ./samples/browser-esm-esbuild/Target
@@ -120,7 +121,7 @@ jobs:
             - run: pnpm run build
               working-directory: .
 
-            - uses: actions/upload-artifact@v4.3.3
+            - uses: actions/upload-artifact@v4.3.4
               with:
                   name: .-samples-browser-esm-vite-react-Node-${{ matrix.node-version }}-Target
                   path: ./samples/browser-esm-vite-react/Target
@@ -128,7 +129,7 @@ jobs:
             - run: pnpm run build
               working-directory: .
 
-            - uses: actions/upload-artifact@v4.3.3
+            - uses: actions/upload-artifact@v4.3.4
               with:
                   name: .-samples-browser-esm-webpack-monaco-plugin-Node-${{ matrix.node-version }}-Target
                   path: ./samples/browser-esm-webpack-monaco-plugin/Target
@@ -136,7 +137,7 @@ jobs:
             - run: pnpm run build
               working-directory: .
 
-            - uses: actions/upload-artifact@v4.3.3
+            - uses: actions/upload-artifact@v4.3.4
               with:
                   name: .-samples-browser-esm-webpack-small-Node-${{ matrix.node-version }}-Target
                   path: ./samples/browser-esm-webpack-small/Target
@@ -153,7 +154,7 @@ jobs:
             - run: pnpm run build
               working-directory: .
 
-            - uses: actions/upload-artifact@v4.3.3
+            - uses: actions/upload-artifact@v4.3.4
               with:
                   name: .-samples-browser-esm-webpack-typescript-react-Node-${{ matrix.node-version }}-Target
                   path: ./samples/browser-esm-webpack-typescript-react/Target
@@ -161,7 +162,7 @@ jobs:
             - run: pnpm run build
               working-directory: .
 
-            - uses: actions/upload-artifact@v4.3.3
+            - uses: actions/upload-artifact@v4.3.4
               with:
                   name: .-samples-browser-esm-webpack-typescript-Node-${{ matrix.node-version }}-Target
                   path: ./samples/browser-esm-webpack-typescript/Target
@@ -169,7 +170,7 @@ jobs:
             - run: pnpm run build
               working-directory: .
 
-            - uses: actions/upload-artifact@v4.3.3
+            - uses: actions/upload-artifact@v4.3.4
               with:
                   name: .-samples-browser-esm-webpack-Node-${{ matrix.node-version }}-Target
                   path: ./samples/browser-esm-webpack/Target
@@ -177,7 +178,7 @@ jobs:
             - run: pnpm run build
               working-directory: .
 
-            - uses: actions/upload-artifact@v4.3.3
+            - uses: actions/upload-artifact@v4.3.4
               with:
                   name: .-samples-electron-esm-webpack-Node-${{ matrix.node-version }}-Target
                   path: ./samples/electron-esm-webpack/Target
@@ -203,7 +204,7 @@ jobs:
             - run: pnpm run prepublishOnly
               working-directory: .
 
-            - uses: actions/upload-artifact@v4.3.3
+            - uses: actions/upload-artifact@v4.3.4
               with:
                   name: .-webpack-plugin-Node-${{ matrix.node-version }}-Target
                   path: ./webpack-plugin/Target
@@ -220,7 +221,7 @@ jobs:
             - run: pnpm run build
               working-directory: .
 
-            - uses: actions/upload-artifact@v4.3.3
+            - uses: actions/upload-artifact@v4.3.4
               with:
                   name: .-website-Node-${{ matrix.node-version }}-Target
                   path: ./website/Target
