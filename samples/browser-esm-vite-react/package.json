@@ -8,6 +8,6 @@
 	},
 	"dependencies": {},
 	"devDependencies": {
-		"monaco-editor": "0.51.0-dev-20240628"
+		"monaco-editor": "0.32.0"
 	}
 }
