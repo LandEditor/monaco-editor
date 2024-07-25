@@ -1,34 +1,4 @@
 {
-	"dependencies": {
-		"@popperjs/core": "^2.11.5",
-		"@types/base64-js": "^1.3.0",
-		"@types/bootstrap": "^5.2.0",
-		"@types/node": "^18.6.1",
-		"@vscode/web-editors": "./vscode-web-editors.tgz",
-		"base64-js": "^1.5.1",
-		"bootstrap": "^5.2.0",
-		"bootstrap-icons": "^1.9.1",
-		"classnames": "^2.2.6",
-		"lzma": "^2.3.2",
-		"messagepack": "^1.1.12",
-		"mini-css-extract-plugin": "^2.6.1",
-		"mobx": "^5.15.4",
-		"monaco-editor": "^0.42.0-dev-20230906",
-		"typedoc": "^0.25.12"
-	},
-	"devDependencies": {
-		"@types/classnames": "^2.3.1",
-		"@types/glob": "^8.1.0",
-		"css-loader": "^3.5.1",
-		"file-loader": "^6.0.0",
-		"glob": "^9.2.1",
-		"raw-loader": "^4.0.2",
-		"sass": "^1.32.8",
-		"sass-loader": "^11.0.1",
-		"script-loader": "^0.7.2",
-		"style-loader": "^1.1.3",
-		"ts-loader": "^9.3.1"
-	},
 	"name": "my-application",
 	"scripts": {
 		"build": "yarn typedoc && yarn build-webpack",
@@ -36,5 +6,35 @@
 		"dev": "webpack serve --hot --mode development",
 		"dev-disk": "webpack --mode development --watch",
 		"typedoc": "typedoc --options ./typedoc/typedoc.json"
+	},
+	"dependencies": {
+		"@popperjs/core": "2.11.8",
+		"@types/base64-js": "1.3.2",
+		"@types/bootstrap": "5.2.10",
+		"@types/node": "20.14.12",
+		"@vscode/web-editors": "./vscode-web-editors.tgz",
+		"base64-js": "1.5.1",
+		"bootstrap": "5.3.3",
+		"bootstrap-icons": "1.11.3",
+		"classnames": "2.5.1",
+		"lzma": "2.3.2",
+		"messagepack": "1.1.12",
+		"mini-css-extract-plugin": "2.9.0",
+		"mobx": "6.13.1",
+		"monaco-editor": "0.51.0-dev-20240628",
+		"typedoc": "1.0.0-dev.4"
+	},
+	"devDependencies": {
+		"@types/classnames": "2.3.1",
+		"@types/glob": "8.1.0",
+		"css-loader": "7.1.2",
+		"file-loader": "6.2.0",
+		"glob": "11.0.0",
+		"raw-loader": "4.0.2",
+		"sass": "1.77.8",
+		"sass-loader": "15.0.0",
+		"script-loader": "0.7.2",
+		"style-loader": "4.0.0",
+		"ts-loader": "9.5.1"
 	}
 }
