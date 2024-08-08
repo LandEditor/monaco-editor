@@ -1,7 +1,7 @@
 {
 	"dependencies": {},
 	"devDependencies": {
-		"monaco-editor": "0.51.0-dev-20240801"
+		"monaco-editor": "0.51.0-dev-20240807"
 	},
 	"name": "browser-esm-vite-react",
 	"scripts": {
