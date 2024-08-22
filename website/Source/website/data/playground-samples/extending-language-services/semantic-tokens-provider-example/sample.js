@@ -46,7 +46,7 @@ function getModifier(modifiers) {
 	}
 	if (Array.isArray(modifiers)) {
 		let nModifiers = 0;
-		for (let modifier of modifiers) {
+		for (const modifier of modifiers) {
 			const nModifier = legend.tokenModifiers.indexOf(modifier);
 			if (nModifier > -1) {
 				nModifiers |= (1 << nModifier) >>> 0;
@@ -58,13 +58,11 @@ function getModifier(modifiers) {
 	}
 }
 
-const tokenPattern = new RegExp("([a-zA-Z]+)((?:\\.[a-zA-Z]+)*)", "g");
+const tokenPattern = /([a-zA-Z]+)((?:\.[a-zA-Z]+)*)/g;
 
 monaco.languages.registerDocumentSemanticTokensProvider("plaintext", {
-	getLegend: function () {
-		return legend;
-	},
-	provideDocumentSemanticTokens: function (model, lastResultId, token) {
+	getLegend: () => legend,
+	provideDocumentSemanticTokens: (model, lastResultId, token) => {
 		const lines = model.getLinesContent();
 
 		/** @type {number[]} */
@@ -78,11 +76,11 @@ monaco.languages.registerDocumentSemanticTokensProvider("plaintext", {
 
 			for (let match = null; (match = tokenPattern.exec(line)); ) {
 				// translate token and modifiers to number representations
-				let type = getType(match[1]);
+				const type = getType(match[1]);
 				if (type === -1) {
 					continue;
 				}
-				let modifier = match[2].length
+				const modifier = match[2].length
 					? getModifier(match[2].split(".").slice(1))
 					: 0;
 
@@ -93,7 +91,7 @@ monaco.languages.registerDocumentSemanticTokensProvider("plaintext", {
 					prevLine === i ? match.index - prevChar : match.index,
 					match[0].length,
 					type,
-					modifier
+					modifier,
 				);
 
 				prevLine = i;
@@ -105,7 +103,7 @@ monaco.languages.registerDocumentSemanticTokensProvider("plaintext", {
 			resultId: null,
 		};
 	},
-	releaseDocumentSemanticTokens: function (resultId) {},
+	releaseDocumentSemanticTokens: (resultId) => {},
 });
 
 // add some missing tokens

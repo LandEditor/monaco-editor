@@ -12,7 +12,7 @@ export class ControlledMonacoEditor extends React.Component<{
 }> {
 	private readonly model = getLoadedMonaco().editor.createModel(
 		this.props.value,
-		this.props.language
+		this.props.language,
 	);
 
 	private lastSubscription: monaco.IDisposable | undefined;
@@ -41,7 +41,7 @@ export class ControlledMonacoEditor extends React.Component<{
 		if (this.model.getLanguageId() !== this.props.language) {
 			getLoadedMonaco().editor.setModelLanguage(
 				this.model,
-				this.props.language || "plaintext"
+				this.props.language || "plaintext",
 			);
 		}
 
@@ -69,11 +69,11 @@ export class ControlledMonacoDiffEditor extends React.Component<{
 }> {
 	private readonly originalModel = getLoadedMonaco().editor.createModel(
 		this.props.originalValue,
-		this.props.language
+		this.props.language,
 	);
 	private readonly modifiedModel = getLoadedMonaco().editor.createModel(
 		this.props.modifiedValue,
-		this.props.language
+		this.props.language,
 	);
 
 	componentDidUpdate() {
@@ -83,7 +83,7 @@ export class ControlledMonacoDiffEditor extends React.Component<{
 		if (this.originalModel.getLanguageId() !== this.props.language) {
 			getLoadedMonaco().editor.setModelLanguage(
 				this.originalModel,
-				this.props.language || "plaintext"
+				this.props.language || "plaintext",
 			);
 		}
 
@@ -93,7 +93,7 @@ export class ControlledMonacoDiffEditor extends React.Component<{
 		if (this.modifiedModel.getLanguageId() !== this.props.language) {
 			getLoadedMonaco().editor.setModelLanguage(
 				this.modifiedModel,
-				this.props.language || "plaintext"
+				this.props.language || "plaintext",
 			);
 		}
 	}
@@ -154,7 +154,7 @@ export class MonacoEditor extends React.Component<
 					minHeight: 0,
 					minWidth: 0,
 				}}
-				className={"monaco-editor-react " + this.props.className}
+				class={"monaco-editor-react " + this.props.className}
 				ref={this.divRef}
 			/>
 		);
@@ -192,10 +192,10 @@ export class MonacoEditor extends React.Component<
 		}
 	}
 	componentWillUnmount() {
-		if (!this.editor) {
-			console.error("unexpected state");
-		} else {
+		if (this.editor) {
 			this.editor.dispose();
+		} else {
+			console.error("unexpected state");
 		}
 	}
 }
@@ -237,7 +237,7 @@ export class MonacoDiffEditor extends React.Component<
 					minHeight: 0,
 					minWidth: 0,
 				}}
-				className="monaco-editor-react"
+				class="monaco-editor-react"
 				ref={this.divRef}
 			/>
 		);
@@ -266,10 +266,10 @@ export class MonacoDiffEditor extends React.Component<
 	}
 
 	componentWillUnmount() {
-		if (!this.editor) {
-			console.error("unexpected state");
-		} else {
+		if (this.editor) {
 			this.editor.dispose();
+		} else {
+			console.error("unexpected state");
 		}
 	}
 }

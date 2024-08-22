@@ -1,7 +1,3 @@
-/// <reference path="../../node_modules/monaco-editor/monaco.d.ts" />
-
-"use strict";
-
 /*-----------------------------------------
    General helpers
 ------------------------------------------*/
@@ -45,7 +41,7 @@ function getTextFromId(id) {
 var outputPane = document.getElementById("monarchConsole");
 
 var isDirty = false;
-window.onbeforeunload = function (ev) {
+window.onbeforeunload = (ev) => {
 	if (isDirty) {
 		return "If you leave this page any unsaved work will be lost.";
 	}
@@ -55,7 +51,7 @@ function createLangModel(languageId, text) {
 	monaco.languages.register({ id: languageId });
 
 	var langModel = monaco.editor.createModel(text, "javascript");
-	var update = function () {
+	var update = () => {
 		var def = null;
 		try {
 			def = eval("(function(){ " + langModel.getValue() + "; })()"); // CodeQL [SM01632] langModel.getValue() is a default value with volatile user modifications. This is an essential functionality for the monarch playground and safe, as no injection is possible.
@@ -66,7 +62,7 @@ function createLangModel(languageId, text) {
 		monaco.languages.setMonarchTokensProvider(languageId, def);
 		setInnerText(outputPane, "up-to-date\n");
 	};
-	langModel.onDidChangeContent(function () {
+	langModel.onDidChangeContent(() => {
 		isDirty = true;
 		update();
 	});
@@ -100,7 +96,7 @@ function readSamples(sampleSelect) {
 	return samples;
 }
 
-require(["vs/editor/editor.main"], function () {
+require(["vs/editor/editor.main"], () => {
 	var sampleSelect = document.getElementById("sampleselect");
 	var langPane = document.getElementById("langPane");
 	var editorPane = document.getElementById("editor");
@@ -128,7 +124,7 @@ require(["vs/editor/editor.main"], function () {
 
 	var select = document.getElementById("themeselect");
 	var currentTheme = "vs";
-	select.onchange = function () {
+	select.onchange = () => {
 		currentTheme = select.options[select.selectedIndex].value;
 		monaco.editor.setTheme(currentTheme);
 	};
@@ -163,7 +159,7 @@ require(["vs/editor/editor.main"], function () {
 		sampleEditor.setModel(SAMPLES[CURRENT_SAMPLE].sampleModel);
 		if (SAMPLES[CURRENT_SAMPLE].sampleViewState) {
 			sampleEditor.restoreViewState(
-				SAMPLES[CURRENT_SAMPLE].sampleViewState
+				SAMPLES[CURRENT_SAMPLE].sampleViewState,
 			);
 		}
 	}

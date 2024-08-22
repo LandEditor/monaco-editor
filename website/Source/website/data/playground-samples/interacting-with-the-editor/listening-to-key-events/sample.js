@@ -3,7 +3,7 @@ var editor = monaco.editor.create(document.getElementById("container"), {
 	language: "javascript",
 });
 
-var myBinding = editor.addCommand(monaco.KeyCode.F9, function () {
+var myBinding = editor.addCommand(monaco.KeyCode.F9, () => {
 	alert("F9 pressed!");
 });
 
