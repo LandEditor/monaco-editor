@@ -1,16 +1,19 @@
 import { action, observable } from "mobx";
-import { IPlaygroundProject } from "../../../shared";
+import type { IPlaygroundProject } from "../../../shared";
 import { monacoEditorVersion } from "../../monacoEditorVersion";
-import { LzmaCompressor } from "../../utils/lzmaCompressor";
 import {
 	HistoryController,
-	IHistoryModel,
-	ILocation,
+	type IHistoryModel,
+	type ILocation,
 } from "../../utils/ObservableHistory";
-import { debouncedComputed, Disposable } from "../../utils/utils";
-import { getPlaygroundExamples, PlaygroundExample } from "./playgroundExamples";
+import { LzmaCompressor } from "../../utils/lzmaCompressor";
+import { Disposable, debouncedComputed } from "../../utils/utils";
+import type { PlaygroundModel } from "./PlaygroundModel";
 import { Source } from "./Source";
-import { PlaygroundModel } from "./PlaygroundModel";
+import {
+	type PlaygroundExample,
+	getPlaygroundExamples,
+} from "./playgroundExamples";
 import { projectEquals } from "./utils";
 
 export class LocationModel implements IHistoryModel {
@@ -36,18 +39,18 @@ export class LocationModel implements IHistoryModel {
 	 * This is used to control replace/push state.
 	 * Replace is used if the history id does not change.
 	 */
-	@observable historyId: number = 0;
+	@observable historyId = 0;
 
 	constructor(
 		private readonly model: PlaygroundModel,
-		createHistoryController = true
+		createHistoryController = true,
 	) {
 		if (createHistoryController) {
 			this.dispose.track(
 				new HistoryController((initialLocation) => {
 					this.updateLocation(initialLocation);
 					return this;
-				})
+				}),
 			);
 		}
 	}
@@ -102,7 +105,7 @@ export class LocationModel implements IHistoryModel {
 		} else if ((example = findExample(hashValue))) {
 			this.model.selectedExample = example;
 		} else {
-			let p: IPlaygroundProject | undefined = undefined;
+			let p: IPlaygroundProject | undefined;
 			if (this.cachedState?.hash === hashValue) {
 				p = this.cachedState.state;
 			}
@@ -110,7 +113,7 @@ export class LocationModel implements IHistoryModel {
 				try {
 					p =
 						this.compressor.decodeData<IPlaygroundProject>(
-							hashValue
+							hashValue,
 						);
 				} catch (e) {
 					console.log("Could not deserialize from hash value", e);
@@ -143,7 +146,7 @@ export class LocationModel implements IHistoryModel {
 				return this.cachedState.hash;
 			}
 			return this.compressor.encodeData(state);
-		}
+		},
 	);
 
 	private get sourceFromSettings(): Source | undefined {
@@ -163,7 +166,7 @@ export class LocationModel implements IHistoryModel {
 				settings.coreSource === "url" ? settings.coreUrl : undefined,
 				settings.languagesSource === "latest"
 					? undefined
-					: settings.languagesUrl
+					: settings.languagesUrl,
 			);
 		} else if (settings.monacoSource === "latest") {
 			return new Source(monacoEditorVersion, undefined, undefined);

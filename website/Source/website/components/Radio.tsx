@@ -1,7 +1,7 @@
-import * as React from "react";
 import { observer } from "mobx-react";
+import * as React from "react";
+import type { IReference } from "../utils/ref";
 import { Form } from "./bootstrap";
-import { IReference } from "../utils/ref";
 
 @observer
 export class Radio<T> extends React.Component<{

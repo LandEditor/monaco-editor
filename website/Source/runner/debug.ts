@@ -4,11 +4,11 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { loadMonaco } from "../monaco-loader";
-import { IPreviewState } from "../shared";
+import type { IPreviewState } from "../shared";
 import { LzmaCompressor } from "../website/utils/lzmaCompressor";
 import "./style.scss";
 
-let monacoPromise: Promise<any> | undefined = undefined;
+let monacoPromise: Promise<any> | undefined;
 
 async function initialize(state: IPreviewState) {
 	if (monacoPromise) {
@@ -41,7 +41,7 @@ async function initialize(state: IPreviewState) {
 	} catch (err) {
 		const pre = document.createElement("pre");
 		pre.appendChild(
-			document.createTextNode(`${err}: ${(err as any).state}`)
+			document.createTextNode(`${err}: ${(err as any).state}`),
 		);
 		document.body.insertBefore(pre, document.body.firstChild);
 	}
