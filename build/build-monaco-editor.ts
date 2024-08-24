@@ -3,12 +3,12 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import path = require("path");
-import fs = require("fs");
-import { REPO_ROOT, readFiles, writeFiles, IFile } from "../build/utils";
-import { removeDir } from "../build/fs";
-import ts = require("typescript");
-import { generateMetadata } from "./releaseMetadata";
+import path = require('path');
+import fs = require('fs');
+import { REPO_ROOT, readFiles, writeFiles, IFile, readFile } from '../build/utils';
+import { removeDir } from '../build/fs';
+import ts = require('typescript');
+import { generateMetadata } from './releaseMetadata';
 
 removeDir(`out/monaco-editor`);
 
@@ -65,13 +65,11 @@ generateMetadata();
 /**
  * Release to `dev` or `min`.
  */
-function AMD_releaseOne(type: "dev" | "min") {
-	const coreFiles = readFiles(
-		`node_modules/monaco-editor-core/${type}/**/*`,
-		{
-			base: `node_modules/monaco-editor-core/${type}`,
-		},
-	);
+function AMD_releaseOne(type: 'dev' | 'min') {
+	let coreFiles = readFiles(`node_modules/monaco-editor-core/${type}/**/*`, {
+		base: `node_modules/monaco-editor-core/${type}`
+	});
+	coreFiles = fixNlsFiles(coreFiles);
 	AMD_addPluginContribs(type, coreFiles);
 	writeFiles(coreFiles, `out/monaco-editor/${type}`);
 
@@ -80,6 +78,33 @@ function AMD_releaseOne(type: "dev" | "min") {
 		ignore: ["**/monaco.contribution.js"],
 	});
 	writeFiles(pluginFiles, `out/monaco-editor/${type}`);
+}
+
+function fixNlsFiles(files: IFile[]): IFile[] {
+	return files.map((f) => {
+		if (!f.path.match(/nls\.messages\.[a-z\-]+\.js/)) {
+			return f;
+		}
+
+		const dirName = path.dirname(f.path);
+		const fileName = path.basename(f.path);
+
+		const newPath = path.join(dirName, 'vs', fileName);
+		let contentStr = f.contents.toString('utf-8');
+
+		contentStr = `
+define([], function () {
+${contentStr}
+});
+`;
+
+		const newContents = Buffer.from(contentStr, 'utf-8');
+
+		return {
+			path: newPath,
+			contents: newContents
+		};
+	});
 }
 
 /**
@@ -102,12 +127,18 @@ function AMD_addPluginContribs(type: "dev" | "min", files: IFile[]) {
 			'"vs/editor/edcore.main"',
 		);
 
-		const pluginFiles = readFiles(
-			`out/languages/bundled/amd-${type}/**/monaco.contribution.js`,
-			{
-				base: `out/languages/bundled/amd-${type}`,
-			},
-		);
+		// This ensures that old nls-plugin configurations are still respected by the new localization solution.
+		const contentPrefixSource = readFile('src/nls-fix.js')
+			.contents.toString('utf-8')
+			.replace(/\r\n|\n/g, ' ');
+
+		// TODO: Instead of adding this source to the header to maintain the source map indices, it should rewrite the sourcemap!
+		const searchValue = 'https://github.com/microsoft/vscode/blob/main/LICENSE.txt';
+		contents = contents.replace(searchValue, searchValue + ' */ ' + contentPrefixSource + ' /*');
+
+		const pluginFiles = readFiles(`out/languages/bundled/amd-${type}/**/monaco.contribution.js`, {
+			base: `out/languages/bundled/amd-${type}`
+		});
 
 		const extraContent = pluginFiles.map((file) => {
 			return file.contents
