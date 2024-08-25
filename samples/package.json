@@ -4,7 +4,7 @@
 		"css-loader": "7.1.2",
 		"file-loader": "6.2.0",
 		"glob": "11.0.0",
-		"monaco-editor": "0.51.0-dev-20240807",
+		"monaco-editor": "0.51.0",
 		"style-loader": "4.0.0",
 		"ts-loader": "9.5.1",
 		"yaserver": "0.4.0"
