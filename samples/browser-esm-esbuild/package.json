@@ -1,5 +1,5 @@
 {
-	"name": "helloworld",
+	"name": "helloworld-browser-esm-esbuild",
 	"scripts": {
 		"build": "node ./build.js"
 	}
