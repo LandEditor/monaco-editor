@@ -1,9 +1,0 @@
-{
-	"devDependencies": {
-		"monaco-editor": "0.51.0"
-	},
-	"name": "helloworld-browser-esm-parcel",
-	"scripts": {
-		"start": "parcel ./src/index.html"
-	}
-}
