@@ -1,7 +1,7 @@
 {
-	"main": "./main",
 	"name": "electron-amd",
 	"scripts": {
 		"execute": "node ../node_modules/electron/cli.js ."
-	}
+	},
+	"main": "./main"
 }
