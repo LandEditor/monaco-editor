@@ -1,6 +1,6 @@
 {
-	"name": "electron-amd-node-integration",
 	"main": "./main",
+	"name": "electron-amd-node-integration",
 	"scripts": {
 		"execute": "node ../node_modules/electron/cli.js ."
 	}

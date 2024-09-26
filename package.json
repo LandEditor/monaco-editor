@@ -1,27 +1,9 @@
 {
-	"name": "monaco-editor",
-	"description": "A browser based code editor",
-	"module": "./esm/vs/editor/editor.main.js",
-	"typings": "./esm/vs/editor/editor.api.d.ts",
-	"scripts": {
-		"build": "ts-node ./build/build-languages",
-		"build-monaco-editor": "npm run build && ts-node ./build/build-monaco-editor",
-		"deps-all-install": "ts-node ./build/npm/installAll",
-		"deps-all-remove": "ts-node ./build/npm/removeAll",
-		"import-typescript": "ts-node ./build/importTypescript",
-		"package-for-smoketest-esbuild": "ts-node ./test/smoke/package-esbuild",
-		"package-for-smoketest-vite": "ts-node ./test/smoke/package-vite",
-		"package-for-smoketest-webpack": "ts-node ./test/smoke/package-webpack",
-		"package-for-smoketest-webpack-cross-origin": "ts-node ./test/smoke/package-webpack --cross-origin",
-		"playwright-install": "node ./node_modules/playwright/install.js",
-		"playwright-install-deps": "playwright install-deps",
-		"prettier-check": "prettier --check .",
-		"pretty-quick": "pretty-quick --staged",
-		"simpleserver": "ts-node ./build/simpleserver",
-		"smoketest": "node ./test/smoke/runner.js",
-		"smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
-		"update-actions": "pin-github-action ./.github/workflows/website.yml"
+	"alias": {
+		"buffer": false,
+		"process": false
 	},
+	"description": "A browser based code editor",
 	"devDependencies": {
 		"@types/shelljs": "0.8.15",
 		"@typescript/vfs": "1.6.0",
@@ -44,9 +26,27 @@
 		"terser": "5.34.0",
 		"yaserver": "0.4.0"
 	},
-	"alias": {
-		"buffer": false,
-		"process": false
+	"module": "./esm/vs/editor/editor.main.js",
+	"name": "monaco-editor",
+	"scripts": {
+		"build": "ts-node ./build/build-languages",
+		"build-monaco-editor": "npm run build && ts-node ./build/build-monaco-editor",
+		"deps-all-install": "ts-node ./build/npm/installAll",
+		"deps-all-remove": "ts-node ./build/npm/removeAll",
+		"import-typescript": "ts-node ./build/importTypescript",
+		"package-for-smoketest-esbuild": "ts-node ./test/smoke/package-esbuild",
+		"package-for-smoketest-vite": "ts-node ./test/smoke/package-vite",
+		"package-for-smoketest-webpack": "ts-node ./test/smoke/package-webpack",
+		"package-for-smoketest-webpack-cross-origin": "ts-node ./test/smoke/package-webpack --cross-origin",
+		"playwright-install": "node ./node_modules/playwright/install.js",
+		"playwright-install-deps": "playwright install-deps",
+		"prettier-check": "prettier --check .",
+		"pretty-quick": "pretty-quick --staged",
+		"simpleserver": "ts-node ./build/simpleserver",
+		"smoketest": "node ./test/smoke/runner.js",
+		"smoketest-debug": "node ./test/smoke/runner.js --debug-tests",
+		"update-actions": "pin-github-action ./.github/workflows/website.yml"
 	},
+	"typings": "./esm/vs/editor/editor.api.d.ts",
 	"vscodeRef": "493330cdc6475247184ea459c66776c3da12cd2d"
 }
