@@ -1,14 +1,14 @@
 {
 	"dependencies": {
-		"loader-utils": "^2.0.2"
+		"loader-utils": "^3.3.1"
 	},
 	"description": "A webpack plugin for the Monaco Editor",
 	"devDependencies": {
-		"css-loader": "^6.6.0",
+		"css-loader": "^7.1.2",
 		"file-loader": "^6.2.0",
-		"glob": "^7.2.0",
-		"monaco-editor": "^0.32.0",
-		"style-loader": "^3.3.1"
+		"glob": "^11.0.0",
+		"monaco-editor": "^0.52.0",
+		"style-loader": "^4.0.0"
 	},
 	"main": "out/index.js",
 	"name": "monaco-editor-webpack-plugin",

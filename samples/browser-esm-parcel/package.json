@@ -1,6 +1,6 @@
 {
 	"devDependencies": {
-		"monaco-editor": "^0.32.0"
+		"monaco-editor": "^0.52.0"
 	},
 	"name": "helloworld",
 	"scripts": {
