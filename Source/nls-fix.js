@@ -6,32 +6,33 @@
  * @type {typeof define}
  */
 const globalDefine = globalThis.define;
-globalDefine('vs/nls.messages-loader', [], function (...args) {
+globalDefine("vs/nls.messages-loader", [], function (...args) {
 	return {
 		load: (name, req, load, config) => {
-			const requestedLanguage = config['vs/nls']?.availableLanguages?.['*'];
-			if (!requestedLanguage || requestedLanguage === 'en') {
+			const requestedLanguage =
+				config["vs/nls"]?.availableLanguages?.["*"];
+			if (!requestedLanguage || requestedLanguage === "en") {
 				load({});
 			} else {
 				req([`vs/nls.messages.${requestedLanguage}`], () => {
 					load({});
 				});
 			}
-		}
+		},
 	};
 });
 globalDefine(
-	'vs/nls.messages',
-	['require', 'exports', 'vs/nls.messages-loader!'],
+	"vs/nls.messages",
+	["require", "exports", "vs/nls.messages-loader!"],
 	function (require, exports) {
 		Object.assign(exports, {
 			getNLSMessages: () => globalThis._VSCODE_NLS_MESSAGES,
-			getNLSLanguage: () => globalThis._VSCODE_NLS_LANGUAGE
+			getNLSLanguage: () => globalThis._VSCODE_NLS_LANGUAGE,
 		});
-	}
+	},
 );
 define = function (...args) {
-	if (args.length > 0 && args[0] === 'vs/nls.messages') {
+	if (args.length > 0 && args[0] === "vs/nls.messages") {
 		return;
 	}
 	return globalDefine(...args);
