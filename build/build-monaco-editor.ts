@@ -1,22 +1,30 @@
+import { removeDir } from "../build/fs";
+import {
+	IFile,
+	readFile,
+	readFiles,
+	REPO_ROOT,
+	writeFiles,
+} from "../build/utils";
+import { generateMetadata } from "./releaseMetadata";
+
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import path = require('path');
-import fs = require('fs');
-import { REPO_ROOT, readFiles, writeFiles, IFile, readFile } from '../build/utils';
-import { removeDir } from '../build/fs';
-import ts = require('typescript');
-import { generateMetadata } from './releaseMetadata';
+import path = require("path");
+import fs = require("fs");
+
+import ts = require("typescript");
 
 removeDir(`out/monaco-editor`);
 
 // dev folder
-AMD_releaseOne('dev');
+AMD_releaseOne("dev");
 
 // min folder
-AMD_releaseOne('min');
+AMD_releaseOne("min");
 
 // esm folder
 ESM_release();
@@ -32,13 +40,13 @@ generateMetadata();
 
 // package.json
 (() => {
-	const packageJSON = readFiles('package.json', { base: '' })[0];
+	const packageJSON = readFiles("package.json", { base: "" })[0];
 	const json = JSON.parse(packageJSON.contents.toString());
 
 	json.private = false;
-	delete json.scripts['postinstall'];
+	delete json.scripts["postinstall"];
 
-	packageJSON.contents = Buffer.from(JSON.stringify(json, null, '  '));
+	packageJSON.contents = Buffer.from(JSON.stringify(json, null, "  "));
 	writeFiles([packageJSON], `out/monaco-editor`);
 })();
 
@@ -46,17 +54,17 @@ generateMetadata();
 	/** @type {IFile[]} */
 	let otherFiles = [];
 
-	otherFiles = otherFiles.concat(readFiles('README.md', { base: '' }));
-	otherFiles = otherFiles.concat(readFiles('CHANGELOG.md', { base: '' }));
+	otherFiles = otherFiles.concat(readFiles("README.md", { base: "" }));
+	otherFiles = otherFiles.concat(readFiles("CHANGELOG.md", { base: "" }));
 	otherFiles = otherFiles.concat(
-		readFiles('node_modules/monaco-editor-core/min-maps/**/*', {
-			base: 'node_modules/monaco-editor-core/'
-		})
+		readFiles("node_modules/monaco-editor-core/min-maps/**/*", {
+			base: "node_modules/monaco-editor-core/",
+		}),
 	);
 	otherFiles = otherFiles.concat(
-		readFiles('node_modules/monaco-editor-core/LICENSE', {
-			base: 'node_modules/monaco-editor-core/'
-		})
+		readFiles("node_modules/monaco-editor-core/LICENSE", {
+			base: "node_modules/monaco-editor-core/",
+		}),
 	);
 
 	writeFiles(otherFiles, `out/monaco-editor`);
@@ -65,9 +73,9 @@ generateMetadata();
 /**
  * Release to `dev` or `min`.
  */
-function AMD_releaseOne(type: 'dev' | 'min') {
+function AMD_releaseOne(type: "dev" | "min") {
 	let coreFiles = readFiles(`node_modules/monaco-editor-core/${type}/**/*`, {
-		base: `node_modules/monaco-editor-core/${type}`
+		base: `node_modules/monaco-editor-core/${type}`,
 	});
 	coreFiles = fixNlsFiles(coreFiles);
 	AMD_addPluginContribs(type, coreFiles);
@@ -75,7 +83,7 @@ function AMD_releaseOne(type: 'dev' | 'min') {
 
 	const pluginFiles = readFiles(`out/languages/bundled/amd-${type}/**/*`, {
 		base: `out/languages/bundled/amd-${type}`,
-		ignore: ['**/monaco.contribution.js']
+		ignore: ["**/monaco.contribution.js"],
 	});
 	writeFiles(pluginFiles, `out/monaco-editor/${type}`);
 }
@@ -89,8 +97,8 @@ function fixNlsFiles(files: IFile[]): IFile[] {
 		const dirName = path.dirname(f.path);
 		const fileName = path.basename(f.path);
 
-		const newPath = path.join(dirName, 'vs', fileName);
-		let contentStr = f.contents.toString('utf-8');
+		const newPath = path.join(dirName, "vs", fileName);
+		let contentStr = f.contents.toString("utf-8");
 
 		contentStr = `
 define([], function () {
@@ -98,11 +106,11 @@ ${contentStr}
 });
 `;
 
-		const newContents = Buffer.from(contentStr, 'utf-8');
+		const newContents = Buffer.from(contentStr, "utf-8");
 
 		return {
 			path: newPath,
-			contents: newContents
+			contents: newContents,
 		};
 	});
 }
@@ -113,7 +121,7 @@ ${contentStr}
  * - append monaco.contribution modules from plugins
  * - append new AMD module 'vs/editor/editor.main' that stiches things together
  */
-function AMD_addPluginContribs(type: 'dev' | 'min', files: IFile[]) {
+function AMD_addPluginContribs(type: "dev" | "min", files: IFile[]) {
 	for (const file of files) {
 		if (!/editor\.main\.js$/.test(file.path)) {
 			continue;
@@ -122,48 +130,58 @@ function AMD_addPluginContribs(type: 'dev' | 'min', files: IFile[]) {
 		let contents = file.contents.toString();
 
 		// Rename the AMD module 'vs/editor/editor.main' to 'vs/editor/edcore.main'
-		contents = contents.replace(/"vs\/editor\/editor\.main\"/, '"vs/editor/edcore.main"');
+		contents = contents.replace(
+			/"vs\/editor\/editor\.main\"/,
+			'"vs/editor/edcore.main"',
+		);
 
 		// This ensures that old nls-plugin configurations are still respected by the new localization solution.
-		const contentPrefixSource = readFile('src/nls-fix.js')
-			.contents.toString('utf-8')
-			.replace(/\r\n|\n/g, ' ');
+		const contentPrefixSource = readFile("src/nls-fix.js")
+			.contents.toString("utf-8")
+			.replace(/\r\n|\n/g, " ");
 
 		// TODO: Instead of adding this source to the header to maintain the source map indices, it should rewrite the sourcemap!
-		const searchValue = 'https://github.com/microsoft/vscode/blob/main/LICENSE.txt';
-		contents = contents.replace(searchValue, searchValue + ' */ ' + contentPrefixSource + ' /*');
+		const searchValue =
+			"https://github.com/microsoft/vscode/blob/main/LICENSE.txt";
+		contents = contents.replace(
+			searchValue,
+			searchValue + " */ " + contentPrefixSource + " /*",
+		);
 
-		const pluginFiles = readFiles(`out/languages/bundled/amd-${type}/**/monaco.contribution.js`, {
-			base: `out/languages/bundled/amd-${type}`
-		});
+		const pluginFiles = readFiles(
+			`out/languages/bundled/amd-${type}/**/monaco.contribution.js`,
+			{
+				base: `out/languages/bundled/amd-${type}`,
+			},
+		);
 
 		const extraContent = pluginFiles.map((file) => {
 			return file.contents
 				.toString()
 				.replace(
 					/define\((['"][a-z\/\-]+\/fillers\/monaco-editor-core['"]),\[\],/,
-					"define($1,['vs/editor/editor.api'],"
+					"define($1,['vs/editor/editor.api'],",
 				);
 		});
 
 		const allPluginsModuleIds = pluginFiles.map((file) => {
-			return file.path.replace(/\.js$/, '');
+			return file.path.replace(/\.js$/, "");
 		});
 
 		extraContent.push(
 			`define("vs/editor/editor.main", ["vs/editor/edcore.main","${allPluginsModuleIds.join(
-				'","'
-			)}"], function(api) { return api; });`
+				'","',
+			)}"], function(api) { return api; });`,
 		);
-		let insertIndex = contents.lastIndexOf('//# sourceMappingURL=');
+		let insertIndex = contents.lastIndexOf("//# sourceMappingURL=");
 		if (insertIndex === -1) {
 			insertIndex = contents.length;
 		}
 		contents =
 			contents.substring(0, insertIndex) +
-			'\n' +
-			extraContent.join('\n') +
-			'\n' +
+			"\n" +
+			extraContent.join("\n") +
+			"\n" +
 			contents.substring(insertIndex);
 
 		file.contents = Buffer.from(contents);
@@ -172,9 +190,11 @@ function AMD_addPluginContribs(type: 'dev' | 'min', files: IFile[]) {
 
 function ESM_release() {
 	const coreFiles = readFiles(`node_modules/monaco-editor-core/esm/**/*`, {
-		base: 'node_modules/monaco-editor-core/esm',
+		base: "node_modules/monaco-editor-core/esm",
 		// we will create our own editor.api.d.ts which also contains the plugins API
-		ignore: ['node_modules/monaco-editor-core/esm/vs/editor/editor.api.d.ts']
+		ignore: [
+			"node_modules/monaco-editor-core/esm/vs/editor/editor.api.d.ts",
+		],
 	});
 	ESM_addImportSuffix(coreFiles);
 	ESM_addPluginContribs(coreFiles);
@@ -189,7 +209,9 @@ function ESM_release() {
  * Rewrites imports for 'monaco-editor-core/**'
  */
 function ESM_releasePlugins() {
-	const files = readFiles(`out/languages/bundled/esm/**/*`, { base: 'out/languages/bundled/esm/' });
+	const files = readFiles(`out/languages/bundled/esm/**/*`, {
+		base: "out/languages/bundled/esm/",
+	});
 
 	for (const file of files) {
 		if (!/(\.js$)|(\.ts$)/.test(file.path)) {
@@ -207,23 +229,30 @@ function ESM_releasePlugins() {
 			if (!/(^\.\/)|(^\.\.\/)/.test(importText)) {
 				// non-relative import
 				if (!/^monaco-editor-core/.test(importText)) {
-					console.error(`Non-relative import for unknown module: ${importText} in ${file.path}`);
+					console.error(
+						`Non-relative import for unknown module: ${importText} in ${file.path}`,
+					);
 					process.exit(1);
 				}
 
-				if (importText === 'monaco-editor-core') {
-					importText = 'monaco-editor-core/esm/vs/editor/editor.api';
+				if (importText === "monaco-editor-core") {
+					importText = "monaco-editor-core/esm/vs/editor/editor.api";
 				}
 
-				const importFilePath = importText.substring('monaco-editor-core/esm/'.length);
+				const importFilePath = importText.substring(
+					"monaco-editor-core/esm/".length,
+				);
 				let relativePath = path
 					.relative(path.dirname(file.path), importFilePath)
-					.replace(/\\/g, '/');
+					.replace(/\\/g, "/");
 				if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
-					relativePath = './' + relativePath;
+					relativePath = "./" + relativePath;
 				}
 
-				contents = contents.substring(0, pos + 1) + relativePath + contents.substring(end + 1);
+				contents =
+					contents.substring(0, pos + 1) +
+					relativePath +
+					contents.substring(end + 1);
 			}
 		}
 
@@ -235,10 +264,12 @@ function ESM_releasePlugins() {
 			continue;
 		}
 
-		const apiFilePath = 'vs/editor/editor.api';
-		let relativePath = path.relative(path.dirname(file.path), apiFilePath).replace(/\\/g, '/');
+		const apiFilePath = "vs/editor/editor.api";
+		let relativePath = path
+			.relative(path.dirname(file.path), apiFilePath)
+			.replace(/\\/g, "/");
 		if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
-			relativePath = './' + relativePath;
+			relativePath = "./" + relativePath;
 		}
 
 		let contents = file.contents.toString();
@@ -272,7 +303,11 @@ function ESM_addImportSuffix(files: IFile[]) {
 				continue;
 			}
 
-			contents = contents.substring(0, pos + 1) + importText + '.js' + contents.substring(end + 1);
+			contents =
+				contents.substring(0, pos + 1) +
+				importText +
+				".js" +
+				contents.substring(end + 1);
 		}
 
 		file.contents = Buffer.from(contents);
@@ -288,33 +323,36 @@ function ESM_addPluginContribs(files: IFile[]) {
 		if (!/editor\.main\.js$/.test(file.path)) {
 			continue;
 		}
-		file.path = file.path.replace(/editor\.main/, 'edcore.main');
+		file.path = file.path.replace(/editor\.main/, "edcore.main");
 	}
 
-	const mainFileDestPath = 'vs/editor/editor.main.js';
+	const mainFileDestPath = "vs/editor/editor.main.js";
 
-	const mainFileImports = readFiles(`out/languages/bundled/esm/**/monaco.contribution.js`, {
-		base: `out/languages/bundled/esm`
-	}).map((file) => {
+	const mainFileImports = readFiles(
+		`out/languages/bundled/esm/**/monaco.contribution.js`,
+		{
+			base: `out/languages/bundled/esm`,
+		},
+	).map((file) => {
 		let relativePath = path
 			.relative(path.dirname(mainFileDestPath), file.path)
-			.replace(/\\/g, '/')
-			.replace(/\.js$/, '');
+			.replace(/\\/g, "/")
+			.replace(/\.js$/, "");
 
 		if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
-			relativePath = './' + relativePath;
+			relativePath = "./" + relativePath;
 		}
 
 		return relativePath;
 	});
 
 	const mainFileContents =
-		mainFileImports.map((name) => `import '${name}';`).join('\n') +
+		mainFileImports.map((name) => `import '${name}';`).join("\n") +
 		`\n\nexport * from './edcore.main';`;
 
 	files.push({
 		path: mainFileDestPath,
-		contents: Buffer.from(mainFileContents)
+		contents: Buffer.from(mainFileContents),
 	});
 }
 
@@ -323,30 +361,30 @@ function ESM_addPluginContribs(files: IFile[]) {
  * - append monaco.d.ts from plugins
  */
 function releaseDTS() {
-	const monacodts = readFiles('node_modules/monaco-editor-core/monaco.d.ts', {
-		base: 'node_modules/monaco-editor-core'
+	const monacodts = readFiles("node_modules/monaco-editor-core/monaco.d.ts", {
+		base: "node_modules/monaco-editor-core",
 	})[0];
 
 	let contents = monacodts.contents.toString();
 
-	const extraContent = readFiles('out/languages/bundled/*.d.ts', {
-		base: 'out/languages/bundled/'
+	const extraContent = readFiles("out/languages/bundled/*.d.ts", {
+		base: "out/languages/bundled/",
 	}).map((file) => {
-		return file.contents.toString().replace(/\/\/\/ <reference.*\n/m, '');
+		return file.contents.toString().replace(/\/\/\/ <reference.*\n/m, "");
 	});
 
 	contents =
 		[
-			'/*!-----------------------------------------------------------',
-			' * Copyright (c) Microsoft Corporation. All rights reserved.',
-			' * Type definitions for monaco-editor',
-			' * Released under the MIT license',
-			'*-----------------------------------------------------------*/'
-		].join('\n') +
-		'\n' +
+			"/*!-----------------------------------------------------------",
+			" * Copyright (c) Microsoft Corporation. All rights reserved.",
+			" * Type definitions for monaco-editor",
+			" * Released under the MIT license",
+			"*-----------------------------------------------------------*/",
+		].join("\n") +
+		"\n" +
 		contents +
-		'\n' +
-		extraContent.join('\n');
+		"\n" +
+		extraContent.join("\n");
 
 	// Ensure consistent indentation and line endings
 	contents = cleanFile(contents);
@@ -354,8 +392,8 @@ function releaseDTS() {
 	monacodts.contents = Buffer.from(contents);
 
 	const editorapidts = {
-		path: 'esm/vs/editor/editor.api.d.ts',
-		contents: Buffer.from(toExternalDTS(contents))
+		path: "esm/vs/editor/editor.api.d.ts",
+		contents: Buffer.from(toExternalDTS(contents)),
 	};
 
 	writeFiles([monacodts, editorapidts], `out/monaco-editor`);
@@ -374,48 +412,51 @@ function toExternalDTS(contents: string): string {
 		let line = lines[i];
 
 		if (killNextCloseCurlyBrace) {
-			if ('}' === line) {
-				lines[i] = '';
+			if ("}" === line) {
+				lines[i] = "";
 				killNextCloseCurlyBrace = false;
 				continue;
 			}
 
-			if (line.indexOf('    ') === 0) {
+			if (line.indexOf("    ") === 0) {
 				lines[i] = line.substr(4);
-			} else if (line.charAt(0) === '\t') {
+			} else if (line.charAt(0) === "\t") {
 				lines[i] = line.substr(1);
 			}
 
 			continue;
 		}
 
-		if ('declare namespace monaco {' === line) {
-			lines[i] = '';
+		if ("declare namespace monaco {" === line) {
+			lines[i] = "";
 			killNextCloseCurlyBrace = true;
 			continue;
 		}
 
-		if (line.indexOf('declare namespace monaco.') === 0) {
-			lines[i] = line.replace('declare namespace monaco.', 'export namespace ');
+		if (line.indexOf("declare namespace monaco.") === 0) {
+			lines[i] = line.replace(
+				"declare namespace monaco.",
+				"export namespace ",
+			);
 		}
 
-		if (line.indexOf('declare let MonacoEnvironment') === 0) {
+		if (line.indexOf("declare let MonacoEnvironment") === 0) {
 			lines[i] = [
-				'declare global {',
-				'    let MonacoEnvironment: Environment | undefined;',
-				'',
-				'    interface Window {',
-				'        MonacoEnvironment?: Environment | undefined;',
-				'    }',
-				'}',
-				''
-			].join('\n');
+				"declare global {",
+				"    let MonacoEnvironment: Environment | undefined;",
+				"",
+				"    interface Window {",
+				"        MonacoEnvironment?: Environment | undefined;",
+				"    }",
+				"}",
+				"",
+			].join("\n");
 		}
-		if (line.indexOf('    MonacoEnvironment?') === 0) {
+		if (line.indexOf("    MonacoEnvironment?") === 0) {
 			lines[i] = `    MonacoEnvironment?: Environment | undefined;`;
 		}
 	}
-	return lines.join('\n').replace(/\n\n\n+/g, '\n\n');
+	return lines.join("\n").replace(/\n\n\n+/g, "\n\n");
 }
 
 /**
@@ -430,13 +471,13 @@ function cleanFile(contents: string): string {
 				return line;
 			}
 			const tabsCount = m[1].length;
-			let newIndent = '';
+			let newIndent = "";
 			for (let i = 0; i < 4 * tabsCount; i++) {
-				newIndent += ' ';
+				newIndent += " ";
 			}
 			return newIndent + line.substring(tabsCount);
 		})
-		.join('\n');
+		.join("\n");
 }
 
 /**
@@ -444,19 +485,25 @@ function cleanFile(contents: string): string {
  * - append ThirdPartyNotices.txt from plugins
  */
 function releaseThirdPartyNotices() {
-	const tpn = readFiles('node_modules/monaco-editor-core/ThirdPartyNotices.txt', {
-		base: 'node_modules/monaco-editor-core'
-	})[0];
+	const tpn = readFiles(
+		"node_modules/monaco-editor-core/ThirdPartyNotices.txt",
+		{
+			base: "node_modules/monaco-editor-core",
+		},
+	)[0];
 
 	let contents = tpn.contents.toString();
 
-	console.log('ADDING ThirdPartyNotices from ./ThirdPartyNotices.txt');
+	console.log("ADDING ThirdPartyNotices from ./ThirdPartyNotices.txt");
 	let thirdPartyNoticeContent = fs
-		.readFileSync(path.join(REPO_ROOT, 'ThirdPartyNotices.txt'))
+		.readFileSync(path.join(REPO_ROOT, "ThirdPartyNotices.txt"))
 		.toString();
-	thirdPartyNoticeContent = thirdPartyNoticeContent.split('\n').slice(8).join('\n');
+	thirdPartyNoticeContent = thirdPartyNoticeContent
+		.split("\n")
+		.slice(8)
+		.join("\n");
 
-	contents += '\n' + thirdPartyNoticeContent;
+	contents += "\n" + thirdPartyNoticeContent;
 	tpn.contents = Buffer.from(contents);
 
 	writeFiles([tpn], `out/monaco-editor`);

@@ -3,10 +3,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
 
-const REPO_ROOT = path.join(__dirname, '../');
+const REPO_ROOT = path.join(__dirname, "../");
 
 const existingDirCache = new Set();
 
@@ -45,8 +45,11 @@ export function copyFile(_source: string, _destination: string) {
 /**
  * Remove a directory and all its contents.
  */
-export function removeDir(_dirPath: string, keep?: (filename: string) => boolean) {
-	if (typeof keep === 'undefined') {
+export function removeDir(
+	_dirPath: string,
+	keep?: (filename: string) => boolean,
+) {
+	if (typeof keep === "undefined") {
 		keep = () => false;
 	}
 	const dirPath = path.join(REPO_ROOT, _dirPath);

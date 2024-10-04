@@ -5,6 +5,7 @@
 
 import { loadMonaco } from "../monaco-loader";
 import { IMessageFromRunner, IMessageToRunner, IPreviewState } from "../shared";
+
 import "./style.scss";
 
 window.addEventListener("message", (event) => {
@@ -19,7 +20,7 @@ window.addEventListener("message", (event) => {
 		initialize(e.state);
 	} else if (e.kind === "update-css") {
 		const style = document.getElementById(
-			"custom-style"
+			"custom-style",
 		) as HTMLStyleElement;
 		style.innerHTML = e.css; // CodeQL [SM03712] This is safe because the runner runs in an isolated iframe.
 	}
@@ -58,7 +59,7 @@ async function initialize(state: IPreviewState) {
 	} catch (err) {
 		const pre = document.createElement("pre");
 		pre.appendChild(
-			document.createTextNode(`${err}: ${(err as any).state}`)
+			document.createTextNode(`${err}: ${(err as any).state}`),
 		);
 		document.body.insertBefore(pre, document.body.firstChild);
 	}
@@ -72,7 +73,7 @@ function sendMessageToParent(message: IMessageFromRunner) {
 
 (globalThis as any).$bindModelToCodeStr = function bindModel(
 	model: any,
-	codeStringName: string
+	codeStringName: string,
 ) {
 	model.onDidChangeContent(() => {
 		const value = model.getValue();

@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { createJsonWebEditorClient, vObj, vString } from "@vscode/web-editors";
 import {
 	action,
 	autorun,
@@ -11,6 +12,7 @@ import {
 	reaction,
 	runInAction,
 } from "mobx";
+
 import {
 	IMonacoSetup,
 	loadMonaco,
@@ -20,6 +22,8 @@ import { IPlaygroundProject, IPreviewState } from "../../../shared";
 import { Debouncer } from "../../utils/Debouncer";
 import { ObservablePromise } from "../../utils/ObservablePromise";
 import { Disposable } from "../../utils/utils";
+import { BisectModel } from "./BisectModel";
+import { LocationModel } from "./LocationModel";
 import { PlaygroundExample } from "./playgroundExamples";
 import {
 	getDefaultSettings,
@@ -28,9 +32,6 @@ import {
 	SettingsModel,
 	toLoaderConfig,
 } from "./SettingsModel";
-import { BisectModel } from "./BisectModel";
-import { LocationModel } from "./LocationModel";
-import { createJsonWebEditorClient, vObj, vString } from "@vscode/web-editors";
 
 export class PlaygroundModel {
 	public readonly dispose = Disposable.fn();
@@ -60,12 +61,12 @@ export class PlaygroundModel {
 				this.js = data.js;
 				this.css = data.css;
 			});
-		}
+		},
 	);
 
 	public readonly historyModel = new LocationModel(
 		this,
-		this.webEditorClient === undefined
+		this.webEditorClient === undefined,
 	);
 
 	public reload(): void {
@@ -221,7 +222,7 @@ export class PlaygroundModel {
 						this.debouncer.run(updatePreviewState);
 					}
 				},
-				{ name: "update preview", fireImmediately: true }
+				{ name: "update preview", fireImmediately: true },
 			),
 		});
 
@@ -237,13 +238,13 @@ export class PlaygroundModel {
 						this.reload();
 					},
 					keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
-				})
+				}),
 			);
 
 			const options =
 				monaco.languages.typescript.javascriptDefaults.getCompilerOptions();
 			monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
-				{ noSemanticValidation: false }
+				{ noSemanticValidation: false },
 			);
 			monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
 				...options,
@@ -275,11 +276,11 @@ export class PlaygroundModel {
 						disposable =
 							monaco.languages.typescript.javascriptDefaults.addExtraLib(
 								content,
-								"ts:monaco.d.ts"
+								"ts:monaco.d.ts",
 							);
 					}
 				},
-				{ name: "update types" }
+				{ name: "update types" },
 			),
 		});
 	}
@@ -292,7 +293,7 @@ export class PlaygroundModel {
 		const regexp = new RegExp(
 			"(\\b" +
 				escapeRegexpChars(codeStringName) +
-				":[^\\w`]*`)([^`\\\\\\n]|\\n|\\\\\\\\|\\\\\\`|\\\\\\$)*`"
+				":[^\\w`]*`)([^`\\\\\\n]|\\n|\\\\\\\\|\\\\\\`|\\\\\\$)*`",
 		);
 		const js = this.js;
 		const str = value
@@ -308,7 +309,7 @@ export class PlaygroundModel {
 
 	public showSettingsDialog(): void {
 		this.settingsDialogModel = new SettingsDialogModel(
-			this.settings.settings
+			this.settings.settings,
 		);
 	}
 

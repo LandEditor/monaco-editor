@@ -4,12 +4,13 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { autorun, observable } from "mobx";
+
 import { Debouncer } from "./Debouncer";
 
 export function debouncedComputed<T, TDerived>(
 	debounceMs: number,
 	getData: () => T,
-	getDebouncedData: (value: T) => TDerived
+	getDebouncedData: (value: T) => TDerived,
 ): DebouncedComputed<TDerived> {
 	return new DebouncedComputed(debounceMs, getData, getDebouncedData as any);
 }
@@ -35,7 +36,7 @@ export class DebouncedComputed<T> {
 	constructor(
 		private readonly debounceMs: number,
 		private readonly getData: () => unknown,
-		private readonly getDebouncedData: (data: unknown) => T
+		private readonly getDebouncedData: (data: unknown) => T,
 	) {}
 }
 

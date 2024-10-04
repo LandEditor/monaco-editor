@@ -3,38 +3,40 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { languages } from '../../fillers/monaco-editor-core';
+import type { languages } from "../../fillers/monaco-editor-core";
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
-		lineComment: '#'
+		lineComment: "#",
 	},
 	brackets: [
-		['{', '}'],
-		['[', ']'],
-		['(', ')']
+		["{", "}"],
+		["[", "]"],
+		["(", ")"],
 	],
 	surroundingPairs: [
-		{ open: '{', close: '}' },
-		{ open: '[', close: ']' },
-		{ open: '(', close: ')' },
+		{ open: "{", close: "}" },
+		{ open: "[", close: "]" },
+		{ open: "(", close: ")" },
 		{ open: "'", close: "'" },
-		{ open: '"', close: '"' }
+		{ open: '"', close: '"' },
 	],
 	autoClosingPairs: [
-		{ open: "'", close: "'", notIn: ['string', 'comment'] },
-		{ open: '"', close: '"', notIn: ['comment'] },
+		{ open: "'", close: "'", notIn: ["string", "comment"] },
+		{ open: '"', close: '"', notIn: ["comment"] },
 		{ open: '"""', close: '"""' },
-		{ open: '`', close: '`', notIn: ['string', 'comment'] },
-		{ open: '(', close: ')' },
-		{ open: '{', close: '}' },
-		{ open: '[', close: ']' },
-		{ open: '<<', close: '>>' }
+		{ open: "`", close: "`", notIn: ["string", "comment"] },
+		{ open: "(", close: ")" },
+		{ open: "{", close: "}" },
+		{ open: "[", close: "]" },
+		{ open: "<<", close: ">>" },
 	],
 	indentationRules: {
-		increaseIndentPattern: /^\s*(after|else|catch|rescue|fn|[^#]*(do|<\-|\->|\{|\[|\=))\s*$/,
-		decreaseIndentPattern: /^\s*((\}|\])\s*$|(after|else|catch|rescue|end)\b)/
-	}
+		increaseIndentPattern:
+			/^\s*(after|else|catch|rescue|fn|[^#]*(do|<\-|\->|\{|\[|\=))\s*$/,
+		decreaseIndentPattern:
+			/^\s*((\}|\])\s*$|(after|else|catch|rescue|end)\b)/,
+	},
 };
 
 /**
@@ -48,63 +50,69 @@ export const conf: languages.LanguageConfiguration = {
  * * TextMate lexer (vscode-elixir-ls) - https://github.com/elixir-lsp/vscode-elixir-ls/blob/master/syntaxes/elixir.json
  */
 export const language = <languages.IMonarchLanguage>{
-	defaultToken: 'source',
-	tokenPostfix: '.elixir',
+	defaultToken: "source",
+	tokenPostfix: ".elixir",
 
 	brackets: [
-		{ open: '[', close: ']', token: 'delimiter.square' },
-		{ open: '(', close: ')', token: 'delimiter.parenthesis' },
-		{ open: '{', close: '}', token: 'delimiter.curly' },
-		{ open: '<<', close: '>>', token: 'delimiter.angle.special' }
+		{ open: "[", close: "]", token: "delimiter.square" },
+		{ open: "(", close: ")", token: "delimiter.parenthesis" },
+		{ open: "{", close: "}", token: "delimiter.curly" },
+		{ open: "<<", close: ">>", token: "delimiter.angle.special" },
 	],
 
 	// Below are lists/regexps to which we reference later.
 
 	declarationKeywords: [
-		'def',
-		'defp',
-		'defn',
-		'defnp',
-		'defguard',
-		'defguardp',
-		'defmacro',
-		'defmacrop',
-		'defdelegate',
-		'defcallback',
-		'defmacrocallback',
-		'defmodule',
-		'defprotocol',
-		'defexception',
-		'defimpl',
-		'defstruct'
+		"def",
+		"defp",
+		"defn",
+		"defnp",
+		"defguard",
+		"defguardp",
+		"defmacro",
+		"defmacrop",
+		"defdelegate",
+		"defcallback",
+		"defmacrocallback",
+		"defmodule",
+		"defprotocol",
+		"defexception",
+		"defimpl",
+		"defstruct",
 	],
-	operatorKeywords: ['and', 'in', 'not', 'or', 'when'],
-	namespaceKeywords: ['alias', 'import', 'require', 'use'],
+	operatorKeywords: ["and", "in", "not", "or", "when"],
+	namespaceKeywords: ["alias", "import", "require", "use"],
 	otherKeywords: [
-		'after',
-		'case',
-		'catch',
-		'cond',
-		'do',
-		'else',
-		'end',
-		'fn',
-		'for',
-		'if',
-		'quote',
-		'raise',
-		'receive',
-		'rescue',
-		'super',
-		'throw',
-		'try',
-		'unless',
-		'unquote_splicing',
-		'unquote',
-		'with'
+		"after",
+		"case",
+		"catch",
+		"cond",
+		"do",
+		"else",
+		"end",
+		"fn",
+		"for",
+		"if",
+		"quote",
+		"raise",
+		"receive",
+		"rescue",
+		"super",
+		"throw",
+		"try",
+		"unless",
+		"unquote_splicing",
+		"unquote",
+		"with",
 	],
-	constants: ['true', 'false', 'nil'],
-	nameBuiltin: ['__MODULE__', '__DIR__', '__ENV__', '__CALLER__', '__STACKTRACE__'],
+	constants: ["true", "false", "nil"],
+	nameBuiltin: [
+		"__MODULE__",
+		"__DIR__",
+		"__ENV__",
+		"__CALLER__",
+		"__STACKTRACE__",
+	],
 
 	// Matches any of the operator names:
 	// <<< >>> ||| &&& ^^^ ~~~ === !== ~>> <~> |~> <|> == != <= >= && || \\ <> ++ -- |> =~ -> <- ~> <~ :: .. = < > + - * / | . ^ & !
@@ -142,62 +150,71 @@ export const language = <languages.IMonarchLanguage>{
 	// and is useful for improving readability.
 	tokenizer: {
 		root: [
-			{ include: '@whitespace' },
-			{ include: '@comments' },
+			{ include: "@whitespace" },
+			{ include: "@comments" },
 			// Keywords start as either an identifier or a string,
 			// but end with a : so it's important to match this first.
-			{ include: '@keywordsShorthand' },
-			{ include: '@numbers' },
-			{ include: '@identifiers' },
-			{ include: '@strings' },
-			{ include: '@atoms' },
-			{ include: '@sigils' },
-			{ include: '@attributes' },
-			{ include: '@symbols' }
+			{ include: "@keywordsShorthand" },
+			{ include: "@numbers" },
+			{ include: "@identifiers" },
+			{ include: "@strings" },
+			{ include: "@atoms" },
+			{ include: "@sigils" },
+			{ include: "@attributes" },
+			{ include: "@symbols" },
 		],
 
 		// Whitespace
 
-		whitespace: [[/\s+/, 'white']],
+		whitespace: [[/\s+/, "white"]],
 
 		// Comments
 
-		comments: [[/(#)(.*)/, ['comment.punctuation', 'comment']]],
+		comments: [[/(#)(.*)/, ["comment.punctuation", "comment"]]],
 
 		// Keyword list shorthand
 
 		keywordsShorthand: [
-			[/(@atomName)(:)(\s+)/, ['constant', 'constant.punctuation', 'white']],
+			[
+				/(@atomName)(:)(\s+)/,
+				["constant", "constant.punctuation", "white"],
+			],
 			// Use positive look-ahead to ensure the string is followed by :
 			// and should be considered a keyword.
 			[
 				/"(?=([^"]|#\{.*?\}|\\")*":)/,
-				{ token: 'constant.delimiter', next: '@doubleQuotedStringKeyword' }
+				{
+					token: "constant.delimiter",
+					next: "@doubleQuotedStringKeyword",
+				},
 			],
 			[
 				/'(?=([^']|#\{.*?\}|\\')*':)/,
-				{ token: 'constant.delimiter', next: '@singleQuotedStringKeyword' }
-			]
+				{
+					token: "constant.delimiter",
+					next: "@singleQuotedStringKeyword",
+				},
+			],
 		],
 
 		doubleQuotedStringKeyword: [
-			[/":/, { token: 'constant.delimiter', next: '@pop' }],
-			{ include: '@stringConstantContentInterpol' }
+			[/":/, { token: "constant.delimiter", next: "@pop" }],
+			{ include: "@stringConstantContentInterpol" },
 		],
 
 		singleQuotedStringKeyword: [
-			[/':/, { token: 'constant.delimiter', next: '@pop' }],
-			{ include: '@stringConstantContentInterpol' }
+			[/':/, { token: "constant.delimiter", next: "@pop" }],
+			{ include: "@stringConstantContentInterpol" },
 		],
 
 		// Numbers
 
 		numbers: [
-			[/0b@binary/, 'number.binary'],
-			[/0o@octal/, 'number.octal'],
-			[/0x@hex/, 'number.hex'],
-			[/@decimal\.@decimal([eE]-?@decimal)?/, 'number.float'],
-			[/@decimal/, 'number']
+			[/0b@binary/, "number.binary"],
+			[/0o@octal/, "number.octal"],
+			[/0x@hex/, "number.hex"],
+			[/@decimal\.@decimal([eE]-?@decimal)?/, "number.float"],
+			[/@decimal/, "number"],
 		],
 
 		// Identifiers
@@ -209,15 +226,15 @@ export const language = <languages.IMonarchLanguage>{
 			[
 				/\b(defp?|defnp?|defmacrop?|defguardp?|defdelegate)(\s+)(@variableName)(?!\s+@operator)/,
 				[
-					'keyword.declaration',
-					'white',
+					"keyword.declaration",
+					"white",
 					{
 						cases: {
-							unquote: 'keyword',
-							'@default': 'function'
-						}
-					}
-				]
+							unquote: "keyword",
+							"@default": "function",
+						},
+					},
+				],
 			],
 			// Tokenize function calls
 			[
@@ -226,107 +243,138 @@ export const language = <languages.IMonarchLanguage>{
 				{
 					cases: {
 						// Tokenize as keyword in cases like `if(..., do: ..., else: ...)`
-						'@declarationKeywords': 'keyword.declaration',
-						'@namespaceKeywords': 'keyword',
-						'@otherKeywords': 'keyword',
-						'@default': 'function.call'
-					}
-				}
+						"@declarationKeywords": "keyword.declaration",
+						"@namespaceKeywords": "keyword",
+						"@otherKeywords": "keyword",
+						"@default": "function.call",
+					},
+				},
 			],
 			[
 				// Referencing function in a module
 				/(@moduleName)(\s*)(\.)(\s*)(@variableName)/,
-				['type.identifier', 'white', 'operator', 'white', 'function.call']
+				[
+					"type.identifier",
+					"white",
+					"operator",
+					"white",
+					"function.call",
+				],
 			],
 			[
 				// Referencing function in an Erlang module
 				/(:)(@atomName)(\s*)(\.)(\s*)(@variableName)/,
-				['constant.punctuation', 'constant', 'white', 'operator', 'white', 'function.call']
+				[
+					"constant.punctuation",
+					"constant",
+					"white",
+					"operator",
+					"white",
+					"function.call",
+				],
 			],
 			[
 				// Piping into a function (tokenized separately as it may not have parentheses)
 				/(\|>)(\s*)(@variableName)/,
 				[
-					'operator',
-					'white',
+					"operator",
+					"white",
 					{
 						cases: {
-							'@otherKeywords': 'keyword',
-							'@default': 'function.call'
-						}
-					}
-				]
+							"@otherKeywords": "keyword",
+							"@default": "function.call",
+						},
+					},
+				],
 			],
 			[
 				// Function reference passed to another function
 				/(&)(\s*)(@variableName)/,
-				['operator', 'white', 'function.call']
+				["operator", "white", "function.call"],
 			],
 			// Language keywords, builtins, constants and variables
 			[
 				/@variableName/,
 				{
 					cases: {
-						'@declarationKeywords': 'keyword.declaration',
-						'@operatorKeywords': 'keyword.operator',
-						'@namespaceKeywords': 'keyword',
-						'@otherKeywords': 'keyword',
-						'@constants': 'constant.language',
-						'@nameBuiltin': 'variable.language',
-						'_.*': 'comment.unused',
-						'@default': 'identifier'
-					}
-				}
+						"@declarationKeywords": "keyword.declaration",
+						"@operatorKeywords": "keyword.operator",
+						"@namespaceKeywords": "keyword",
+						"@otherKeywords": "keyword",
+						"@constants": "constant.language",
+						"@nameBuiltin": "variable.language",
+						"_.*": "comment.unused",
+						"@default": "identifier",
+					},
+				},
 			],
 			// Module names
-			[/@moduleName/, 'type.identifier']
+			[/@moduleName/, "type.identifier"],
 		],
 
 		// Strings
 
 		strings: [
-			[/"""/, { token: 'string.delimiter', next: '@doubleQuotedHeredoc' }],
-			[/'''/, { token: 'string.delimiter', next: '@singleQuotedHeredoc' }],
-			[/"/, { token: 'string.delimiter', next: '@doubleQuotedString' }],
-			[/'/, { token: 'string.delimiter', next: '@singleQuotedString' }]
+			[
+				/"""/,
+				{ token: "string.delimiter", next: "@doubleQuotedHeredoc" },
+			],
+			[
+				/'''/,
+				{ token: "string.delimiter", next: "@singleQuotedHeredoc" },
+			],
+			[/"/, { token: "string.delimiter", next: "@doubleQuotedString" }],
+			[/'/, { token: "string.delimiter", next: "@singleQuotedString" }],
 		],
 
 		doubleQuotedHeredoc: [
-			[/"""/, { token: 'string.delimiter', next: '@pop' }],
-			{ include: '@stringContentInterpol' }
+			[/"""/, { token: "string.delimiter", next: "@pop" }],
+			{ include: "@stringContentInterpol" },
 		],
 
 		singleQuotedHeredoc: [
-			[/'''/, { token: 'string.delimiter', next: '@pop' }],
-			{ include: '@stringContentInterpol' }
+			[/'''/, { token: "string.delimiter", next: "@pop" }],
+			{ include: "@stringContentInterpol" },
 		],
 
 		doubleQuotedString: [
-			[/"/, { token: 'string.delimiter', next: '@pop' }],
-			{ include: '@stringContentInterpol' }
+			[/"/, { token: "string.delimiter", next: "@pop" }],
+			{ include: "@stringContentInterpol" },
 		],
 
 		singleQuotedString: [
-			[/'/, { token: 'string.delimiter', next: '@pop' }],
-			{ include: '@stringContentInterpol' }
+			[/'/, { token: "string.delimiter", next: "@pop" }],
+			{ include: "@stringContentInterpol" },
 		],
 
 		// Atoms
 
 		atoms: [
-			[/(:)(@atomName)/, ['constant.punctuation', 'constant']],
-			[/:"/, { token: 'constant.delimiter', next: '@doubleQuotedStringAtom' }],
-			[/:'/, { token: 'constant.delimiter', next: '@singleQuotedStringAtom' }]
+			[/(:)(@atomName)/, ["constant.punctuation", "constant"]],
+			[
+				/:"/,
+				{
+					token: "constant.delimiter",
+					next: "@doubleQuotedStringAtom",
+				},
+			],
+			[
+				/:'/,
+				{
+					token: "constant.delimiter",
+					next: "@singleQuotedStringAtom",
+				},
+			],
 		],
 
 		doubleQuotedStringAtom: [
-			[/"/, { token: 'constant.delimiter', next: '@pop' }],
-			{ include: '@stringConstantContentInterpol' }
+			[/"/, { token: "constant.delimiter", next: "@pop" }],
+			{ include: "@stringConstantContentInterpol" },
 		],
 
 		singleQuotedStringAtom: [
-			[/'/, { token: 'constant.delimiter', next: '@pop' }],
-			{ include: '@stringConstantContentInterpol' }
+			[/'/, { token: "constant.delimiter", next: "@pop" }],
+			{ include: "@stringConstantContentInterpol" },
 		],
 
 		// Sigils
@@ -353,19 +401,37 @@ export const language = <languages.IMonarchLanguage>{
 		// the individual dot-separated parameters can be accessed.
 
 		sigils: [
-			[/~[a-z]@sigilStartDelimiter/, { token: '@rematch', next: '@sigil.interpol' }],
-			[/~([A-Z]+)@sigilStartDelimiter/, { token: '@rematch', next: '@sigil.noInterpol' }]
+			[
+				/~[a-z]@sigilStartDelimiter/,
+				{ token: "@rematch", next: "@sigil.interpol" },
+			],
+			[
+				/~([A-Z]+)@sigilStartDelimiter/,
+				{ token: "@rematch", next: "@sigil.noInterpol" },
+			],
 		],
 
 		sigil: [
-			[/~([a-z]|[A-Z]+)\{/, { token: '@rematch', switchTo: '@sigilStart.$S2.$1.{.}' }],
-			[/~([a-z]|[A-Z]+)\[/, { token: '@rematch', switchTo: '@sigilStart.$S2.$1.[.]' }],
-			[/~([a-z]|[A-Z]+)\(/, { token: '@rematch', switchTo: '@sigilStart.$S2.$1.(.)' }],
-			[/~([a-z]|[A-Z]+)\</, { token: '@rematch', switchTo: '@sigilStart.$S2.$1.<.>' }],
+			[
+				/~([a-z]|[A-Z]+)\{/,
+				{ token: "@rematch", switchTo: "@sigilStart.$S2.$1.{.}" },
+			],
+			[
+				/~([a-z]|[A-Z]+)\[/,
+				{ token: "@rematch", switchTo: "@sigilStart.$S2.$1.[.]" },
+			],
+			[
+				/~([a-z]|[A-Z]+)\(/,
+				{ token: "@rematch", switchTo: "@sigilStart.$S2.$1.(.)" },
+			],
+			[
+				/~([a-z]|[A-Z]+)\</,
+				{ token: "@rematch", switchTo: "@sigilStart.$S2.$1.<.>" },
+			],
 			[
 				/~([a-z]|[A-Z]+)(@sigilSymmetricDelimiter)/,
-				{ token: '@rematch', switchTo: '@sigilStart.$S2.$1.$2.$2' }
-			]
+				{ token: "@rematch", switchTo: "@sigilStart.$S2.$1.$2.$2" },
+			],
 		],
 
 		// The definitions below expect states to be of the form:
@@ -377,149 +443,149 @@ export const language = <languages.IMonarchLanguage>{
 		// and immediately switches to the sigilContinue sate, which handles the actual content
 		// and waits for the corresponding end delimiter.
 
-		'sigilStart.interpol.s': [
+		"sigilStart.interpol.s": [
 			[
 				/~s@sigilStartDelimiter/,
 				{
-					token: 'string.delimiter',
-					switchTo: '@sigilContinue.$S2.$S3.$S4.$S5'
-				}
-			]
+					token: "string.delimiter",
+					switchTo: "@sigilContinue.$S2.$S3.$S4.$S5",
+				},
+			],
 		],
 
-		'sigilContinue.interpol.s': [
+		"sigilContinue.interpol.s": [
 			[
 				/(@sigilEndDelimiter)@sigilModifiers/,
 				{
 					cases: {
-						'$1==$S5': { token: 'string.delimiter', next: '@pop' },
-						'@default': 'string'
-					}
-				}
+						"$1==$S5": { token: "string.delimiter", next: "@pop" },
+						"@default": "string",
+					},
+				},
 			],
-			{ include: '@stringContentInterpol' }
+			{ include: "@stringContentInterpol" },
 		],
 
-		'sigilStart.noInterpol.S': [
+		"sigilStart.noInterpol.S": [
 			[
 				/~S@sigilStartDelimiter/,
 				{
-					token: 'string.delimiter',
-					switchTo: '@sigilContinue.$S2.$S3.$S4.$S5'
-				}
-			]
+					token: "string.delimiter",
+					switchTo: "@sigilContinue.$S2.$S3.$S4.$S5",
+				},
+			],
 		],
 
-		'sigilContinue.noInterpol.S': [
+		"sigilContinue.noInterpol.S": [
 			// Ignore escaped sigil end
-			[/(^|[^\\])\\@sigilEndDelimiter/, 'string'],
+			[/(^|[^\\])\\@sigilEndDelimiter/, "string"],
 			[
 				/(@sigilEndDelimiter)@sigilModifiers/,
 				{
 					cases: {
-						'$1==$S5': { token: 'string.delimiter', next: '@pop' },
-						'@default': 'string'
-					}
-				}
+						"$1==$S5": { token: "string.delimiter", next: "@pop" },
+						"@default": "string",
+					},
+				},
 			],
-			{ include: '@stringContent' }
+			{ include: "@stringContent" },
 		],
 
-		'sigilStart.interpol.r': [
+		"sigilStart.interpol.r": [
 			[
 				/~r@sigilStartDelimiter/,
 				{
-					token: 'regexp.delimiter',
-					switchTo: '@sigilContinue.$S2.$S3.$S4.$S5'
-				}
-			]
+					token: "regexp.delimiter",
+					switchTo: "@sigilContinue.$S2.$S3.$S4.$S5",
+				},
+			],
 		],
 
-		'sigilContinue.interpol.r': [
+		"sigilContinue.interpol.r": [
 			[
 				/(@sigilEndDelimiter)@sigilModifiers/,
 				{
 					cases: {
-						'$1==$S5': { token: 'regexp.delimiter', next: '@pop' },
-						'@default': 'regexp'
-					}
-				}
+						"$1==$S5": { token: "regexp.delimiter", next: "@pop" },
+						"@default": "regexp",
+					},
+				},
 			],
-			{ include: '@regexpContentInterpol' }
+			{ include: "@regexpContentInterpol" },
 		],
 
-		'sigilStart.noInterpol.R': [
+		"sigilStart.noInterpol.R": [
 			[
 				/~R@sigilStartDelimiter/,
 				{
-					token: 'regexp.delimiter',
-					switchTo: '@sigilContinue.$S2.$S3.$S4.$S5'
-				}
-			]
+					token: "regexp.delimiter",
+					switchTo: "@sigilContinue.$S2.$S3.$S4.$S5",
+				},
+			],
 		],
 
-		'sigilContinue.noInterpol.R': [
+		"sigilContinue.noInterpol.R": [
 			// Ignore escaped sigil end
-			[/(^|[^\\])\\@sigilEndDelimiter/, 'regexp'],
+			[/(^|[^\\])\\@sigilEndDelimiter/, "regexp"],
 			[
 				/(@sigilEndDelimiter)@sigilModifiers/,
 				{
 					cases: {
-						'$1==$S5': { token: 'regexp.delimiter', next: '@pop' },
-						'@default': 'regexp'
-					}
-				}
+						"$1==$S5": { token: "regexp.delimiter", next: "@pop" },
+						"@default": "regexp",
+					},
+				},
 			],
-			{ include: '@regexpContent' }
+			{ include: "@regexpContent" },
 		],
 
 		// Fallback to the generic sigil by default
-		'sigilStart.interpol': [
+		"sigilStart.interpol": [
 			[
 				/~([a-z]|[A-Z]+)@sigilStartDelimiter/,
 				{
-					token: 'sigil.delimiter',
-					switchTo: '@sigilContinue.$S2.$S3.$S4.$S5'
-				}
-			]
+					token: "sigil.delimiter",
+					switchTo: "@sigilContinue.$S2.$S3.$S4.$S5",
+				},
+			],
 		],
 
-		'sigilContinue.interpol': [
+		"sigilContinue.interpol": [
 			[
 				/(@sigilEndDelimiter)@sigilModifiers/,
 				{
 					cases: {
-						'$1==$S5': { token: 'sigil.delimiter', next: '@pop' },
-						'@default': 'sigil'
-					}
-				}
+						"$1==$S5": { token: "sigil.delimiter", next: "@pop" },
+						"@default": "sigil",
+					},
+				},
 			],
-			{ include: '@sigilContentInterpol' }
+			{ include: "@sigilContentInterpol" },
 		],
 
-		'sigilStart.noInterpol': [
+		"sigilStart.noInterpol": [
 			[
 				/~([a-z]|[A-Z]+)@sigilStartDelimiter/,
 				{
-					token: 'sigil.delimiter',
-					switchTo: '@sigilContinue.$S2.$S3.$S4.$S5'
-				}
-			]
+					token: "sigil.delimiter",
+					switchTo: "@sigilContinue.$S2.$S3.$S4.$S5",
+				},
+			],
 		],
 
-		'sigilContinue.noInterpol': [
+		"sigilContinue.noInterpol": [
 			// Ignore escaped sigil end
-			[/(^|[^\\])\\@sigilEndDelimiter/, 'sigil'],
+			[/(^|[^\\])\\@sigilEndDelimiter/, "sigil"],
 			[
 				/(@sigilEndDelimiter)@sigilModifiers/,
 				{
 					cases: {
-						'$1==$S5': { token: 'sigil.delimiter', next: '@pop' },
-						'@default': 'sigil'
-					}
-				}
+						"$1==$S5": { token: "sigil.delimiter", next: "@pop" },
+						"@default": "sigil",
+					},
+				},
 			],
-			{ include: '@sigilContent' }
+			{ include: "@sigilContent" },
 		],
 
 		// Attributes
@@ -529,128 +595,136 @@ export const language = <languages.IMonarchLanguage>{
 			[
 				/\@(module|type)?doc (~[sS])?"""/,
 				{
-					token: 'comment.block.documentation',
-					next: '@doubleQuotedHeredocDocstring'
-				}
+					token: "comment.block.documentation",
+					next: "@doubleQuotedHeredocDocstring",
+				},
 			],
 			[
 				/\@(module|type)?doc (~[sS])?'''/,
 				{
-					token: 'comment.block.documentation',
-					next: '@singleQuotedHeredocDocstring'
-				}
+					token: "comment.block.documentation",
+					next: "@singleQuotedHeredocDocstring",
+				},
 			],
 			[
 				/\@(module|type)?doc (~[sS])?"/,
 				{
-					token: 'comment.block.documentation',
-					next: '@doubleQuotedStringDocstring'
-				}
+					token: "comment.block.documentation",
+					next: "@doubleQuotedStringDocstring",
+				},
 			],
 			[
 				/\@(module|type)?doc (~[sS])?'/,
 				{
-					token: 'comment.block.documentation',
-					next: '@singleQuotedStringDocstring'
-				}
+					token: "comment.block.documentation",
+					next: "@singleQuotedStringDocstring",
+				},
 			],
-			[/\@(module|type)?doc false/, 'comment.block.documentation'],
+			[/\@(module|type)?doc false/, "comment.block.documentation"],
 			// Module attributes
-			[/\@(@variableName)/, 'variable']
+			[/\@(@variableName)/, "variable"],
 		],
 
 		doubleQuotedHeredocDocstring: [
-			[/"""/, { token: 'comment.block.documentation', next: '@pop' }],
-			{ include: '@docstringContent' }
+			[/"""/, { token: "comment.block.documentation", next: "@pop" }],
+			{ include: "@docstringContent" },
 		],
 
 		singleQuotedHeredocDocstring: [
-			[/'''/, { token: 'comment.block.documentation', next: '@pop' }],
-			{ include: '@docstringContent' }
+			[/'''/, { token: "comment.block.documentation", next: "@pop" }],
+			{ include: "@docstringContent" },
 		],
 
 		doubleQuotedStringDocstring: [
-			[/"/, { token: 'comment.block.documentation', next: '@pop' }],
-			{ include: '@docstringContent' }
+			[/"/, { token: "comment.block.documentation", next: "@pop" }],
+			{ include: "@docstringContent" },
 		],
 
 		singleQuotedStringDocstring: [
-			[/'/, { token: 'comment.block.documentation', next: '@pop' }],
-			{ include: '@docstringContent' }
+			[/'/, { token: "comment.block.documentation", next: "@pop" }],
+			{ include: "@docstringContent" },
 		],
 
 		// Operators, punctuation, brackets
 
 		symbols: [
 			// Code point operator (either with regular character ?a or an escaped one ?\n)
-			[/\?(\\.|[^\\\s])/, 'number.constant'],
+			[/\?(\\.|[^\\\s])/, "number.constant"],
 			// Anonymous function arguments
-			[/&\d+/, 'operator'],
+			[/&\d+/, "operator"],
 			// Bitshift operators (must go before delimiters, so that << >> don't match first)
-			[/<<<|>>>/, 'operator'],
+			[/<<<|>>>/, "operator"],
 			// Delimiter pairs
-			[/[()\[\]\{\}]|<<|>>/, '@brackets'],
+			[/[()\[\]\{\}]|<<|>>/, "@brackets"],
 			// Triple dot is a valid name (must go before operators, so that .. doesn't match instead)
-			[/\.\.\./, 'identifier'],
+			[/\.\.\./, "identifier"],
 			// Punctuation => (must go before operators, so it's not tokenized as = then >)
-			[/=>/, 'punctuation'],
+			[/=>/, "punctuation"],
 			// Operators
-			[/@operator/, 'operator'],
+			[/@operator/, "operator"],
 			// Punctuation
-			[/[:;,.%]/, 'punctuation']
+			[/[:;,.%]/, "punctuation"],
 		],
 
 		// Generic helpers
 
 		stringContentInterpol: [
-			{ include: '@interpolation' },
-			{ include: '@escapeChar' },
-			{ include: '@stringContent' }
+			{ include: "@interpolation" },
+			{ include: "@escapeChar" },
+			{ include: "@stringContent" },
 		],
 
-		stringContent: [[/./, 'string']],
+		stringContent: [[/./, "string"]],
 
 		stringConstantContentInterpol: [
-			{ include: '@interpolation' },
-			{ include: '@escapeChar' },
-			{ include: '@stringConstantContent' }
+			{ include: "@interpolation" },
+			{ include: "@escapeChar" },
+			{ include: "@stringConstantContent" },
 		],
 
-		stringConstantContent: [[/./, 'constant']],
+		stringConstantContent: [[/./, "constant"]],
 
 		regexpContentInterpol: [
-			{ include: '@interpolation' },
-			{ include: '@escapeChar' },
-			{ include: '@regexpContent' }
+			{ include: "@interpolation" },
+			{ include: "@escapeChar" },
+			{ include: "@regexpContent" },
 		],
 
 		regexpContent: [
 			// # may be a regular regexp char, so we use a heuristic
 			// assuming a # surrounded by whitespace is actually a comment.
-			[/(\s)(#)(\s.*)$/, ['white', 'comment.punctuation', 'comment']],
-			[/./, 'regexp']
+			[/(\s)(#)(\s.*)$/, ["white", "comment.punctuation", "comment"]],
+			[/./, "regexp"],
 		],
 
 		sigilContentInterpol: [
-			{ include: '@interpolation' },
-			{ include: '@escapeChar' },
-			{ include: '@sigilContent' }
+			{ include: "@interpolation" },
+			{ include: "@escapeChar" },
+			{ include: "@sigilContent" },
 		],
 
-		sigilContent: [[/./, 'sigil']],
+		sigilContent: [[/./, "sigil"]],
 
-		docstringContent: [[/./, 'comment.block.documentation']],
+		docstringContent: [[/./, "comment.block.documentation"]],
 
-		escapeChar: [[/@escape/, 'constant.character.escape']],
+		escapeChar: [[/@escape/, "constant.character.escape"]],
 
-		interpolation: [[/#{/, { token: 'delimiter.bracket.embed', next: '@interpolationContinue' }]],
+		interpolation: [
+			[
+				/#{/,
+				{
+					token: "delimiter.bracket.embed",
+					next: "@interpolationContinue",
+				},
+			],
+		],
 
 		interpolationContinue: [
-			[/}/, { token: 'delimiter.bracket.embed', next: '@pop' }],
+			[/}/, { token: "delimiter.bracket.embed", next: "@pop" }],
 			// Interpolation brackets may contain arbitrary code,
 			// so we simply match against all the root rules,
 			// until we reach interpolation end (the above matches).
-			{ include: '@root' }
-		]
-	}
+			{ include: "@root" },
+		],
+	},
 };

@@ -1,3 +1,5 @@
+import { loadMonaco } from "../monaco-loader";
+
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,6 +12,5 @@
 };
 require("script-loader!../../node_modules/monaco-editor/min/vs/loader");
 require("script-loader!../../node_modules/monaco-editor/min/vs/editor/editor.main.js");
-import { loadMonaco } from "../monaco-loader";
 
 loadMonaco();

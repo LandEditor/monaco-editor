@@ -3,55 +3,55 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { languages } from '../../fillers/monaco-editor-core';
+import type { languages } from "../../fillers/monaco-editor-core";
 
 export const conf: languages.LanguageConfiguration = {
 	comments: {
-		lineComment: '#'
+		lineComment: "#",
 	},
 	brackets: [
-		['[', ']'],
-		['<', '>'],
-		['(', ')']
+		["[", "]"],
+		["<", ">"],
+		["(", ")"],
 	],
 	autoClosingPairs: [
-		{ open: '[', close: ']' },
-		{ open: '<', close: '>' },
-		{ open: '(', close: ')' }
+		{ open: "[", close: "]" },
+		{ open: "<", close: ">" },
+		{ open: "(", close: ")" },
 	],
 	surroundingPairs: [
-		{ open: '[', close: ']' },
-		{ open: '<', close: '>' },
-		{ open: '(', close: ')' }
-	]
+		{ open: "[", close: "]" },
+		{ open: "<", close: ">" },
+		{ open: "(", close: ")" },
+	],
 };
 
 export const language = <languages.IMonarchLanguage>{
-	defaultToken: '',
-	tokenPostfix: '.pla',
+	defaultToken: "",
+	tokenPostfix: ".pla",
 
 	brackets: [
-		{ open: '[', close: ']', token: 'delimiter.square' },
-		{ open: '<', close: '>', token: 'delimiter.angle' },
-		{ open: '(', close: ')', token: 'delimiter.parenthesis' }
+		{ open: "[", close: "]", token: "delimiter.square" },
+		{ open: "<", close: ">", token: "delimiter.angle" },
+		{ open: "(", close: ")", token: "delimiter.parenthesis" },
 	],
 
 	keywords: [
-		'.i',
-		'.o',
-		'.mv',
-		'.ilb',
-		'.ob',
-		'.label',
-		'.type',
-		'.phase',
-		'.pair',
-		'.symbolic',
-		'.symbolic-output',
-		'.kiss',
-		'.p',
-		'.e',
-		'.end'
+		".i",
+		".o",
+		".mv",
+		".ilb",
+		".ob",
+		".label",
+		".type",
+		".phase",
+		".pair",
+		".symbolic",
+		".symbolic-output",
+		".kiss",
+		".p",
+		".e",
+		".end",
 	],
 
 	// regular expressions
@@ -63,36 +63,42 @@ export const language = <languages.IMonarchLanguage>{
 	tokenizer: {
 		root: [
 			// comments and whitespace
-			{ include: '@whitespace' },
-			[/@comment/, 'comment'],
+			{ include: "@whitespace" },
+			[/@comment/, "comment"],
 
 			// keyword
 			[
 				/\.([a-zA-Z_\-]+)/,
 				{
 					cases: {
-						'@eos': { token: 'keyword.$1' },
-						'@keywords': {
+						"@eos": { token: "keyword.$1" },
+						"@keywords": {
 							cases: {
-								'.type': { token: 'keyword.$1', next: '@type' },
-								'@default': { token: 'keyword.$1', next: '@keywordArg' }
-							}
+								".type": { token: "keyword.$1", next: "@type" },
+								"@default": {
+									token: "keyword.$1",
+									next: "@keywordArg",
+								},
+							},
 						},
-						'@default': { token: 'keyword.$1' }
-					}
-				}
+						"@default": { token: "keyword.$1" },
+					},
+				},
 			],
 
 			// identifiers
-			[/@identifier/, 'identifier'],
+			[/@identifier/, "identifier"],
 
 			// PLA row
-			[/@plaContent/, 'string']
+			[/@plaContent/, "string"],
 		],
 
-		whitespace: [[/[ \t\r\n]+/, '']],
+		whitespace: [[/[ \t\r\n]+/, ""]],
 
-		type: [{ include: '@whitespace' }, [/\w+/, { token: 'type', next: '@pop' }]],
+		type: [
+			{ include: "@whitespace" },
+			[/\w+/, { token: "type", next: "@pop" }],
+		],
 
 		keywordArg: [
 			// whitespace
@@ -100,24 +106,24 @@ export const language = <languages.IMonarchLanguage>{
 				/[ \t\r\n]+/,
 				{
 					cases: {
-						'@eos': { token: '', next: '@pop' },
-						'@default': ''
-					}
-				}
+						"@eos": { token: "", next: "@pop" },
+						"@default": "",
+					},
+				},
 			],
 
 			// comments
-			[/@comment/, 'comment', '@pop'],
+			[/@comment/, "comment", "@pop"],
 
 			// brackets
 			[
 				/[<>()\[\]]/,
 				{
 					cases: {
-						'@eos': { token: '@brackets', next: '@pop' },
-						'@default': '@brackets'
-					}
-				}
+						"@eos": { token: "@brackets", next: "@pop" },
+						"@default": "@brackets",
+					},
+				},
 			],
 
 			// numbers
@@ -125,10 +131,10 @@ export const language = <languages.IMonarchLanguage>{
 				/\-?\d+/,
 				{
 					cases: {
-						'@eos': { token: 'number', next: '@pop' },
-						'@default': 'number'
-					}
-				}
+						"@eos": { token: "number", next: "@pop" },
+						"@default": "number",
+					},
+				},
 			],
 
 			// identifiers
@@ -136,10 +142,10 @@ export const language = <languages.IMonarchLanguage>{
 				/@identifier/,
 				{
 					cases: {
-						'@eos': { token: 'identifier', next: '@pop' },
-						'@default': 'identifier'
-					}
-				}
+						"@eos": { token: "identifier", next: "@pop" },
+						"@default": "identifier",
+					},
+				},
 			],
 
 			// delimiter
@@ -147,11 +153,11 @@ export const language = <languages.IMonarchLanguage>{
 				/[;=]/,
 				{
 					cases: {
-						'@eos': { token: 'delimiter', next: '@pop' },
-						'@default': 'delimiter'
-					}
-				}
-			]
-		]
-	}
+						"@eos": { token: "delimiter", next: "@pop" },
+						"@default": "delimiter",
+					},
+				},
+			],
+		],
+	},
 };

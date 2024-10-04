@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { action, computed, observable, toJS } from "mobx";
+
 import {
 	getMonacoSetup,
 	IMonacoSetup,
@@ -97,7 +98,7 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 		case "latest":
 			return {
 				...getMonacoSetup(
-					`node_modules/monaco-editor/${settings.latestStability}/vs`
+					`node_modules/monaco-editor/${settings.latestStability}/vs`,
 				),
 				monacoTypesUrl: "node_modules/monaco-editor/monaco.d.ts",
 			};
@@ -117,7 +118,7 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 		case "independent":
 			const root = trimEnd(
 				new URL(".", window.location.href).toString(),
-				"/"
+				"/",
 			);
 			let coreUrl: string;
 
@@ -151,7 +152,7 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 			) {
 				setup.monacoTypesUrl = setup.loaderConfigPaths["vs"].replace(
 					"/out/vs",
-					() => "/src/vs/monaco.d.ts"
+					() => "/src/vs/monaco.d.ts",
 				);
 			}
 

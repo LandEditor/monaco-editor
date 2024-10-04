@@ -1,4 +1,5 @@
 import { action, ObservableMap } from "mobx";
+
 import {
 	getNpmVersions,
 	getNpmVersionsSync,
@@ -28,14 +29,14 @@ export class BisectModel {
 		const currentState = this.getState(version);
 		await this.setState(
 			version,
-			currentState === state ? undefined : state
+			currentState === state ? undefined : state,
 		);
 	}
 
 	@action
 	public async setState(
 		version: string,
-		state: boolean | undefined
+		state: boolean | undefined,
 	): Promise<void> {
 		if (state === undefined) {
 			this.map.delete(version);
@@ -73,13 +74,13 @@ export class BisectModel {
 		}
 		if (indexOfFirstGoodVersion === -1) {
 			return Math.ceil(
-				Math.log2(this.versions.length - indexOfLastBadVersion)
+				Math.log2(this.versions.length - indexOfLastBadVersion),
 			);
 		} else if (indexOfLastBadVersion === -1) {
 			return Math.ceil(Math.log2(indexOfFirstGoodVersion + 1));
 		} else {
 			return Math.ceil(
-				Math.log2(indexOfFirstGoodVersion - indexOfLastBadVersion)
+				Math.log2(indexOfFirstGoodVersion - indexOfLastBadVersion),
 			);
 		}
 	}
@@ -103,14 +104,14 @@ export class BisectModel {
 		const indexOfLastBadVersion =
 			this.indexOfLastBadVersion === -1 ? 0 : this.indexOfLastBadVersion;
 		const goodCommitId = await getVsCodeCommitId(
-			versions[indexOfFirstGoodVersion]
+			versions[indexOfFirstGoodVersion],
 		);
 		const badCommitId = await getVsCodeCommitId(
-			versions[indexOfLastBadVersion]
+			versions[indexOfLastBadVersion],
 		);
 		window.open(
 			`https://github.com/microsoft/vscode/compare/${goodCommitId}...${badCommitId}`,
-			"_blank"
+			"_blank",
 		);
 	}
 
@@ -134,7 +135,7 @@ export class BisectModel {
 		if (indexOfLastBadVersion === -1) {
 			// try first (newest) version that hasn't been tested
 			const indexOfFirstUntestedVersion = versions.findIndex(
-				(v) => this.map.get(v) === undefined
+				(v) => this.map.get(v) === undefined,
 			);
 			if (indexOfFirstUntestedVersion === -1) {
 				return undefined;
@@ -149,7 +150,7 @@ export class BisectModel {
 				versions.length - 1
 			);*/
 			const candidate = Math.floor(
-				(indexOfLastBadVersion + versions.length) / 2
+				(indexOfLastBadVersion + versions.length) / 2,
 			);
 			return versions[candidate];
 		}

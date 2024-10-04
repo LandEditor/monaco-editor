@@ -3,34 +3,35 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as fs from 'fs';
-import * as glob from 'glob';
-import * as path from 'path';
-import { REPO_ROOT } from './utils';
+import * as fs from "fs";
+import * as path from "path";
+import * as glob from "glob";
+
+import { REPO_ROOT } from "./utils";
 
 checkEveryMonacoLanguageHasASample();
 
 function checkEveryMonacoLanguageHasASample() {
 	let languages = glob
-		.sync('src/basic-languages/*/*.contribution.ts', { cwd: REPO_ROOT })
+		.sync("src/basic-languages/*/*.contribution.ts", { cwd: REPO_ROOT })
 		.map((f) => path.dirname(f))
-		.map((f) => f.substring('src/basic-languages/'.length));
-	languages.push('css');
-	languages.push('html');
-	languages.push('json');
-	languages.push('typescript');
+		.map((f) => f.substring("src/basic-languages/".length));
+	languages.push("css");
+	languages.push("html");
+	languages.push("json");
+	languages.push("typescript");
 
 	// some languages have a different id than their folder
 	languages = languages.map((l) => {
 		switch (l) {
-			case 'coffee':
-				return 'coffeescript';
-			case 'protobuf':
-				return 'proto';
-			case 'solidity':
-				return 'sol';
-			case 'sophia':
-				return 'aes';
+			case "coffee":
+				return "coffeescript";
+			case "protobuf":
+				return "proto";
+			case "solidity":
+				return "sol";
+			case "sophia":
+				return "aes";
 			default:
 				return l;
 		}
@@ -40,10 +41,12 @@ function checkEveryMonacoLanguageHasASample() {
 	for (const language of languages) {
 		const expectedSamplePath = path.join(
 			REPO_ROOT,
-			`website/src/website/data/home-samples/sample.${language}.txt`
+			`website/src/website/data/home-samples/sample.${language}.txt`,
 		);
 		if (!fs.existsSync(expectedSamplePath)) {
-			console.error(`Missing sample for ${language} at ${expectedSamplePath}`);
+			console.error(
+				`Missing sample for ${language} at ${expectedSamplePath}`,
+			);
 			fail = true;
 		}
 	}

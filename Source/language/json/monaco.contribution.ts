@@ -3,12 +3,24 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as mode from './jsonMode';
-import { Emitter, IEvent, languages, Uri } from '../../fillers/monaco-editor-core';
+import {
+	Emitter,
+	IEvent,
+	languages,
+	Uri,
+} from "../../fillers/monaco-editor-core";
+import * as mode from "./jsonMode";
 
 // ---- JSON service types ----
 export interface BaseASTNode {
-	readonly type: 'object' | 'array' | 'property' | 'string' | 'number' | 'boolean' | 'null';
+	readonly type:
+		| "object"
+		| "array"
+		| "property"
+		| "string"
+		| "number"
+		| "boolean"
+		| "null";
 	readonly parent?: ASTNode;
 	readonly offset: number;
 	readonly length: number;
@@ -16,37 +28,37 @@ export interface BaseASTNode {
 	readonly value?: string | boolean | number | null;
 }
 export interface ObjectASTNode extends BaseASTNode {
-	readonly type: 'object';
+	readonly type: "object";
 	readonly properties: PropertyASTNode[];
 	readonly children: ASTNode[];
 }
 export interface PropertyASTNode extends BaseASTNode {
-	readonly type: 'property';
+	readonly type: "property";
 	readonly keyNode: StringASTNode;
 	readonly valueNode?: ASTNode;
 	readonly colonOffset?: number;
 	readonly children: ASTNode[];
 }
 export interface ArrayASTNode extends BaseASTNode {
-	readonly type: 'array';
+	readonly type: "array";
 	readonly items: ASTNode[];
 	readonly children: ASTNode[];
 }
 export interface StringASTNode extends BaseASTNode {
-	readonly type: 'string';
+	readonly type: "string";
 	readonly value: string;
 }
 export interface NumberASTNode extends BaseASTNode {
-	readonly type: 'number';
+	readonly type: "number";
 	readonly value: number;
 	readonly isInteger: boolean;
 }
 export interface BooleanASTNode extends BaseASTNode {
-	readonly type: 'boolean';
+	readonly type: "boolean";
 	readonly value: boolean;
 }
 export interface NullASTNode extends BaseASTNode {
-	readonly type: 'null';
+	readonly type: "null";
 	readonly value: null;
 }
 
@@ -61,7 +73,10 @@ export type ASTNode =
 
 export type JSONDocument = {
 	root: ASTNode | undefined;
-	getNodeFromOffset(offset: number, includeRightBound?: boolean): ASTNode | undefined;
+	getNodeFromOffset(
+		offset: number,
+		includeRightBound?: boolean,
+	): ASTNode | undefined;
 };
 
 export type JSONSchemaRef = JSONSchema | boolean;
@@ -198,7 +213,7 @@ export interface DiagnosticsOptions {
 	readonly comments?: SeverityLevel;
 }
 
-export declare type SeverityLevel = 'error' | 'warning' | 'ignore';
+export declare type SeverityLevel = "error" | "warning" | "ignore";
 
 export interface ModeConfiguration {
 	/**
@@ -270,7 +285,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	constructor(
 		languageId: string,
 		diagnosticsOptions: DiagnosticsOptions,
-		modeConfiguration: ModeConfiguration
+		modeConfiguration: ModeConfiguration,
 	) {
 		this._languageId = languageId;
 		this.setDiagnosticsOptions(diagnosticsOptions);
@@ -309,10 +324,10 @@ const diagnosticDefault: Required<DiagnosticsOptions> = {
 	allowComments: true,
 	schemas: [],
 	enableSchemaRequest: false,
-	schemaRequest: 'warning',
-	schemaValidation: 'warning',
-	comments: 'error',
-	trailingCommas: 'error'
+	schemaRequest: "warning",
+	schemaValidation: "warning",
+	comments: "error",
+	trailingCommas: "error",
 };
 
 const modeConfigurationDefault: Required<ModeConfiguration> = {
@@ -325,22 +340,24 @@ const modeConfigurationDefault: Required<ModeConfiguration> = {
 	colors: true,
 	foldingRanges: true,
 	diagnostics: true,
-	selectionRanges: true
+	selectionRanges: true,
 };
 
-export const jsonDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
-	'json',
-	diagnosticDefault,
-	modeConfigurationDefault
-);
+export const jsonDefaults: LanguageServiceDefaults =
+	new LanguageServiceDefaultsImpl(
+		"json",
+		diagnosticDefault,
+		modeConfigurationDefault,
+	);
 
 export interface IJSONWorker {
 	parseJSONDocument(uri: string): Promise<JSONDocument | null>;
 	getMatchingSchemas(uri: string): Promise<MatchingSchema[]>;
 }
 
-export const getWorker = (): Promise<(...uris: Uri[]) => Promise<IJSONWorker>> =>
-	getMode().then((mode) => mode.getWorker());
+export const getWorker = (): Promise<
+	(...uris: Uri[]) => Promise<IJSONWorker>
+> => getMode().then((mode) => mode.getWorker());
 
 // export to the global based API
 (<any>languages).json = { jsonDefaults, getWorker };
@@ -353,20 +370,28 @@ declare var require: any;
 function getMode(): Promise<typeof mode> {
 	if (AMD) {
 		return new Promise((resolve, reject) => {
-			require(['vs/language/json/jsonMode'], resolve, reject);
+			require(["vs/language/json/jsonMode"], resolve, reject);
 		});
 	} else {
-		return import('./jsonMode');
+		return import("./jsonMode");
 	}
 }
 
 languages.register({
-	id: 'json',
-	extensions: ['.json', '.bowerrc', '.jshintrc', '.jscsrc', '.eslintrc', '.babelrc', '.har'],
-	aliases: ['JSON', 'json'],
-	mimetypes: ['application/json']
+	id: "json",
+	extensions: [
+		".json",
+		".bowerrc",
+		".jshintrc",
+		".jscsrc",
+		".eslintrc",
+		".babelrc",
+		".har",
+	],
+	aliases: ["JSON", "json"],
+	mimetypes: ["application/json"],
 });
 
-languages.onLanguage('json', () => {
+languages.onLanguage("json", () => {
 	getMode().then((mode) => mode.setupMode(jsonDefaults));
 });

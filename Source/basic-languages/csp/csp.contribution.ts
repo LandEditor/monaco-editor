@@ -3,22 +3,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { registerLanguage } from '../_.contribution';
+import { registerLanguage } from "../_.contribution";
 
 declare var AMD: any;
 declare var require: any;
 
 registerLanguage({
-	id: 'csp',
-	extensions: ['.csp'],
-	aliases: ['CSP', 'csp'],
+	id: "csp",
+	extensions: [".csp"],
+	aliases: ["CSP", "csp"],
 	loader: () => {
 		if (AMD) {
 			return new Promise((resolve, reject) => {
-				require(['vs/basic-languages/csp/csp'], resolve, reject);
+				require(["vs/basic-languages/csp/csp"], resolve, reject);
 			});
 		} else {
-			return import('./csp');
+			return import("./csp");
 		}
-	}
+	},
 });

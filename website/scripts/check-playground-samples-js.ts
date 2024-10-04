@@ -1,6 +1,6 @@
 import { spawn } from "child_process";
-import { globSync } from "glob";
 import { exit } from "process";
+import { globSync } from "glob";
 
 (async () => {
 	let someFileError = false;
@@ -23,7 +23,7 @@ import { exit } from "process";
 						"../out/monaco-editor/monaco.d.ts",
 						file,
 					],
-					{ shell: true }
+					{ shell: true },
 				);
 				let buffer = "";
 				process.on("exit", () => {
@@ -39,7 +39,7 @@ import { exit } from "process";
 				process.stderr.on("data", (data) => {
 					buffer += data.toString();
 				});
-			})
+			}),
 		);
 	}
 	for (const promise of promises) {

@@ -3,20 +3,21 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as lsTypes from 'vscode-languageserver-types';
+import * as lsTypes from "vscode-languageserver-types";
+
 import {
-	languages,
-	editor,
-	IMarkdownString,
-	Uri,
-	Position,
-	IRange,
-	Range,
 	CancellationToken,
+	editor,
 	IDisposable,
+	IEvent,
+	IMarkdownString,
+	IRange,
+	languages,
 	MarkerSeverity,
-	IEvent
-} from '../../fillers/monaco-editor-core';
+	Position,
+	Range,
+	Uri,
+} from "../../fillers/monaco-editor-core";
 
 export interface WorkerAccessor<T> {
 	(...more: Uri[]): Promise<T>;
@@ -30,12 +31,13 @@ export interface ILanguageWorkerWithDiagnostics {
 
 export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 	protected readonly _disposables: IDisposable[] = [];
-	private readonly _listener: { [uri: string]: IDisposable } = Object.create(null);
+	private readonly _listener: { [uri: string]: IDisposable } =
+		Object.create(null);
 
 	constructor(
 		private readonly _languageId: string,
 		protected readonly _worker: WorkerAccessor<T>,
-		configChangeEvent: IEvent<any>
+		configChangeEvent: IEvent<any>,
 	) {
 		const onModelAdd = (model: editor.IModel): void => {
 			let modeId = model.getLanguageId();
@@ -44,10 +46,15 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 			}
 
 			let handle: number;
-			this._listener[model.uri.toString()] = model.onDidChangeContent(() => {
-				window.clearTimeout(handle);
-				handle = window.setTimeout(() => this._doValidate(model.uri, modeId), 500);
-			});
+			this._listener[model.uri.toString()] = model.onDidChangeContent(
+				() => {
+					window.clearTimeout(handle);
+					handle = window.setTimeout(
+						() => this._doValidate(model.uri, modeId),
+						500,
+					);
+				},
+			);
 
 			this._doValidate(model.uri, modeId);
 		};
@@ -69,7 +76,7 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 			editor.onDidChangeModelLanguage((event) => {
 				onModelRemoved(event.model);
 				onModelAdd(event.model);
-			})
+			}),
 		);
 
 		this._disposables.push(
@@ -80,7 +87,7 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 						onModelAdd(model);
 					}
 				});
-			})
+			}),
 		);
 
 		this._disposables.push({
@@ -89,7 +96,7 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 				for (let key in this._listener) {
 					this._listener[key].dispose();
 				}
-			}
+			},
 		});
 
 		editor.getModels().forEach(onModelAdd);
@@ -106,7 +113,9 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 				return worker.doValidation(resource.toString());
 			})
 			.then((diagnostics) => {
-				const markers = diagnostics.map((d) => toDiagnostics(resource, d));
+				const markers = diagnostics.map((d) =>
+					toDiagnostics(resource, d),
+				);
 				let model = editor.getModel(resource);
 				if (model && model.getLanguageId() === languageId) {
 					editor.setModelMarkers(model, languageId, markers);
@@ -133,8 +142,12 @@ function toSeverity(lsSeverity: number | undefined): MarkerSeverity {
 	}
 }
 
-function toDiagnostics(resource: Uri, diag: lsTypes.Diagnostic): editor.IMarkerData {
-	let code = typeof diag.code === 'number' ? String(diag.code) : <string>diag.code;
+function toDiagnostics(
+	resource: Uri,
+	diag: lsTypes.Diagnostic,
+): editor.IMarkerData {
+	let code =
+		typeof diag.code === "number" ? String(diag.code) : <string>diag.code;
 
 	return {
 		severity: toSeverity(diag.severity),
@@ -144,7 +157,7 @@ function toDiagnostics(resource: Uri, diag: lsTypes.Diagnostic): editor.IMarkerD
 		endColumn: diag.range.end.character + 1,
 		message: diag.message,
 		code: code,
-		source: diag.source
+		source: diag.source,
 	};
 }
 
@@ -153,7 +166,10 @@ function toDiagnostics(resource: Uri, diag: lsTypes.Diagnostic): editor.IMarkerD
 //#region CompletionAdapter
 
 export interface ILanguageWorkerWithCompletions {
-	doComplete(uri: string, position: lsTypes.Position): Promise<lsTypes.CompletionList | null>;
+	doComplete(
+		uri: string,
+		position: lsTypes.Position,
+	): Promise<lsTypes.CompletionList | null>;
 }
 
 export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
@@ -161,7 +177,7 @@ export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
 {
 	constructor(
 		private readonly _worker: WorkerAccessor<T>,
-		private readonly _triggerCharacters: string[]
+		private readonly _triggerCharacters: string[],
 	) {}
 
 	public get triggerCharacters(): string[] {
@@ -172,13 +188,16 @@ export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
 		model: editor.IReadOnlyModel,
 		position: Position,
 		context: languages.CompletionContext,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.CompletionList | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource)
 			.then((worker) => {
-				return worker.doComplete(resource.toString(), fromPosition(position));
+				return worker.doComplete(
+					resource.toString(),
+					fromPosition(position),
+				);
 			})
 			.then((info) => {
 				if (!info) {
@@ -189,45 +208,53 @@ export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
 					position.lineNumber,
 					wordInfo.startColumn,
 					position.lineNumber,
-					wordInfo.endColumn
+					wordInfo.endColumn,
 				);
 
-				const items: languages.CompletionItem[] = info.items.map((entry) => {
-					const item: languages.CompletionItem = {
-						label: entry.label,
-						insertText: entry.insertText || entry.label,
-						sortText: entry.sortText,
-						filterText: entry.filterText,
-						documentation: entry.documentation,
-						detail: entry.detail,
-						command: toCommand(entry.command),
-						range: wordRange,
-						kind: toCompletionItemKind(entry.kind)
-					};
-					if (entry.textEdit) {
-						if (isInsertReplaceEdit(entry.textEdit)) {
-							item.range = {
-								insert: toRange(entry.textEdit.insert),
-								replace: toRange(entry.textEdit.replace)
-							};
-						} else {
-							item.range = toRange(entry.textEdit.range);
+				const items: languages.CompletionItem[] = info.items.map(
+					(entry) => {
+						const item: languages.CompletionItem = {
+							label: entry.label,
+							insertText: entry.insertText || entry.label,
+							sortText: entry.sortText,
+							filterText: entry.filterText,
+							documentation: entry.documentation,
+							detail: entry.detail,
+							command: toCommand(entry.command),
+							range: wordRange,
+							kind: toCompletionItemKind(entry.kind),
+						};
+						if (entry.textEdit) {
+							if (isInsertReplaceEdit(entry.textEdit)) {
+								item.range = {
+									insert: toRange(entry.textEdit.insert),
+									replace: toRange(entry.textEdit.replace),
+								};
+							} else {
+								item.range = toRange(entry.textEdit.range);
+							}
+							item.insertText = entry.textEdit.newText;
 						}
-						item.insertText = entry.textEdit.newText;
-					}
-					if (entry.additionalTextEdits) {
-						item.additionalTextEdits =
-							entry.additionalTextEdits.map<languages.TextEdit>(toTextEdit);
-					}
-					if (entry.insertTextFormat === lsTypes.InsertTextFormat.Snippet) {
-						item.insertTextRules = languages.CompletionItemInsertTextRule.InsertAsSnippet;
-					}
-					return item;
-				});
+						if (entry.additionalTextEdits) {
+							item.additionalTextEdits =
+								entry.additionalTextEdits.map<languages.TextEdit>(
+									toTextEdit,
+								);
+						}
+						if (
+							entry.insertTextFormat ===
+							lsTypes.InsertTextFormat.Snippet
+						) {
+							item.insertTextRules =
+								languages.CompletionItemInsertTextRule.InsertAsSnippet;
+						}
+						return item;
+					},
+				);
 
 				return {
 					isIncomplete: info.isIncomplete,
-					suggestions: items
+					suggestions: items,
 				};
 			});
 	}
@@ -235,8 +262,12 @@ export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
 
 export function fromPosition(position: Position): lsTypes.Position;
 export function fromPosition(position: undefined): undefined;
-export function fromPosition(position: Position | undefined): lsTypes.Position | undefined;
-export function fromPosition(position: Position | undefined): lsTypes.Position | undefined {
+export function fromPosition(
+	position: Position | undefined,
+): lsTypes.Position | undefined;
+export function fromPosition(
+	position: Position | undefined,
+): lsTypes.Position | undefined {
 	if (!position) {
 		return void 0;
 	}
@@ -246,16 +277,18 @@ export function fromPosition(position: Position | undefined): lsTypes.Position |
 export function fromRange(range: IRange): lsTypes.Range;
 export function fromRange(range: undefined): undefined;
 export function fromRange(range: IRange | undefined): lsTypes.Range | undefined;
-export function fromRange(range: IRange | undefined): lsTypes.Range | undefined {
+export function fromRange(
+	range: IRange | undefined,
+): lsTypes.Range | undefined {
 	if (!range) {
 		return void 0;
 	}
 	return {
 		start: {
 			line: range.startLineNumber - 1,
-			character: range.startColumn - 1
+			character: range.startColumn - 1,
 		},
-		end: { line: range.endLineNumber - 1, character: range.endColumn - 1 }
+		end: { line: range.endLineNumber - 1, character: range.endColumn - 1 },
 	};
 }
 export function toRange(range: lsTypes.Range): Range;
@@ -269,20 +302,22 @@ export function toRange(range: lsTypes.Range | undefined): Range | undefined {
 		range.start.line + 1,
 		range.start.character + 1,
 		range.end.line + 1,
-		range.end.character + 1
+		range.end.character + 1,
 	);
 }
 
 function isInsertReplaceEdit(
-	edit: lsTypes.TextEdit | lsTypes.InsertReplaceEdit
+	edit: lsTypes.TextEdit | lsTypes.InsertReplaceEdit,
 ): edit is lsTypes.InsertReplaceEdit {
 	return (
-		typeof (<lsTypes.InsertReplaceEdit>edit).insert !== 'undefined' &&
-		typeof (<lsTypes.InsertReplaceEdit>edit).replace !== 'undefined'
+		typeof (<lsTypes.InsertReplaceEdit>edit).insert !== "undefined" &&
+		typeof (<lsTypes.InsertReplaceEdit>edit).replace !== "undefined"
 	);
 }
 
-function toCompletionItemKind(kind: number | undefined): languages.CompletionItemKind {
+function toCompletionItemKind(
+	kind: number | undefined,
+): languages.CompletionItemKind {
 	const mItemKind = languages.CompletionItemKind;
 
 	switch (kind) {
@@ -326,7 +361,9 @@ function toCompletionItemKind(kind: number | undefined): languages.CompletionIte
 	return mItemKind.Property;
 }
 
-function fromCompletionItemKind(kind: languages.CompletionItemKind): lsTypes.CompletionItemKind {
+function fromCompletionItemKind(
+	kind: languages.CompletionItemKind,
+): lsTypes.CompletionItemKind {
 	const mItemKind = languages.CompletionItemKind;
 
 	switch (kind) {
@@ -372,19 +409,25 @@ function fromCompletionItemKind(kind: languages.CompletionItemKind): lsTypes.Com
 
 export function toTextEdit(textEdit: lsTypes.TextEdit): languages.TextEdit;
 export function toTextEdit(textEdit: undefined): undefined;
-export function toTextEdit(textEdit: lsTypes.TextEdit | undefined): languages.TextEdit | undefined;
-export function toTextEdit(textEdit: lsTypes.TextEdit | undefined): languages.TextEdit | undefined {
+export function toTextEdit(
+	textEdit: lsTypes.TextEdit | undefined,
+): languages.TextEdit | undefined;
+export function toTextEdit(
+	textEdit: lsTypes.TextEdit | undefined,
+): languages.TextEdit | undefined {
 	if (!textEdit) {
 		return void 0;
 	}
 	return {
 		range: toRange(textEdit.range),
-		text: textEdit.newText
+		text: textEdit.newText,
 	};
 }
 
-function toCommand(c: lsTypes.Command | undefined): languages.Command | undefined {
-	return c && c.command === 'editor.action.triggerSuggest'
+function toCommand(
+	c: lsTypes.Command | undefined,
+): languages.Command | undefined {
+	return c && c.command === "editor.action.triggerSuggest"
 		? { id: c.command, title: c.title, arguments: c.arguments }
 		: undefined;
 }
@@ -394,22 +437,30 @@ function toCommand(c: lsTypes.Command | undefined): languages.Command | undefine
 //#region HoverAdapter
 
 export interface ILanguageWorkerWithHover {
-	doHover(uri: string, position: lsTypes.Position): Promise<lsTypes.Hover | null>;
+	doHover(
+		uri: string,
+		position: lsTypes.Position,
+	): Promise<lsTypes.Hover | null>;
 }
 
-export class HoverAdapter<T extends ILanguageWorkerWithHover> implements languages.HoverProvider {
+export class HoverAdapter<T extends ILanguageWorkerWithHover>
+	implements languages.HoverProvider
+{
 	constructor(private readonly _worker: WorkerAccessor<T>) {}
 
 	provideHover(
 		model: editor.IReadOnlyModel,
 		position: Position,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.Hover | undefined> {
 		let resource = model.uri;
 
 		return this._worker(resource)
 			.then((worker) => {
-				return worker.doHover(resource.toString(), fromPosition(position));
+				return worker.doHover(
+					resource.toString(),
+					fromPosition(position),
+				);
 			})
 			.then((info) => {
 				if (!info) {
@@ -417,7 +468,7 @@ export class HoverAdapter<T extends ILanguageWorkerWithHover> implements languag
 				}
 				return <languages.Hover>{
 					range: toRange(info.range),
-					contents: toMarkedStringArray(info.contents)
+					contents: toMarkedStringArray(info.contents),
 				};
 			});
 	}
@@ -425,32 +476,39 @@ export class HoverAdapter<T extends ILanguageWorkerWithHover> implements languag
 
 function isMarkupContent(thing: any): thing is lsTypes.MarkupContent {
 	return (
-		thing && typeof thing === 'object' && typeof (<lsTypes.MarkupContent>thing).kind === 'string'
+		thing &&
+		typeof thing === "object" &&
+		typeof (<lsTypes.MarkupContent>thing).kind === "string"
 	);
 }
 
-function toMarkdownString(entry: lsTypes.MarkupContent | lsTypes.MarkedString): IMarkdownString {
-	if (typeof entry === 'string') {
+function toMarkdownString(
+	entry: lsTypes.MarkupContent | lsTypes.MarkedString,
+): IMarkdownString {
+	if (typeof entry === "string") {
 		return {
-			value: entry
+			value: entry,
 		};
 	}
 	if (isMarkupContent(entry)) {
-		if (entry.kind === 'plaintext') {
+		if (entry.kind === "plaintext") {
 			return {
-				value: entry.value.replace(/[\\`*_{}[\]()#+\-.!]/g, '\\$&')
+				value: entry.value.replace(/[\\`*_{}[\]()#+\-.!]/g, "\\$&"),
 			};
 		}
 		return {
-			value: entry.value
+			value: entry.value,
 		};
 	}
 
-	return { value: '```' + entry.language + '\n' + entry.value + '\n```\n' };
+	return { value: "```" + entry.language + "\n" + entry.value + "\n```\n" };
 }
 
 function toMarkedStringArray(
-	contents: lsTypes.MarkupContent | lsTypes.MarkedString | lsTypes.MarkedString[]
+	contents:
+		| lsTypes.MarkupContent
+		| lsTypes.MarkedString
+		| lsTypes.MarkedString[],
 ): IMarkdownString[] | undefined {
 	if (!contents) {
 		return void 0;
@@ -468,24 +526,30 @@ function toMarkedStringArray(
 export interface ILanguageWorkerWithDocumentHighlights {
 	findDocumentHighlights(
 		uri: string,
-		position: lsTypes.Position
+		position: lsTypes.Position,
 	): Promise<lsTypes.DocumentHighlight[]>;
 }
 
-export class DocumentHighlightAdapter<T extends ILanguageWorkerWithDocumentHighlights>
-	implements languages.DocumentHighlightProvider
+export class DocumentHighlightAdapter<
+	T extends ILanguageWorkerWithDocumentHighlights,
+> implements languages.DocumentHighlightProvider
 {
 	constructor(private readonly _worker: WorkerAccessor<T>) {}
 
 	public provideDocumentHighlights(
 		model: editor.IReadOnlyModel,
 		position: Position,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.DocumentHighlight[] | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource)
-			.then((worker) => worker.findDocumentHighlights(resource.toString(), fromPosition(position)))
+			.then((worker) =>
+				worker.findDocumentHighlights(
+					resource.toString(),
+					fromPosition(position),
+				),
+			)
 			.then((entries) => {
 				if (!entries) {
 					return;
@@ -493,7 +557,7 @@ export class DocumentHighlightAdapter<T extends ILanguageWorkerWithDocumentHighl
 				return entries.map((entry) => {
 					return <languages.DocumentHighlight>{
 						range: toRange(entry.range),
-						kind: toDocumentHighlightKind(entry.kind)
+						kind: toDocumentHighlightKind(entry.kind),
 					};
 				});
 			});
@@ -501,7 +565,7 @@ export class DocumentHighlightAdapter<T extends ILanguageWorkerWithDocumentHighl
 }
 
 function toDocumentHighlightKind(
-	kind: lsTypes.DocumentHighlightKind | undefined
+	kind: lsTypes.DocumentHighlightKind | undefined,
 ): languages.DocumentHighlightKind {
 	switch (kind) {
 		case lsTypes.DocumentHighlightKind.Read:
@@ -519,7 +583,10 @@ function toDocumentHighlightKind(
 //#region DefinitionAdapter
 
 export interface ILanguageWorkerWithDefinitions {
-	findDefinition(uri: string, position: lsTypes.Position): Promise<lsTypes.Location | null>;
+	findDefinition(
+		uri: string,
+		position: lsTypes.Position,
+	): Promise<lsTypes.Location | null>;
 }
 
 export class DefinitionAdapter<T extends ILanguageWorkerWithDefinitions>
@@ -530,13 +597,16 @@ export class DefinitionAdapter<T extends ILanguageWorkerWithDefinitions>
 	public provideDefinition(
 		model: editor.IReadOnlyModel,
 		position: Position,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.Definition | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource)
 			.then((worker) => {
-				return worker.findDefinition(resource.toString(), fromPosition(position));
+				return worker.findDefinition(
+					resource.toString(),
+					fromPosition(position),
+				);
 			})
 			.then((definition) => {
 				if (!definition) {
@@ -550,7 +620,7 @@ export class DefinitionAdapter<T extends ILanguageWorkerWithDefinitions>
 function toLocation(location: lsTypes.Location): languages.Location {
 	return {
 		uri: Uri.parse(location.uri),
-		range: toRange(location.range)
+		range: toRange(location.range),
 	};
 }
 
@@ -559,7 +629,10 @@ function toLocation(location: lsTypes.Location): languages.Location {
 //#region ReferenceAdapter
 
 export interface ILanguageWorkerWithReferences {
-	findReferences(uri: string, position: lsTypes.Position): Promise<lsTypes.Location[]>;
+	findReferences(
+		uri: string,
+		position: lsTypes.Position,
+	): Promise<lsTypes.Location[]>;
 }
 
 export class ReferenceAdapter<T extends ILanguageWorkerWithReferences>
@@ -571,13 +644,16 @@ export class ReferenceAdapter<T extends ILanguageWorkerWithReferences>
 		model: editor.IReadOnlyModel,
 		position: Position,
 		context: languages.ReferenceContext,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.Location[] | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource)
 			.then((worker) => {
-				return worker.findReferences(resource.toString(), fromPosition(position));
+				return worker.findReferences(
+					resource.toString(),
+					fromPosition(position),
+				);
 			})
 			.then((entries) => {
 				if (!entries) {
@@ -596,7 +672,7 @@ export interface ILanguageWorkerWithRename {
 	doRename(
 		uri: string,
 		position: lsTypes.Position,
-		newName: string
+		newName: string,
 	): Promise<lsTypes.WorkspaceEdit | null>;
 }
 
@@ -609,13 +685,17 @@ export class RenameAdapter<T extends ILanguageWorkerWithRename>
 		model: editor.IReadOnlyModel,
 		position: Position,
 		newName: string,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.WorkspaceEdit | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource)
 			.then((worker) => {
-				return worker.doRename(resource.toString(), fromPosition(position), newName);
+				return worker.doRename(
+					resource.toString(),
+					fromPosition(position),
+					newName,
+				);
 			})
 			.then((edit) => {
 				return toWorkspaceEdit(edit);
@@ -623,7 +703,9 @@ export class RenameAdapter<T extends ILanguageWorkerWithRename>
 	}
 }
 
-function toWorkspaceEdit(edit: lsTypes.WorkspaceEdit | null): languages.WorkspaceEdit | undefined {
+function toWorkspaceEdit(
+	edit: lsTypes.WorkspaceEdit | null,
+): languages.WorkspaceEdit | undefined {
 	if (!edit || !edit.changes) {
 		return void 0;
 	}
@@ -636,13 +718,13 @@ function toWorkspaceEdit(edit: lsTypes.WorkspaceEdit | null): languages.Workspac
 				versionId: undefined,
 				textEdit: {
 					range: toRange(e.range),
-					text: e.newText
-				}
+					text: e.newText,
+				},
 			});
 		}
 	}
 	return {
-		edits: resourceEdits
+		edits: resourceEdits,
 	};
 }
 
@@ -651,7 +733,9 @@ function toWorkspaceEdit(edit: lsTypes.WorkspaceEdit | null): languages.Workspac
 //#region DocumentSymbolAdapter
 
 export interface ILanguageWorkerWithDocumentSymbols {
-	findDocumentSymbols(uri: string): Promise<lsTypes.SymbolInformation[] | lsTypes.DocumentSymbol[]>;
+	findDocumentSymbols(
+		uri: string,
+	): Promise<lsTypes.SymbolInformation[] | lsTypes.DocumentSymbol[]>;
 }
 
 export class DocumentSymbolAdapter<T extends ILanguageWorkerWithDocumentSymbols>
@@ -661,7 +745,7 @@ export class DocumentSymbolAdapter<T extends ILanguageWorkerWithDocumentSymbols>
 
 	public provideDocumentSymbols(
 		model: editor.IReadOnlyModel,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.DocumentSymbol[] | undefined> {
 		const resource = model.uri;
 
@@ -677,12 +761,12 @@ export class DocumentSymbolAdapter<T extends ILanguageWorkerWithDocumentSymbols>
 					}
 					return {
 						name: item.name,
-						detail: '',
+						detail: "",
 						containerName: item.containerName,
 						kind: toSymbolKind(item.kind),
 						range: toRange(item.location.range),
 						selectionRange: toRange(item.location.range),
-						tags: []
+						tags: [],
 					};
 				});
 			});
@@ -690,20 +774,22 @@ export class DocumentSymbolAdapter<T extends ILanguageWorkerWithDocumentSymbols>
 }
 
 function isDocumentSymbol(
-	symbol: lsTypes.SymbolInformation | lsTypes.DocumentSymbol
+	symbol: lsTypes.SymbolInformation | lsTypes.DocumentSymbol,
 ): symbol is lsTypes.DocumentSymbol {
-	return 'children' in symbol;
+	return "children" in symbol;
 }
 
-function toDocumentSymbol(symbol: lsTypes.DocumentSymbol): languages.DocumentSymbol {
+function toDocumentSymbol(
+	symbol: lsTypes.DocumentSymbol,
+): languages.DocumentSymbol {
 	return {
 		name: symbol.name,
-		detail: symbol.detail ?? '',
+		detail: symbol.detail ?? "",
 		kind: toSymbolKind(symbol.kind),
 		range: toRange(symbol.range),
 		selectionRange: toRange(symbol.selectionRange),
 		tags: symbol.tags ?? [],
-		children: (symbol.children ?? []).map((item) => toDocumentSymbol(item))
+		children: (symbol.children ?? []).map((item) => toDocumentSymbol(item)),
 	};
 }
 
@@ -766,7 +852,7 @@ export class DocumentLinkAdapter<T extends ILanguageWorkerWithDocumentLinks>
 
 	public provideLinks(
 		model: editor.IReadOnlyModel,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.ILinksList | undefined> {
 		const resource = model.uri;
 
@@ -779,8 +865,8 @@ export class DocumentLinkAdapter<T extends ILanguageWorkerWithDocumentLinks>
 				return {
 					links: items.map((item) => ({
 						range: toRange(item.range),
-						url: item.target
-					}))
+						url: item.target,
+					})),
 				};
 			});
 	}
@@ -794,7 +880,7 @@ export interface ILanguageWorkerWithFormat {
 	format(
 		uri: string,
 		range: lsTypes.Range | null,
-		options: lsTypes.FormattingOptions
+		options: lsTypes.FormattingOptions,
 	): Promise<lsTypes.TextEdit[]>;
 }
 
@@ -806,13 +892,17 @@ export class DocumentFormattingEditProvider<T extends ILanguageWorkerWithFormat>
 	public provideDocumentFormattingEdits(
 		model: editor.IReadOnlyModel,
 		options: languages.FormattingOptions,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.TextEdit[] | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource).then((worker) => {
 			return worker
-				.format(resource.toString(), null, fromFormattingOptions(options))
+				.format(
+					resource.toString(),
+					null,
+					fromFormattingOptions(options),
+				)
 				.then((edits) => {
 					if (!edits || edits.length === 0) {
 						return;
@@ -823,8 +913,9 @@ export class DocumentFormattingEditProvider<T extends ILanguageWorkerWithFormat>
 	}
 }
 
-export class DocumentRangeFormattingEditProvider<T extends ILanguageWorkerWithFormat>
-	implements languages.DocumentRangeFormattingEditProvider
+export class DocumentRangeFormattingEditProvider<
+	T extends ILanguageWorkerWithFormat,
+> implements languages.DocumentRangeFormattingEditProvider
 {
 	readonly canFormatMultipleRanges = false;
 
@@ -834,13 +925,17 @@ export class DocumentRangeFormattingEditProvider<T extends ILanguageWorkerWithFo
 		model: editor.IReadOnlyModel,
 		range: Range,
 		options: languages.FormattingOptions,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.TextEdit[] | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource).then((worker) => {
 			return worker
-				.format(resource.toString(), fromRange(range), fromFormattingOptions(options))
+				.format(
+					resource.toString(),
+					fromRange(range),
+					fromFormattingOptions(options),
+				)
 				.then((edits) => {
 					if (!edits || edits.length === 0) {
 						return;
@@ -851,10 +946,12 @@ export class DocumentRangeFormattingEditProvider<T extends ILanguageWorkerWithFo
 	}
 }
 
-function fromFormattingOptions(options: languages.FormattingOptions): lsTypes.FormattingOptions {
+function fromFormattingOptions(
+	options: languages.FormattingOptions,
+): lsTypes.FormattingOptions {
 	return {
 		tabSize: options.tabSize,
-		insertSpaces: options.insertSpaces
+		insertSpaces: options.insertSpaces,
 	};
 }
 
@@ -867,7 +964,7 @@ export interface ILanguageWorkerWithDocumentColors {
 	getColorPresentations(
 		uri: string,
 		color: lsTypes.Color,
-		range: lsTypes.Range
+		range: lsTypes.Range,
 	): Promise<lsTypes.ColorPresentation[]>;
 }
 
@@ -878,7 +975,7 @@ export class DocumentColorAdapter<T extends ILanguageWorkerWithDocumentColors>
 
 	public provideDocumentColors(
 		model: editor.IReadOnlyModel,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.IColorInformation[] | undefined> {
 		const resource = model.uri;
 
@@ -890,7 +987,7 @@ export class DocumentColorAdapter<T extends ILanguageWorkerWithDocumentColors>
 				}
 				return infos.map((item) => ({
 					color: item.color,
-					range: toRange(item.range)
+					range: toRange(item.range),
 				}));
 			});
 	}
@@ -898,13 +995,17 @@ export class DocumentColorAdapter<T extends ILanguageWorkerWithDocumentColors>
 	public provideColorPresentations(
 		model: editor.IReadOnlyModel,
 		info: languages.IColorInformation,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.IColorPresentation[] | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource)
 			.then((worker) =>
-				worker.getColorPresentations(resource.toString(), info.color, fromRange(info.range))
+				worker.getColorPresentations(
+					resource.toString(),
+					info.color,
+					fromRange(info.range),
+				),
 			)
 			.then((presentations) => {
 				if (!presentations) {
@@ -912,14 +1013,16 @@ export class DocumentColorAdapter<T extends ILanguageWorkerWithDocumentColors>
 				}
 				return presentations.map((presentation) => {
 					let item: languages.IColorPresentation = {
-						label: presentation.label
+						label: presentation.label,
 					};
 					if (presentation.textEdit) {
 						item.textEdit = toTextEdit(presentation.textEdit);
 					}
 					if (presentation.additionalTextEdits) {
 						item.additionalTextEdits =
-							presentation.additionalTextEdits.map<languages.TextEdit>(toTextEdit);
+							presentation.additionalTextEdits.map<languages.TextEdit>(
+								toTextEdit,
+							);
 					}
 					return item;
 				});
@@ -932,7 +1035,10 @@ export class DocumentColorAdapter<T extends ILanguageWorkerWithDocumentColors>
 //#region FoldingRangeAdapter
 
 export interface ILanguageWorkerWithFoldingRanges {
-	getFoldingRanges(uri: string, context?: { rangeLimit?: number }): Promise<lsTypes.FoldingRange[]>;
+	getFoldingRanges(
+		uri: string,
+		context?: { rangeLimit?: number },
+	): Promise<lsTypes.FoldingRange[]>;
 }
 
 export class FoldingRangeAdapter<T extends ILanguageWorkerWithFoldingRanges>
@@ -943,12 +1049,14 @@ export class FoldingRangeAdapter<T extends ILanguageWorkerWithFoldingRanges>
 	public provideFoldingRanges(
 		model: editor.IReadOnlyModel,
 		context: languages.FoldingContext,
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.FoldingRange[] | undefined> {
 		const resource = model.uri;
 
 		return this._worker(resource)
-			.then((worker) => worker.getFoldingRanges(resource.toString(), context))
+			.then((worker) =>
+				worker.getFoldingRanges(resource.toString(), context),
+			)
 			.then((ranges) => {
 				if (!ranges) {
 					return;
@@ -956,10 +1064,12 @@ export class FoldingRangeAdapter<T extends ILanguageWorkerWithFoldingRanges>
 				return ranges.map((range) => {
 					const result: languages.FoldingRange = {
 						start: range.startLine + 1,
-						end: range.endLine + 1
+						end: range.endLine + 1,
 					};
-					if (typeof range.kind !== 'undefined') {
-						result.kind = toFoldingRangeKind(<lsTypes.FoldingRangeKind>range.kind);
+					if (typeof range.kind !== "undefined") {
+						result.kind = toFoldingRangeKind(
+							<lsTypes.FoldingRangeKind>range.kind,
+						);
 					}
 					return result;
 				});
@@ -968,7 +1078,7 @@ export class FoldingRangeAdapter<T extends ILanguageWorkerWithFoldingRanges>
 }
 
 function toFoldingRangeKind(
-	kind: lsTypes.FoldingRangeKind
+	kind: lsTypes.FoldingRangeKind,
 ): languages.FoldingRangeKind | undefined {
 	switch (kind) {
 		case lsTypes.FoldingRangeKind.Comment:
@@ -986,7 +1096,10 @@ function toFoldingRangeKind(
 //#region SelectionRangeAdapter
 
 export interface ILanguageWorkerWithSelectionRanges {
-	getSelectionRanges(uri: string, positions: lsTypes.Position[]): Promise<lsTypes.SelectionRange[]>;
+	getSelectionRanges(
+		uri: string,
+		positions: lsTypes.Position[],
+	): Promise<lsTypes.SelectionRange[]>;
 }
 
 export class SelectionRangeAdapter<T extends ILanguageWorkerWithSelectionRanges>
@@ -997,7 +1110,7 @@ export class SelectionRangeAdapter<T extends ILanguageWorkerWithSelectionRanges>
 	public provideSelectionRanges(
 		model: editor.IReadOnlyModel,
 		positions: Position[],
-		token: CancellationToken
+		token: CancellationToken,
 	): Promise<languages.SelectionRange[][] | undefined> {
 		const resource = model.uri;
 
@@ -1005,21 +1118,25 @@ export class SelectionRangeAdapter<T extends ILanguageWorkerWithSelectionRanges>
 			.then((worker) =>
 				worker.getSelectionRanges(
 					resource.toString(),
-					positions.map<lsTypes.Position>(fromPosition)
-				)
+					positions.map<lsTypes.Position>(fromPosition),
+				),
 			)
 			.then((selectionRanges) => {
 				if (!selectionRanges) {
 					return;
 				}
-				return selectionRanges.map((selectionRange: lsTypes.SelectionRange | undefined) => {
-					const result: languages.SelectionRange[] = [];
-					while (selectionRange) {
-						result.push({ range: toRange(selectionRange.range) });
-						selectionRange = selectionRange.parent;
-					}
-					return result;
-				});
+				return selectionRanges.map(
+					(selectionRange: lsTypes.SelectionRange | undefined) => {
+						const result: languages.SelectionRange[] = [];
+						while (selectionRange) {
+							result.push({
+								range: toRange(selectionRange.range),
+							});
+							selectionRange = selectionRange.parent;
+						}
+						return result;
+					},
+				);
 			});
 	}
 }
