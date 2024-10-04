@@ -1,9 +1,10 @@
+import * as React from "react";
+
+import { DocsPage } from "./DocsPage";
 import { Home } from "./home/Home";
+import { MonarchPage } from "./MonarchPage";
 import { PlaygroundPage } from "./playground/PlaygroundPage";
 import { docs, home, monarch, playground } from "./routes";
-import * as React from "react";
-import { DocsPage } from "./DocsPage";
-import { MonarchPage } from "./MonarchPage";
 
 export class App extends React.Component {
 	render() {

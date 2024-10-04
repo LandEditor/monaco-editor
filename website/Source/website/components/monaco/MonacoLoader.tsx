@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { getMonaco, loadMonaco } from "../../../monaco-loader";
 
 /**
@@ -31,7 +32,7 @@ export class MonacoLoader extends React.Component<
  * Decorates a component so that it only gets mounted when monaco is loaded.
  */
 export function withLoadedMonaco<TProps>(
-	Component: React.FunctionComponent<TProps> | React.ComponentClass<TProps>
+	Component: React.FunctionComponent<TProps> | React.ComponentClass<TProps>,
 ): any {
 	return (props: TProps) => (
 		<MonacoLoader>{() => <Component {...props} />}</MonacoLoader>

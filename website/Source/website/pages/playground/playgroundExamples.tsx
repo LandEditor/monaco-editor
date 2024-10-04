@@ -3,14 +3,14 @@ import { IPlaygroundProject } from "../../../shared";
 const descriptions = require.context<{ title: string; sortingKey?: number }>(
 	"../../data/playground-samples",
 	true,
-	/json$/
+	/json$/,
 );
 
 const files = require.context<{ default: string }>(
 	"!!raw-loader!../../data/playground-samples/",
 	true,
 	/(html|css|js)$/,
-	"lazy"
+	"lazy",
 );
 
 export interface PlaygroundExampleChapter {
@@ -41,7 +41,7 @@ export function getPlaygroundExamples(): PlaygroundExampleChapter[] {
 		const chapterInfo = descriptions(chapterKey);
 		const path = chapterKey.substring(
 			0,
-			chapterKey.length - chapterFileName.length
+			chapterKey.length - chapterFileName.length,
 		);
 
 		const sampleJsonFileName = "/sample.json";
@@ -51,7 +51,7 @@ export function getPlaygroundExamples(): PlaygroundExampleChapter[] {
 			.map<PlaygroundExample>((key) => {
 				const path = key.substring(
 					0,
-					key.length - sampleJsonFileName.length
+					key.length - sampleJsonFileName.length,
 				);
 
 				const description = descriptions(key);

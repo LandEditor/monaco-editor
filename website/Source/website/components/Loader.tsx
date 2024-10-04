@@ -1,4 +1,5 @@
 import * as React from "react";
+
 export class Loader<T> extends React.Component<
 	{ children: (value: T) => React.ReactChild; loader: () => Promise<T> },
 	{ value: T | undefined; hasValue: boolean }
@@ -28,9 +29,9 @@ export class Loader<T> extends React.Component<
  * Decorates a component so that it only gets mounted when monaco is loaded.
  */
 export function withLoader(
-	loader: () => Promise<void>
+	loader: () => Promise<void>,
 ): <TProps>(
-	Component: React.FunctionComponent<TProps> | React.ComponentClass<TProps>
+	Component: React.FunctionComponent<TProps> | React.ComponentClass<TProps>,
 ) => any {
 	return (Component) => {
 		return (props: any) => (
