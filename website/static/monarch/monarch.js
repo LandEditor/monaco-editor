@@ -163,7 +163,7 @@ require(["vs/editor/editor.main"], function () {
 		sampleEditor.setModel(SAMPLES[CURRENT_SAMPLE].sampleModel);
 		if (SAMPLES[CURRENT_SAMPLE].sampleViewState) {
 			sampleEditor.restoreViewState(
-				SAMPLES[CURRENT_SAMPLE].sampleViewState
+				SAMPLES[CURRENT_SAMPLE].sampleViewState,
 			);
 		}
 	}
