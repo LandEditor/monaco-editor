@@ -30,7 +30,7 @@ editor.addAction({
 		// chord
 		monaco.KeyMod.chord(
 			monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyK,
-			monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM
+			monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM,
 		),
 	],
 
