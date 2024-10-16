@@ -14,7 +14,7 @@
 		"mini-css-extract-plugin": "2.9.1",
 		"mobx": "6.13.4",
 		"monaco-editor": "0.52.0",
-		"typedoc": "0.26.9"
+		"typedoc": "0.26.10"
 	},
 	"devDependencies": {
 		"@types/classnames": "2.3.1",
