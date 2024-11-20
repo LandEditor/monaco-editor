@@ -3,7 +3,7 @@
 		"@popperjs/core": "2.11.8",
 		"@types/base64-js": "1.3.2",
 		"@types/bootstrap": "5.2.10",
-		"@types/node": "22.9.0",
+		"@types/node": "22.9.1",
 		"@vscode/web-editors": "./vscode-web-editors.tgz",
 		"base64-js": "1.5.1",
 		"bootstrap": "5.3.3",
