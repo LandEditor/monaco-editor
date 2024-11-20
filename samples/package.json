@@ -1,5 +1,10 @@
 {
+	"name": "monaco-editor-samples",
 	"description": "Samples for using the Monaco Editor",
+	"main": "index.js",
+	"scripts": {
+		"simpleserver": "yaserver --root ./ --port 8888"
+	},
 	"devDependencies": {
 		"css-loader": "7.1.2",
 		"file-loader": "6.2.0",
@@ -9,12 +14,7 @@
 		"ts-loader": "9.5.1",
 		"yaserver": "0.4.0"
 	},
-	"main": "index.js",
-	"name": "monaco-editor-samples",
 	"overrides": {
 		"@electron/get": "2.0.0"
-	},
-	"scripts": {
-		"simpleserver": "yaserver --root ./ --port 8888"
 	}
 }
