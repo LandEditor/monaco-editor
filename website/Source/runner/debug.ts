@@ -18,9 +18,11 @@ async function initialize(state: IPreviewState) {
 
 	const loadingContainerDiv = document.createElement("div");
 	loadingContainerDiv.className = "loader-container";
+
 	const loadingDiv = document.createElement("div");
 	loadingDiv.className = "loader";
 	loadingContainerDiv.appendChild(loadingDiv);
+
 	document.body.appendChild(loadingContainerDiv);
 
 	monacoPromise = loadMonaco(state.monacoSetup);
@@ -44,16 +46,20 @@ async function initialize(state: IPreviewState) {
 		pre.appendChild(
 			document.createTextNode(`${err}: ${(err as any).state}`),
 		);
+
 		document.body.insertBefore(pre, document.body.firstChild);
 	}
 }
 
 async function main() {
 	const compressor = new LzmaCompressor<IPreviewState>();
+
 	const stateStr = new URLSearchParams(window.location.search).get("state");
+
 	const state = compressor.decodeData<IPreviewState>(stateStr!);
 
 	const previousStateStr = localStorage.getItem("stateStr");
+
 	if (previousStateStr === stateStr) {
 		initialize(state);
 	} else {
@@ -70,6 +76,7 @@ async function main() {
 			localStorage.setItem("stateStr", stateStr!);
 			initialize(state);
 		};
+
 		document.body.appendChild(loadButton);
 	}
 }

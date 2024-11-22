@@ -51,6 +51,7 @@ export class WorkerManager {
 			return;
 		}
 		let timePassedSinceLastUsed = Date.now() - this._lastUsedTime;
+
 		if (timePassedSinceLastUsed > STOP_WHEN_IDLE_FOR) {
 			this._stopWorker();
 		}
@@ -83,6 +84,7 @@ export class WorkerManager {
 
 	getLanguageServiceWorker(...resources: Uri[]): Promise<JSONWorker> {
 		let _client: JSONWorker;
+
 		return this._getClient()
 			.then((client) => {
 				_client = client;

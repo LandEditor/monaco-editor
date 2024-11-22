@@ -6,7 +6,9 @@ export class Source {
 	public static useLatestDev(sourceLanguagesStr?: string): Source {
 		// Assume the versions are already loaded
 		const versions = getNpmVersionsSync(undefined);
+
 		const version = versions.find((v) => v.indexOf("-dev-") !== -1);
+
 		return new Source(version, undefined, sourceLanguagesStr);
 	}
 
@@ -72,6 +74,7 @@ export class Source {
 
 	toString() {
 		const sourceLangToStr = this.sourceLanguagesToString();
+
 		return `${this.sourceToString()}${
 			sourceLangToStr ? `;${sourceLangToStr}` : ""
 		}`;

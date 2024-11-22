@@ -47,6 +47,7 @@ export interface Disposable {
 export namespace Disposable {
 	export function fn(): (() => void) & { track(d: Disposable): void } {
 		const disposables: Disposable[] = [];
+
 		const fn = () => {
 			disposables.forEach((d) => d.dispose());
 			disposables.length = 0;
@@ -54,6 +55,7 @@ export namespace Disposable {
 		fn.track = (d: Disposable) => {
 			disposables.push(d);
 		};
+
 		return fn;
 	}
 }

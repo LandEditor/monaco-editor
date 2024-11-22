@@ -9,6 +9,7 @@ import glob = require("glob");
 import path = require("path");
 import fs = require("fs");
 import cp = require("child_process");
+
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
 
 const files = glob.sync("**/package.json", {
@@ -18,7 +19,9 @@ const files = glob.sync("**/package.json", {
 
 for (const file of files) {
 	const filePath = path.join(REPO_ROOT, file);
+
 	const contents = JSON.parse(fs.readFileSync(filePath).toString());
+
 	if (
 		!contents.dependencies &&
 		!contents.devDependencies &&
@@ -33,10 +36,12 @@ for (const file of files) {
 
 function npmInstall(location) {
 	const stdio = "inherit";
+
 	const args = ["install"];
 
 	console.log(`Installing dependencies in ${location}...`);
 	console.log(`$ npm ${args.join(" ")}`);
+
 	const result = cp.spawnSync(npm, args, {
 		env: process.env,
 		cwd: location,

@@ -8,6 +8,7 @@ export class Route {
 
 	get isActive(): boolean {
 		const target = new URL(this.href, window.location.href);
+
 		return (
 			trimEnd(target.pathname, ".html") ===
 			trimEnd(window.location.pathname, ".html")

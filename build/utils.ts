@@ -20,6 +20,7 @@ export const REPO_ROOT = path.join(__dirname, "../");
 export function runTsc(_projectPath: string) {
 	const projectPath = path.join(REPO_ROOT, _projectPath);
 	console.log(`Launching compiler at ${_projectPath}...`);
+
 	const res = cp.spawnSync(
 		process.execPath,
 		[
@@ -30,6 +31,7 @@ export function runTsc(_projectPath: string) {
 		{ stdio: "inherit" },
 	);
 	console.log(`Compiled ${_projectPath}`);
+
 	if (res.status !== 0) {
 		process.exit(res.status);
 	}
@@ -62,6 +64,7 @@ export function massageAndCopyDts(
 	namespace: string,
 ) {
 	const absoluteSource = path.join(REPO_ROOT, source);
+
 	const absoluteDestination = path.join(REPO_ROOT, destination);
 
 	const lines = fs
@@ -77,6 +80,7 @@ export function massageAndCopyDts(
 		``,
 		`declare namespace ${namespace} {`,
 	];
+
 	for (let line of lines) {
 		if (/^import/.test(line)) {
 			continue;
@@ -86,6 +90,7 @@ export function massageAndCopyDts(
 		}
 		line = line.replace(/    /g, "\t");
 		line = line.replace(/declare /g, "");
+
 		if (line.length > 0) {
 			line = `\t${line}`;
 			result.push(line);
@@ -190,6 +195,7 @@ function buildOneAMD(
 		],
 		external: ["vs/editor/editor.api", ...(options.external || [])],
 	};
+
 	if (type === "min") {
 		opts.minify = true;
 	}
@@ -209,7 +215,9 @@ export function buildAMD(options: {
 
 function getGitVersion() {
 	const git = path.join(REPO_ROOT, ".git");
+
 	const headPath = path.join(git, "HEAD");
+
 	let head;
 
 	try {
@@ -229,6 +237,7 @@ function getGitVersion() {
 	}
 
 	const ref = refMatch[1];
+
 	const refPath = path.join(git, ref);
 
 	try {
@@ -238,6 +247,7 @@ function getGitVersion() {
 	}
 
 	const packedRefsPath = path.join(git, "packed-refs");
+
 	let refsRaw;
 
 	try {
@@ -247,7 +257,9 @@ function getGitVersion() {
 	}
 
 	const refsRegex = /^([0-9a-f]{40})\s+(.+)$/gm;
+
 	let refsMatch;
+
 	const refs = {};
 
 	while ((refsMatch = refsRegex.exec(refsRaw))) {
@@ -259,7 +271,9 @@ function getGitVersion() {
 
 export const bundledFileHeader = (() => {
 	const sha1 = getGitVersion();
+
 	const semver = require("../package.json").version;
+
 	const headerVersion = semver + "(" + sha1 + ")";
 
 	const BUNDLED_FILE_HEADER = [
@@ -292,20 +306,27 @@ export function readFiles(
 	// remove dirs
 	files = files.filter((file) => {
 		const fullPath = path.join(REPO_ROOT, file);
+
 		const stats = fs.statSync(fullPath);
+
 		return stats.isFile();
 	});
 
 	const base = options.base;
+
 	return files.map((file) => readFile(file, base));
 }
 
 export function readFile(file: string, base: string = "") {
 	const baseLength =
 		base === "" ? 0 : base.endsWith("/") ? base.length : base.length + 1;
+
 	const fullPath = path.join(REPO_ROOT, file);
+
 	const contents = fs.readFileSync(fullPath);
+
 	const relativePath = file.substring(baseLength);
+
 	return {
 		path: relativePath,
 		contents,

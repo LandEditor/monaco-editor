@@ -45,6 +45,7 @@ export class BisectModel {
 		}
 
 		const nextVersion = await this.getNextVersion();
+
 		if (!nextVersion) {
 			return;
 		}
@@ -67,6 +68,7 @@ export class BisectModel {
 
 	public get steps() {
 		const indexOfFirstGoodVersion = this.indexOfFirstGoodVersion;
+
 		const indexOfLastBadVersion = this.indexOfLastBadVersion;
 
 		if (indexOfFirstGoodVersion === -1 && indexOfLastBadVersion === -1) {
@@ -97,15 +99,19 @@ export class BisectModel {
 
 	public async openGithub() {
 		const versions = await getNpmVersions();
+
 		const indexOfFirstGoodVersion =
 			this.indexOfFirstGoodVersion === -1
 				? versions.length - 1
 				: this.indexOfFirstGoodVersion;
+
 		const indexOfLastBadVersion =
 			this.indexOfLastBadVersion === -1 ? 0 : this.indexOfLastBadVersion;
+
 		const goodCommitId = await getVsCodeCommitId(
 			versions[indexOfFirstGoodVersion],
 		);
+
 		const badCommitId = await getVsCodeCommitId(
 			versions[indexOfLastBadVersion],
 		);
@@ -119,6 +125,7 @@ export class BisectModel {
 		const versions = await getNpmVersions();
 
 		const indexOfFirstGoodVersion = this.indexOfFirstGoodVersion;
+
 		const indexOfLastBadVersion = this.indexOfLastBadVersion;
 
 		if (
@@ -137,6 +144,7 @@ export class BisectModel {
 			const indexOfFirstUntestedVersion = versions.findIndex(
 				(v) => this.map.get(v) === undefined,
 			);
+
 			if (indexOfFirstUntestedVersion === -1) {
 				return undefined;
 			}
@@ -152,6 +160,7 @@ export class BisectModel {
 			const candidate = Math.floor(
 				(indexOfLastBadVersion + versions.length) / 2,
 			);
+
 			return versions[candidate];
 		}
 

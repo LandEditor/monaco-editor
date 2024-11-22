@@ -4,9 +4,12 @@ import { globSync } from "glob";
 
 (async () => {
 	let someFileError = false;
+
 	const files = globSync("src/website/data/playground-samples/*/*/*.js");
 	type Result = { file: string; status: number; stdout: string };
+
 	const promises: Promise<Result>[] = [];
+
 	for (const file of files) {
 		promises.push(
 			new Promise<Result>((resolve) => {
@@ -25,6 +28,7 @@ import { globSync } from "glob";
 					],
 					{ shell: true },
 				);
+
 				let buffer = "";
 				process.on("exit", () => {
 					resolve({
@@ -45,6 +49,7 @@ import { globSync } from "glob";
 	for (const promise of promises) {
 		const result = await promise;
 		console.log(result.file);
+
 		if (result.status != 0) {
 			console.log(result.stdout.toString());
 			someFileError = true;

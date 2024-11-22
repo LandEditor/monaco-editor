@@ -169,6 +169,7 @@ glob(
 	function (err, files) {
 		if (err) {
 			console.error(err);
+
 			return;
 		}
 
@@ -181,7 +182,9 @@ glob(
 				"src/basic-languages/monaco.contribution.ts",
 				"src/basic-languages/_.contribution.ts",
 			];
+
 			const external = ["monaco-editor-core", "*/_.contribution"];
+
 			for (const language of languages) {
 				entryPoints.push(
 					`src/basic-languages/${language}/${language}.contribution.ts`,
@@ -207,6 +210,7 @@ glob(
 				amdModuleId: "vs/basic-languages/monaco.contribution",
 				amdDependencies: ["vs/editor/editor.api"],
 			});
+
 			for (const language of languages) {
 				buildAMD({
 					base: "basic-languages",

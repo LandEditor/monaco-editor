@@ -12,9 +12,13 @@ import {
 import { getNightlyEnv } from "./env";
 
 const selfPath = __dirname;
+
 const rootPath = join(selfPath, "..", "..");
+
 const dependenciesPath = join(rootPath, "dependencies");
+
 const vscodePath = resolve(dependenciesPath, "vscode");
+
 const monacoEditorPackageJsonPath = resolve(rootPath, "package.json");
 
 async function prepareMonacoEditorCoreReleaseStableOrNightly() {
@@ -22,10 +26,13 @@ async function prepareMonacoEditorCoreReleaseStableOrNightly() {
 		version: string;
 		vscodeRef: string;
 	};
+
 	let version: string;
+
 	let ref: string;
 
 	const arg = process.argv[2];
+
 	if (arg === "stable") {
 		version = monacoEditorPackageJson.version;
 		ref = monacoEditorPackageJson.vscodeRef;
@@ -77,6 +84,7 @@ async function prepareMonacoEditorCoreRelease(
 			vscodePath,
 			"./build/monaco/package.json",
 		);
+
 		const packageJson = require(
 			monacoEditorCorePackageJsonSourcePath,
 		) as PackageJson;

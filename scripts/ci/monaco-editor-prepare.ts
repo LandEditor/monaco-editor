@@ -12,8 +12,11 @@ import {
 import { getNightlyEnv } from "./env";
 
 const selfPath = __dirname;
+
 const rootPath = join(selfPath, "..", "..");
+
 const monacoEditorPackageJsonPath = resolve(rootPath, "package.json");
+
 const monacoEditorCorePackageJsonPath = resolve(
 	rootPath,
 	"node_modules",
@@ -29,6 +32,7 @@ async function prepareMonacoEditorReleaseStableOrNightly() {
 	let version: string;
 
 	const arg = process.argv[2];
+
 	if (arg === "stable") {
 		version = monacoEditorPackageJson.version;
 	} else if (arg === "nightly") {
@@ -70,6 +74,7 @@ async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {
 				encoding: "utf-8",
 			}),
 		) as PackageJson;
+
 		const packageJson = JSON.parse(
 			await readFile(monacoEditorPackageJsonPath, { encoding: "utf-8" }),
 		) as PackageJson;

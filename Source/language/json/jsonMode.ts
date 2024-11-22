@@ -56,6 +56,7 @@ class JSONDiagnosticsAdapter extends languageFeatures.DiagnosticsAdapter<JSONWor
 
 export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const disposables: IDisposable[] = [];
+
 	const providers: IDisposable[] = [];
 
 	const client = new WorkerManager(defaults);
@@ -165,6 +166,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	);
 
 	let modeConfiguration = defaults.modeConfiguration;
+
 	defaults.onDidChange((newDefaults) => {
 		if (newDefaults.modeConfiguration !== modeConfiguration) {
 			modeConfiguration = newDefaults.modeConfiguration;

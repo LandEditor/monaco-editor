@@ -66,16 +66,20 @@ export class TypeScriptWorker
 
 	getScriptFileNames(): string[] {
 		const allModels = this._ctx.getMirrorModels().map((model) => model.uri);
+
 		const models = allModels
 			.filter((uri) => !fileNameIsLib(uri))
 			.map((uri) => uri.toString());
+
 		return models.concat(Object.keys(this._extraLibs));
 	}
 
 	private _getModel(fileName: string): worker.IMirrorModel | null {
 		let models = this._ctx.getMirrorModels();
+
 		for (let i = 0; i < models.length; i++) {
 			const uri = models[i].uri;
+
 			if (
 				uri.toString() === fileName ||
 				uri.toString(true) === fileName
@@ -88,6 +92,7 @@ export class TypeScriptWorker
 
 	getScriptVersion(fileName: string): string {
 		let model = this._getModel(fileName);
+
 		if (model) {
 			return model.version.toString();
 		} else if (this.isDefaultLibFileName(fileName)) {
@@ -105,8 +110,11 @@ export class TypeScriptWorker
 
 	_getScriptText(fileName: string): string | undefined {
 		let text: string;
+
 		let model = this._getModel(fileName);
+
 		const libizedFileName = "lib." + fileName + ".d.ts";
+
 		if (model) {
 			// a true editor model
 			text = model.getValue();
@@ -126,6 +134,7 @@ export class TypeScriptWorker
 
 	getScriptSnapshot(fileName: string): ts.IScriptSnapshot | undefined {
 		const text = this._getScriptText(fileName);
+
 		if (text === undefined) {
 			return;
 		}
@@ -139,15 +148,20 @@ export class TypeScriptWorker
 
 	getScriptKind?(fileName: string): ts.ScriptKind {
 		const suffix = fileName.substr(fileName.lastIndexOf(".") + 1);
+
 		switch (suffix) {
 			case "ts":
 				return ts.ScriptKind.TS;
+
 			case "tsx":
 				return ts.ScriptKind.TSX;
+
 			case "js":
 				return ts.ScriptKind.JS;
+
 			case "jsx":
 				return ts.ScriptKind.JSX;
+
 			default:
 				return this.getCompilationSettings().allowJs
 					? ts.ScriptKind.JS
@@ -163,8 +177,10 @@ export class TypeScriptWorker
 		switch (options.target) {
 			case 99 /* ESNext */:
 				const esnext = "lib.esnext.full.d.ts";
+
 				if (esnext in libFileMap || esnext in this._extraLibs)
 					return esnext;
+
 			case 7 /* ES2020 */:
 			case 6 /* ES2019 */:
 			case 5 /* ES2018 */:
@@ -213,13 +229,16 @@ export class TypeScriptWorker
 		// property.
 		// Do a deep clone so we don't mutate the ts.Diagnostic object (see https://github.com/microsoft/monaco-editor/issues/2392)
 		const diagnostics: Diagnostic[] = [];
+
 		for (const tsDiagnostic of tsDiagnostics) {
 			const diagnostic: Diagnostic = { ...tsDiagnostic };
 			diagnostic.file = diagnostic.file
 				? { fileName: diagnostic.file.fileName }
 				: undefined;
+
 			if (tsDiagnostic.relatedInformation) {
 				diagnostic.relatedInformation = [];
+
 				for (const tsRelatedDiagnostic of tsDiagnostic.relatedInformation) {
 					const relatedDiagnostic: DiagnosticRelatedInformation = {
 						...tsRelatedDiagnostic,
@@ -241,6 +260,7 @@ export class TypeScriptWorker
 		}
 		const diagnostics =
 			this._languageService.getSyntacticDiagnostics(fileName);
+
 		return TypeScriptWorker.clearFiles(diagnostics);
 	}
 
@@ -250,6 +270,7 @@ export class TypeScriptWorker
 		}
 		const diagnostics =
 			this._languageService.getSemanticDiagnostics(fileName);
+
 		return TypeScriptWorker.clearFiles(diagnostics);
 	}
 
@@ -259,6 +280,7 @@ export class TypeScriptWorker
 		}
 		const diagnostics =
 			this._languageService.getSuggestionDiagnostics(fileName);
+
 		return TypeScriptWorker.clearFiles(diagnostics);
 	}
 
@@ -270,6 +292,7 @@ export class TypeScriptWorker
 		}
 		const diagnostics =
 			this._languageService.getCompilerOptionsDiagnostics();
+
 		return TypeScriptWorker.clearFiles(diagnostics);
 	}
 
@@ -474,9 +497,11 @@ export class TypeScriptWorker
 		) as ts.EmitOutput & {
 			diagnostics?: ts.Diagnostic[];
 		};
+
 		const diagnostics = emitOutput.diagnostics
 			? TypeScriptWorker.clearFiles(emitOutput.diagnostics)
 			: undefined;
+
 		return { ...emitOutput, diagnostics };
 	}
 
@@ -491,6 +516,7 @@ export class TypeScriptWorker
 			return [];
 		}
 		const preferences = {};
+
 		try {
 			return this._languageService.getCodeFixesAtPosition(
 				fileName,
@@ -518,6 +544,7 @@ export class TypeScriptWorker
 			return [];
 		}
 		const preferences: ts.UserPreferences = this._inlayHintsOptions ?? {};
+
 		const span: ts.TextSpan = {
 			start,
 			length: end - start,
@@ -553,6 +580,7 @@ export interface CustomTSWebWorkerFactory {
 
 declare global {
 	var importScripts: (path: string) => void | undefined;
+
 	var customTSWorkerFactory: CustomTSWebWorkerFactory | undefined;
 }
 
@@ -561,6 +589,7 @@ export function create(
 	createData: ICreateData,
 ): TypeScriptWorker {
 	let TSWorkerClass = TypeScriptWorker;
+
 	if (createData.customWorkerPath) {
 		if (typeof importScripts === "undefined") {
 			console.warn(
@@ -571,6 +600,7 @@ export function create(
 
 			const workerFactoryFunc: CustomTSWebWorkerFactory | undefined =
 				self.customTSWorkerFactory;
+
 			if (!workerFactoryFunc) {
 				throw new Error(
 					`The script at ${createData.customWorkerPath} does not add customTSWorkerFactory to self`,

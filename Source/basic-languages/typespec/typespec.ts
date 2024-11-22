@@ -1,11 +1,15 @@
 import type { languages } from "../../fillers/monaco-editor-core";
 
 const bounded = (text: string) => `\\b${text}\\b`;
+
 const notBefore = (regex: string) => `(?!${regex})`;
 
 const identifierStart = "[_a-zA-Z]";
+
 const identifierContinue = "[_a-zA-Z0-9]";
+
 const identifier = bounded(`${identifierStart}${identifierContinue}*`);
+
 const directive = bounded(`[_a-zA-Z-0-9]+`);
 
 const keywords = [
@@ -30,8 +34,11 @@ const keywords = [
 	"extern",
 	"fn",
 ];
+
 const namedLiterals = ["true", "false", "null", "unknown", "never"];
+
 const nonCommentWs = `[ \\t\\r\\n]`;
+
 const numericLiteral = `[0-9]+`;
 
 export const conf: languages.LanguageConfiguration = {

@@ -31,6 +31,7 @@ function getCompilerHook(
 			// HACK: globalObject is necessary to fix https://github.com/webpack/webpack/issues/6642
 			globalObject: "this",
 		};
+
 		const childCompiler = compilation.createChildCompiler(
 			id,
 			outputOptions,
@@ -39,6 +40,7 @@ function getCompilerHook(
 				new webpack.LoaderTargetPlugin("webworker"),
 			],
 		);
+
 		const SingleEntryPlugin =
 			webpack.EntryPlugin ?? webpack.SingleEntryPlugin;
 		new SingleEntryPlugin(compiler.context, entry, "main").apply(
@@ -67,8 +69,11 @@ export class AddWorkerEntryPointPlugin
 
 	apply(compiler: webpack.Compiler) {
 		const webpack = compiler.webpack ?? require("webpack");
+
 		const compilerHook = getCompilerHook(compiler, this.options);
+
 		const majorVersion = webpack.version.split(".")[0];
+
 		if (parseInt(majorVersion) < 4) {
 			(<any>compiler).plugin("make", compilerHook);
 		} else {

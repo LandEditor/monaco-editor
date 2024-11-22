@@ -31,7 +31,9 @@ export const conf: languages.LanguageConfiguration = {
 // stripping blanks and line endings. Emulates Perls 'qw' function.
 function qw(str: string): string[] {
 	let result: string[] = [];
+
 	const words = str.split(/\t+|\r+|\n+| +/);
+
 	for (let i = 0; i < words.length; ++i) {
 		if (words[i].length > 0) {
 			result.push(words[i]);

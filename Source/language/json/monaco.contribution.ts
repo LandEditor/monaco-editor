@@ -73,6 +73,7 @@ export type ASTNode =
 
 export type JSONDocument = {
 	root: ASTNode | undefined;
+
 	getNodeFromOffset(
 		offset: number,
 		includeRightBound?: boolean,
@@ -91,6 +92,7 @@ export interface JSONSchema {
 	$schema?: string;
 	type?: string | string[];
 	title?: string;
+
 	default?: any;
 	definitions?: {
 		[name: string]: JSONSchema;
@@ -126,15 +128,20 @@ export interface JSONSchema {
 	oneOf?: JSONSchemaRef[];
 	not?: JSONSchemaRef;
 	enum?: any[];
+
 	format?: string;
+
 	const?: any;
 	contains?: JSONSchemaRef;
 	propertyNames?: JSONSchemaRef;
 	examples?: any[];
 	$comment?: string;
+
 	if?: JSONSchemaRef;
 	then?: JSONSchemaRef;
+
 	else?: JSONSchemaRef;
+
 	defaultSnippets?: {
 		label?: string;
 		description?: string;
@@ -148,6 +155,7 @@ export interface JSONSchema {
 	enumDescriptions?: string[];
 	markdownEnumDescriptions?: string[];
 	markdownDescription?: string;
+
 	doNotSuggest?: boolean;
 	suggestSortText?: string;
 	allowComments?: boolean;
@@ -272,7 +280,9 @@ export interface LanguageServiceDefaults {
 	readonly onDidChange: IEvent<LanguageServiceDefaults>;
 	readonly diagnosticsOptions: DiagnosticsOptions;
 	readonly modeConfiguration: ModeConfiguration;
+
 	setDiagnosticsOptions(options: DiagnosticsOptions): void;
+
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 }
 
@@ -352,6 +362,7 @@ export const jsonDefaults: LanguageServiceDefaults =
 
 export interface IJSONWorker {
 	parseJSONDocument(uri: string): Promise<JSONDocument | null>;
+
 	getMatchingSchemas(uri: string): Promise<MatchingSchema[]>;
 }
 

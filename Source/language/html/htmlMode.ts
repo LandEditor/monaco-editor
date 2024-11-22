@@ -76,6 +76,7 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 
 export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const disposables: IDisposable[] = [];
+
 	const providers: IDisposable[] = [];
 
 	const client = new WorkerManager(defaults);

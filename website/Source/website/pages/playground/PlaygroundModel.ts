@@ -91,6 +91,7 @@ export class PlaygroundModel {
 	@computed.struct
 	get monacoSetup(): IMonacoSetup {
 		const sourceOverride = this.historyModel.sourceOverride;
+
 		if (sourceOverride) {
 			return toLoaderConfig({
 				...getDefaultSettings(),
@@ -131,6 +132,7 @@ export class PlaygroundModel {
 		| IPreviewState
 		| undefined => {
 		const previewState = this.getPreviewState();
+
 		if (!previewState) {
 			return undefined;
 		}
@@ -161,6 +163,7 @@ export class PlaygroundModel {
 	public set selectedExample(value: PlaygroundExample | undefined) {
 		this._selectedExample = value;
 		this.selectedExampleProject = undefined;
+
 		if (value) {
 			value.load().then((p) => {
 				runInAction("update example", () => {
@@ -199,6 +202,7 @@ export class PlaygroundModel {
 				() => ({ state: this.state }),
 				() => {
 					const state = this.state;
+
 					if (!this.settings.autoReload) {
 						if (
 							(!lastState ||
@@ -207,6 +211,7 @@ export class PlaygroundModel {
 							state.reloadKey === (lastState?.reloadKey ?? 0)
 						) {
 							this.isDirty = true;
+
 							return;
 						}
 					}
@@ -227,6 +232,7 @@ export class PlaygroundModel {
 		});
 
 		const observablePromise = new ObservablePromise(waitForLoadedMonaco());
+
 		let disposable: Disposable | undefined = undefined;
 
 		waitForLoadedMonaco().then((m) => {
@@ -257,6 +263,7 @@ export class PlaygroundModel {
 			dispose: autorun(
 				async () => {
 					const monaco = observablePromise.value;
+
 					if (!monaco) {
 						return;
 					}
@@ -264,6 +271,7 @@ export class PlaygroundModel {
 					this.reloadKey; // Allow reload to reload the d.ts file.
 
 					let content = "";
+
 					if (monacoTypesUrl) {
 						content = await (await fetch(monacoTypesUrl)).text();
 					}
@@ -295,12 +303,16 @@ export class PlaygroundModel {
 				escapeRegexpChars(codeStringName) +
 				":[^\\w`]*`)([^`\\\\\\n]|\\n|\\\\\\\\|\\\\\\`|\\\\\\$)*`",
 		);
+
 		const js = this.js;
+
 		const str = value
 			.replaceAll("\\", "\\\\")
 			.replaceAll("$", "\\$$$$")
 			.replaceAll("`", "\\`");
+
 		const newJs = js.replace(regexp, "$1" + str + "`");
+
 		const autoReload = this.settings.autoReload;
 		this.settings.autoReload = false;
 		this.js = newJs;

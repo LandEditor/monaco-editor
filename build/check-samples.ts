@@ -26,23 +26,29 @@ function checkEveryMonacoLanguageHasASample() {
 		switch (l) {
 			case "coffee":
 				return "coffeescript";
+
 			case "protobuf":
 				return "proto";
+
 			case "solidity":
 				return "sol";
+
 			case "sophia":
 				return "aes";
+
 			default:
 				return l;
 		}
 	});
 
 	let fail = false;
+
 	for (const language of languages) {
 		const expectedSamplePath = path.join(
 			REPO_ROOT,
 			`website/src/website/data/home-samples/sample.${language}.txt`,
 		);
+
 		if (!fs.existsSync(expectedSamplePath)) {
 			console.error(
 				`Missing sample for ${language} at ${expectedSamplePath}`,

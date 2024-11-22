@@ -24,11 +24,13 @@ export class LocationModel implements IHistoryModel {
 		| undefined = undefined;
 
 	@observable private _sourceOverride: Source | undefined;
+
 	get sourceOverride(): Source | undefined {
 		return this._sourceOverride;
 	}
 
 	@observable private _compareWith: Source | undefined;
+
 	get compareWith(): Source | undefined {
 		return this._compareWith;
 	}
@@ -47,6 +49,7 @@ export class LocationModel implements IHistoryModel {
 			this.dispose.track(
 				new HistoryController((initialLocation) => {
 					this.updateLocation(initialLocation);
+
 					return this;
 				}),
 			);
@@ -55,6 +58,7 @@ export class LocationModel implements IHistoryModel {
 
 	get location(): ILocation {
 		const source = this._sourceOverride || this.sourceFromSettings;
+
 		return {
 			hashValue: this.computedHashValue.value || this.cachedState?.hash,
 			searchParams: {
@@ -68,8 +72,11 @@ export class LocationModel implements IHistoryModel {
 	@action
 	updateLocation(currentLocation: ILocation): void {
 		const hashValue = currentLocation.hashValue;
+
 		const sourceStr = currentLocation.searchParams.source;
+
 		const sourceLanguages = currentLocation.searchParams.sourceLanguages;
+
 		const source =
 			sourceStr || sourceLanguages
 				? Source.parse(sourceStr, sourceLanguages)
@@ -82,6 +89,7 @@ export class LocationModel implements IHistoryModel {
 		}
 
 		const compareWithStr = currentLocation.searchParams.compareWith;
+
 		const compareWith = compareWithStr
 			? Source.parse(compareWithStr, undefined)
 			: undefined;
@@ -104,6 +112,7 @@ export class LocationModel implements IHistoryModel {
 			this.model.selectedExample = example;
 		} else {
 			let p: IPlaygroundProject | undefined = undefined;
+
 			if (this.cachedState?.hash === hashValue) {
 				p = this.cachedState.state;
 			}
@@ -149,6 +158,7 @@ export class LocationModel implements IHistoryModel {
 
 	private get sourceFromSettings(): Source | undefined {
 		const settings = this.model.settings.settings;
+
 		if (settings.monacoSource === "npm") {
 			return new Source(settings.npmVersion, undefined, undefined);
 		} else if (

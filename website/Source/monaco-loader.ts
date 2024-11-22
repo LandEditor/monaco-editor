@@ -22,8 +22,11 @@ export interface IMonacoSetup {
 }
 
 let loading = false;
+
 let resolve: (value: typeof monaco) => void;
+
 let reject: (error: unknown) => void;
+
 let loadMonacoPromise = new Promise<typeof monaco>((res, rej) => {
 	resolve = res;
 	reject = rej;
@@ -64,6 +67,7 @@ async function _loadMonaco(setup: IMonacoSetup): Promise<typeof monaco> {
 		req(["vs/editor/editor.main"], () => {
 			if ((setup as any).onlyCore) {
 				res(monaco);
+
 				return;
 			}
 			req(

@@ -23,7 +23,9 @@ export class HTMLWorker {
 		const data = this._languageSettings.data;
 
 		const useDefaultDataProvider = data?.useDefaultDataProvider;
+
 		const customDataProviders: IHTMLDataProvider[] = [];
+
 		if (data?.dataProviders) {
 			for (const id in data.dataProviders) {
 				customDataProviders.push(
@@ -42,10 +44,12 @@ export class HTMLWorker {
 		position: htmlService.Position,
 	): Promise<htmlService.CompletionList | null> {
 		let document = this._getTextDocument(uri);
+
 		if (!document) {
 			return null;
 		}
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
+
 		return Promise.resolve(
 			this._languageService.doComplete(
 				document,
@@ -61,6 +65,7 @@ export class HTMLWorker {
 		options: htmlService.FormattingOptions,
 	): Promise<htmlService.TextEdit[]> {
 		let document = this._getTextDocument(uri);
+
 		if (!document) {
 			return [];
 		}
@@ -68,11 +73,13 @@ export class HTMLWorker {
 			...this._languageSettings.format,
 			...options,
 		};
+
 		let textEdits = this._languageService.format(
 			document,
 			range,
 			formattingOptions,
 		);
+
 		return Promise.resolve(textEdits);
 	}
 	async doHover(
@@ -80,15 +87,18 @@ export class HTMLWorker {
 		position: htmlService.Position,
 	): Promise<htmlService.Hover | null> {
 		let document = this._getTextDocument(uri);
+
 		if (!document) {
 			return null;
 		}
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
+
 		let hover = this._languageService.doHover(
 			document,
 			position,
 			htmlDocument,
 		);
+
 		return Promise.resolve(hover);
 	}
 	async findDocumentHighlights(
@@ -96,19 +106,23 @@ export class HTMLWorker {
 		position: htmlService.Position,
 	): Promise<htmlService.DocumentHighlight[]> {
 		let document = this._getTextDocument(uri);
+
 		if (!document) {
 			return [];
 		}
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
+
 		let highlights = this._languageService.findDocumentHighlights(
 			document,
 			position,
 			htmlDocument,
 		);
+
 		return Promise.resolve(highlights);
 	}
 	async findDocumentLinks(uri: string): Promise<htmlService.DocumentLink[]> {
 		let document = this._getTextDocument(uri);
+
 		if (!document) {
 			return [];
 		}
@@ -116,20 +130,24 @@ export class HTMLWorker {
 			document,
 			null! /*TODO@aeschli*/,
 		);
+
 		return Promise.resolve(links);
 	}
 	async findDocumentSymbols(
 		uri: string,
 	): Promise<htmlService.SymbolInformation[]> {
 		let document = this._getTextDocument(uri);
+
 		if (!document) {
 			return [];
 		}
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
+
 		let symbols = this._languageService.findDocumentSymbols(
 			document,
 			htmlDocument,
 		);
+
 		return Promise.resolve(symbols);
 	}
 	async getFoldingRanges(
@@ -137,10 +155,12 @@ export class HTMLWorker {
 		context?: { rangeLimit?: number },
 	): Promise<htmlService.FoldingRange[]> {
 		let document = this._getTextDocument(uri);
+
 		if (!document) {
 			return [];
 		}
 		let ranges = this._languageService.getFoldingRanges(document, context);
+
 		return Promise.resolve(ranges);
 	}
 	async getSelectionRanges(
@@ -148,6 +168,7 @@ export class HTMLWorker {
 		positions: htmlService.Position[],
 	): Promise<htmlService.SelectionRange[]> {
 		let document = this._getTextDocument(uri);
+
 		if (!document) {
 			return [];
 		}
@@ -155,6 +176,7 @@ export class HTMLWorker {
 			document,
 			positions,
 		);
+
 		return Promise.resolve(ranges);
 	}
 	async doRename(
@@ -163,20 +185,24 @@ export class HTMLWorker {
 		newName: string,
 	): Promise<htmlService.WorkspaceEdit | null> {
 		let document = this._getTextDocument(uri);
+
 		if (!document) {
 			return null;
 		}
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
+
 		let renames = this._languageService.doRename(
 			document,
 			position,
 			newName,
 			htmlDocument,
 		);
+
 		return Promise.resolve(renames);
 	}
 	private _getTextDocument(uri: string): htmlService.TextDocument | null {
 		let models = this._ctx.getMirrorModels();
+
 		for (let model of models) {
 			if (model.uri.toString() === uri) {
 				return htmlService.TextDocument.create(

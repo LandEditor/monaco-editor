@@ -23,6 +23,7 @@ export interface IHistoryModel {
 export class HistoryController implements Disposable {
 	public readonly dispose = Disposable.fn();
 	private readonly model: IHistoryModel;
+
 	constructor(modelFactory: (initialLocation: ILocation) => IHistoryModel) {
 		this.model = modelFactory(getCurrentLocation());
 
@@ -71,6 +72,7 @@ export class HistoryController implements Disposable {
 		);
 
 		url.search = new URLSearchParams(searchParams).toString();
+
 		if (this.lastHistoryId === historyId) {
 			history.replaceState("", "", url.href);
 		} else {
@@ -82,7 +84,9 @@ export class HistoryController implements Disposable {
 
 function getCurrentLocation(): ILocation {
 	const hashValue = window.location.hash.substr(1);
+
 	const searchParams: Record<string, string> = {};
+
 	for (const [key, value] of new URLSearchParams(window.location.search)) {
 		searchParams[key] = value;
 	}

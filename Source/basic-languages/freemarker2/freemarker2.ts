@@ -313,9 +313,12 @@ function createMonarchLanguage(
 	// For generating dynamic states with the ID, used for auto mode
 	// where we switch once we have detected the mode.
 	const id = `_${ts.id}_${is.id}`;
+
 	const s = (name: string): string => name.replace(/__id__/g, id);
+
 	const r = (regexp: RegExp): RegExp => {
 		const source = regexp.source.replace(/__id__/g, id);
+
 		return new RegExp(source, regexp.flags);
 	};
 
@@ -1342,7 +1345,9 @@ function createMonarchLanguageAuto(
 	is: InterpolationSyntax,
 ): languages.IMonarchLanguage {
 	const angle = createMonarchLanguage(TagSyntaxAngle, is);
+
 	const bracket = createMonarchLanguage(TagSyntaxBracket, is);
+
 	const auto = createMonarchLanguage(TagSyntaxAuto, is);
 
 	return {

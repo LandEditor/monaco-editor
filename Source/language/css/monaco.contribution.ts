@@ -130,7 +130,9 @@ export interface LanguageServiceDefaults {
 
 	readonly modeConfiguration: ModeConfiguration;
 	readonly options: Options;
+
 	setOptions(options: Options): void;
+
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 
 	/** @deprecated Use options instead */

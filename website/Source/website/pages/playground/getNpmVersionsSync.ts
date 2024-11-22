@@ -17,6 +17,7 @@ let npmVersionsPromise: Promise<string[]> | undefined;
 
 export async function getNpmVersions(): Promise<string[]> {
 	getNpmVersionsSync(undefined);
+
 	return npmVersionsPromise!;
 }
 
@@ -67,13 +68,17 @@ async function _getNpmVersions(): Promise<string[]> {
 
 function compareSemanticVersions(version1: string, version2: string): number {
 	const v1 = version1.split(/[.]/);
+
 	const v2 = version2.split(/[.]/);
+
 	for (let i = 0; i < Math.min(v1.length, v2.length); i++) {
 		const isNumber = /^\d+$/.test(v1[i]) && /^\d+$/.test(v2[i]);
 
 		if (isNumber) {
 			const n1 = parseInt(v1[i]);
+
 			const n2 = parseInt(v2[i]);
+
 			if (n1 < n2) {
 				return -1;
 			}
@@ -82,6 +87,7 @@ function compareSemanticVersions(version1: string, version2: string): number {
 			}
 		} else {
 			const compare = v1[i].localeCompare(v2[i]);
+
 			if (compare !== 0) {
 				return compare;
 			}
@@ -97,6 +103,7 @@ export async function getVsCodeCommitId(
 	// TODO https://cdn.jsdelivr.net/npm/monaco-editor@${monacoEditorVersion}/package.json
 	let commitId: string | undefined =
 		knownVersionVsCodeCommitIds[monacoEditorVersion];
+
 	if (!commitId) {
 		const json = (await (
 			await fetch(

@@ -36,6 +36,7 @@ function getBasicLanguages(): Promise<{ label: string; entry: string }[]> {
 			(err, files) => {
 				if (err) {
 					reject(err);
+
 					return;
 				}
 
@@ -44,9 +45,11 @@ function getBasicLanguages(): Promise<{ label: string; entry: string }[]> {
 						const entry = file
 							.substring("./out/monaco-editor/esm/".length)
 							.replace(/\.js$/, "");
+
 						const label = path
 							.basename(file)
 							.replace(/\.contribution\.js$/, "");
+
 						return {
 							label: label,
 							entry: entry,
@@ -66,6 +69,7 @@ function readAdvancedLanguages(): Promise<string[]> {
 			(err, files) => {
 				if (err) {
 					reject(err);
+
 					return;
 				}
 
@@ -93,11 +97,15 @@ function getAdvancedLanguages(): Promise<
 > {
 	return readAdvancedLanguages().then((languages) => {
 		let result = [];
+
 		for (const lang of languages) {
 			let shortLang = lang === "typescript" ? "ts" : lang;
+
 			const entry = `vs/language/${lang}/monaco.contribution`;
 			checkFileExists(entry);
+
 			const workerId = `vs/language/${lang}/${shortLang}Worker`;
+
 			const workerEntry = `vs/language/${lang}/${shortLang}.worker`;
 			checkFileExists(workerEntry);
 			result.push({
@@ -118,6 +126,7 @@ function getAdvancedLanguages(): Promise<
 			"out/monaco-editor/esm",
 			`${moduleName}.js`,
 		);
+
 		if (!fs.existsSync(filePath)) {
 			console.error(`Could not find ${filePath}.`);
 			process.exit(1);
@@ -133,9 +142,12 @@ export function generateMetadata() {
 
 			let i = 0,
 				len = basicLanguages.length;
+
 			let j = 0,
 				lenJ = advancedLanguages.length;
+
 			let languages = [];
+
 			while (i < len || j < lenJ) {
 				if (i < len && j < lenJ) {
 					if (
@@ -200,6 +212,7 @@ export type EditorFeature = ${features.map((el) => `'${el.label}'`).join(" | ")}
 export type NegatedEditorFeature = ${features.map((el) => `'!${el.label}'`).join(" | ")};
 
 `;
+
 			const dtsDestination = path.join(
 				REPO_ROOT,
 				"out/monaco-editor/esm/metadata.d.ts",
@@ -214,6 +227,7 @@ export type NegatedEditorFeature = ${features.map((el) => `'!${el.label}'`).join
 exports.features = ${JSON.stringify(features, null, "  ")};
 exports.languages = ${JSON.stringify(languages, null, "  ")};
 `;
+
 			const jsDestination = path.join(
 				REPO_ROOT,
 				"out/monaco-editor/esm/metadata.js",
@@ -223,6 +237,7 @@ exports.languages = ${JSON.stringify(languages, null, "  ")};
 
 			for (const feature of [...features, ...languages]) {
 				const entries = [].concat(feature.entry);
+
 				for (const entry of entries) {
 					const dtsDestination =
 						path.join(REPO_ROOT, "out/monaco-editor/esm", entry) +
@@ -258,6 +273,7 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 	];
 
 	let features: string[] = [];
+
 	const files =
 		fs
 			.readFileSync(
@@ -277,8 +293,10 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 			.toString();
 	files.split(/\r\n|\n/).forEach((line) => {
 		const m = line.match(/import '([^']+)'/);
+
 		if (m) {
 			const tmp = path.posix.join("vs/editor", m[1]).replace(/\.js$/, "");
+
 			if (skipImports.indexOf(tmp) === -1) {
 				features.push(tmp);
 			}
@@ -287,10 +305,12 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 
 	let result: { label: string; entry: any }[] = features.map((feature) => {
 		/** @type {string} */ let label;
+
 		if (customFeatureLabels[feature]) {
 			label = customFeatureLabels[feature];
 		} else {
 			const m1 = feature.match(/^vs\/editor\/contrib\/([^\/]+)/);
+
 			if (m1) {
 				// for editor/contrib features, use the first segment
 				label = m1[1];
@@ -307,6 +327,7 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 
 	result.sort((a, b) => {
 		const labelCmp = strcmp(a.label, b.label);
+
 		if (labelCmp === 0) {
 			return strcmp(a.entry, b.entry);
 		}

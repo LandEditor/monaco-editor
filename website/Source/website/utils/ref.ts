@@ -17,6 +17,7 @@ export function ref<T, TProp extends keyof T>(
 
 export interface IReference<T, TSet = T> {
 	set(value: TSet): void;
+
 	get(): T;
 }
 

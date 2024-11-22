@@ -15,6 +15,7 @@ interface ILangImpl {
 }
 
 const languageDefinitions: { [languageId: string]: ILang } = {};
+
 const lazyLanguageLoaders: { [languageId: string]: LazyLanguageLoader } = {};
 
 class LazyLanguageLoader {
@@ -72,6 +73,7 @@ export function registerLanguage(def: ILang): void {
 	languages.registerTokensProviderFactory(languageId, {
 		create: async (): Promise<languages.IMonarchLanguage> => {
 			const mod = await lazyLanguageLoader.load();
+
 			return mod.language;
 		},
 	});

@@ -49,7 +49,9 @@ export class WorkerManager {
 			return;
 		}
 		const myToken = ++this._updateExtraLibsToken;
+
 		const proxy = await this._worker.getProxy();
+
 		if (this._updateExtraLibsToken !== myToken) {
 			// avoid multiple calls
 			return;
@@ -101,6 +103,7 @@ export class WorkerManager {
 		...resources: Uri[]
 	): Promise<TypeScriptWorker> {
 		const client = await this._getClient();
+
 		if (this._worker) {
 			await this._worker.withSyncedResources(resources);
 		}

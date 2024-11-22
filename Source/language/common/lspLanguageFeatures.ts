@@ -41,6 +41,7 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 	) {
 		const onModelAdd = (model: editor.IModel): void => {
 			let modeId = model.getLanguageId();
+
 			if (modeId !== this._languageId) {
 				return;
 			}
@@ -63,7 +64,9 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 			editor.setModelMarkers(model, this._languageId, []);
 
 			let uriStr = model.uri.toString();
+
 			let listener = this._listener[uriStr];
+
 			if (listener) {
 				listener.dispose();
 				delete this._listener[uriStr];
@@ -93,6 +96,7 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 		this._disposables.push({
 			dispose: () => {
 				editor.getModels().forEach(onModelRemoved);
+
 				for (let key in this._listener) {
 					this._listener[key].dispose();
 				}
@@ -116,7 +120,9 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 				const markers = diagnostics.map((d) =>
 					toDiagnostics(resource, d),
 				);
+
 				let model = editor.getModel(resource);
+
 				if (model && model.getLanguageId() === languageId) {
 					editor.setModelMarkers(model, languageId, markers);
 				}
@@ -131,12 +137,16 @@ function toSeverity(lsSeverity: number | undefined): MarkerSeverity {
 	switch (lsSeverity) {
 		case lsTypes.DiagnosticSeverity.Error:
 			return MarkerSeverity.Error;
+
 		case lsTypes.DiagnosticSeverity.Warning:
 			return MarkerSeverity.Warning;
+
 		case lsTypes.DiagnosticSeverity.Information:
 			return MarkerSeverity.Info;
+
 		case lsTypes.DiagnosticSeverity.Hint:
 			return MarkerSeverity.Hint;
+
 		default:
 			return MarkerSeverity.Info;
 	}
@@ -204,6 +214,7 @@ export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
 					return;
 				}
 				const wordInfo = model.getWordUntilPosition(position);
+
 				const wordRange = new Range(
 					position.lineNumber,
 					wordInfo.startColumn,
@@ -224,6 +235,7 @@ export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
 							range: wordRange,
 							kind: toCompletionItemKind(entry.kind),
 						};
+
 						if (entry.textEdit) {
 							if (isInsertReplaceEdit(entry.textEdit)) {
 								item.range = {
@@ -323,38 +335,55 @@ function toCompletionItemKind(
 	switch (kind) {
 		case lsTypes.CompletionItemKind.Text:
 			return mItemKind.Text;
+
 		case lsTypes.CompletionItemKind.Method:
 			return mItemKind.Method;
+
 		case lsTypes.CompletionItemKind.Function:
 			return mItemKind.Function;
+
 		case lsTypes.CompletionItemKind.Constructor:
 			return mItemKind.Constructor;
+
 		case lsTypes.CompletionItemKind.Field:
 			return mItemKind.Field;
+
 		case lsTypes.CompletionItemKind.Variable:
 			return mItemKind.Variable;
+
 		case lsTypes.CompletionItemKind.Class:
 			return mItemKind.Class;
+
 		case lsTypes.CompletionItemKind.Interface:
 			return mItemKind.Interface;
+
 		case lsTypes.CompletionItemKind.Module:
 			return mItemKind.Module;
+
 		case lsTypes.CompletionItemKind.Property:
 			return mItemKind.Property;
+
 		case lsTypes.CompletionItemKind.Unit:
 			return mItemKind.Unit;
+
 		case lsTypes.CompletionItemKind.Value:
 			return mItemKind.Value;
+
 		case lsTypes.CompletionItemKind.Enum:
 			return mItemKind.Enum;
+
 		case lsTypes.CompletionItemKind.Keyword:
 			return mItemKind.Keyword;
+
 		case lsTypes.CompletionItemKind.Snippet:
 			return mItemKind.Snippet;
+
 		case lsTypes.CompletionItemKind.Color:
 			return mItemKind.Color;
+
 		case lsTypes.CompletionItemKind.File:
 			return mItemKind.File;
+
 		case lsTypes.CompletionItemKind.Reference:
 			return mItemKind.Reference;
 	}
@@ -369,38 +398,55 @@ function fromCompletionItemKind(
 	switch (kind) {
 		case mItemKind.Text:
 			return lsTypes.CompletionItemKind.Text;
+
 		case mItemKind.Method:
 			return lsTypes.CompletionItemKind.Method;
+
 		case mItemKind.Function:
 			return lsTypes.CompletionItemKind.Function;
+
 		case mItemKind.Constructor:
 			return lsTypes.CompletionItemKind.Constructor;
+
 		case mItemKind.Field:
 			return lsTypes.CompletionItemKind.Field;
+
 		case mItemKind.Variable:
 			return lsTypes.CompletionItemKind.Variable;
+
 		case mItemKind.Class:
 			return lsTypes.CompletionItemKind.Class;
+
 		case mItemKind.Interface:
 			return lsTypes.CompletionItemKind.Interface;
+
 		case mItemKind.Module:
 			return lsTypes.CompletionItemKind.Module;
+
 		case mItemKind.Property:
 			return lsTypes.CompletionItemKind.Property;
+
 		case mItemKind.Unit:
 			return lsTypes.CompletionItemKind.Unit;
+
 		case mItemKind.Value:
 			return lsTypes.CompletionItemKind.Value;
+
 		case mItemKind.Enum:
 			return lsTypes.CompletionItemKind.Enum;
+
 		case mItemKind.Keyword:
 			return lsTypes.CompletionItemKind.Keyword;
+
 		case mItemKind.Snippet:
 			return lsTypes.CompletionItemKind.Snippet;
+
 		case mItemKind.Color:
 			return lsTypes.CompletionItemKind.Color;
+
 		case mItemKind.File:
 			return lsTypes.CompletionItemKind.File;
+
 		case mItemKind.Reference:
 			return lsTypes.CompletionItemKind.Reference;
 	}
@@ -570,8 +616,10 @@ function toDocumentHighlightKind(
 	switch (kind) {
 		case lsTypes.DocumentHighlightKind.Read:
 			return languages.DocumentHighlightKind.Read;
+
 		case lsTypes.DocumentHighlightKind.Write:
 			return languages.DocumentHighlightKind.Write;
+
 		case lsTypes.DocumentHighlightKind.Text:
 			return languages.DocumentHighlightKind.Text;
 	}
@@ -710,8 +758,10 @@ function toWorkspaceEdit(
 		return void 0;
 	}
 	let resourceEdits: languages.IWorkspaceTextEdit[] = [];
+
 	for (let uri in edit.changes) {
 		const _uri = Uri.parse(uri);
+
 		for (let e of edit.changes[uri]) {
 			resourceEdits.push({
 				resource: _uri,
@@ -799,38 +849,55 @@ function toSymbolKind(kind: lsTypes.SymbolKind): languages.SymbolKind {
 	switch (kind) {
 		case lsTypes.SymbolKind.File:
 			return mKind.File;
+
 		case lsTypes.SymbolKind.Module:
 			return mKind.Module;
+
 		case lsTypes.SymbolKind.Namespace:
 			return mKind.Namespace;
+
 		case lsTypes.SymbolKind.Package:
 			return mKind.Package;
+
 		case lsTypes.SymbolKind.Class:
 			return mKind.Class;
+
 		case lsTypes.SymbolKind.Method:
 			return mKind.Method;
+
 		case lsTypes.SymbolKind.Property:
 			return mKind.Property;
+
 		case lsTypes.SymbolKind.Field:
 			return mKind.Field;
+
 		case lsTypes.SymbolKind.Constructor:
 			return mKind.Constructor;
+
 		case lsTypes.SymbolKind.Enum:
 			return mKind.Enum;
+
 		case lsTypes.SymbolKind.Interface:
 			return mKind.Interface;
+
 		case lsTypes.SymbolKind.Function:
 			return mKind.Function;
+
 		case lsTypes.SymbolKind.Variable:
 			return mKind.Variable;
+
 		case lsTypes.SymbolKind.Constant:
 			return mKind.Constant;
+
 		case lsTypes.SymbolKind.String:
 			return mKind.String;
+
 		case lsTypes.SymbolKind.Number:
 			return mKind.Number;
+
 		case lsTypes.SymbolKind.Boolean:
 			return mKind.Boolean;
+
 		case lsTypes.SymbolKind.Array:
 			return mKind.Array;
 	}
@@ -961,6 +1028,7 @@ function fromFormattingOptions(
 
 export interface ILanguageWorkerWithDocumentColors {
 	findDocumentColors(uri: string): Promise<lsTypes.ColorInformation[]>;
+
 	getColorPresentations(
 		uri: string,
 		color: lsTypes.Color,
@@ -1015,6 +1083,7 @@ export class DocumentColorAdapter<T extends ILanguageWorkerWithDocumentColors>
 					let item: languages.IColorPresentation = {
 						label: presentation.label,
 					};
+
 					if (presentation.textEdit) {
 						item.textEdit = toTextEdit(presentation.textEdit);
 					}
@@ -1066,6 +1135,7 @@ export class FoldingRangeAdapter<T extends ILanguageWorkerWithFoldingRanges>
 						start: range.startLine + 1,
 						end: range.endLine + 1,
 					};
+
 					if (typeof range.kind !== "undefined") {
 						result.kind = toFoldingRangeKind(
 							<lsTypes.FoldingRangeKind>range.kind,
@@ -1083,8 +1153,10 @@ function toFoldingRangeKind(
 	switch (kind) {
 		case lsTypes.FoldingRangeKind.Comment:
 			return languages.FoldingRangeKind.Comment;
+
 		case lsTypes.FoldingRangeKind.Imports:
 			return languages.FoldingRangeKind.Imports;
+
 		case lsTypes.FoldingRangeKind.Region:
 			return languages.FoldingRangeKind.Region;
 	}
@@ -1128,6 +1200,7 @@ export class SelectionRangeAdapter<T extends ILanguageWorkerWithSelectionRanges>
 				return selectionRanges.map(
 					(selectionRange: lsTypes.SelectionRange | undefined) => {
 						const result: languages.SelectionRange[] = [];
+
 						while (selectionRange) {
 							result.push({
 								range: toRange(selectionRange.range),

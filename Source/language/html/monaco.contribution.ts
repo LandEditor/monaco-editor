@@ -116,7 +116,9 @@ export interface LanguageServiceDefaults {
 	readonly modeConfiguration: ModeConfiguration;
 	readonly onDidChange: IEvent<LanguageServiceDefaults>;
 	readonly options: Options;
+
 	setOptions(options: Options): void;
+
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 }
 // --- HTML configuration and defaults ---------
@@ -206,7 +208,9 @@ function getConfigurationDefault(
 }
 
 const htmlLanguageId = "html";
+
 const handlebarsLanguageId = "handlebars";
+
 const razorLanguageId = "razor";
 
 export const htmlLanguageService = registerHTMLLanguageService(
@@ -277,12 +281,14 @@ export function registerHTMLLanguageService(
 		options,
 		modeConfiguration,
 	);
+
 	let mode: IDisposable | undefined;
 
 	// delay the initalization of the mode until the language is accessed the first time
 	const onLanguageListener = languages.onLanguage(languageId, async () => {
 		mode = (await getMode()).setupMode(defaults);
 	});
+
 	return {
 		defaults,
 		dispose() {

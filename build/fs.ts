@@ -34,6 +34,7 @@ export function ensureDir(dirname: string) {
  */
 export function copyFile(_source: string, _destination: string) {
 	const source = path.join(REPO_ROOT, _source);
+
 	const destination = path.join(REPO_ROOT, _destination);
 
 	ensureDir(path.dirname(destination));
@@ -53,6 +54,7 @@ export function removeDir(
 		keep = () => false;
 	}
 	const dirPath = path.join(REPO_ROOT, _dirPath);
+
 	if (!fs.existsSync(dirPath)) {
 		return;
 	}
@@ -61,12 +63,17 @@ export function removeDir(
 
 	function rmDir(dirPath: string, relativeDirPath: string): boolean {
 		let keepsFiles = false;
+
 		const entries = fs.readdirSync(dirPath);
+
 		for (const entry of entries) {
 			const filePath = path.join(dirPath, entry);
+
 			const relativeFilePath = path.join(relativeDirPath, entry);
+
 			if (keep!(relativeFilePath)) {
 				keepsFiles = true;
+
 				continue;
 			}
 			if (fs.statSync(filePath).isFile()) {

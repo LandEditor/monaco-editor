@@ -167,21 +167,27 @@ function tokenize(
 ): languages.ILineTokens {
 	// handle multiline strings and block comments
 	let numberOfInsertedCharacters = 0;
+
 	let adjustOffset = false;
 
 	switch (state.scanError) {
 		case ScanError.UnexpectedEndOfString:
 			line = '"' + line;
 			numberOfInsertedCharacters = 1;
+
 			break;
+
 		case ScanError.UnexpectedEndOfComment:
 			line = "/*" + line;
 			numberOfInsertedCharacters = 2;
+
 			break;
 	}
 
 	const scanner = json.createScanner(line);
+
 	let lastWasColon = state.lastWasColon;
+
 	let parents = state.parents;
 
 	const ret: languages.ILineTokens = {
@@ -191,9 +197,11 @@ function tokenize(
 
 	while (true) {
 		let offset = offsetDelta + scanner.getPosition();
+
 		let type = "";
 
 		const kind = <SyntaxKind>(<any>scanner.scan());
+
 		if (kind === SyntaxKind.EOF) {
 			break;
 		}
@@ -219,53 +227,73 @@ function tokenize(
 				parents = ParentsStack.push(parents, JSONParent.Object);
 				type = TOKEN_DELIM_OBJECT;
 				lastWasColon = false;
+
 				break;
+
 			case SyntaxKind.CloseBraceToken:
 				parents = ParentsStack.pop(parents);
 				type = TOKEN_DELIM_OBJECT;
 				lastWasColon = false;
+
 				break;
+
 			case SyntaxKind.OpenBracketToken:
 				parents = ParentsStack.push(parents, JSONParent.Array);
 				type = TOKEN_DELIM_ARRAY;
 				lastWasColon = false;
+
 				break;
+
 			case SyntaxKind.CloseBracketToken:
 				parents = ParentsStack.pop(parents);
 				type = TOKEN_DELIM_ARRAY;
 				lastWasColon = false;
+
 				break;
+
 			case SyntaxKind.ColonToken:
 				type = TOKEN_DELIM_COLON;
 				lastWasColon = true;
+
 				break;
+
 			case SyntaxKind.CommaToken:
 				type = TOKEN_DELIM_COMMA;
 				lastWasColon = false;
+
 				break;
+
 			case SyntaxKind.TrueKeyword:
 			case SyntaxKind.FalseKeyword:
 				type = TOKEN_VALUE_BOOLEAN;
 				lastWasColon = false;
+
 				break;
+
 			case SyntaxKind.NullKeyword:
 				type = TOKEN_VALUE_NULL;
 				lastWasColon = false;
+
 				break;
+
 			case SyntaxKind.StringLiteral:
 				const currentParent = parents
 					? parents.type
 					: JSONParent.Object;
+
 				const inArray = currentParent === JSONParent.Array;
 				type =
 					lastWasColon || inArray
 						? TOKEN_VALUE_STRING
 						: TOKEN_PROPERTY_NAME;
 				lastWasColon = false;
+
 				break;
+
 			case SyntaxKind.NumericLiteral:
 				type = TOKEN_VALUE_NUMBER;
 				lastWasColon = false;
+
 				break;
 		}
 
@@ -274,9 +302,12 @@ function tokenize(
 			switch (kind) {
 				case SyntaxKind.LineCommentTrivia:
 					type = TOKEN_COMMENT_LINE;
+
 					break;
+
 				case SyntaxKind.BlockCommentTrivia:
 					type = TOKEN_COMMENT_BLOCK;
+
 					break;
 			}
 		}

@@ -10,6 +10,7 @@ import type { TypeScriptWorker } from "./tsWorker";
 import { WorkerManager } from "./workerManager";
 
 let javaScriptWorker: (...uris: Uri[]) => Promise<TypeScriptWorker>;
+
 let typeScriptWorker: (...uris: Uri[]) => Promise<TypeScriptWorker>;
 
 export function setupTypeScript(defaults: LanguageServiceDefaults): void {
@@ -49,6 +50,7 @@ function setupMode(
 	modeId: string,
 ): (...uris: Uri[]) => Promise<TypeScriptWorker> {
 	const disposables: IDisposable[] = [];
+
 	const providers: IDisposable[] = [];
 
 	const client = new WorkerManager(modeId, defaults);

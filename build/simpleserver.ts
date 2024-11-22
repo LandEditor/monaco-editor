@@ -21,13 +21,16 @@ function generateTestSamplesTask() {
 	const sampleNames = fs.readdirSync(
 		path.join(REPO_ROOT, "test/manual/samples"),
 	);
+
 	let samples = sampleNames.map((sampleName) => {
 		const samplePath = path.join(
 			REPO_ROOT,
 			"test/manual/samples",
 			sampleName,
 		);
+
 		const sampleContent = fs.readFileSync(samplePath).toString();
+
 		return {
 			name: sampleName,
 			content: sampleContent,
@@ -48,7 +51,9 @@ function generateTestSamplesTask() {
 					"website/index/samples",
 					sampleName,
 				);
+
 				const sampleContent = fs.readFileSync(samplePath).toString();
+
 				return {
 					name: sampleName,
 					content: sampleContent,
@@ -59,6 +64,7 @@ function generateTestSamplesTask() {
 
 	const prefix =
 		"//This is a generated file via `npm run simpleserver`\ndefine([], function() { return";
+
 	const suffix = "; });";
 
 	const destination = path.join(

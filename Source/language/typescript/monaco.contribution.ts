@@ -89,11 +89,14 @@ interface CompilerOptions {
 	declarationDir?: string;
 	disableSizeLimit?: boolean;
 	disableSourceOfProjectReferenceRedirect?: boolean;
+
 	downlevelIteration?: boolean;
 	emitBOM?: boolean;
 	emitDecoratorMetadata?: boolean;
 	experimentalDecorators?: boolean;
+
 	forceConsistentCasingInFileNames?: boolean;
+
 	importHelpers?: boolean;
 	inlineSourceMap?: boolean;
 	inlineSources?: boolean;
@@ -316,6 +319,7 @@ export interface LanguageServiceDefaults {
 	readonly inlayHintsOptions: InlayHintsOptions;
 
 	readonly modeConfiguration: ModeConfiguration;
+
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 
 	/**
@@ -639,6 +643,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	addExtraLib(content: string, _filePath?: string): IDisposable {
 		let filePath: string;
+
 		if (typeof _filePath === "undefined") {
 			filePath = `ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
 		} else {
@@ -656,6 +661,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		}
 
 		let myVersion = 1;
+
 		if (this._removedExtraLibs[filePath]) {
 			myVersion = this._removedExtraLibs[filePath] + 1;
 		}
@@ -672,6 +678,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		return {
 			dispose: () => {
 				let extraLib = this._extraLibs[filePath];
+
 				if (!extraLib) {
 					return;
 				}
@@ -699,8 +706,11 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 				const filePath =
 					lib.filePath ||
 					`ts:extralib-${Math.random().toString(36).substring(2, 15)}`;
+
 				const content = lib.content;
+
 				let myVersion = 1;
+
 				if (this._removedExtraLibs[filePath]) {
 					myVersion = this._removedExtraLibs[filePath] + 1;
 				}

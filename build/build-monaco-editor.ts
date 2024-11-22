@@ -41,6 +41,7 @@ generateMetadata();
 // package.json
 (() => {
 	const packageJSON = readFiles("package.json", { base: "" })[0];
+
 	const json = JSON.parse(packageJSON.contents.toString());
 
 	json.private = false;
@@ -95,9 +96,11 @@ function fixNlsFiles(files: IFile[]): IFile[] {
 		}
 
 		const dirName = path.dirname(f.path);
+
 		const fileName = path.basename(f.path);
 
 		const newPath = path.join(dirName, "vs", fileName);
+
 		let contentStr = f.contents.toString("utf-8");
 
 		contentStr = `
@@ -173,7 +176,9 @@ function AMD_addPluginContribs(type: "dev" | "min", files: IFile[]) {
 				'","',
 			)}"], function(api) { return api; });`,
 		);
+
 		let insertIndex = contents.lastIndexOf("//# sourceMappingURL=");
+
 		if (insertIndex === -1) {
 			insertIndex = contents.length;
 		}
@@ -221,9 +226,12 @@ function ESM_releasePlugins() {
 		let contents = file.contents.toString();
 
 		const info = ts.preProcessFile(contents);
+
 		for (let i = info.importedFiles.length - 1; i >= 0; i--) {
 			let importText = info.importedFiles[i].fileName;
+
 			const pos = info.importedFiles[i].pos;
+
 			const end = info.importedFiles[i].end;
 
 			if (!/(^\.\/)|(^\.\.\/)/.test(importText)) {
@@ -242,9 +250,11 @@ function ESM_releasePlugins() {
 				const importFilePath = importText.substring(
 					"monaco-editor-core/esm/".length,
 				);
+
 				let relativePath = path
 					.relative(path.dirname(file.path), importFilePath)
 					.replace(/\\/g, "/");
+
 				if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
 					relativePath = "./" + relativePath;
 				}
@@ -265,9 +275,11 @@ function ESM_releasePlugins() {
 		}
 
 		const apiFilePath = "vs/editor/editor.api";
+
 		let relativePath = path
 			.relative(path.dirname(file.path), apiFilePath)
 			.replace(/\\/g, "/");
+
 		if (!/(^\.\/)|(^\.\.\/)/.test(relativePath)) {
 			relativePath = "./" + relativePath;
 		}
@@ -293,9 +305,12 @@ function ESM_addImportSuffix(files: IFile[]) {
 		let contents = file.contents.toString();
 
 		const info = ts.preProcessFile(contents);
+
 		for (let i = info.importedFiles.length - 1; i >= 0; i--) {
 			const importText = info.importedFiles[i].fileName;
+
 			const pos = info.importedFiles[i].pos;
+
 			const end = info.importedFiles[i].end;
 
 			if (/(\.css)|(\.js)$/.test(importText)) {
@@ -407,7 +422,9 @@ function releaseDTS() {
  */
 function toExternalDTS(contents: string): string {
 	let lines = contents.split(/\r\n|\r|\n/);
+
 	let killNextCloseCurlyBrace = false;
+
 	for (let i = 0; i < lines.length; i++) {
 		let line = lines[i];
 
@@ -415,6 +432,7 @@ function toExternalDTS(contents: string): string {
 			if ("}" === line) {
 				lines[i] = "";
 				killNextCloseCurlyBrace = false;
+
 				continue;
 			}
 
@@ -430,6 +448,7 @@ function toExternalDTS(contents: string): string {
 		if ("declare namespace monaco {" === line) {
 			lines[i] = "";
 			killNextCloseCurlyBrace = true;
+
 			continue;
 		}
 
@@ -467,11 +486,14 @@ function cleanFile(contents: string): string {
 		.split(/\r\n|\r|\n/)
 		.map(function (line) {
 			const m = line.match(/^(\t+)/);
+
 			if (!m) {
 				return line;
 			}
 			const tabsCount = m[1].length;
+
 			let newIndent = "";
+
 			for (let i = 0; i < 4 * tabsCount; i++) {
 				newIndent += " ";
 			}
@@ -495,6 +517,7 @@ function releaseThirdPartyNotices() {
 	let contents = tpn.contents.toString();
 
 	console.log("ADDING ThirdPartyNotices from ./ThirdPartyNotices.txt");
+
 	let thirdPartyNoticeContent = fs
 		.readFileSync(path.join(REPO_ROOT, "ThirdPartyNotices.txt"))
 		.toString();

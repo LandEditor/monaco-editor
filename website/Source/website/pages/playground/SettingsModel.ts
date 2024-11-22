@@ -44,6 +44,7 @@ export class SettingsModel {
 
 	constructor() {
 		const settingsStr = "";
+
 		try {
 			localStorage.getItem(this.settingsKey);
 		} catch (e) {
@@ -60,6 +61,7 @@ export class SettingsModel {
 	setSettings(settings: Settings): void {
 		const settingsJson = JSON.stringify(toJS(settings));
 		this._settings = JSON.parse(settingsJson);
+
 		try {
 			localStorage.setItem(this.settingsKey, settingsJson);
 		} catch (e) {
@@ -102,17 +104,21 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 				),
 				monacoTypesUrl: "node_modules/monaco-editor/monaco.d.ts",
 			};
+
 		case "npm":
 			const url = `https://cdn.jsdelivr.net/npm/monaco-editor@${settings.npmVersion}`;
+
 			return {
 				...getMonacoSetup(`${url}/${settings.npmStability}/vs`),
 				monacoTypesUrl: `${url}/monaco.d.ts`,
 			};
+
 		case "custom":
 			try {
 				return JSON.parse(settings.customConfig);
 			} catch (e) {
 				console.error(e);
+
 				return prodMonacoSetup;
 			}
 		case "independent":
@@ -120,31 +126,42 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 				new URL(".", window.location.href).toString(),
 				"/",
 			);
+
 			let coreUrl: string;
 
 			switch (settings.coreSource) {
 				case "latest":
 					coreUrl = `${root}/node_modules/monaco-editor-core/${settings.latestCoreStability}/vs`;
+
 					break;
+
 				case "url":
 					coreUrl = settings.coreUrl;
+
 					break;
 			}
 
 			let languagesUrl: string;
+
 			switch (settings.languagesSource) {
 				case "latest":
 					languagesUrl = `${root}/out/languages/bundled/amd-${settings.latestLanguagesStability}/vs`;
+
 					break;
+
 				case "source":
 					languagesUrl = `${root}/out/languages/amd-tsc`;
+
 					break;
+
 				case "url":
 					languagesUrl = settings.languagesUrl;
+
 					break;
 			}
 
 			const setup = { ...getMonacoSetup(coreUrl) };
+
 			if (
 				!setup.monacoTypesUrl &&
 				setup.loaderConfigPaths["vs"] &&
@@ -188,6 +205,7 @@ export function getDefaultSettings(): Settings {
 		previewFullScreen: false,
 		autoReload: true,
 	};
+
 	return defaultSettings;
 }
 
