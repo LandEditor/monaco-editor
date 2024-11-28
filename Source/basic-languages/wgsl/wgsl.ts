@@ -41,6 +41,7 @@ function qw(str: string): string[] {
 	}
 	return result;
 }
+
 const atoms = qw("true false");
 
 const keywords = qw(`
