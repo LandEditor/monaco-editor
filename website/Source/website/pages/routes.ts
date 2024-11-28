@@ -24,6 +24,9 @@ function trimEnd(str: string, end: string): string {
 }
 
 export const home = new Route("./");
+
 export const playground = new Route("./playground.html");
+
 export const docs = new Route("./docs.html");
+
 export const monarch = new Route("./monarch.html");

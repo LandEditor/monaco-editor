@@ -195,4 +195,5 @@ function disposeAll(disposables: IDisposable[]) {
 }
 
 export { WorkerManager } from "./workerManager";
+
 export * from "../common/lspLanguageFeatures";

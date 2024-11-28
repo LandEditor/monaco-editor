@@ -218,6 +218,7 @@ export const htmlLanguageService = registerHTMLLanguageService(
 	optionsDefault,
 	getConfigurationDefault(htmlLanguageId),
 );
+
 export const htmlDefaults = htmlLanguageService.defaults;
 
 export const handlebarLanguageService = registerHTMLLanguageService(
@@ -225,6 +226,7 @@ export const handlebarLanguageService = registerHTMLLanguageService(
 	optionsDefault,
 	getConfigurationDefault(handlebarsLanguageId),
 );
+
 export const handlebarDefaults = handlebarLanguageService.defaults;
 
 export const razorLanguageService = registerHTMLLanguageService(
@@ -232,6 +234,7 @@ export const razorLanguageService = registerHTMLLanguageService(
 	optionsDefault,
 	getConfigurationDefault(razorLanguageId),
 );
+
 export const razorDefaults = razorLanguageService.defaults;
 
 // export to the global based API

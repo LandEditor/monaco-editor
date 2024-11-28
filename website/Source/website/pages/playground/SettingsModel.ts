@@ -71,6 +71,7 @@ export class SettingsModel {
 }
 
 export type Stability = "dev" | "min";
+
 export const StabilityValues: Stability[] = ["dev", "min"];
 
 export interface Settings {

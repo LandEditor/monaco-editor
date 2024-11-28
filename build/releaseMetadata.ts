@@ -225,6 +225,7 @@ export type NegatedEditorFeature = ${features.map((el) => `'!${el.label}'`).join
 
 			const jsContents = `
 exports.features = ${JSON.stringify(features, null, "  ")};
+
 exports.languages = ${JSON.stringify(languages, null, "  ")};
 `;
 

@@ -273,10 +273,13 @@ export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
 }
 
 export function fromPosition(position: Position): lsTypes.Position;
+
 export function fromPosition(position: undefined): undefined;
+
 export function fromPosition(
 	position: Position | undefined,
 ): lsTypes.Position | undefined;
+
 export function fromPosition(
 	position: Position | undefined,
 ): lsTypes.Position | undefined {
@@ -287,8 +290,11 @@ export function fromPosition(
 }
 
 export function fromRange(range: IRange): lsTypes.Range;
+
 export function fromRange(range: undefined): undefined;
+
 export function fromRange(range: IRange | undefined): lsTypes.Range | undefined;
+
 export function fromRange(
 	range: IRange | undefined,
 ): lsTypes.Range | undefined {
@@ -304,8 +310,11 @@ export function fromRange(
 	};
 }
 export function toRange(range: lsTypes.Range): Range;
+
 export function toRange(range: undefined): undefined;
+
 export function toRange(range: lsTypes.Range | undefined): Range | undefined;
+
 export function toRange(range: lsTypes.Range | undefined): Range | undefined {
 	if (!range) {
 		return void 0;
@@ -454,10 +463,13 @@ function fromCompletionItemKind(
 }
 
 export function toTextEdit(textEdit: lsTypes.TextEdit): languages.TextEdit;
+
 export function toTextEdit(textEdit: undefined): undefined;
+
 export function toTextEdit(
 	textEdit: lsTypes.TextEdit | undefined,
 ): languages.TextEdit | undefined;
+
 export function toTextEdit(
 	textEdit: lsTypes.TextEdit | undefined,
 ): languages.TextEdit | undefined {

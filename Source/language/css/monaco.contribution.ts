@@ -252,12 +252,14 @@ export const cssDefaults: LanguageServiceDefaults =
 		optionsDefault,
 		modeConfigurationDefault,
 	);
+
 export const scssDefaults: LanguageServiceDefaults =
 	new LanguageServiceDefaultsImpl(
 		"scss",
 		optionsDefault,
 		modeConfigurationDefault,
 	);
+
 export const lessDefaults: LanguageServiceDefaults =
 	new LanguageServiceDefaultsImpl(
 		"less",

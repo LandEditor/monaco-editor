@@ -18,15 +18,25 @@ export function createTokenizationSupport(
 }
 
 export const TOKEN_DELIM_OBJECT = "delimiter.bracket.json";
+
 export const TOKEN_DELIM_ARRAY = "delimiter.array.json";
+
 export const TOKEN_DELIM_COLON = "delimiter.colon.json";
+
 export const TOKEN_DELIM_COMMA = "delimiter.comma.json";
+
 export const TOKEN_VALUE_BOOLEAN = "keyword.json";
+
 export const TOKEN_VALUE_NULL = "keyword.json";
+
 export const TOKEN_VALUE_STRING = "string.value.json";
+
 export const TOKEN_VALUE_NUMBER = "number.json";
+
 export const TOKEN_PROPERTY_NAME = "string.key.json";
+
 export const TOKEN_COMMENT_BLOCK = "comment.block.json";
+
 export const TOKEN_COMMENT_LINE = "comment.line.json";
 
 const enum JSONParent {

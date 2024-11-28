@@ -210,4 +210,5 @@ const richEditConfiguration: languages.LanguageConfiguration = {
 };
 
 export { WorkerManager } from "./workerManager";
+
 export * from "../common/lspLanguageFeatures";

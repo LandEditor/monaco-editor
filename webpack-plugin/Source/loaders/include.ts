@@ -46,7 +46,9 @@ export const pitch: PitchLoaderDefinitionFunction<ILoaderOptions> =
 			),
 			`
 import * as monaco from ${stringifyRequest(`!!${remainingRequest}`)};
+
 export * from ${stringifyRequest(`!!${remainingRequest}`)};
+
 export default monaco;
 		`,
 			...post.map(
