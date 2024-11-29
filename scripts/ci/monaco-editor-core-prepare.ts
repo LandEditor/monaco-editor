@@ -24,6 +24,7 @@ const monacoEditorPackageJsonPath = resolve(rootPath, "package.json");
 async function prepareMonacoEditorCoreReleaseStableOrNightly() {
 	const monacoEditorPackageJson = require(monacoEditorPackageJsonPath) as {
 		version: string;
+
 		vscodeRef: string;
 	};
 
@@ -35,12 +36,14 @@ async function prepareMonacoEditorCoreReleaseStableOrNightly() {
 
 	if (arg === "stable") {
 		version = monacoEditorPackageJson.version;
+
 		ref = monacoEditorPackageJson.vscodeRef;
 	} else if (arg === "nightly") {
 		version = getNightlyVersion(
 			monacoEditorPackageJson.version,
 			getNightlyEnv().PRERELEASE_VERSION,
 		);
+
 		ref = getNightlyEnv().VSCODE_REF;
 	} else {
 		throw new Error("Invalid argument");
@@ -67,6 +70,7 @@ async function prepareMonacoEditorCoreRelease(
 			"https://github.com/microsoft/vscode.git",
 			vscodeRef,
 		);
+
 		vscodeCommitId = result.commitId;
 	});
 
@@ -88,9 +92,11 @@ async function prepareMonacoEditorCoreRelease(
 		const packageJson = require(
 			monacoEditorCorePackageJsonSourcePath,
 		) as PackageJson;
+
 		packageJson.version = version;
 		// This ensures we can always figure out which commit monaco-editor-core was built from
 		packageJson.vscodeCommitId = vscodeCommitId;
+
 		await writeJsonFile(monacoEditorCorePackageJsonSourcePath, packageJson);
 	});
 

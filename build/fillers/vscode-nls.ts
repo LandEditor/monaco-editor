@@ -5,10 +5,12 @@
 
 export interface Options {
 	locale?: string;
+
 	cacheLanguageResolution?: boolean;
 }
 export interface LocalizeInfo {
 	key: string;
+
 	comment: string[];
 }
 export interface LocalizeFunc {
@@ -31,6 +33,7 @@ function format(message: string, args: any[]): string {
 			return typeof args[index] !== "undefined" ? args[index] : match;
 		});
 	}
+
 	return result;
 }
 

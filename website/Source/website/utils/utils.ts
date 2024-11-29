@@ -20,12 +20,14 @@ export class DebouncedComputed<T> {
 
 	@observable
 	private _value: T | undefined = undefined;
+
 	public get value(): T | undefined {
 		return this._value;
 	}
 
 	private readonly r = autorun(() => {
 		const d = this.getData();
+
 		this.debouncer.clear();
 
 		this.debouncer.run(() => {
@@ -50,8 +52,10 @@ export namespace Disposable {
 
 		const fn = () => {
 			disposables.forEach((d) => d.dispose());
+
 			disposables.length = 0;
 		};
+
 		fn.track = (d: Disposable) => {
 			disposables.push(d);
 		};

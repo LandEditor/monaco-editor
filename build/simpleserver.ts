@@ -42,6 +42,7 @@ function generateTestSamplesTask() {
 		let sampleNames = fs.readdirSync(
 			path.join(REPO_ROOT, "website/index/samples"),
 		);
+
 		sampleNames = sampleNames.filter((name) => /^sample/.test(name));
 
 		samples = samples.concat(
@@ -71,7 +72,9 @@ function generateTestSamplesTask() {
 		REPO_ROOT,
 		"test/manual/generated/all-samples.js",
 	);
+
 	ensureDir(path.dirname(destination));
+
 	fs.writeFileSync(
 		destination,
 		prefix + JSON.stringify(samples, null, "\t") + suffix,
@@ -87,6 +90,7 @@ function createSimpleServer(rootDir: string, port: number) {
 			const server = http.createServer((request, response) => {
 				return staticServer.handle(request, response);
 			});
+
 			server.listen(port, "127.0.0.1", () => {
 				console.log(`Running at http://127.0.0.1:${port}`);
 			});

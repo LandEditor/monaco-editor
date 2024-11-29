@@ -66,6 +66,7 @@ function getWorkerFilename(
 
 interface EditorMetadata {
 	features: IFeatureDefinition[];
+
 	languages: IFeatureDefinition[];
 }
 
@@ -82,6 +83,7 @@ function resolveDesiredFeatures(
 	userFeatures: (EditorFeature | NegatedEditorFeature)[] | undefined,
 ): IFeatureDefinition[] {
 	const featuresById: { [feature: string]: IFeatureDefinition } = {};
+
 	metadata.features.forEach(
 		(feature) => (featuresById[feature.label] = feature),
 	);
@@ -117,6 +119,7 @@ function resolveDesiredLanguages(
 	userCustomLanguages: IFeatureDefinition[] | undefined,
 ): IFeatureDefinition[] {
 	const languagesById: { [language: string]: IFeatureDefinition } = {};
+
 	metadata.languages.forEach(
 		(language) => (languagesById[language.label] = language),
 	);
@@ -178,10 +181,15 @@ declare namespace MonacoEditorWebpackPlugin {
 }
 interface IInternalMonacoEditorWebpackPluginOpts {
 	languages: IFeatureDefinition[];
+
 	features: IFeatureDefinition[];
+
 	filename: string;
+
 	monacoEditorPath: string | undefined;
+
 	publicPath: string;
+
 	globalAPI: boolean;
 }
 
@@ -202,6 +210,7 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
 		);
 
 		const features = resolveDesiredFeatures(metadata, options.features);
+
 		this.options = {
 			languages,
 			features,
@@ -227,6 +236,7 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
 		const modules = [EDITOR_MODULE].concat(languages).concat(features);
 
 		const workers: ILabeledWorkerDefinition[] = [];
+
 		modules.forEach((module) => {
 			if (module.worker) {
 				workers.push({
@@ -254,14 +264,18 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
 			filename,
 			monacoEditorPath,
 		);
+
 		addCompilerRules(compiler, rules);
+
 		addCompilerPlugins(compiler, plugins);
 	}
 }
 
 interface ILabeledWorkerDefinition {
 	label: string;
+
 	id: string;
+
 	entry: string;
 }
 
@@ -275,6 +289,7 @@ function addCompilerRules(
 		compilerOptions.module = <any>{ rules: rules };
 	} else {
 		const moduleOptions = compilerOptions.module;
+
 		moduleOptions.rules = (moduleOptions.rules || []).concat(rules);
 	}
 }
@@ -296,6 +311,7 @@ function getCompilationPublicPath(compiler: webpack.Compiler): string {
 			);
 		}
 	}
+
 	return "";
 }
 
@@ -312,6 +328,7 @@ function createLoaderRules(
 	if (!languages.length && !features.length) {
 		return [];
 	}
+
 	const languagePaths = flatArr(
 		coalesce(languages.map((language) => language.entry)),
 	);
@@ -331,15 +348,18 @@ function createLoaderRules(
 		// javascript shares the same worker
 		workerPaths["javascript"] = workerPaths["typescript"];
 	}
+
 	if (workerPaths["css"]) {
 		// scss and less share the same worker
 		workerPaths["less"] = workerPaths["css"];
+
 		workerPaths["scss"] = workerPaths["css"];
 	}
 
 	if (workerPaths["html"]) {
 		// handlebars, razor and html share the same worker
 		workerPaths["handlebars"] = workerPaths["html"];
+
 		workerPaths["razor"] = workerPaths["html"];
 	}
 
@@ -441,6 +461,7 @@ function flatArr<T>(items: (T | T[])[]): T[] {
 			if (Array.isArray(item)) {
 				return (<T[]>[]).concat(acc).concat(item);
 			}
+
 			return (<T[]>[]).concat(acc).concat([item]);
 		},
 		<T[]>[],

@@ -16,6 +16,8 @@ const files = glob.sync("**/package-lock.json", {
 
 for (const file of files) {
 	const filePath = path.join(REPO_ROOT, file);
+
 	console.log(`Deleting ${file}...`);
+
 	fs.unlinkSync(filePath);
 }

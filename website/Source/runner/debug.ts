@@ -17,21 +17,27 @@ async function initialize(state: IPreviewState) {
 	}
 
 	const loadingContainerDiv = document.createElement("div");
+
 	loadingContainerDiv.className = "loader-container";
 
 	const loadingDiv = document.createElement("div");
+
 	loadingDiv.className = "loader";
+
 	loadingContainerDiv.appendChild(loadingDiv);
 
 	document.body.appendChild(loadingContainerDiv);
 
 	monacoPromise = loadMonaco(state.monacoSetup);
+
 	await monacoPromise;
 
 	loadingContainerDiv.remove();
 
 	const style = document.createElement("style");
+
 	style.id = "custom-style";
+
 	style.innerHTML = state.css; // CodeQL [SM03712] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground. // CodeQL [SM02688] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground.
 	document.body.appendChild(style);
 
@@ -43,6 +49,7 @@ async function initialize(state: IPreviewState) {
 		eval(js); // CodeQL [SM01632] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground. // CodeQL [SM02688] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground.
 	} catch (err) {
 		const pre = document.createElement("pre");
+
 		pre.appendChild(
 			document.createTextNode(`${err}: ${(err as any).state}`),
 		);
@@ -65,15 +72,24 @@ async function main() {
 	} else {
 		// If it does not, show the load button
 		const loadButton = document.createElement("button");
+
 		loadButton.style.position = "absolute";
+
 		loadButton.style.top = "50%";
+
 		loadButton.style.left = "50%";
+
 		loadButton.style.transform = "translate(-50%, -50%)";
+
 		loadButton.innerText = "Load";
+
 		loadButton.style.padding = "10px 20px";
+
 		loadButton.onclick = () => {
 			loadButton.remove();
+
 			localStorage.setItem("stateStr", stateStr!);
+
 			initialize(state);
 		};
 

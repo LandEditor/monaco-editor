@@ -13,16 +13,27 @@ import * as mode from "./htmlMode";
 
 export interface HTMLFormatConfiguration {
 	readonly tabSize: number;
+
 	readonly insertSpaces: boolean;
+
 	readonly wrapLineLength: number;
+
 	readonly unformatted: string;
+
 	readonly contentUnformatted: string;
+
 	readonly indentInnerHtml: boolean;
+
 	readonly preserveNewLines: boolean;
+
 	readonly maxPreserveNewLines: number | undefined;
+
 	readonly indentHandlebars: boolean;
+
 	readonly endWithNewline: boolean;
+
 	readonly extraLiners: string;
+
 	readonly wrapAttributes:
 		| "auto"
 		| "force"
@@ -113,8 +124,11 @@ export interface ModeConfiguration {
 
 export interface LanguageServiceDefaults {
 	readonly languageId: string;
+
 	readonly modeConfiguration: ModeConfiguration;
+
 	readonly onDidChange: IEvent<LanguageServiceDefaults>;
+
 	readonly options: Options;
 
 	setOptions(options: Options): void;
@@ -125,8 +139,11 @@ export interface LanguageServiceDefaults {
 
 class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _onDidChange = new Emitter<LanguageServiceDefaults>();
+
 	private _options!: Options;
+
 	private _modeConfiguration!: ModeConfiguration;
+
 	private _languageId: string;
 
 	constructor(
@@ -135,7 +152,9 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		modeConfiguration: ModeConfiguration,
 	) {
 		this._languageId = languageId;
+
 		this.setOptions(options);
+
 		this.setModeConfiguration(modeConfiguration);
 	}
 
@@ -157,11 +176,13 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	setOptions(options: Options): void {
 		this._options = options || Object.create(null);
+
 		this._onDidChange.fire(this);
 	}
 
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void {
 		this._modeConfiguration = modeConfiguration || Object.create(null);
+
 		this._onDidChange.fire(this);
 	}
 }
@@ -296,7 +317,9 @@ export function registerHTMLLanguageService(
 		defaults,
 		dispose() {
 			onLanguageListener.dispose();
+
 			mode?.dispose();
+
 			mode = undefined;
 		},
 	};
@@ -319,39 +342,54 @@ export interface HTMLDataConfiguration {
  */
 export interface HTMLDataV1 {
 	readonly version: 1 | 1.1;
+
 	readonly tags?: ITagData[];
+
 	readonly globalAttributes?: IAttributeData[];
+
 	readonly valueSets?: IValueSet[];
 }
 
 export interface IReference {
 	readonly name: string;
+
 	readonly url: string;
 }
 export interface ITagData {
 	readonly name: string;
+
 	readonly description?: string | MarkupContent;
+
 	readonly attributes: IAttributeData[];
+
 	readonly references?: IReference[];
 }
 export interface IAttributeData {
 	readonly name: string;
+
 	readonly description?: string | MarkupContent;
+
 	readonly valueSet?: string;
+
 	readonly values?: IValueData[];
+
 	readonly references?: IReference[];
 }
 export interface IValueData {
 	readonly name: string;
+
 	readonly description?: string | MarkupContent;
+
 	readonly references?: IReference[];
 }
 export interface IValueSet {
 	readonly name: string;
+
 	readonly values: IValueData[];
 }
 export interface MarkupContent {
 	readonly kind: MarkupKind;
+
 	readonly value: string;
 }
 export declare type MarkupKind = "plaintext" | "markdown";

@@ -6,6 +6,7 @@ import { globSync } from "glob";
 	let someFileError = false;
 
 	const files = globSync("src/website/data/playground-samples/*/*/*.js");
+
 	type Result = { file: string; status: number; stdout: string };
 
 	const promises: Promise<Result>[] = [];
@@ -30,6 +31,7 @@ import { globSync } from "glob";
 				);
 
 				let buffer = "";
+
 				process.on("exit", () => {
 					resolve({
 						file: file,
@@ -37,27 +39,33 @@ import { globSync } from "glob";
 						stdout: buffer,
 					});
 				});
+
 				process.stdout.on("data", (data) => {
 					buffer += data.toString();
 				});
+
 				process.stderr.on("data", (data) => {
 					buffer += data.toString();
 				});
 			}),
 		);
 	}
+
 	for (const promise of promises) {
 		const result = await promise;
+
 		console.log(result.file);
 
 		if (result.status != 0) {
 			console.log(result.stdout.toString());
+
 			someFileError = true;
 		}
 	}
 
 	if (someFileError) {
 		console.error("Some files had type errors.");
+
 		exit(1);
 	}
 })();

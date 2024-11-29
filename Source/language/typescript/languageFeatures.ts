@@ -43,6 +43,7 @@ export function flattenDiagnosticMessageText(
 	} else if (diag === undefined) {
 		return "";
 	}
+
 	let result = "";
 
 	if (indent) {
@@ -52,7 +53,9 @@ export function flattenDiagnosticMessageText(
 			result += "  ";
 		}
 	}
+
 	result += diag.messageText;
+
 	indent++;
 
 	if (diag.next) {
@@ -60,6 +63,7 @@ export function flattenDiagnosticMessageText(
 			result += flattenDiagnosticMessageText(kid, newLine, indent);
 		}
 	}
+
 	return result;
 }
 
@@ -69,6 +73,7 @@ function displayPartsToString(
 	if (displayParts) {
 		return displayParts.map((displayPart) => displayPart.text).join("");
 	}
+
 	return "";
 }
 
@@ -107,14 +112,18 @@ export abstract class Adapter {
 
 export class LibFiles {
 	private _libFiles: Record<string, string>;
+
 	private _hasFetchedLibFiles: boolean;
+
 	private _fetchLibFilesPromise: Promise<void> | null;
 
 	constructor(
 		private readonly _worker: (...uris: Uri[]) => Promise<TypeScriptWorker>,
 	) {
 		this._libFiles = {};
+
 		this._hasFetchedLibFiles = false;
+
 		this._fetchLibFilesPromise = null;
 	}
 
@@ -122,9 +131,11 @@ export class LibFiles {
 		if (!uri) {
 			return false;
 		}
+
 		if (uri.path.indexOf("/lib.") === 0) {
 			return !!libFileSet[uri.path.slice(1)];
 		}
+
 		return false;
 	}
 
@@ -136,6 +147,7 @@ export class LibFiles {
 		if (model) {
 			return model;
 		}
+
 		if (this.isLibFile(uri) && this._hasFetchedLibFiles) {
 			return editor.createModel(
 				this._libFiles[uri.path.slice(1)],
@@ -143,6 +155,7 @@ export class LibFiles {
 				uri,
 			);
 		}
+
 		const matchedLibFile = typescriptDefaults.getExtraLibs()[fileName];
 
 		if (matchedLibFile) {
@@ -152,6 +165,7 @@ export class LibFiles {
 				uri,
 			);
 		}
+
 		return null;
 	}
 
@@ -161,6 +175,7 @@ export class LibFiles {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -169,6 +184,7 @@ export class LibFiles {
 			// no lib files necessary
 			return;
 		}
+
 		await this._fetchLibFiles();
 	}
 
@@ -178,9 +194,11 @@ export class LibFiles {
 				.then((w) => w.getLibFiles())
 				.then((libFiles) => {
 					this._hasFetchedLibFiles = true;
+
 					this._libFiles = libFiles;
 				});
 		}
+
 		return this._fetchLibFilesPromise;
 	}
 }
@@ -200,11 +218,13 @@ enum DiagnosticCategory {
  */
 interface IInternalEditorModel extends editor.IModel {
 	onDidChangeAttached(listener: () => void): IDisposable;
+
 	isAttachedToEditor(): boolean;
 }
 
 export class DiagnosticsAdapter extends Adapter {
 	private _disposables: IDisposable[] = [];
+
 	private _listener: { [uri: string]: IDisposable } = Object.create(null);
 
 	constructor(
@@ -236,6 +256,7 @@ export class DiagnosticsAdapter extends Adapter {
 
 			const changeSubscription = model.onDidChangeContent(() => {
 				clearTimeout(handle);
+
 				handle = window.setTimeout(maybeValidate, 500);
 			});
 
@@ -258,7 +279,9 @@ export class DiagnosticsAdapter extends Adapter {
 			this._listener[model.uri.toString()] = {
 				dispose() {
 					changeSubscription.dispose();
+
 					visibleSubscription.dispose();
+
 					clearTimeout(handle);
 				},
 			};
@@ -273,6 +296,7 @@ export class DiagnosticsAdapter extends Adapter {
 
 			if (this._listener[key]) {
 				this._listener[key].dispose();
+
 				delete this._listener[key];
 			}
 		};
@@ -282,10 +306,13 @@ export class DiagnosticsAdapter extends Adapter {
 				onModelAdd(<IInternalEditorModel>model),
 			),
 		);
+
 		this._disposables.push(editor.onWillDisposeModel(onModelRemoved));
+
 		this._disposables.push(
 			editor.onDidChangeModelLanguage((event) => {
 				onModelRemoved(event.model);
+
 				onModelAdd(<IInternalEditorModel>event.model);
 			}),
 		);
@@ -302,10 +329,13 @@ export class DiagnosticsAdapter extends Adapter {
 			// redo diagnostics when options change
 			for (const model of editor.getModels()) {
 				onModelRemoved(model);
+
 				onModelAdd(<IInternalEditorModel>model);
 			}
 		};
+
 		this._disposables.push(this._defaults.onDidChange(recomputeDiagostics));
+
 		this._disposables.push(
 			this._defaults.onDidExtraLibsChange(recomputeDiagostics),
 		);
@@ -317,6 +347,7 @@ export class DiagnosticsAdapter extends Adapter {
 
 	public dispose(): void {
 		this._disposables.forEach((d) => d && d.dispose());
+
 		this._disposables = [];
 	}
 
@@ -339,9 +370,11 @@ export class DiagnosticsAdapter extends Adapter {
 		if (!noSyntaxValidation) {
 			promises.push(worker.getSyntacticDiagnostics(model.uri.toString()));
 		}
+
 		if (!noSemanticValidation) {
 			promises.push(worker.getSemanticDiagnostics(model.uri.toString()));
 		}
+
 		if (!noSuggestionDiagnostics) {
 			promises.push(
 				worker.getSuggestionDiagnostics(model.uri.toString()),
@@ -408,6 +441,7 @@ export class DiagnosticsAdapter extends Adapter {
 		if (diag.reportsUnnecessary) {
 			tags.push(MarkerTag.Unnecessary);
 		}
+
 		if (diag.reportsDeprecated) {
 			tags.push(MarkerTag.Deprecated);
 		}
@@ -437,6 +471,7 @@ export class DiagnosticsAdapter extends Adapter {
 		}
 
 		const result: editor.IRelatedInformation[] = [];
+
 		relatedInformation.forEach((info) => {
 			let relatedResource: editor.ITextModel | null = model;
 
@@ -449,6 +484,7 @@ export class DiagnosticsAdapter extends Adapter {
 			if (!relatedResource) {
 				return;
 			}
+
 			const infoStart = info.start || 0;
 
 			const infoLength = info.length || 1;
@@ -488,6 +524,7 @@ export class DiagnosticsAdapter extends Adapter {
 			case DiagnosticCategory.Suggestion:
 				return MarkerSeverity.Hint;
 		}
+
 		return MarkerSeverity.Info;
 	}
 }
@@ -496,8 +533,11 @@ export class DiagnosticsAdapter extends Adapter {
 
 interface MyCompletionItem extends languages.CompletionItem {
 	label: string;
+
 	uri: Uri;
+
 	position: Position;
+
 	offset: number;
 }
 
@@ -552,6 +592,7 @@ export class SuggestAdapter
 				const p2 = model.getPositionAt(
 					entry.replacementSpan.start + entry.replacementSpan.length,
 				);
+
 				range = new Range(
 					p1.lineNumber,
 					p1.column,
@@ -610,6 +651,7 @@ export class SuggestAdapter
 		if (!details) {
 			return myItem;
 		}
+
 		return <MyCompletionItem>{
 			uri: resource,
 			position: position,
@@ -673,6 +715,7 @@ export class SuggestAdapter
 				documentationString += `\n\n${tagToString(tag)}`;
 			}
 		}
+
 		return documentationString;
 	}
 }
@@ -682,6 +725,7 @@ function tagToString(tag: ts.JSDocTagInfo): string {
 
 	if (tag.name === "param" && tag.text) {
 		const [paramName, ...rest] = tag.text;
+
 		tagLabel += `\`${paramName.text}\``;
 
 		if (rest.length > 0)
@@ -691,6 +735,7 @@ function tagToString(tag: ts.JSDocTagInfo): string {
 	} else if (tag.text) {
 		tagLabel += ` — ${tag.text}`;
 	}
+
 	return tagLabel;
 }
 
@@ -776,7 +821,9 @@ export class SignatureHelpAdapter
 			signature.documentation = {
 				value: displayPartsToString(item.documentation),
 			};
+
 			signature.label += displayPartsToString(item.prefixDisplayParts);
+
 			item.parameters.forEach((p, i, a) => {
 				const label = displayPartsToString(p.displayParts);
 
@@ -786,7 +833,9 @@ export class SignatureHelpAdapter
 						value: displayPartsToString(p.documentation),
 					},
 				};
+
 				signature.label += label;
+
 				signature.parameters.push(parameter);
 
 				if (i < a.length - 1) {
@@ -795,7 +844,9 @@ export class SignatureHelpAdapter
 					);
 				}
 			});
+
 			signature.label += displayPartsToString(item.suffixDisplayParts);
+
 			ret.signatures.push(signature);
 		});
 
@@ -961,6 +1012,7 @@ export class DefinitionAdapter extends Adapter {
 				});
 			}
 		}
+
 		return result;
 	}
 }
@@ -1024,6 +1076,7 @@ export class ReferenceAdapter
 				});
 			}
 		}
+
 		return result;
 	}
 }
@@ -1086,32 +1139,59 @@ export class OutlineAdapter
 
 export class Kind {
 	public static unknown: string = "";
+
 	public static keyword: string = "keyword";
+
 	public static script: string = "script";
+
 	public static module: string = "module";
+
 	public static class: string = "class";
+
 	public static interface: string = "interface";
+
 	public static type: string = "type";
+
 	public static enum: string = "enum";
+
 	public static variable: string = "var";
+
 	public static localVariable: string = "local var";
+
 	public static function: string = "function";
+
 	public static localFunction: string = "local function";
+
 	public static memberFunction: string = "method";
+
 	public static memberGetAccessor: string = "getter";
+
 	public static memberSetAccessor: string = "setter";
+
 	public static memberVariable: string = "property";
+
 	public static constructorImplementation: string = "constructor";
+
 	public static callSignature: string = "call";
+
 	public static indexSignature: string = "index";
+
 	public static constructSignature: string = "construct";
+
 	public static parameter: string = "parameter";
+
 	public static typeParameter: string = "type parameter";
+
 	public static primitiveType: string = "primitive type";
+
 	public static label: string = "label";
+
 	public static alias: string = "alias";
+
 	public static const: string = "const";
+
 	public static let: string = "let";
+
 	public static warning: string = "warning";
 }
 
@@ -1364,6 +1444,7 @@ export class RenameAdapter extends Adapter implements languages.RenameProvider {
 	) {
 		super(worker);
 	}
+
 	public async provideRenameEdits(
 		model: editor.ITextModel,
 		position: Position,
@@ -1393,6 +1474,7 @@ export class RenameAdapter extends Adapter implements languages.RenameProvider {
 				rejectReason: renameInfo.localizedErrorMessage,
 			};
 		}
+
 		if (renameInfo.fileToRename !== undefined) {
 			throw new Error("Renaming files is not supported.");
 		}

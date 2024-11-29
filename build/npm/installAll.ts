@@ -40,6 +40,7 @@ function npmInstall(location) {
 	const args = ["install"];
 
 	console.log(`Installing dependencies in ${location}...`);
+
 	console.log(`$ npm ${args.join(" ")}`);
 
 	const result = cp.spawnSync(npm, args, {

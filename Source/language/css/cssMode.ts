@@ -15,6 +15,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const providers: IDisposable[] = [];
 
 	const client = new WorkerManager(defaults);
+
 	disposables.push(client);
 
 	const worker: languageFeatures.WorkerAccessor<CSSWorker> = (
@@ -40,6 +41,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.hovers) {
 			providers.push(
 				languages.registerHoverProvider(
@@ -48,6 +50,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.documentHighlights) {
 			providers.push(
 				languages.registerDocumentHighlightProvider(
@@ -56,6 +59,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.definitions) {
 			providers.push(
 				languages.registerDefinitionProvider(
@@ -64,6 +68,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.references) {
 			providers.push(
 				languages.registerReferenceProvider(
@@ -72,6 +77,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.documentSymbols) {
 			providers.push(
 				languages.registerDocumentSymbolProvider(
@@ -80,6 +86,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.rename) {
 			providers.push(
 				languages.registerRenameProvider(
@@ -88,6 +95,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.colors) {
 			providers.push(
 				languages.registerColorProvider(
@@ -96,6 +104,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.foldingRanges) {
 			providers.push(
 				languages.registerFoldingRangeProvider(
@@ -104,6 +113,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.diagnostics) {
 			providers.push(
 				new languageFeatures.DiagnosticsAdapter(
@@ -113,6 +123,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.selectionRanges) {
 			providers.push(
 				languages.registerSelectionRangeProvider(
@@ -121,6 +132,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.documentFormattingEdits) {
 			providers.push(
 				languages.registerDocumentFormattingEditProvider(
@@ -129,6 +141,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.documentRangeFormattingEdits) {
 			providers.push(
 				languages.registerDocumentRangeFormattingEditProvider(

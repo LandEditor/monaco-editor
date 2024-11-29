@@ -11,13 +11,18 @@ import type { Options } from "./monaco.contribution";
 
 export class HTMLWorker {
 	private _ctx: worker.IWorkerContext;
+
 	private _languageService: htmlService.LanguageService;
+
 	private _languageSettings: Options;
+
 	private _languageId: string;
 
 	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
+
 		this._languageSettings = createData.languageSettings;
+
 		this._languageId = createData.languageId;
 
 		const data = this._languageSettings.data;
@@ -33,6 +38,7 @@ export class HTMLWorker {
 				);
 			}
 		}
+
 		this._languageService = htmlService.getLanguageService({
 			useDefaultDataProvider,
 			customDataProviders,
@@ -48,6 +54,7 @@ export class HTMLWorker {
 		if (!document) {
 			return null;
 		}
+
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 
 		return Promise.resolve(
@@ -59,6 +66,7 @@ export class HTMLWorker {
 			),
 		);
 	}
+
 	async format(
 		uri: string,
 		range: htmlService.Range,
@@ -69,6 +77,7 @@ export class HTMLWorker {
 		if (!document) {
 			return [];
 		}
+
 		let formattingOptions = {
 			...this._languageSettings.format,
 			...options,
@@ -82,6 +91,7 @@ export class HTMLWorker {
 
 		return Promise.resolve(textEdits);
 	}
+
 	async doHover(
 		uri: string,
 		position: htmlService.Position,
@@ -91,6 +101,7 @@ export class HTMLWorker {
 		if (!document) {
 			return null;
 		}
+
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 
 		let hover = this._languageService.doHover(
@@ -101,6 +112,7 @@ export class HTMLWorker {
 
 		return Promise.resolve(hover);
 	}
+
 	async findDocumentHighlights(
 		uri: string,
 		position: htmlService.Position,
@@ -110,6 +122,7 @@ export class HTMLWorker {
 		if (!document) {
 			return [];
 		}
+
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 
 		let highlights = this._languageService.findDocumentHighlights(
@@ -120,12 +133,14 @@ export class HTMLWorker {
 
 		return Promise.resolve(highlights);
 	}
+
 	async findDocumentLinks(uri: string): Promise<htmlService.DocumentLink[]> {
 		let document = this._getTextDocument(uri);
 
 		if (!document) {
 			return [];
 		}
+
 		let links = this._languageService.findDocumentLinks(
 			document,
 			null! /*TODO@aeschli*/,
@@ -133,6 +148,7 @@ export class HTMLWorker {
 
 		return Promise.resolve(links);
 	}
+
 	async findDocumentSymbols(
 		uri: string,
 	): Promise<htmlService.SymbolInformation[]> {
@@ -141,6 +157,7 @@ export class HTMLWorker {
 		if (!document) {
 			return [];
 		}
+
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 
 		let symbols = this._languageService.findDocumentSymbols(
@@ -150,6 +167,7 @@ export class HTMLWorker {
 
 		return Promise.resolve(symbols);
 	}
+
 	async getFoldingRanges(
 		uri: string,
 		context?: { rangeLimit?: number },
@@ -159,10 +177,12 @@ export class HTMLWorker {
 		if (!document) {
 			return [];
 		}
+
 		let ranges = this._languageService.getFoldingRanges(document, context);
 
 		return Promise.resolve(ranges);
 	}
+
 	async getSelectionRanges(
 		uri: string,
 		positions: htmlService.Position[],
@@ -172,6 +192,7 @@ export class HTMLWorker {
 		if (!document) {
 			return [];
 		}
+
 		let ranges = this._languageService.getSelectionRanges(
 			document,
 			positions,
@@ -179,6 +200,7 @@ export class HTMLWorker {
 
 		return Promise.resolve(ranges);
 	}
+
 	async doRename(
 		uri: string,
 		position: htmlService.Position,
@@ -189,6 +211,7 @@ export class HTMLWorker {
 		if (!document) {
 			return null;
 		}
+
 		let htmlDocument = this._languageService.parseHTMLDocument(document);
 
 		let renames = this._languageService.doRename(
@@ -200,6 +223,7 @@ export class HTMLWorker {
 
 		return Promise.resolve(renames);
 	}
+
 	private _getTextDocument(uri: string): htmlService.TextDocument | null {
 		let models = this._ctx.getMirrorModels();
 
@@ -213,12 +237,14 @@ export class HTMLWorker {
 				);
 			}
 		}
+
 		return null;
 	}
 }
 
 export interface ICreateData {
 	languageId: string;
+
 	languageSettings: Options;
 }
 

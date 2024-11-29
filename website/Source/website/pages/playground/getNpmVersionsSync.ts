@@ -8,6 +8,7 @@ export function getNpmVersionsSync(
 	if (!npmVersionsObservable) {
 		npmVersionsObservable = new ObservablePromise(loadNpmVersions());
 	}
+
 	return (
 		npmVersionsObservable.value || (currentVersion ? [currentVersion] : [])
 	);
@@ -27,6 +28,7 @@ async function loadNpmVersions(): Promise<string[]> {
 	if (npmVersionsPromise === undefined) {
 		npmVersionsPromise = _getNpmVersions();
 	}
+
 	return npmVersionsPromise;
 }
 
@@ -82,6 +84,7 @@ function compareSemanticVersions(version1: string, version2: string): number {
 			if (n1 < n2) {
 				return -1;
 			}
+
 			if (n1 > n2) {
 				return 1;
 			}
@@ -110,8 +113,10 @@ export async function getVsCodeCommitId(
 				`https://cdn.jsdelivr.net/npm/monaco-editor@${monacoEditorVersion}/package.json`,
 			)
 		).json()) as { vscodeCommitId: string | undefined };
+
 		commitId = json.vscodeCommitId;
 	}
+
 	return commitId;
 }
 

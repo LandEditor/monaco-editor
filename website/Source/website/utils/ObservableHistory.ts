@@ -9,12 +9,14 @@ import { Disposable } from "./utils";
 
 export interface ILocation {
 	hashValue: string | undefined;
+
 	searchParams: Record<string, string | undefined>;
 }
 
 export interface IHistoryModel {
 	// observable
 	location: ILocation;
+
 	historyId: number;
 
 	updateLocation(newLocation: ILocation): void;
@@ -22,6 +24,7 @@ export interface IHistoryModel {
 
 export class HistoryController implements Disposable {
 	public readonly dispose = Disposable.fn();
+
 	private readonly model: IHistoryModel;
 
 	constructor(modelFactory: (initialLocation: ILocation) => IHistoryModel) {
@@ -32,6 +35,7 @@ export class HistoryController implements Disposable {
 		};
 
 		window.addEventListener("popstate", updateValue);
+
 		this.dispose.track({
 			dispose: () => {
 				window.removeEventListener("popstate", updateValue);
@@ -39,6 +43,7 @@ export class HistoryController implements Disposable {
 		});
 
 		window.addEventListener("hashchange", updateValue);
+
 		this.dispose.track({
 			dispose: () => {
 				window.removeEventListener("hashchange", updateValue);
@@ -49,6 +54,7 @@ export class HistoryController implements Disposable {
 			dispose: autorun(
 				() => {
 					const value = this.model.location;
+
 					this.setUrl(value, this.model.historyId);
 				},
 				{ name: "Update url" },
@@ -57,8 +63,10 @@ export class HistoryController implements Disposable {
 	}
 
 	private lastHistoryId = 0;
+
 	private setUrl(newLocation: ILocation, historyId: number) {
 		const url = new URL(window.location.href);
+
 		url.hash = newLocation.hashValue ? "#" + newLocation.hashValue : "";
 
 		const searchParams = Object.entries(newLocation.searchParams).reduce(
@@ -66,6 +74,7 @@ export class HistoryController implements Disposable {
 				if (value !== undefined) {
 					acc[key] = value;
 				}
+
 				return acc;
 			},
 			{} as Record<string, string>,
@@ -77,6 +86,7 @@ export class HistoryController implements Disposable {
 			history.replaceState("", "", url.href);
 		} else {
 			this.lastHistoryId = historyId;
+
 			history.pushState("", "", url.href);
 		}
 	}
@@ -90,5 +100,6 @@ function getCurrentLocation(): ILocation {
 	for (const [key, value] of new URLSearchParams(window.location.search)) {
 		searchParams[key] = value;
 	}
+
 	return { hashValue, searchParams };
 }

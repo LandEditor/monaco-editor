@@ -35,6 +35,7 @@ import {
 
 export class PlaygroundModel {
 	public readonly dispose = Disposable.fn();
+
 	public readonly settings = new SettingsModel();
 
 	@observable
@@ -58,7 +59,9 @@ export class PlaygroundModel {
 		(data) => {
 			runInAction(() => {
 				this.html = data.html;
+
 				this.js = data.js;
+
 				this.css = data.css;
 			});
 		},
@@ -78,13 +81,16 @@ export class PlaygroundModel {
 	}
 
 	private _wasEverNonFullScreen = false;
+
 	public get wasEverNonFullScreen(): boolean {
 		if (this._wasEverNonFullScreen) {
 			return true;
 		}
+
 		if (!this.settings.previewFullScreen) {
 			this._wasEverNonFullScreen = true;
 		}
+
 		return this._wasEverNonFullScreen;
 	}
 
@@ -98,6 +104,7 @@ export class PlaygroundModel {
 				...sourceOverride.toPartialSettings(),
 			});
 		}
+
 		return this.settings.monacoSetup;
 	}
 
@@ -136,6 +143,7 @@ export class PlaygroundModel {
 		if (!previewState) {
 			return undefined;
 		}
+
 		return {
 			...previewState,
 			monacoSetup: toLoaderConfig({
@@ -162,6 +170,7 @@ export class PlaygroundModel {
 
 	public set selectedExample(value: PlaygroundExample | undefined) {
 		this._selectedExample = value;
+
 		this.selectedExampleProject = undefined;
 
 		if (value) {
@@ -171,7 +180,9 @@ export class PlaygroundModel {
 						example: value,
 						project: p,
 					};
+
 					this.reloadKey++;
+
 					this.setState(p);
 				});
 			});
@@ -189,6 +200,7 @@ export class PlaygroundModel {
 		this.webEditorClient?.onDidConnect.then(() => {
 			autorun(() => {
 				const state = this.playgroundProject;
+
 				this.webEditorClient!.updateContent({
 					js: state.js,
 					html: state.html,
@@ -215,9 +227,12 @@ export class PlaygroundModel {
 							return;
 						}
 					}
+
 					const updatePreviewState = () => {
 						this.isDirty = false;
+
 						this._previewState = state;
+
 						lastState = this._previewState;
 					};
 
@@ -249,9 +264,11 @@ export class PlaygroundModel {
 
 			const options =
 				monaco.languages.typescript.javascriptDefaults.getCompilerOptions();
+
 			monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions(
 				{ noSemanticValidation: false },
 			);
+
 			monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
 				...options,
 				checkJs: true,
@@ -267,7 +284,9 @@ export class PlaygroundModel {
 					if (!monaco) {
 						return;
 					}
+
 					const monacoTypesUrl = this.monacoSetup.monacoTypesUrl;
+
 					this.reloadKey; // Allow reload to reload the d.ts file.
 
 					let content = "";
@@ -275,8 +294,10 @@ export class PlaygroundModel {
 					if (monacoTypesUrl) {
 						content = await (await fetch(monacoTypesUrl)).text();
 					}
+
 					if (disposable) {
 						disposable.dispose();
+
 						disposable = undefined;
 					}
 
@@ -314,8 +335,11 @@ export class PlaygroundModel {
 		const newJs = js.replace(regexp, "$1" + str + "`");
 
 		const autoReload = this.settings.autoReload;
+
 		this.settings.autoReload = false;
+
 		this.js = newJs;
+
 		this.settings.autoReload = autoReload;
 	}
 
@@ -329,16 +353,20 @@ export class PlaygroundModel {
 		if (!this.settingsDialogModel) {
 			return;
 		}
+
 		if (acceptChanges) {
 			this.settings.setSettings(this.settingsDialogModel.settings);
 		}
+
 		this.settingsDialogModel = undefined;
 	}
 
 	@action
 	public setState(state: IPlaygroundProject) {
 		this.html = state.html;
+
 		this.js = state.js;
+
 		this.css = state.css;
 	}
 
@@ -347,6 +375,7 @@ export class PlaygroundModel {
 	@action
 	compareWithLatestDev(): void {
 		this.settings.previewFullScreen = true;
+
 		this.historyModel.compareWithLatestDev();
 	}
 }

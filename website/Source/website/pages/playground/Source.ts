@@ -23,6 +23,7 @@ export class Source {
 		if (sourceStr === "latest-dev") {
 			return Source.useLatestDev(sourceLanguagesStr);
 		}
+
 		if (sourceStr === "latest") {
 			return Source.useLatest(sourceLanguagesStr);
 		}
@@ -34,6 +35,7 @@ export class Source {
 				sourceLanguagesStr,
 			);
 		}
+
 		return new Source(undefined, sourceStr, sourceLanguagesStr);
 	}
 
@@ -41,6 +43,7 @@ export class Source {
 		if (!other) {
 			return false;
 		}
+
 		return other.toString() === this.toString();
 	}
 
@@ -62,9 +65,11 @@ export class Source {
 		if (this.url) {
 			return this.url;
 		}
+
 		if (this.version) {
 			return `v${this.version}`;
 		}
+
 		return undefined;
 	}
 

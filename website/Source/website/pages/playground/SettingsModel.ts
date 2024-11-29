@@ -50,6 +50,7 @@ export class SettingsModel {
 		} catch (e) {
 			console.error("Failed to load settings from localStorage", e);
 		}
+
 		if (settingsStr) {
 			this._settings = JSON.parse(settingsStr);
 		} else {
@@ -60,6 +61,7 @@ export class SettingsModel {
 	@action
 	setSettings(settings: Settings): void {
 		const settingsJson = JSON.stringify(toJS(settings));
+
 		this._settings = JSON.parse(settingsJson);
 
 		try {
@@ -76,21 +78,29 @@ export const StabilityValues: Stability[] = ["dev", "min"];
 
 export interface Settings {
 	monacoSource: "latest" | "npm" | "independent" | "custom";
+
 	latestStability: Stability;
+
 	npmStability: Stability;
+
 	npmVersion: string;
 
 	coreSource: "latest" | "url";
+
 	latestCoreStability: Stability;
+
 	coreUrl: string;
 
 	languagesSource: "latest" | "source" | "url";
+
 	latestLanguagesStability: Stability;
+
 	languagesUrl: string;
 
 	customConfig: JsonString<IMonacoSetup>;
 
 	previewFullScreen: boolean;
+
 	autoReload: boolean | undefined;
 }
 
@@ -122,6 +132,7 @@ export function toLoaderConfig(settings: Settings): IMonacoSetup {
 
 				return prodMonacoSetup;
 			}
+
 		case "independent":
 			const root = trimEnd(
 				new URL(".", window.location.href).toString(),
@@ -214,5 +225,6 @@ function trimEnd(str: string, end: string): string {
 	if (str.endsWith(end)) {
 		return str.slice(0, str.length - end.length);
 	}
+
 	return str;
 }

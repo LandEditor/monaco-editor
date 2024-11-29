@@ -16,9 +16,13 @@ function checkEveryMonacoLanguageHasASample() {
 		.sync("src/basic-languages/*/*.contribution.ts", { cwd: REPO_ROOT })
 		.map((f) => path.dirname(f))
 		.map((f) => f.substring("src/basic-languages/".length));
+
 	languages.push("css");
+
 	languages.push("html");
+
 	languages.push("json");
+
 	languages.push("typescript");
 
 	// some languages have a different id than their folder
@@ -53,9 +57,11 @@ function checkEveryMonacoLanguageHasASample() {
 			console.error(
 				`Missing sample for ${language} at ${expectedSamplePath}`,
 			);
+
 			fail = true;
 		}
 	}
+
 	if (fail) {
 		process.exit(1);
 	}

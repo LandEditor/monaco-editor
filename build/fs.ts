@@ -16,14 +16,18 @@ export function ensureDir(dirname: string) {
 
 	while (dirname.length > REPO_ROOT.length) {
 		dirs.push(dirname);
+
 		dirname = path.dirname(dirname);
 	}
+
 	dirs.reverse();
+
 	dirs.forEach((dir) => {
 		if (!existingDirCache.has(dir)) {
 			try {
 				fs.mkdirSync(dir);
 			} catch (err) {}
+
 			existingDirCache.add(dir);
 		}
 	});
@@ -38,6 +42,7 @@ export function copyFile(_source: string, _destination: string) {
 	const destination = path.join(REPO_ROOT, _destination);
 
 	ensureDir(path.dirname(destination));
+
 	fs.writeFileSync(destination, fs.readFileSync(source));
 
 	console.log(`Copied ${_source} to ${_destination}`);
@@ -53,12 +58,15 @@ export function removeDir(
 	if (typeof keep === "undefined") {
 		keep = () => false;
 	}
+
 	const dirPath = path.join(REPO_ROOT, _dirPath);
 
 	if (!fs.existsSync(dirPath)) {
 		return;
 	}
+
 	rmDir(dirPath, _dirPath);
+
 	console.log(`Deleted ${_dirPath}`);
 
 	function rmDir(dirPath: string, relativeDirPath: string): boolean {
@@ -76,15 +84,18 @@ export function removeDir(
 
 				continue;
 			}
+
 			if (fs.statSync(filePath).isFile()) {
 				fs.unlinkSync(filePath);
 			} else {
 				keepsFiles = rmDir(filePath, relativeFilePath) || keepsFiles;
 			}
 		}
+
 		if (!keepsFiles) {
 			fs.rmdirSync(dirPath);
 		}
+
 		return keepsFiles;
 	}
 }

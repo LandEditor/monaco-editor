@@ -11,6 +11,7 @@ interface ILang extends languages.ILanguageExtensionPoint {
 
 interface ILangImpl {
 	conf: languages.LanguageConfiguration;
+
 	language: languages.IMonarchLanguage;
 }
 
@@ -25,20 +26,28 @@ class LazyLanguageLoader {
 				languageId,
 			);
 		}
+
 		return lazyLanguageLoaders[languageId];
 	}
 
 	private readonly _languageId: string;
+
 	private _loadingTriggered: boolean;
+
 	private _lazyLoadPromise: Promise<ILangImpl>;
+
 	private _lazyLoadPromiseResolve!: (value: ILangImpl) => void;
+
 	private _lazyLoadPromiseReject!: (err: any) => void;
 
 	constructor(languageId: string) {
 		this._languageId = languageId;
+
 		this._loadingTriggered = false;
+
 		this._lazyLoadPromise = new Promise((resolve, reject) => {
 			this._lazyLoadPromiseResolve = resolve;
+
 			this._lazyLoadPromiseReject = reject;
 		});
 	}
@@ -46,11 +55,13 @@ class LazyLanguageLoader {
 	public load(): Promise<ILangImpl> {
 		if (!this._loadingTriggered) {
 			this._loadingTriggered = true;
+
 			languageDefinitions[this._languageId].loader().then(
 				(mod) => this._lazyLoadPromiseResolve(mod),
 				(err) => this._lazyLoadPromiseReject(err),
 			);
 		}
+
 		return this._lazyLoadPromise;
 	}
 }
@@ -60,6 +71,7 @@ export async function loadLanguage(languageId: string): Promise<void> {
 
 	// trigger tokenizer creation by instantiating a model
 	const model = editor.createModel("", languageId);
+
 	model.dispose();
 }
 
@@ -67,9 +79,11 @@ export function registerLanguage(def: ILang): void {
 	const languageId = def.id;
 
 	languageDefinitions[languageId] = def;
+
 	languages.register(def);
 
 	const lazyLanguageLoader = LazyLanguageLoader.getOrCreate(languageId);
+
 	languages.registerTokensProviderFactory(languageId, {
 		create: async (): Promise<languages.IMonarchLanguage> => {
 			const mod = await lazyLanguageLoader.load();
@@ -77,8 +91,10 @@ export function registerLanguage(def: ILang): void {
 			return mod.language;
 		},
 	});
+
 	languages.onLanguageEncountered(languageId, async () => {
 		const mod = await lazyLanguageLoader.load();
+
 		languages.setLanguageConfiguration(languageId, mod.conf);
 	});
 }

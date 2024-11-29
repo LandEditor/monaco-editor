@@ -54,6 +54,7 @@ function setupMode(
 	const providers: IDisposable[] = [];
 
 	const client = new WorkerManager(modeId, defaults);
+
 	disposables.push(client);
 
 	const worker = (...uris: Uri[]): Promise<TypeScriptWorker> => {
@@ -75,6 +76,7 @@ function setupMode(
 				),
 			);
 		}
+
 		if (modeConfiguration.signatureHelp) {
 			providers.push(
 				languages.registerSignatureHelpProvider(
@@ -83,6 +85,7 @@ function setupMode(
 				),
 			);
 		}
+
 		if (modeConfiguration.hovers) {
 			providers.push(
 				languages.registerHoverProvider(
@@ -91,6 +94,7 @@ function setupMode(
 				),
 			);
 		}
+
 		if (modeConfiguration.documentHighlights) {
 			providers.push(
 				languages.registerDocumentHighlightProvider(
@@ -99,6 +103,7 @@ function setupMode(
 				),
 			);
 		}
+
 		if (modeConfiguration.definitions) {
 			providers.push(
 				languages.registerDefinitionProvider(
@@ -107,6 +112,7 @@ function setupMode(
 				),
 			);
 		}
+
 		if (modeConfiguration.references) {
 			providers.push(
 				languages.registerReferenceProvider(
@@ -115,6 +121,7 @@ function setupMode(
 				),
 			);
 		}
+
 		if (modeConfiguration.documentSymbols) {
 			providers.push(
 				languages.registerDocumentSymbolProvider(
@@ -123,6 +130,7 @@ function setupMode(
 				),
 			);
 		}
+
 		if (modeConfiguration.rename) {
 			providers.push(
 				languages.registerRenameProvider(
@@ -131,6 +139,7 @@ function setupMode(
 				),
 			);
 		}
+
 		if (modeConfiguration.documentRangeFormattingEdits) {
 			providers.push(
 				languages.registerDocumentRangeFormattingEditProvider(
@@ -139,6 +148,7 @@ function setupMode(
 				),
 			);
 		}
+
 		if (modeConfiguration.onTypeFormattingEdits) {
 			providers.push(
 				languages.registerOnTypeFormattingEditProvider(
@@ -147,6 +157,7 @@ function setupMode(
 				),
 			);
 		}
+
 		if (modeConfiguration.codeActions) {
 			providers.push(
 				languages.registerCodeActionProvider(
@@ -155,6 +166,7 @@ function setupMode(
 				),
 			);
 		}
+
 		if (modeConfiguration.inlayHints) {
 			providers.push(
 				languages.registerInlayHintsProvider(
@@ -163,6 +175,7 @@ function setupMode(
 				),
 			);
 		}
+
 		if (modeConfiguration.diagnostics) {
 			providers.push(
 				new languageFeatures.DiagnosticsAdapter(

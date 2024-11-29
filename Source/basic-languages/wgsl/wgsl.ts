@@ -39,6 +39,7 @@ function qw(str: string): string[] {
 			result.push(words[i]);
 		}
 	}
+
 	return result;
 }
 

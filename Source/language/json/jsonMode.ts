@@ -40,6 +40,7 @@ class JSONDiagnosticsAdapter extends languageFeatures.DiagnosticsAdapter<JSONWor
 				this._resetSchema(model.uri);
 			}),
 		);
+
 		this._disposables.push(
 			editor.onDidChangeModelLanguage((event) => {
 				this._resetSchema(event.model.uri);
@@ -60,6 +61,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const providers: IDisposable[] = [];
 
 	const client = new WorkerManager(defaults);
+
 	disposables.push(client);
 
 	worker = (...uris: Uri[]): Promise<JSONWorker> => {
@@ -79,6 +81,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.documentRangeFormattingEdits) {
 			providers.push(
 				languages.registerDocumentRangeFormattingEditProvider(
@@ -89,6 +92,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.completionItems) {
 			providers.push(
 				languages.registerCompletionItemProvider(
@@ -101,6 +105,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.hovers) {
 			providers.push(
 				languages.registerHoverProvider(
@@ -109,6 +114,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.documentSymbols) {
 			providers.push(
 				languages.registerDocumentSymbolProvider(
@@ -117,6 +123,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.tokens) {
 			providers.push(
 				languages.setTokensProvider(
@@ -125,6 +132,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.colors) {
 			providers.push(
 				languages.registerColorProvider(
@@ -133,6 +141,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.foldingRanges) {
 			providers.push(
 				languages.registerFoldingRangeProvider(
@@ -141,11 +150,13 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.diagnostics) {
 			providers.push(
 				new JSONDiagnosticsAdapter(languageId, worker, defaults),
 			);
 		}
+
 		if (modeConfiguration.selectionRanges) {
 			providers.push(
 				languages.registerSelectionRangeProvider(
@@ -170,6 +181,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	defaults.onDidChange((newDefaults) => {
 		if (newDefaults.modeConfiguration !== modeConfiguration) {
 			modeConfiguration = newDefaults.modeConfiguration;
+
 			registerProviders();
 		}
 	});

@@ -24,11 +24,14 @@ function fileNameIsLib(resource: Uri | string): boolean {
 		if (/^file:\/\/\//.test(resource)) {
 			return !!libFileMap[resource.substr(8)];
 		}
+
 		return false;
 	}
+
 	if (resource.path.indexOf("/lib.") === 0) {
 		return !!libFileMap[resource.path.slice(1)];
 	}
+
 	return false;
 }
 
@@ -38,15 +41,22 @@ export class TypeScriptWorker
 	// --- model sync -----------------------
 
 	private _ctx: worker.IWorkerContext;
+
 	private _extraLibs: IExtraLibs = Object.create(null);
+
 	private _languageService = ts.createLanguageService(this);
+
 	private _compilerOptions: ts.CompilerOptions;
+
 	private _inlayHintsOptions?: ts.UserPreferences;
 
 	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
+
 		this._compilerOptions = createData.compilerOptions;
+
 		this._extraLibs = createData.extraLibs;
+
 		this._inlayHintsOptions = createData.inlayHintsOptions;
 	}
 
@@ -87,6 +97,7 @@ export class TypeScriptWorker
 				return models[i];
 			}
 		}
+
 		return null;
 	}
 
@@ -101,6 +112,7 @@ export class TypeScriptWorker
 		} else if (fileName in this._extraLibs) {
 			return String(this._extraLibs[fileName].version);
 		}
+
 		return "";
 	}
 
@@ -232,6 +244,7 @@ export class TypeScriptWorker
 
 		for (const tsDiagnostic of tsDiagnostics) {
 			const diagnostic: Diagnostic = { ...tsDiagnostic };
+
 			diagnostic.file = diagnostic.file
 				? { fileName: diagnostic.file.fileName }
 				: undefined;
@@ -243,14 +256,18 @@ export class TypeScriptWorker
 					const relatedDiagnostic: DiagnosticRelatedInformation = {
 						...tsRelatedDiagnostic,
 					};
+
 					relatedDiagnostic.file = relatedDiagnostic.file
 						? { fileName: relatedDiagnostic.file.fileName }
 						: undefined;
+
 					diagnostic.relatedInformation.push(relatedDiagnostic);
 				}
 			}
+
 			diagnostics.push(diagnostic);
 		}
+
 		return diagnostics;
 	}
 
@@ -258,6 +275,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
+
 		const diagnostics =
 			this._languageService.getSyntacticDiagnostics(fileName);
 
@@ -268,6 +286,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
+
 		const diagnostics =
 			this._languageService.getSemanticDiagnostics(fileName);
 
@@ -278,6 +297,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
+
 		const diagnostics =
 			this._languageService.getSuggestionDiagnostics(fileName);
 
@@ -290,6 +310,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
+
 		const diagnostics =
 			this._languageService.getCompilerOptionsDiagnostics();
 
@@ -303,6 +324,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
+
 		return this._languageService.getCompletionsAtPosition(
 			fileName,
 			position,
@@ -334,6 +356,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
+
 		return this._languageService.getSignatureHelpItems(
 			fileName,
 			position,
@@ -348,6 +371,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
+
 		return this._languageService.getQuickInfoAtPosition(fileName, position);
 	}
 
@@ -359,6 +383,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
+
 		return this._languageService.getDocumentHighlights(
 			fileName,
 			position,
@@ -373,6 +398,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
+
 		return this._languageService.getDefinitionAtPosition(
 			fileName,
 			position,
@@ -386,6 +412,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
+
 		return this._languageService.getReferencesAtPosition(
 			fileName,
 			position,
@@ -398,6 +425,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
+
 		return this._languageService.getNavigationTree(fileName);
 	}
 
@@ -408,6 +436,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
+
 		return this._languageService.getFormattingEditsForDocument(
 			fileName,
 			options,
@@ -423,6 +452,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
+
 		return this._languageService.getFormattingEditsForRange(
 			fileName,
 			start,
@@ -440,6 +470,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
+
 		return this._languageService.getFormattingEditsAfterKeystroke(
 			fileName,
 			postion,
@@ -458,6 +489,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return undefined;
 		}
+
 		return this._languageService.findRenameLocations(
 			fileName,
 			position,
@@ -478,6 +510,7 @@ export class TypeScriptWorker
 				localizedErrorMessage: "Cannot rename in lib file",
 			};
 		}
+
 		return this._languageService.getRenameInfo(fileName, position, options);
 	}
 
@@ -515,6 +548,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
+
 		const preferences = {};
 
 		try {
@@ -543,6 +577,7 @@ export class TypeScriptWorker
 		if (fileNameIsLib(fileName)) {
 			return [];
 		}
+
 		const preferences: ts.UserPreferences = this._inlayHintsOptions ?? {};
 
 		const span: ts.TextSpan = {
@@ -564,8 +599,11 @@ export class TypeScriptWorker
 
 export interface ICreateData {
 	compilerOptions: ts.CompilerOptions;
+
 	extraLibs: IExtraLibs;
+
 	customWorkerPath?: string;
+
 	inlayHintsOptions?: ts.UserPreferences;
 }
 

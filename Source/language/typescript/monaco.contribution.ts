@@ -75,100 +75,177 @@ type CompilerOptionsValue =
 
 interface CompilerOptions {
 	allowJs?: boolean;
+
 	allowSyntheticDefaultImports?: boolean;
+
 	allowUmdGlobalAccess?: boolean;
+
 	allowUnreachableCode?: boolean;
+
 	allowUnusedLabels?: boolean;
+
 	alwaysStrict?: boolean;
+
 	baseUrl?: string;
+
 	charset?: string;
+
 	checkJs?: boolean;
+
 	declaration?: boolean;
+
 	declarationMap?: boolean;
+
 	emitDeclarationOnly?: boolean;
+
 	declarationDir?: string;
+
 	disableSizeLimit?: boolean;
+
 	disableSourceOfProjectReferenceRedirect?: boolean;
 
 	downlevelIteration?: boolean;
+
 	emitBOM?: boolean;
+
 	emitDecoratorMetadata?: boolean;
+
 	experimentalDecorators?: boolean;
 
 	forceConsistentCasingInFileNames?: boolean;
 
 	importHelpers?: boolean;
+
 	inlineSourceMap?: boolean;
+
 	inlineSources?: boolean;
+
 	isolatedModules?: boolean;
+
 	jsx?: JsxEmit;
+
 	keyofStringsOnly?: boolean;
+
 	lib?: string[];
+
 	locale?: string;
+
 	mapRoot?: string;
+
 	maxNodeModuleJsDepth?: number;
+
 	module?: ModuleKind;
+
 	moduleResolution?: ModuleResolutionKind;
+
 	newLine?: NewLineKind;
+
 	noEmit?: boolean;
+
 	noEmitHelpers?: boolean;
+
 	noEmitOnError?: boolean;
+
 	noErrorTruncation?: boolean;
+
 	noFallthroughCasesInSwitch?: boolean;
+
 	noImplicitAny?: boolean;
+
 	noImplicitReturns?: boolean;
+
 	noImplicitThis?: boolean;
+
 	noStrictGenericChecks?: boolean;
+
 	noUnusedLocals?: boolean;
+
 	noUnusedParameters?: boolean;
+
 	noImplicitUseStrict?: boolean;
+
 	noLib?: boolean;
+
 	noResolve?: boolean;
+
 	out?: string;
+
 	outDir?: string;
+
 	outFile?: string;
+
 	paths?: MapLike<string[]>;
+
 	preserveConstEnums?: boolean;
+
 	preserveSymlinks?: boolean;
+
 	project?: string;
+
 	reactNamespace?: string;
+
 	jsxFactory?: string;
+
 	composite?: boolean;
+
 	removeComments?: boolean;
+
 	rootDir?: string;
+
 	rootDirs?: string[];
+
 	skipLibCheck?: boolean;
+
 	skipDefaultLibCheck?: boolean;
+
 	sourceMap?: boolean;
+
 	sourceRoot?: string;
+
 	strict?: boolean;
+
 	strictFunctionTypes?: boolean;
+
 	strictBindCallApply?: boolean;
+
 	strictNullChecks?: boolean;
+
 	strictPropertyInitialization?: boolean;
+
 	stripInternal?: boolean;
+
 	suppressExcessPropertyErrors?: boolean;
+
 	suppressImplicitAnyIndexErrors?: boolean;
+
 	target?: ScriptTarget;
+
 	traceResolution?: boolean;
+
 	resolveJsonModule?: boolean;
+
 	types?: string[];
 	/** Paths used to compute primary types search locations */
 	typeRoots?: string[];
+
 	esModuleInterop?: boolean;
+
 	useDefineForClassFields?: boolean;
 	[option: string]: CompilerOptionsValue | undefined;
 }
 
 export interface DiagnosticsOptions {
 	noSemanticValidation?: boolean;
+
 	noSyntaxValidation?: boolean;
+
 	noSuggestionDiagnostics?: boolean;
 	/**
 	 * Limit diagnostic computation to only visible files.
 	 * Defaults to false.
 	 */
 	onlyVisible?: boolean;
+
 	diagnosticCodesToIgnore?: number[];
 }
 
@@ -179,16 +256,23 @@ export interface WorkerOptions {
 
 interface InlayHintsOptions {
 	readonly includeInlayParameterNameHints?: "none" | "literals" | "all";
+
 	readonly includeInlayParameterNameHintsWhenArgumentMatchesName?: boolean;
+
 	readonly includeInlayFunctionParameterTypeHints?: boolean;
+
 	readonly includeInlayVariableTypeHints?: boolean;
+
 	readonly includeInlayPropertyDeclarationTypeHints?: boolean;
+
 	readonly includeInlayFunctionLikeReturnTypeHints?: boolean;
+
 	readonly includeInlayEnumMemberValueHints?: boolean;
 }
 
 interface IExtraLib {
 	content: string;
+
 	version: number;
 }
 
@@ -204,35 +288,48 @@ interface DiagnosticMessageChain {
 	messageText: string;
 	/** Diagnostic category: warning = 0, error = 1, suggestion = 2, message = 3 */
 	category: 0 | 1 | 2 | 3;
+
 	code: number;
+
 	next?: DiagnosticMessageChain[];
 }
 export interface Diagnostic extends DiagnosticRelatedInformation {
 	/** May store more in future. For now, this will simply be `true` to indicate when a diagnostic is an unused-identifier diagnostic. */
 	reportsUnnecessary?: {};
+
 	reportsDeprecated?: {};
+
 	source?: string;
+
 	relatedInformation?: DiagnosticRelatedInformation[];
 }
 export interface DiagnosticRelatedInformation {
 	/** Diagnostic category: warning = 0, error = 1, suggestion = 2, message = 3 */
 	category: 0 | 1 | 2 | 3;
+
 	code: number;
 	/** TypeScriptWorker removes all but the `fileName` property to avoid serializing circular JSON structures. */
 	file: { fileName: string } | undefined;
+
 	start: number | undefined;
+
 	length: number | undefined;
+
 	messageText: string | DiagnosticMessageChain;
 }
 
 export interface EmitOutput {
 	outputFiles: OutputFile[];
+
 	emitSkipped: boolean;
+
 	diagnostics?: Diagnostic[];
 }
 interface OutputFile {
 	name: string;
+
 	writeByteOrderMark: boolean;
+
 	text: string;
 }
 
@@ -587,16 +684,25 @@ export interface TypeScriptWorker {
 
 class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _onDidChange = new Emitter<void>();
+
 	private _onDidExtraLibsChange = new Emitter<void>();
 
 	private _extraLibs: IExtraLibs;
+
 	private _removedExtraLibs: { [path: string]: number };
+
 	private _eagerModelSync: boolean;
+
 	private _compilerOptions!: CompilerOptions;
+
 	private _diagnosticsOptions!: DiagnosticsOptions;
+
 	private _workerOptions!: WorkerOptions;
+
 	private _onDidExtraLibsChangeTimeout: number;
+
 	private _inlayHintsOptions!: InlayHintsOptions;
+
 	private _modeConfiguration!: ModeConfiguration;
 
 	constructor(
@@ -607,13 +713,21 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		modeConfiguration: ModeConfiguration,
 	) {
 		this._extraLibs = Object.create(null);
+
 		this._removedExtraLibs = Object.create(null);
+
 		this._eagerModelSync = false;
+
 		this.setCompilerOptions(compilerOptions);
+
 		this.setDiagnosticsOptions(diagnosticsOptions);
+
 		this.setWorkerOptions(workerOptions);
+
 		this.setInlayHintsOptions(inlayHintsOptions);
+
 		this.setModeConfiguration(modeConfiguration);
+
 		this._onDidExtraLibsChangeTimeout = -1;
 	}
 
@@ -665,6 +779,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		if (this._removedExtraLibs[filePath]) {
 			myVersion = this._removedExtraLibs[filePath] + 1;
 		}
+
 		if (this._extraLibs[filePath]) {
 			myVersion = this._extraLibs[filePath].version + 1;
 		}
@@ -673,6 +788,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 			content: content,
 			version: myVersion,
 		};
+
 		this._fireOnDidExtraLibsChangeSoon();
 
 		return {
@@ -682,12 +798,15 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 				if (!extraLib) {
 					return;
 				}
+
 				if (extraLib.version !== myVersion) {
 					return;
 				}
 
 				delete this._extraLibs[filePath];
+
 				this._removedExtraLibs[filePath] = myVersion;
+
 				this._fireOnDidExtraLibsChangeSoon();
 			},
 		};
@@ -714,6 +833,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 				if (this._removedExtraLibs[filePath]) {
 					myVersion = this._removedExtraLibs[filePath] + 1;
 				}
+
 				this._extraLibs[filePath] = {
 					content: content,
 					version: myVersion,
@@ -729,8 +849,10 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 			// already scheduled
 			return;
 		}
+
 		this._onDidExtraLibsChangeTimeout = window.setTimeout(() => {
 			this._onDidExtraLibsChangeTimeout = -1;
+
 			this._onDidExtraLibsChange.fire(undefined);
 		}, 0);
 	}
@@ -741,6 +863,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	setCompilerOptions(options: CompilerOptions): void {
 		this._compilerOptions = options || Object.create(null);
+
 		this._onDidChange.fire(undefined);
 	}
 
@@ -750,16 +873,19 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	setDiagnosticsOptions(options: DiagnosticsOptions): void {
 		this._diagnosticsOptions = options || Object.create(null);
+
 		this._onDidChange.fire(undefined);
 	}
 
 	setWorkerOptions(options: WorkerOptions): void {
 		this._workerOptions = options || Object.create(null);
+
 		this._onDidChange.fire(undefined);
 	}
 
 	setInlayHintsOptions(options: InlayHintsOptions): void {
 		this._inlayHintsOptions = options || Object.create(null);
+
 		this._onDidChange.fire(undefined);
 	}
 
@@ -777,6 +903,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void {
 		this._modeConfiguration = modeConfiguration || Object.create(null);
+
 		this._onDidChange.fire(undefined);
 	}
 }

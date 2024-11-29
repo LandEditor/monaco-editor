@@ -9,6 +9,7 @@ declare interface NodeRequire {
 		includeSubfolders: boolean,
 		regexp: RegExp,
 	): SyncContext<T>;
+
 	context<T = unknown>(
 		path: string,
 		includeSubfolders: boolean,

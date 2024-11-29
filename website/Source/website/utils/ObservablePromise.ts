@@ -31,17 +31,22 @@ export class ObservablePromise<T> {
 
 	constructor(promise: Promise<T>) {
 		this.promise = promise;
+
 		this._value = null;
+
 		this._error = null;
+
 		this._resolved = false;
 
 		this.promise.then(
 			(value: T) => {
 				this._value = value;
+
 				this._resolved = true;
 			},
 			(error: unknown) => {
 				this._error = error;
+
 				this._resolved = true;
 			},
 		);

@@ -189,12 +189,16 @@ glob(
 				entryPoints.push(
 					`src/basic-languages/${language}/${language}.contribution.ts`,
 				);
+
 				entryPoints.push(
 					`src/basic-languages/${language}/${language}.ts`,
 				);
+
 				external.push(`*/${language}.contribution`);
+
 				external.push(`*/${language}`);
 			}
+
 			buildESM({
 				base: "basic-languages",
 				entryPoints,

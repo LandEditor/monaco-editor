@@ -102,12 +102,15 @@ function getAdvancedLanguages(): Promise<
 			let shortLang = lang === "typescript" ? "ts" : lang;
 
 			const entry = `vs/language/${lang}/monaco.contribution`;
+
 			checkFileExists(entry);
 
 			const workerId = `vs/language/${lang}/${shortLang}Worker`;
 
 			const workerEntry = `vs/language/${lang}/${shortLang}.worker`;
+
 			checkFileExists(workerEntry);
+
 			result.push({
 				label: lang,
 				entry: entry,
@@ -117,6 +120,7 @@ function getAdvancedLanguages(): Promise<
 				},
 			});
 		}
+
 		return result;
 	});
 
@@ -129,6 +133,7 @@ function getAdvancedLanguages(): Promise<
 
 		if (!fs.existsSync(filePath)) {
 			console.error(`Could not find ${filePath}.`);
+
 			process.exit(1);
 		}
 	}
@@ -138,6 +143,7 @@ export function generateMetadata() {
 	return Promise.all([getBasicLanguages(), getAdvancedLanguages()]).then(
 		([basicLanguages, advancedLanguages]) => {
 			basicLanguages.sort((a, b) => strcmp(a.entry, b.entry));
+
 			advancedLanguages.sort((a, b) => strcmp(a.entry, b.entry));
 
 			let i = 0,
@@ -154,29 +160,38 @@ export function generateMetadata() {
 						basicLanguages[i].label === advancedLanguages[j].label
 					) {
 						let entry = [];
+
 						entry.push(basicLanguages[i].entry);
+
 						entry.push(advancedLanguages[j].entry);
+
 						languages.push({
 							label: basicLanguages[i].label,
 							entry: entry,
 							worker: advancedLanguages[j].worker,
 						});
+
 						i++;
+
 						j++;
 					} else if (
 						basicLanguages[i].label < advancedLanguages[j].label
 					) {
 						languages.push(basicLanguages[i]);
+
 						i++;
 					} else {
 						languages.push(advancedLanguages[j]);
+
 						j++;
 					}
 				} else if (i < len) {
 					languages.push(basicLanguages[i]);
+
 					i++;
 				} else {
 					languages.push(advancedLanguages[j]);
+
 					j++;
 				}
 			}
@@ -192,12 +207,15 @@ export function generateMetadata() {
 
 export interface IWorkerDefinition {
 	id: string;
+
 	entry: string;
 }
 
 export interface IFeatureDefinition {
 	label: string;
+
 	entry: string | string[] | undefined;
+
 	worker?: IWorkerDefinition;
 }
 
@@ -217,7 +235,9 @@ export type NegatedEditorFeature = ${features.map((el) => `'!${el.label}'`).join
 				REPO_ROOT,
 				"out/monaco-editor/esm/metadata.d.ts",
 			);
+
 			ensureDir(path.dirname(dtsDestination));
+
 			fs.writeFileSync(
 				dtsDestination,
 				dtsContents.replace(/\r\n/g, "\n"),
@@ -233,7 +253,9 @@ exports.languages = ${JSON.stringify(languages, null, "  ")};
 				REPO_ROOT,
 				"out/monaco-editor/esm/metadata.js",
 			);
+
 			ensureDir(path.dirname(jsDestination));
+
 			fs.writeFileSync(jsDestination, jsContents.replace(/\r\n/g, "\n"));
 
 			for (const feature of [...features, ...languages]) {
@@ -243,7 +265,9 @@ exports.languages = ${JSON.stringify(languages, null, "  ")};
 					const dtsDestination =
 						path.join(REPO_ROOT, "out/monaco-editor/esm", entry) +
 						".d.ts";
+
 					ensureDir(path.dirname(dtsDestination));
+
 					fs.writeFileSync(dtsDestination, "export {}\n");
 				}
 			}
@@ -255,9 +279,11 @@ function strcmp(a: string, b: string) {
 	if (a < b) {
 		return -1;
 	}
+
 	if (a > b) {
 		return 1;
 	}
+
 	return 0;
 }
 
@@ -292,6 +318,7 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 				),
 			)
 			.toString();
+
 	files.split(/\r\n|\n/).forEach((line) => {
 		const m = line.match(/import '([^']+)'/);
 
@@ -320,6 +347,7 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 				label = path.basename(path.dirname(feature));
 			}
 		}
+
 		return {
 			label: label,
 			entry: feature,
@@ -332,6 +360,7 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 		if (labelCmp === 0) {
 			return strcmp(a.entry, b.entry);
 		}
+
 		return labelCmp;
 	});
 
@@ -340,7 +369,9 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 			if (typeof result[i].entry === "string") {
 				result[i].entry = [result[i].entry];
 			}
+
 			result[i].entry.push(result[i + 1].entry);
+
 			result.splice(i + 1, 1);
 		}
 	}

@@ -19,6 +19,7 @@ export const REPO_ROOT = path.join(__dirname, "../");
  */
 export function runTsc(_projectPath: string) {
 	const projectPath = path.join(REPO_ROOT, _projectPath);
+
 	console.log(`Launching compiler at ${_projectPath}...`);
 
 	const res = cp.spawnSync(
@@ -30,6 +31,7 @@ export function runTsc(_projectPath: string) {
 		],
 		{ stdio: "inherit" },
 	);
+
 	console.log(`Compiled ${_projectPath}`);
 
 	if (res.status !== 0) {
@@ -42,6 +44,7 @@ export function runTsc(_projectPath: string) {
  */
 export function prettier(_filePath: string) {
 	const filePath = path.join(REPO_ROOT, _filePath);
+
 	cp.spawnSync(
 		process.execPath,
 		[
@@ -85,21 +88,28 @@ export function massageAndCopyDts(
 		if (/^import/.test(line)) {
 			continue;
 		}
+
 		if (line === "export {};") {
 			continue;
 		}
+
 		line = line.replace(/    /g, "\t");
+
 		line = line.replace(/declare /g, "");
 
 		if (line.length > 0) {
 			line = `\t${line}`;
+
 			result.push(line);
 		}
 	}
+
 	result.push(`}`);
+
 	result.push(``);
 
 	ensureDir(path.dirname(absoluteDestination));
+
 	fs.writeFileSync(absoluteDestination, result.join("\n"));
 
 	prettier(destination);
@@ -110,6 +120,7 @@ export function build(options: import("esbuild").BuildOptions) {
 		if (result.errors.length > 0) {
 			console.error(result.errors);
 		}
+
 		if (result.warnings.length > 0) {
 			console.error(result.warnings);
 		}
@@ -118,7 +129,9 @@ export function build(options: import("esbuild").BuildOptions) {
 
 export function buildESM(options: {
 	base: string;
+
 	entryPoints: string[];
+
 	external: string[];
 }) {
 	build({
@@ -148,15 +161,20 @@ function buildOneAMD(
 	type: "dev" | "min",
 	options: {
 		base: string;
+
 		entryPoint: string;
+
 		amdModuleId: string;
+
 		amdDependencies?: string[];
+
 		external?: string[];
 	},
 ) {
 	if (!options.amdDependencies) {
 		options.amdDependencies = [];
 	}
+
 	options.amdDependencies.unshift("require");
 
 	const opts: esbuild.BuildOptions = {
@@ -199,17 +217,23 @@ function buildOneAMD(
 	if (type === "min") {
 		opts.minify = true;
 	}
+
 	build(opts);
 }
 
 export function buildAMD(options: {
 	base: string;
+
 	entryPoint: string;
+
 	amdModuleId: string;
+
 	amdDependencies?: string[];
+
 	external?: string[];
 }) {
 	buildOneAMD("dev", options);
+
 	buildOneAMD("min", options);
 }
 
@@ -291,6 +315,7 @@ export const bundledFileHeader = (() => {
 
 export interface IFile {
 	path: string;
+
 	contents: Buffer;
 }
 
@@ -336,7 +361,9 @@ export function readFile(file: string, base: string = "") {
 export function writeFiles(files: IFile[], dest: string) {
 	for (const file of files) {
 		const fullPath = path.join(REPO_ROOT, dest, file.path);
+
 		ensureDir(path.dirname(fullPath));
+
 		fs.writeFileSync(fullPath, file.contents);
 	}
 }

@@ -23,27 +23,45 @@ export interface CSSFormatConfiguration {
 
 export interface Options {
 	readonly validate?: boolean;
+
 	readonly lint?: {
 		readonly compatibleVendorPrefixes?: "ignore" | "warning" | "error";
+
 		readonly vendorPrefix?: "ignore" | "warning" | "error";
+
 		readonly duplicateProperties?: "ignore" | "warning" | "error";
+
 		readonly emptyRules?: "ignore" | "warning" | "error";
+
 		readonly importStatement?: "ignore" | "warning" | "error";
+
 		readonly boxModel?: "ignore" | "warning" | "error";
+
 		readonly universalSelector?: "ignore" | "warning" | "error";
+
 		readonly zeroUnits?: "ignore" | "warning" | "error";
+
 		readonly fontFaceProperties?: "ignore" | "warning" | "error";
+
 		readonly hexColorLength?: "ignore" | "warning" | "error";
+
 		readonly argumentsInColorFunction?: "ignore" | "warning" | "error";
+
 		readonly unknownProperties?: "ignore" | "warning" | "error";
+
 		readonly ieHack?: "ignore" | "warning" | "error";
+
 		readonly unknownVendorSpecificProperties?:
 			| "ignore"
 			| "warning"
 			| "error";
+
 		readonly propertyIgnoredDueToDisplay?: "ignore" | "warning" | "error";
+
 		readonly important?: "ignore" | "warning" | "error";
+
 		readonly float?: "ignore" | "warning" | "error";
+
 		readonly idSelector?: "ignore" | "warning" | "error";
 	};
 	/**
@@ -126,9 +144,11 @@ export interface ModeConfiguration {
 
 export interface LanguageServiceDefaults {
 	readonly languageId: string;
+
 	readonly onDidChange: IEvent<LanguageServiceDefaults>;
 
 	readonly modeConfiguration: ModeConfiguration;
+
 	readonly options: Options;
 
 	setOptions(options: Options): void;
@@ -148,8 +168,11 @@ export type DiagnosticsOptions = Options;
 
 class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 	private _onDidChange = new Emitter<LanguageServiceDefaults>();
+
 	private _options!: Options;
+
 	private _modeConfiguration!: ModeConfiguration;
+
 	private _languageId: string;
 
 	constructor(
@@ -158,7 +181,9 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 		modeConfiguration: ModeConfiguration,
 	) {
 		this._languageId = languageId;
+
 		this.setOptions(options);
+
 		this.setModeConfiguration(modeConfiguration);
 	}
 
@@ -184,6 +209,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	setOptions(options: Options): void {
 		this._options = options || Object.create(null);
+
 		this._onDidChange.fire(this);
 	}
 
@@ -193,6 +219,7 @@ class LanguageServiceDefaultsImpl implements LanguageServiceDefaults {
 
 	setModeConfiguration(modeConfiguration: ModeConfiguration): void {
 		this._modeConfiguration = modeConfiguration || Object.create(null);
+
 		this._onDidChange.fire(this);
 	}
 }
@@ -316,9 +343,13 @@ export interface CSSDataConfiguration {
  */
 export interface CSSDataV1 {
 	version: 1 | 1.1;
+
 	properties?: IPropertyData[];
+
 	atDirectives?: IAtDirectiveData[];
+
 	pseudoClasses?: IPseudoClassData[];
+
 	pseudoElements?: IPseudoElementData[];
 }
 
@@ -330,51 +361,77 @@ export type EntryStatus =
 
 export interface IReference {
 	name: string;
+
 	url: string;
 }
 
 export interface IPropertyData {
 	name: string;
+
 	description?: string | MarkupContent;
+
 	browsers?: string[];
+
 	restrictions?: string[];
+
 	status?: EntryStatus;
+
 	syntax?: string;
+
 	values?: IValueData[];
+
 	references?: IReference[];
+
 	relevance?: number;
 }
 export interface IAtDirectiveData {
 	name: string;
+
 	description?: string | MarkupContent;
+
 	browsers?: string[];
+
 	status?: EntryStatus;
+
 	references?: IReference[];
 }
 export interface IPseudoClassData {
 	name: string;
+
 	description?: string | MarkupContent;
+
 	browsers?: string[];
+
 	status?: EntryStatus;
+
 	references?: IReference[];
 }
 export interface IPseudoElementData {
 	name: string;
+
 	description?: string | MarkupContent;
+
 	browsers?: string[];
+
 	status?: EntryStatus;
+
 	references?: IReference[];
 }
 
 export interface IValueData {
 	name: string;
+
 	description?: string | MarkupContent;
+
 	browsers?: string[];
+
 	status?: EntryStatus;
+
 	references?: IReference[];
 }
 export interface MarkupContent {
 	kind: MarkupKind;
+
 	value: string;
 }
 export declare type MarkupKind = "plaintext" | "markdown";

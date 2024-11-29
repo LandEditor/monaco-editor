@@ -41,9 +41,11 @@ export async function runGetOutput(
 		});
 
 		let output = "";
+
 		process.stdout.on("data", (data) => {
 			output += data;
 		});
+
 		process.on("exit", (code) => {
 			if (code !== 0) {
 				reject(
@@ -72,9 +74,13 @@ export async function gitShallowClone(
 	await mkdir(targetPath, { recursive: true });
 
 	const options: RunOptions = { cwd: targetPath };
+
 	await run("git init", options);
+
 	await run(`git remote add origin ${repositoryUrl}`, options);
+
 	await run(`git fetch --depth 1 origin ${ref}`, options);
+
 	await run(`git checkout ${ref}`, options);
 
 	const commitId = await gitCommitId(targetPath);
@@ -126,8 +132,12 @@ export function getNightlyVersion(version: string, prerelease: string): string {
 
 export interface PackageJson {
 	version: string;
+
 	vscodeRef?: string;
+
 	vscodeCommitId?: string;
+
 	monacoCommitId?: string;
+
 	devDependencies: Record<string, string>;
 }

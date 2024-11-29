@@ -9,10 +9,13 @@ import type { TypeScriptWorker } from "./tsWorker";
 
 export class WorkerManager {
 	private _configChangeListener: IDisposable;
+
 	private _updateExtraLibsToken: number;
+
 	private _extraLibsChangeListener: IDisposable;
 
 	private _worker: editor.MonacoWebWorker<TypeScriptWorker> | null;
+
 	private _client: Promise<TypeScriptWorker> | null;
 
 	constructor(
@@ -20,11 +23,15 @@ export class WorkerManager {
 		private readonly _defaults: LanguageServiceDefaults,
 	) {
 		this._worker = null;
+
 		this._client = null;
+
 		this._configChangeListener = this._defaults.onDidChange(() =>
 			this._stopWorker(),
 		);
+
 		this._updateExtraLibsToken = 0;
+
 		this._extraLibsChangeListener = this._defaults.onDidExtraLibsChange(
 			() => this._updateExtraLibs(),
 		);
@@ -32,15 +39,19 @@ export class WorkerManager {
 
 	dispose(): void {
 		this._configChangeListener.dispose();
+
 		this._extraLibsChangeListener.dispose();
+
 		this._stopWorker();
 	}
 
 	private _stopWorker(): void {
 		if (this._worker) {
 			this._worker.dispose();
+
 			this._worker = null;
 		}
+
 		this._client = null;
 	}
 
@@ -48,6 +59,7 @@ export class WorkerManager {
 		if (!this._worker) {
 			return;
 		}
+
 		const myToken = ++this._updateExtraLibsToken;
 
 		const proxy = await this._worker.getProxy();
@@ -56,6 +68,7 @@ export class WorkerManager {
 			// avoid multiple calls
 			return;
 		}
+
 		proxy.updateExtraLibs(this._defaults.getExtraLibs());
 	}
 
@@ -107,6 +120,7 @@ export class WorkerManager {
 		if (this._worker) {
 			await this._worker.withSyncedResources(resources);
 		}
+
 		return client;
 	}
 }

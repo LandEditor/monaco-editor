@@ -93,12 +93,14 @@ export class LocationModel implements IHistoryModel {
 		const compareWith = compareWithStr
 			? Source.parse(compareWithStr, undefined)
 			: undefined;
+
 		this._compareWith = compareWith;
 
 		function findExample(hashValue: string): PlaygroundExample | undefined {
 			if (hashValue.startsWith("example-")) {
 				hashValue = hashValue.substring("example-".length);
 			}
+
 			return getPlaygroundExamples()
 				.flatMap((e) => e.examples)
 				.find((e) => e.id === hashValue);
@@ -116,6 +118,7 @@ export class LocationModel implements IHistoryModel {
 			if (this.cachedState?.hash === hashValue) {
 				p = this.cachedState.state;
 			}
+
 			if (!p) {
 				try {
 					p =
@@ -126,8 +129,10 @@ export class LocationModel implements IHistoryModel {
 					console.log("Could not deserialize from hash value", e);
 				}
 			}
+
 			if (p) {
 				this.cachedState = { state: p, hash: hashValue };
+
 				this.model.setState(p);
 			}
 		}
@@ -146,12 +151,14 @@ export class LocationModel implements IHistoryModel {
 			) {
 				return "example-" + selectedExampleProject.example.id;
 			}
+
 			if (
 				this.cachedState &&
 				projectEquals(this.cachedState.state, state)
 			) {
 				return this.cachedState.hash;
 			}
+
 			return this.compressor.encodeData(state);
 		},
 	);
@@ -179,24 +186,28 @@ export class LocationModel implements IHistoryModel {
 		} else if (settings.monacoSource === "latest") {
 			return new Source(monacoEditorVersion, undefined, undefined);
 		}
+
 		return undefined;
 	}
 
 	@action
 	exitCompare(): void {
 		this._compareWith = undefined;
+
 		this.historyId++;
 	}
 
 	@action
 	disableSourceOverride(): void {
 		this._sourceOverride = undefined;
+
 		this.historyId++;
 	}
 
 	@action
 	compareWithLatestDev(): void {
 		this._compareWith = Source.useLatestDev();
+
 		this.historyId++;
 	}
 
@@ -207,8 +218,11 @@ export class LocationModel implements IHistoryModel {
 				...this.model.settings.settings,
 				...this._compareWith.toPartialSettings(),
 			});
+
 			this.historyId++;
+
 			this._compareWith = undefined;
+
 			this._sourceOverride = undefined;
 		}
 	}
@@ -220,7 +234,9 @@ export class LocationModel implements IHistoryModel {
 				...this.model.settings.settings,
 				...this._sourceOverride.toPartialSettings(),
 			});
+
 			this.historyId++;
+
 			this._sourceOverride = undefined;
 		}
 	}

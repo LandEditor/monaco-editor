@@ -134,12 +134,14 @@ const BLOCK_ELEMENTS = [
 interface TagSyntax {
 	close: string; // must be escaped for RegExp!
 	id: "angle" | "bracket" | "auto";
+
 	open: string; //must be escaped for RegExp!
 }
 
 interface InterpolationSyntax {
 	close: string; // must be escaped for RegExp!
 	id: "dollar" | "bracket";
+
 	open1: string; //must be escaped for RegExp!
 	open2: string; // must be escaped for RegExp!
 }
@@ -477,6 +479,7 @@ function createMonarchLanguage(
 		// 			return dot;
 		// 		}
 		// }
+
 		specialHashKeys: /\*\*|\*|false|true|in|as|using/,
 
 		// <DOUBLE_EQUALS : "==">

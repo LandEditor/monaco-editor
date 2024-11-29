@@ -31,6 +31,7 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 		languageId,
 		new HTMLCompletionAdapter(worker),
 	);
+
 	languages.registerHoverProvider(
 		languageId,
 		new languageFeatures.HoverAdapter(worker),
@@ -40,22 +41,27 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 		languageId,
 		new languageFeatures.DocumentHighlightAdapter(worker),
 	);
+
 	languages.registerLinkProvider(
 		languageId,
 		new languageFeatures.DocumentLinkAdapter(worker),
 	);
+
 	languages.registerFoldingRangeProvider(
 		languageId,
 		new languageFeatures.FoldingRangeAdapter(worker),
 	);
+
 	languages.registerDocumentSymbolProvider(
 		languageId,
 		new languageFeatures.DocumentSymbolAdapter(worker),
 	);
+
 	languages.registerSelectionRangeProvider(
 		languageId,
 		new languageFeatures.SelectionRangeAdapter(worker),
 	);
+
 	languages.registerRenameProvider(
 		languageId,
 		new languageFeatures.RenameAdapter(worker),
@@ -67,6 +73,7 @@ export function setupMode1(defaults: LanguageServiceDefaults): void {
 			languageId,
 			new languageFeatures.DocumentFormattingEditProvider(worker),
 		);
+
 		languages.registerDocumentRangeFormattingEditProvider(
 			languageId,
 			new languageFeatures.DocumentRangeFormattingEditProvider(worker),
@@ -80,6 +87,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	const providers: IDisposable[] = [];
 
 	const client = new WorkerManager(defaults);
+
 	disposables.push(client);
 
 	const worker: languageFeatures.WorkerAccessor<HTMLWorker> = (
@@ -101,6 +109,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.hovers) {
 			providers.push(
 				languages.registerHoverProvider(
@@ -109,6 +118,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.documentHighlights) {
 			providers.push(
 				languages.registerDocumentHighlightProvider(
@@ -117,6 +127,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.links) {
 			providers.push(
 				languages.registerLinkProvider(
@@ -125,6 +136,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.documentSymbols) {
 			providers.push(
 				languages.registerDocumentSymbolProvider(
@@ -133,6 +145,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.rename) {
 			providers.push(
 				languages.registerRenameProvider(
@@ -141,6 +154,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.foldingRanges) {
 			providers.push(
 				languages.registerFoldingRangeProvider(
@@ -149,6 +163,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.selectionRanges) {
 			providers.push(
 				languages.registerSelectionRangeProvider(
@@ -157,6 +172,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.documentFormattingEdits) {
 			providers.push(
 				languages.registerDocumentFormattingEditProvider(
@@ -165,6 +181,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 				),
 			);
 		}
+
 		if (modeConfiguration.documentRangeFormattingEdits) {
 			providers.push(
 				languages.registerDocumentRangeFormattingEditProvider(

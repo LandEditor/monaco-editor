@@ -18,14 +18,20 @@ if (typeof fetch !== "undefined") {
 
 export class JSONWorker {
 	private _ctx: worker.IWorkerContext;
+
 	private _languageService: jsonService.LanguageService;
+
 	private _languageSettings: DiagnosticsOptions;
+
 	private _languageId: string;
 
 	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
+
 		this._languageSettings = createData.languageSettings;
+
 		this._languageId = createData.languageId;
+
 		this._languageService = jsonService.getLanguageService({
 			workspaceContext: {
 				resolveRelativePath: (
@@ -45,6 +51,7 @@ export class JSONWorker {
 				: undefined,
 			clientCapabilities: jsonService.ClientCapabilities.LATEST,
 		});
+
 		this._languageService.configure(this._languageSettings);
 	}
 
@@ -61,8 +68,10 @@ export class JSONWorker {
 				this._languageSettings,
 			);
 		}
+
 		return Promise.resolve([]);
 	}
+
 	async doComplete(
 		uri: string,
 		position: jsonService.Position,
@@ -72,6 +81,7 @@ export class JSONWorker {
 		if (!document) {
 			return null;
 		}
+
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 
 		return this._languageService.doComplete(
@@ -80,11 +90,13 @@ export class JSONWorker {
 			jsonDocument,
 		);
 	}
+
 	async doResolve(
 		item: jsonService.CompletionItem,
 	): Promise<jsonService.CompletionItem> {
 		return this._languageService.doResolve(item);
 	}
+
 	async doHover(
 		uri: string,
 		position: jsonService.Position,
@@ -94,10 +106,12 @@ export class JSONWorker {
 		if (!document) {
 			return null;
 		}
+
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 
 		return this._languageService.doHover(document, position, jsonDocument);
 	}
+
 	async format(
 		uri: string,
 		range: jsonService.Range | null,
@@ -108,6 +122,7 @@ export class JSONWorker {
 		if (!document) {
 			return [];
 		}
+
 		let textEdits = this._languageService.format(
 			document,
 			range! /* TODO */,
@@ -116,9 +131,11 @@ export class JSONWorker {
 
 		return Promise.resolve(textEdits);
 	}
+
 	async resetSchema(uri: string): Promise<boolean> {
 		return Promise.resolve(this._languageService.resetSchema(uri));
 	}
+
 	async findDocumentSymbols(
 		uri: string,
 	): Promise<jsonService.DocumentSymbol[]> {
@@ -127,6 +144,7 @@ export class JSONWorker {
 		if (!document) {
 			return [];
 		}
+
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 
 		let symbols = this._languageService.findDocumentSymbols2(
@@ -136,6 +154,7 @@ export class JSONWorker {
 
 		return Promise.resolve(symbols);
 	}
+
 	async findDocumentColors(
 		uri: string,
 	): Promise<jsonService.ColorInformation[]> {
@@ -144,6 +163,7 @@ export class JSONWorker {
 		if (!document) {
 			return [];
 		}
+
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 
 		let colorSymbols = this._languageService.findDocumentColors(
@@ -153,6 +173,7 @@ export class JSONWorker {
 
 		return Promise.resolve(colorSymbols);
 	}
+
 	async getColorPresentations(
 		uri: string,
 		color: jsonService.Color,
@@ -163,6 +184,7 @@ export class JSONWorker {
 		if (!document) {
 			return [];
 		}
+
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 
 		let colorPresentations = this._languageService.getColorPresentations(
@@ -174,6 +196,7 @@ export class JSONWorker {
 
 		return Promise.resolve(colorPresentations);
 	}
+
 	async getFoldingRanges(
 		uri: string,
 		context?: { rangeLimit?: number },
@@ -183,10 +206,12 @@ export class JSONWorker {
 		if (!document) {
 			return [];
 		}
+
 		let ranges = this._languageService.getFoldingRanges(document, context);
 
 		return Promise.resolve(ranges);
 	}
+
 	async getSelectionRanges(
 		uri: string,
 		positions: jsonService.Position[],
@@ -196,6 +221,7 @@ export class JSONWorker {
 		if (!document) {
 			return [];
 		}
+
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 
 		let ranges = this._languageService.getSelectionRanges(
@@ -206,6 +232,7 @@ export class JSONWorker {
 
 		return Promise.resolve(ranges);
 	}
+
 	async parseJSONDocument(
 		uri: string,
 	): Promise<jsonService.JSONDocument | null> {
@@ -214,10 +241,12 @@ export class JSONWorker {
 		if (!document) {
 			return null;
 		}
+
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 
 		return Promise.resolve(jsonDocument);
 	}
+
 	async getMatchingSchemas(
 		uri: string,
 	): Promise<jsonService.MatchingSchema[]> {
@@ -226,12 +255,14 @@ export class JSONWorker {
 		if (!document) {
 			return [];
 		}
+
 		let jsonDocument = this._languageService.parseJSONDocument(document);
 
 		return Promise.resolve(
 			this._languageService.getMatchingSchemas(document, jsonDocument),
 		);
 	}
+
 	private _getTextDocument(uri: string): jsonService.TextDocument | null {
 		let models = this._ctx.getMirrorModels();
 
@@ -245,6 +276,7 @@ export class JSONWorker {
 				);
 			}
 		}
+
 		return null;
 	}
 }
@@ -267,6 +299,7 @@ function resolvePath(uriString: string, path: string): string {
 
 		return uri.with({ path: normalizePath(parts) }).toString();
 	}
+
 	return joinPath(uriString, path);
 }
 
@@ -289,14 +322,17 @@ function normalizePath(parts: string[]): string {
 			newParts.push(part);
 		}
 	}
+
 	if (parts.length > 1 && parts[parts.length - 1].length === 0) {
 		newParts.push("");
 	}
+
 	let res = newParts.join("/");
 
 	if (parts[0].length === 0) {
 		res = "/" + res;
 	}
+
 	return res;
 }
 
@@ -308,12 +344,15 @@ function joinPath(uriString: string, ...paths: string[]): string {
 	for (let path of paths) {
 		parts.push(...path.split("/"));
 	}
+
 	return uri.with({ path: normalizePath(parts) }).toString();
 }
 
 export interface ICreateData {
 	languageId: string;
+
 	languageSettings: DiagnosticsOptions;
+
 	enableSchemaRequest: boolean;
 }
 

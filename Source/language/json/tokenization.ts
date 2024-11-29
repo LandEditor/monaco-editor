@@ -54,6 +54,7 @@ class ParentsStack {
 		if (parents) {
 			return parents.parent;
 		}
+
 		return null;
 	}
 
@@ -71,19 +72,25 @@ class ParentsStack {
 		if (!a && !b) {
 			return true;
 		}
+
 		if (!a || !b) {
 			return false;
 		}
+
 		while (a && b) {
 			if (a === b) {
 				return true;
 			}
+
 			if (a.type !== b.type) {
 				return false;
 			}
+
 			a = a.parent;
+
 			b = b.parent;
 		}
+
 		return true;
 	}
 }
@@ -92,7 +99,9 @@ class JSONState implements languages.IState {
 	private _state: languages.IState | null;
 
 	public scanError: ScanError | null;
+
 	public lastWasColon: boolean;
+
 	public parents: ParentsStack | null;
 
 	constructor(
@@ -102,8 +111,11 @@ class JSONState implements languages.IState {
 		parents: ParentsStack | null,
 	) {
 		this._state = state;
+
 		this.scanError = scanError;
+
 		this.lastWasColon = lastWasColon;
+
 		this.parents = parents;
 	}
 
@@ -120,9 +132,11 @@ class JSONState implements languages.IState {
 		if (other === this) {
 			return true;
 		}
+
 		if (!other || !(other instanceof JSONState)) {
 			return false;
 		}
+
 		return (
 			this.scanError === other.scanError &&
 			this.lastWasColon === other.lastWasColon &&
@@ -183,12 +197,14 @@ function tokenize(
 	switch (state.scanError) {
 		case ScanError.UnexpectedEndOfString:
 			line = '"' + line;
+
 			numberOfInsertedCharacters = 1;
 
 			break;
 
 		case ScanError.UnexpectedEndOfComment:
 			line = "/*" + line;
+
 			numberOfInsertedCharacters = 2;
 
 			break;
@@ -229,46 +245,57 @@ function tokenize(
 		if (adjustOffset) {
 			offset -= numberOfInsertedCharacters;
 		}
+
 		adjustOffset = numberOfInsertedCharacters > 0;
 
 		// brackets and type
 		switch (kind) {
 			case SyntaxKind.OpenBraceToken:
 				parents = ParentsStack.push(parents, JSONParent.Object);
+
 				type = TOKEN_DELIM_OBJECT;
+
 				lastWasColon = false;
 
 				break;
 
 			case SyntaxKind.CloseBraceToken:
 				parents = ParentsStack.pop(parents);
+
 				type = TOKEN_DELIM_OBJECT;
+
 				lastWasColon = false;
 
 				break;
 
 			case SyntaxKind.OpenBracketToken:
 				parents = ParentsStack.push(parents, JSONParent.Array);
+
 				type = TOKEN_DELIM_ARRAY;
+
 				lastWasColon = false;
 
 				break;
 
 			case SyntaxKind.CloseBracketToken:
 				parents = ParentsStack.pop(parents);
+
 				type = TOKEN_DELIM_ARRAY;
+
 				lastWasColon = false;
 
 				break;
 
 			case SyntaxKind.ColonToken:
 				type = TOKEN_DELIM_COLON;
+
 				lastWasColon = true;
 
 				break;
 
 			case SyntaxKind.CommaToken:
 				type = TOKEN_DELIM_COMMA;
+
 				lastWasColon = false;
 
 				break;
@@ -276,12 +303,14 @@ function tokenize(
 			case SyntaxKind.TrueKeyword:
 			case SyntaxKind.FalseKeyword:
 				type = TOKEN_VALUE_BOOLEAN;
+
 				lastWasColon = false;
 
 				break;
 
 			case SyntaxKind.NullKeyword:
 				type = TOKEN_VALUE_NULL;
+
 				lastWasColon = false;
 
 				break;
@@ -292,16 +321,19 @@ function tokenize(
 					: JSONParent.Object;
 
 				const inArray = currentParent === JSONParent.Array;
+
 				type =
 					lastWasColon || inArray
 						? TOKEN_VALUE_STRING
 						: TOKEN_PROPERTY_NAME;
+
 				lastWasColon = false;
 
 				break;
 
 			case SyntaxKind.NumericLiteral:
 				type = TOKEN_VALUE_NUMBER;
+
 				lastWasColon = false;
 
 				break;
@@ -328,6 +360,7 @@ function tokenize(
 			lastWasColon,
 			parents,
 		);
+
 		ret.tokens.push({
 			startIndex: offset,
 			scopes: type,

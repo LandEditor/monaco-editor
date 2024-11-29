@@ -58,9 +58,12 @@ async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {
 		const packageJson = JSON.parse(
 			await readFile(monacoEditorPackageJsonPath, { encoding: "utf-8" }),
 		) as PackageJson;
+
 		packageJson.version = monacoEditorCoreVersion;
+
 		packageJson.devDependencies["monaco-editor-core"] =
 			monacoEditorCoreVersion;
+
 		await writeJsonFile(monacoEditorPackageJsonPath, packageJson);
 	});
 
@@ -78,8 +81,11 @@ async function prepareMonacoEditorRelease(monacoEditorCoreVersion: string) {
 		const packageJson = JSON.parse(
 			await readFile(monacoEditorPackageJsonPath, { encoding: "utf-8" }),
 		) as PackageJson;
+
 		packageJson.vscodeCommitId = monacoEditorCorePackageJson.vscodeCommitId;
+
 		packageJson.monacoCommitId = await gitCommitId(rootPath);
+
 		await writeJsonFile(monacoEditorPackageJsonPath, packageJson);
 	});
 

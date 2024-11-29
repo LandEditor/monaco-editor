@@ -21,6 +21,7 @@ export class LzmaCompressor<T> {
 		if (compressedStr.indexOf("undefined") !== -1) {
 			debugger;
 		}
+
 		const result = compressedStr
 			.replace(/\+/g, "-") // Convert '+' to '-'
 			.replace(/\//g, "_") // Convert '/' to '_'
@@ -31,6 +32,7 @@ export class LzmaCompressor<T> {
 
 	decodeData<T>(data: string): T {
 		data += Array(5 - (data.length % 4)).join("=");
+
 		data = data
 			.replace(/\-/g, "+") // Convert '-' to '+'
 			.replace(/\_/g, "/"); // Convert '_' to '/'

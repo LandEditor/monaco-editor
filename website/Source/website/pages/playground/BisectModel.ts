@@ -27,6 +27,7 @@ export class BisectModel {
 
 	public async toggleState(version: string, state: boolean): Promise<void> {
 		const currentState = this.getState(version);
+
 		await this.setState(
 			version,
 			currentState === state ? undefined : state,
@@ -49,6 +50,7 @@ export class BisectModel {
 		if (!nextVersion) {
 			return;
 		}
+
 		this.model.settings.setSettings({
 			...this.model.settings.settings,
 			npmVersion: nextVersion,
@@ -62,6 +64,7 @@ export class BisectModel {
 	private get indexOfLastBadVersion() {
 		return findLastIndex(this.versions, (v) => this.map.get(v) === false);
 	}
+
 	private get indexOfFirstGoodVersion() {
 		return this.versions.findIndex((v) => this.map.get(v) === true);
 	}
@@ -74,6 +77,7 @@ export class BisectModel {
 		if (indexOfFirstGoodVersion === -1 && indexOfLastBadVersion === -1) {
 			return -1;
 		}
+
 		if (indexOfFirstGoodVersion === -1) {
 			return Math.ceil(
 				Math.log2(this.versions.length - indexOfLastBadVersion),
@@ -94,6 +98,7 @@ export class BisectModel {
 		) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -115,6 +120,7 @@ export class BisectModel {
 		const badCommitId = await getVsCodeCommitId(
 			versions[indexOfLastBadVersion],
 		);
+
 		window.open(
 			`https://github.com/microsoft/vscode/compare/${goodCommitId}...${badCommitId}`,
 			"_blank",
@@ -139,6 +145,7 @@ export class BisectModel {
 		if (indexOfLastBadVersion === -1 && indexOfFirstGoodVersion === -1) {
 			return versions[0];
 		}
+
 		if (indexOfLastBadVersion === -1) {
 			// try first (newest) version that hasn't been tested
 			const indexOfFirstUntestedVersion = versions.findIndex(
@@ -148,6 +155,7 @@ export class BisectModel {
 			if (indexOfFirstUntestedVersion === -1) {
 				return undefined;
 			}
+
 			return versions[indexOfFirstUntestedVersion];
 		}
 

@@ -197,7 +197,9 @@ const uppercaseFirstLetter = (lowercase: string) =>
 let keywordsWithCaseVariations: string[] = [];
 keywords.forEach((lowercase) => {
 	keywordsWithCaseVariations.push(lowercase);
+
 	keywordsWithCaseVariations.push(lowercase.toUpperCase());
+
 	keywordsWithCaseVariations.push(uppercaseFirstLetter(lowercase));
 });
 

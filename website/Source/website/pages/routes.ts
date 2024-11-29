@@ -20,6 +20,7 @@ function trimEnd(str: string, end: string): string {
 	if (str.endsWith(end)) {
 		return str.substring(0, str.length - end.length);
 	}
+
 	return str;
 }
 

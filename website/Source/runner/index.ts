@@ -17,6 +17,7 @@ window.addEventListener("message", (event) => {
 
 		return;
 	}
+
 	const e = event.data as IMessageToRunner | { kind: undefined };
 
 	if (e.kind === "initialize") {
@@ -25,6 +26,7 @@ window.addEventListener("message", (event) => {
 		const style = document.getElementById(
 			"custom-style",
 		) as HTMLStyleElement;
+
 		style.innerHTML = e.css; // CodeQL [SM03712] This is safe because the runner runs in an isolated iframe.
 	}
 });
@@ -37,21 +39,27 @@ async function initialize(state: IPreviewState) {
 	}
 
 	const loadingContainerDiv = document.createElement("div");
+
 	loadingContainerDiv.className = "loader-container";
 
 	const loadingDiv = document.createElement("div");
+
 	loadingDiv.className = "loader";
+
 	loadingContainerDiv.appendChild(loadingDiv);
 
 	document.body.appendChild(loadingContainerDiv);
 
 	monacoPromise = loadMonaco(state.monacoSetup);
+
 	await monacoPromise;
 
 	loadingContainerDiv.remove();
 
 	const style = document.createElement("style");
+
 	style.id = "custom-style";
+
 	style.innerHTML = state.css; // CodeQL [SM03712] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground. // CodeQL [SM02688] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground.
 	document.body.appendChild(style);
 
@@ -63,6 +71,7 @@ async function initialize(state: IPreviewState) {
 		eval(js); // CodeQL [SM01632] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground. // CodeQL [SM02688] This is safe because the runner runs in an isolated iframe. This feature is essential to the functionality of the playground.
 	} catch (err) {
 		const pre = document.createElement("pre");
+
 		pre.appendChild(
 			document.createTextNode(`${err}: ${(err as any).state}`),
 		);
@@ -83,6 +92,7 @@ function sendMessageToParent(message: IMessageFromRunner) {
 ) {
 	model.onDidChangeContent(() => {
 		const value = model.getValue();
+
 		sendMessageToParent({
 			kind: "update-code-string",
 			codeStringName,
@@ -96,6 +106,7 @@ function massageJs(js: string) {
 	Alternate experimental syntax: // bind to code string: `editor.getModel()` -> codeString
 
 	const bindToCodeStringRegexp = /\/\/ bind to code string: `(.*?)` -> (.*?)(\n|$)/g;
+
 	js = js.replaceAll(bindToCodeStringRegexp, (match, p1, p2) => {
 		return `globalThis.bindModelToCodeStr(${p1}, ${JSON.stringify(p2)})\n`;
 	});
@@ -107,7 +118,9 @@ function massageJs(js: string) {
 		const p1 = m[1];
 
 		const target = JSON.stringify("set from `" + p1 + "`");
+
 		js += `\n try { globalThis.$bindModelToCodeStr(${p1}, ${target}); } catch (e) { console.error(e); }`;
 	}
+
 	return js;
 }

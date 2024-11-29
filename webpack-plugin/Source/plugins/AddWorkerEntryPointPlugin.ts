@@ -2,9 +2,13 @@ import type * as webpack from "webpack";
 
 export interface IAddWorkerEntryPointPluginOptions {
 	id: string;
+
 	entry: string;
+
 	filename: string;
+
 	chunkFilename?: string;
+
 	plugins: webpack.WebpackPluginInstance[];
 }
 
@@ -43,9 +47,11 @@ function getCompilerHook(
 
 		const SingleEntryPlugin =
 			webpack.EntryPlugin ?? webpack.SingleEntryPlugin;
+
 		new SingleEntryPlugin(compiler.context, entry, "main").apply(
 			childCompiler,
 		);
+
 		plugins.forEach((plugin) => plugin.apply(childCompiler));
 
 		childCompiler.runAsChild((err?: Error | null) => callback(err));

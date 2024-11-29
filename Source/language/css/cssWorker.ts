@@ -12,13 +12,18 @@ export class CSSWorker {
 	// --- model sync -----------------------
 
 	private _ctx: worker.IWorkerContext;
+
 	private _languageService: cssService.LanguageService;
+
 	private _languageSettings: Options;
+
 	private _languageId: string;
 
 	constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
 		this._ctx = ctx;
+
 		this._languageSettings = createData.options;
+
 		this._languageId = createData.languageId;
 
 		const data = createData.options.data;
@@ -34,6 +39,7 @@ export class CSSWorker {
 				);
 			}
 		}
+
 		const lsOptions: cssService.LanguageServiceOptions = {
 			customDataProviders,
 			useDefaultDataProvider,
@@ -61,6 +67,7 @@ export class CSSWorker {
 			default:
 				throw new Error("Invalid language id: " + this._languageId);
 		}
+
 		this._languageService.configure(this._languageSettings);
 	}
 
@@ -79,8 +86,10 @@ export class CSSWorker {
 
 			return Promise.resolve(diagnostics);
 		}
+
 		return Promise.resolve([]);
 	}
+
 	async doComplete(
 		uri: string,
 		position: cssService.Position,
@@ -90,6 +99,7 @@ export class CSSWorker {
 		if (!document) {
 			return null;
 		}
+
 		const stylesheet = this._languageService.parseStylesheet(document);
 
 		const completions = this._languageService.doComplete(
@@ -100,6 +110,7 @@ export class CSSWorker {
 
 		return Promise.resolve(completions);
 	}
+
 	async doHover(
 		uri: string,
 		position: cssService.Position,
@@ -109,6 +120,7 @@ export class CSSWorker {
 		if (!document) {
 			return null;
 		}
+
 		const stylesheet = this._languageService.parseStylesheet(document);
 
 		const hover = this._languageService.doHover(
@@ -119,6 +131,7 @@ export class CSSWorker {
 
 		return Promise.resolve(hover);
 	}
+
 	async findDefinition(
 		uri: string,
 		position: cssService.Position,
@@ -128,6 +141,7 @@ export class CSSWorker {
 		if (!document) {
 			return null;
 		}
+
 		const stylesheet = this._languageService.parseStylesheet(document);
 
 		const definition = this._languageService.findDefinition(
@@ -138,6 +152,7 @@ export class CSSWorker {
 
 		return Promise.resolve(definition);
 	}
+
 	async findReferences(
 		uri: string,
 		position: cssService.Position,
@@ -147,6 +162,7 @@ export class CSSWorker {
 		if (!document) {
 			return [];
 		}
+
 		const stylesheet = this._languageService.parseStylesheet(document);
 
 		const references = this._languageService.findReferences(
@@ -157,6 +173,7 @@ export class CSSWorker {
 
 		return Promise.resolve(references);
 	}
+
 	async findDocumentHighlights(
 		uri: string,
 		position: cssService.Position,
@@ -166,6 +183,7 @@ export class CSSWorker {
 		if (!document) {
 			return [];
 		}
+
 		const stylesheet = this._languageService.parseStylesheet(document);
 
 		const highlights = this._languageService.findDocumentHighlights(
@@ -176,6 +194,7 @@ export class CSSWorker {
 
 		return Promise.resolve(highlights);
 	}
+
 	async findDocumentSymbols(
 		uri: string,
 	): Promise<cssService.SymbolInformation[]> {
@@ -184,6 +203,7 @@ export class CSSWorker {
 		if (!document) {
 			return [];
 		}
+
 		const stylesheet = this._languageService.parseStylesheet(document);
 
 		const symbols = this._languageService.findDocumentSymbols(
@@ -193,6 +213,7 @@ export class CSSWorker {
 
 		return Promise.resolve(symbols);
 	}
+
 	async doCodeActions(
 		uri: string,
 		range: cssService.Range,
@@ -203,6 +224,7 @@ export class CSSWorker {
 		if (!document) {
 			return [];
 		}
+
 		const stylesheet = this._languageService.parseStylesheet(document);
 
 		const actions = this._languageService.doCodeActions(
@@ -214,6 +236,7 @@ export class CSSWorker {
 
 		return Promise.resolve(actions);
 	}
+
 	async findDocumentColors(
 		uri: string,
 	): Promise<cssService.ColorInformation[]> {
@@ -222,6 +245,7 @@ export class CSSWorker {
 		if (!document) {
 			return [];
 		}
+
 		const stylesheet = this._languageService.parseStylesheet(document);
 
 		const colorSymbols = this._languageService.findDocumentColors(
@@ -231,6 +255,7 @@ export class CSSWorker {
 
 		return Promise.resolve(colorSymbols);
 	}
+
 	async getColorPresentations(
 		uri: string,
 		color: cssService.Color,
@@ -241,6 +266,7 @@ export class CSSWorker {
 		if (!document) {
 			return [];
 		}
+
 		const stylesheet = this._languageService.parseStylesheet(document);
 
 		const colorPresentations = this._languageService.getColorPresentations(
@@ -252,6 +278,7 @@ export class CSSWorker {
 
 		return Promise.resolve(colorPresentations);
 	}
+
 	async getFoldingRanges(
 		uri: string,
 		context?: { rangeLimit?: number },
@@ -261,6 +288,7 @@ export class CSSWorker {
 		if (!document) {
 			return [];
 		}
+
 		const ranges = this._languageService.getFoldingRanges(
 			document,
 			context,
@@ -268,6 +296,7 @@ export class CSSWorker {
 
 		return Promise.resolve(ranges);
 	}
+
 	async getSelectionRanges(
 		uri: string,
 		positions: cssService.Position[],
@@ -277,6 +306,7 @@ export class CSSWorker {
 		if (!document) {
 			return [];
 		}
+
 		const stylesheet = this._languageService.parseStylesheet(document);
 
 		const ranges = this._languageService.getSelectionRanges(
@@ -287,6 +317,7 @@ export class CSSWorker {
 
 		return Promise.resolve(ranges);
 	}
+
 	async doRename(
 		uri: string,
 		position: cssService.Position,
@@ -297,6 +328,7 @@ export class CSSWorker {
 		if (!document) {
 			return null;
 		}
+
 		const stylesheet = this._languageService.parseStylesheet(document);
 
 		const renames = this._languageService.doRename(
@@ -308,6 +340,7 @@ export class CSSWorker {
 
 		return Promise.resolve(renames);
 	}
+
 	async format(
 		uri: string,
 		range: cssService.Range | null,
@@ -318,6 +351,7 @@ export class CSSWorker {
 		if (!document) {
 			return [];
 		}
+
 		const settings = { ...this._languageSettings.format, ...options };
 
 		const textEdits = this._languageService.format(
@@ -328,6 +362,7 @@ export class CSSWorker {
 
 		return Promise.resolve(textEdits);
 	}
+
 	private _getTextDocument(uri: string): cssService.TextDocument | null {
 		const models = this._ctx.getMirrorModels();
 
@@ -341,12 +376,14 @@ export class CSSWorker {
 				);
 			}
 		}
+
 		return null;
 	}
 }
 
 export interface ICreateData {
 	languageId: string;
+
 	options: Options;
 }
 

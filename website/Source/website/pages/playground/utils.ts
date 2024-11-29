@@ -9,6 +9,7 @@ export function findLastIndex<T>(
 			return i;
 		}
 	}
+
 	return -1;
 }
 export function projectEquals(

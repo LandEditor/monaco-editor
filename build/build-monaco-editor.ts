@@ -45,9 +45,11 @@ generateMetadata();
 	const json = JSON.parse(packageJSON.contents.toString());
 
 	json.private = false;
+
 	delete json.scripts["postinstall"];
 
 	packageJSON.contents = Buffer.from(JSON.stringify(json, null, "  "));
+
 	writeFiles([packageJSON], `out/monaco-editor`);
 })();
 
@@ -56,12 +58,15 @@ generateMetadata();
 	let otherFiles = [];
 
 	otherFiles = otherFiles.concat(readFiles("README.md", { base: "" }));
+
 	otherFiles = otherFiles.concat(readFiles("CHANGELOG.md", { base: "" }));
+
 	otherFiles = otherFiles.concat(
 		readFiles("node_modules/monaco-editor-core/min-maps/**/*", {
 			base: "node_modules/monaco-editor-core/",
 		}),
 	);
+
 	otherFiles = otherFiles.concat(
 		readFiles("node_modules/monaco-editor-core/LICENSE", {
 			base: "node_modules/monaco-editor-core/",
@@ -78,14 +83,18 @@ function AMD_releaseOne(type: "dev" | "min") {
 	let coreFiles = readFiles(`node_modules/monaco-editor-core/${type}/**/*`, {
 		base: `node_modules/monaco-editor-core/${type}`,
 	});
+
 	coreFiles = fixNlsFiles(coreFiles);
+
 	AMD_addPluginContribs(type, coreFiles);
+
 	writeFiles(coreFiles, `out/monaco-editor/${type}`);
 
 	const pluginFiles = readFiles(`out/languages/bundled/amd-${type}/**/*`, {
 		base: `out/languages/bundled/amd-${type}`,
 		ignore: ["**/monaco.contribution.js"],
 	});
+
 	writeFiles(pluginFiles, `out/monaco-editor/${type}`);
 }
 
@@ -146,6 +155,7 @@ function AMD_addPluginContribs(type: "dev" | "min", files: IFile[]) {
 		// TODO: Instead of adding this source to the header to maintain the source map indices, it should rewrite the sourcemap!
 		const searchValue =
 			"https://github.com/microsoft/vscode/blob/main/LICENSE.txt";
+
 		contents = contents.replace(
 			searchValue,
 			searchValue + " */ " + contentPrefixSource + " /*",
@@ -182,6 +192,7 @@ function AMD_addPluginContribs(type: "dev" | "min", files: IFile[]) {
 		if (insertIndex === -1) {
 			insertIndex = contents.length;
 		}
+
 		contents =
 			contents.substring(0, insertIndex) +
 			"\n" +
@@ -201,8 +212,11 @@ function ESM_release() {
 			"node_modules/monaco-editor-core/esm/vs/editor/editor.api.d.ts",
 		],
 	});
+
 	ESM_addImportSuffix(coreFiles);
+
 	ESM_addPluginContribs(coreFiles);
+
 	writeFiles(coreFiles, `out/monaco-editor/esm`);
 
 	ESM_releasePlugins();
@@ -240,6 +254,7 @@ function ESM_releasePlugins() {
 					console.error(
 						`Non-relative import for unknown module: ${importText} in ${file.path}`,
 					);
+
 					process.exit(1);
 				}
 
@@ -285,11 +300,14 @@ function ESM_releasePlugins() {
 		}
 
 		let contents = file.contents.toString();
+
 		contents = `import '${relativePath}';\n` + contents;
+
 		file.contents = Buffer.from(contents);
 	}
 
 	ESM_addImportSuffix(files);
+
 	writeFiles(files, `out/monaco-editor/esm`);
 }
 
@@ -338,6 +356,7 @@ function ESM_addPluginContribs(files: IFile[]) {
 		if (!/editor\.main\.js$/.test(file.path)) {
 			continue;
 		}
+
 		file.path = file.path.replace(/editor\.main/, "edcore.main");
 	}
 
@@ -431,6 +450,7 @@ function toExternalDTS(contents: string): string {
 		if (killNextCloseCurlyBrace) {
 			if ("}" === line) {
 				lines[i] = "";
+
 				killNextCloseCurlyBrace = false;
 
 				continue;
@@ -447,6 +467,7 @@ function toExternalDTS(contents: string): string {
 
 		if ("declare namespace monaco {" === line) {
 			lines[i] = "";
+
 			killNextCloseCurlyBrace = true;
 
 			continue;
@@ -471,10 +492,12 @@ function toExternalDTS(contents: string): string {
 				"",
 			].join("\n");
 		}
+
 		if (line.indexOf("    MonacoEnvironment?") === 0) {
 			lines[i] = `    MonacoEnvironment?: Environment | undefined;`;
 		}
 	}
+
 	return lines.join("\n").replace(/\n\n\n+/g, "\n\n");
 }
 
@@ -490,6 +513,7 @@ function cleanFile(contents: string): string {
 			if (!m) {
 				return line;
 			}
+
 			const tabsCount = m[1].length;
 
 			let newIndent = "";
@@ -497,6 +521,7 @@ function cleanFile(contents: string): string {
 			for (let i = 0; i < 4 * tabsCount; i++) {
 				newIndent += " ";
 			}
+
 			return newIndent + line.substring(tabsCount);
 		})
 		.join("\n");
@@ -521,12 +546,14 @@ function releaseThirdPartyNotices() {
 	let thirdPartyNoticeContent = fs
 		.readFileSync(path.join(REPO_ROOT, "ThirdPartyNotices.txt"))
 		.toString();
+
 	thirdPartyNoticeContent = thirdPartyNoticeContent
 		.split("\n")
 		.slice(8)
 		.join("\n");
 
 	contents += "\n" + thirdPartyNoticeContent;
+
 	tpn.contents = Buffer.from(contents);
 
 	writeFiles([tpn], `out/monaco-editor`);

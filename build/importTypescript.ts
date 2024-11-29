@@ -30,6 +30,7 @@ const TYPESCRIPT_LIB_DESTINATION = path.join(
 	} catch (err) {
 		fs.mkdirSync(TYPESCRIPT_LIB_DESTINATION);
 	}
+
 	importLibs();
 
 	const npmLsOutput = JSON.parse(
@@ -100,6 +101,7 @@ export var TokenClass = ts.TokenClass;
 export var typescript = ts;
 // END MONACOCHANGE
 `;
+
 	fs.writeFileSync(
 		path.join(TYPESCRIPT_LIB_DESTINATION, "typescriptServices.js"),
 		stripSourceMaps(tsServices_esm),
@@ -150,7 +152,9 @@ export const libFileSet: Record<string, boolean> = {}
 		const name = dtsFiles.shift();
 
 		const output = readLibFile(name).replace(/\r\n/g, "\n");
+
 		strLibResult += `libFileMap['${name}'] = "${escapeText(output)}";\n`;
+
 		strIndexResult += `libFileSet['${name}'] = true;\n`;
 	}
 
@@ -158,6 +162,7 @@ export const libFileSet: Record<string, boolean> = {}
 		path.join(TYPESCRIPT_LIB_DESTINATION, "lib.ts"),
 		strLibResult,
 	);
+
 	fs.writeFileSync(
 		path.join(TYPESCRIPT_LIB_DESTINATION, "lib.index.ts"),
 		strIndexResult,
@@ -246,13 +251,18 @@ function escapeText(text) {
 
 				break;
 		}
+
 		if (replaceWith !== null) {
 			resultPieces.push(text.substring(startPos, i));
+
 			resultPieces.push(replaceWith);
+
 			startPos = i + 1;
+
 			replaceWith = null;
 		}
 	}
+
 	resultPieces.push(text.substring(startPos, len));
 
 	return resultPieces.join("");

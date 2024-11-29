@@ -31,6 +31,7 @@ export interface ILanguageWorkerWithDiagnostics {
 
 export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 	protected readonly _disposables: IDisposable[] = [];
+
 	private readonly _listener: { [uri: string]: IDisposable } =
 		Object.create(null);
 
@@ -47,9 +48,11 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 			}
 
 			let handle: number;
+
 			this._listener[model.uri.toString()] = model.onDidChangeContent(
 				() => {
 					window.clearTimeout(handle);
+
 					handle = window.setTimeout(
 						() => this._doValidate(model.uri, modeId),
 						500,
@@ -69,15 +72,19 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 
 			if (listener) {
 				listener.dispose();
+
 				delete this._listener[uriStr];
 			}
 		};
 
 		this._disposables.push(editor.onDidCreateModel(onModelAdd));
+
 		this._disposables.push(editor.onWillDisposeModel(onModelRemoved));
+
 		this._disposables.push(
 			editor.onDidChangeModelLanguage((event) => {
 				onModelRemoved(event.model);
+
 				onModelAdd(event.model);
 			}),
 		);
@@ -87,6 +94,7 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 				editor.getModels().forEach((model) => {
 					if (model.getLanguageId() === this._languageId) {
 						onModelRemoved(model);
+
 						onModelAdd(model);
 					}
 				});
@@ -108,6 +116,7 @@ export class DiagnosticsAdapter<T extends ILanguageWorkerWithDiagnostics> {
 
 	public dispose(): void {
 		this._disposables.forEach((d) => d && d.dispose());
+
 		this._disposables.length = 0;
 	}
 
@@ -213,6 +222,7 @@ export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
 				if (!info) {
 					return;
 				}
+
 				const wordInfo = model.getWordUntilPosition(position);
 
 				const wordRange = new Range(
@@ -245,14 +255,17 @@ export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
 							} else {
 								item.range = toRange(entry.textEdit.range);
 							}
+
 							item.insertText = entry.textEdit.newText;
 						}
+
 						if (entry.additionalTextEdits) {
 							item.additionalTextEdits =
 								entry.additionalTextEdits.map<languages.TextEdit>(
 									toTextEdit,
 								);
 						}
+
 						if (
 							entry.insertTextFormat ===
 							lsTypes.InsertTextFormat.Snippet
@@ -260,6 +273,7 @@ export class CompletionAdapter<T extends ILanguageWorkerWithCompletions>
 							item.insertTextRules =
 								languages.CompletionItemInsertTextRule.InsertAsSnippet;
 						}
+
 						return item;
 					},
 				);
@@ -286,6 +300,7 @@ export function fromPosition(
 	if (!position) {
 		return void 0;
 	}
+
 	return { character: position.column - 1, line: position.lineNumber - 1 };
 }
 
@@ -301,6 +316,7 @@ export function fromRange(
 	if (!range) {
 		return void 0;
 	}
+
 	return {
 		start: {
 			line: range.startLineNumber - 1,
@@ -319,6 +335,7 @@ export function toRange(range: lsTypes.Range | undefined): Range | undefined {
 	if (!range) {
 		return void 0;
 	}
+
 	return new Range(
 		range.start.line + 1,
 		range.start.character + 1,
@@ -396,6 +413,7 @@ function toCompletionItemKind(
 		case lsTypes.CompletionItemKind.Reference:
 			return mItemKind.Reference;
 	}
+
 	return mItemKind.Property;
 }
 
@@ -459,6 +477,7 @@ function fromCompletionItemKind(
 		case mItemKind.Reference:
 			return lsTypes.CompletionItemKind.Reference;
 	}
+
 	return lsTypes.CompletionItemKind.Property;
 }
 
@@ -476,6 +495,7 @@ export function toTextEdit(
 	if (!textEdit) {
 		return void 0;
 	}
+
 	return {
 		range: toRange(textEdit.range),
 		text: textEdit.newText,
@@ -524,6 +544,7 @@ export class HoverAdapter<T extends ILanguageWorkerWithHover>
 				if (!info) {
 					return;
 				}
+
 				return <languages.Hover>{
 					range: toRange(info.range),
 					contents: toMarkedStringArray(info.contents),
@@ -548,12 +569,14 @@ function toMarkdownString(
 			value: entry,
 		};
 	}
+
 	if (isMarkupContent(entry)) {
 		if (entry.kind === "plaintext") {
 			return {
 				value: entry.value.replace(/[\\`*_{}[\]()#+\-.!]/g, "\\$&"),
 			};
 		}
+
 		return {
 			value: entry.value,
 		};
@@ -571,9 +594,11 @@ function toMarkedStringArray(
 	if (!contents) {
 		return void 0;
 	}
+
 	if (Array.isArray(contents)) {
 		return contents.map(toMarkdownString);
 	}
+
 	return [toMarkdownString(contents)];
 }
 
@@ -612,6 +637,7 @@ export class DocumentHighlightAdapter<
 				if (!entries) {
 					return;
 				}
+
 				return entries.map((entry) => {
 					return <languages.DocumentHighlight>{
 						range: toRange(entry.range),
@@ -635,6 +661,7 @@ function toDocumentHighlightKind(
 		case lsTypes.DocumentHighlightKind.Text:
 			return languages.DocumentHighlightKind.Text;
 	}
+
 	return languages.DocumentHighlightKind.Text;
 }
 
@@ -672,6 +699,7 @@ export class DefinitionAdapter<T extends ILanguageWorkerWithDefinitions>
 				if (!definition) {
 					return;
 				}
+
 				return [toLocation(definition)];
 			});
 	}
@@ -719,6 +747,7 @@ export class ReferenceAdapter<T extends ILanguageWorkerWithReferences>
 				if (!entries) {
 					return;
 				}
+
 				return entries.map(toLocation);
 			});
 	}
@@ -769,6 +798,7 @@ function toWorkspaceEdit(
 	if (!edit || !edit.changes) {
 		return void 0;
 	}
+
 	let resourceEdits: languages.IWorkspaceTextEdit[] = [];
 
 	for (let uri in edit.changes) {
@@ -785,6 +815,7 @@ function toWorkspaceEdit(
 			});
 		}
 	}
+
 	return {
 		edits: resourceEdits,
 	};
@@ -817,10 +848,12 @@ export class DocumentSymbolAdapter<T extends ILanguageWorkerWithDocumentSymbols>
 				if (!items) {
 					return;
 				}
+
 				return items.map((item) => {
 					if (isDocumentSymbol(item)) {
 						return toDocumentSymbol(item);
 					}
+
 					return {
 						name: item.name,
 						detail: "",
@@ -913,6 +946,7 @@ function toSymbolKind(kind: lsTypes.SymbolKind): languages.SymbolKind {
 		case lsTypes.SymbolKind.Array:
 			return mKind.Array;
 	}
+
 	return mKind.Function;
 }
 
@@ -941,6 +975,7 @@ export class DocumentLinkAdapter<T extends ILanguageWorkerWithDocumentLinks>
 				if (!items) {
 					return;
 				}
+
 				return {
 					links: items.map((item) => ({
 						range: toRange(item.range),
@@ -986,6 +1021,7 @@ export class DocumentFormattingEditProvider<T extends ILanguageWorkerWithFormat>
 					if (!edits || edits.length === 0) {
 						return;
 					}
+
 					return edits.map<languages.TextEdit>(toTextEdit);
 				});
 		});
@@ -1019,6 +1055,7 @@ export class DocumentRangeFormattingEditProvider<
 					if (!edits || edits.length === 0) {
 						return;
 					}
+
 					return edits.map<languages.TextEdit>(toTextEdit);
 				});
 		});
@@ -1065,6 +1102,7 @@ export class DocumentColorAdapter<T extends ILanguageWorkerWithDocumentColors>
 				if (!infos) {
 					return;
 				}
+
 				return infos.map((item) => ({
 					color: item.color,
 					range: toRange(item.range),
@@ -1091,6 +1129,7 @@ export class DocumentColorAdapter<T extends ILanguageWorkerWithDocumentColors>
 				if (!presentations) {
 					return;
 				}
+
 				return presentations.map((presentation) => {
 					let item: languages.IColorPresentation = {
 						label: presentation.label,
@@ -1099,12 +1138,14 @@ export class DocumentColorAdapter<T extends ILanguageWorkerWithDocumentColors>
 					if (presentation.textEdit) {
 						item.textEdit = toTextEdit(presentation.textEdit);
 					}
+
 					if (presentation.additionalTextEdits) {
 						item.additionalTextEdits =
 							presentation.additionalTextEdits.map<languages.TextEdit>(
 								toTextEdit,
 							);
 					}
+
 					return item;
 				});
 			});
@@ -1142,6 +1183,7 @@ export class FoldingRangeAdapter<T extends ILanguageWorkerWithFoldingRanges>
 				if (!ranges) {
 					return;
 				}
+
 				return ranges.map((range) => {
 					const result: languages.FoldingRange = {
 						start: range.startLine + 1,
@@ -1153,6 +1195,7 @@ export class FoldingRangeAdapter<T extends ILanguageWorkerWithFoldingRanges>
 							<lsTypes.FoldingRangeKind>range.kind,
 						);
 					}
+
 					return result;
 				});
 			});
@@ -1172,6 +1215,7 @@ function toFoldingRangeKind(
 		case lsTypes.FoldingRangeKind.Region:
 			return languages.FoldingRangeKind.Region;
 	}
+
 	return void 0;
 }
 
@@ -1209,6 +1253,7 @@ export class SelectionRangeAdapter<T extends ILanguageWorkerWithSelectionRanges>
 				if (!selectionRanges) {
 					return;
 				}
+
 				return selectionRanges.map(
 					(selectionRange: lsTypes.SelectionRange | undefined) => {
 						const result: languages.SelectionRange[] = [];
@@ -1217,8 +1262,10 @@ export class SelectionRangeAdapter<T extends ILanguageWorkerWithSelectionRanges>
 							result.push({
 								range: toRange(selectionRange.range),
 							});
+
 							selectionRange = selectionRange.parent;
 						}
+
 						return result;
 					},
 				);
