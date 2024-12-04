@@ -14,7 +14,7 @@
 		"mini-css-extract-plugin": "2.9.2",
 		"mobx": "6.13.5",
 		"monaco-editor": "0.52.0",
-		"typedoc": "0.27.2"
+		"typedoc": "0.27.3"
 	},
 	"devDependencies": {
 		"@types/classnames": "2.3.4",
@@ -23,8 +23,8 @@
 		"file-loader": "6.2.0",
 		"glob": "11.0.0",
 		"raw-loader": "4.0.2",
-		"sass": "1.81.1",
-		"sass-loader": "16.0.3",
+		"sass": "1.82.0",
+		"sass-loader": "16.0.4",
 		"script-loader": "0.7.2",
 		"style-loader": "4.0.0",
 		"ts-loader": "9.5.1"
