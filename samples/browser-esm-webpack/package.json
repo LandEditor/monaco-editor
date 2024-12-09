@@ -1,8 +1,8 @@
 {
-	"dependencies": {},
-	"devDependencies": {},
 	"name": "browser-esm-webpack",
 	"scripts": {
 		"build": "node ../node_modules/webpack/bin/webpack.js --progress"
-	}
+	},
+	"dependencies": {},
+	"devDependencies": {}
 }

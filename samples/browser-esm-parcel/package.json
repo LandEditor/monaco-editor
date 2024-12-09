@@ -1,10 +1,10 @@
 {
-	"dependencies": {},
-	"devDependencies": {
-		"monaco-editor": "0.52.0"
-	},
 	"name": "helloworld",
 	"scripts": {
 		"start": "parcel ./src/index.html"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"monaco-editor": "0.52.0"
 	}
 }

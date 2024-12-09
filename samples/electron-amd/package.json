@@ -1,9 +1,9 @@
 {
-	"dependencies": {},
-	"devDependencies": {},
-	"main": "./main",
 	"name": "electron-amd",
+	"main": "./main",
 	"scripts": {
 		"execute": "node ../node_modules/electron/cli.js ."
-	}
+	},
+	"dependencies": {},
+	"devDependencies": {}
 }
