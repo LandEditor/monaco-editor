@@ -1,4 +1,5 @@
 {
+	"dependencies": {},
 	"description": "Samples for using the Monaco Editor",
 	"devDependencies": {
 		"css-loader": "7.1.2",

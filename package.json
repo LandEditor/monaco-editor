@@ -3,6 +3,7 @@
 		"buffer": false,
 		"process": false
 	},
+	"dependencies": {},
 	"description": "A browser based code editor",
 	"devDependencies": {
 		"@types/shelljs": "0.8.15",

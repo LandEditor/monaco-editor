@@ -2,5 +2,7 @@
 	"name": "helloworld",
 	"scripts": {
 		"build": "node ./build.js"
-	}
+	},
+	"dependencies": {},
+	"devDependencies": {}
 }
