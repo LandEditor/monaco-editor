@@ -9,10 +9,10 @@
 	"devDependencies": {
 		"css-loader": "7.1.2",
 		"file-loader": "6.2.0",
-		"glob": "11.0.0",
+		"glob": "11.0.1",
 		"monaco-editor": "0.52.2",
 		"style-loader": "4.0.0",
-		"ts-loader": "9.5.1",
+		"ts-loader": "9.5.2",
 		"yaserver": "0.4.0"
 	},
 	"overrides": {
