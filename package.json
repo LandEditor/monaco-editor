@@ -42,7 +42,7 @@
 		"requirejs": "2.3.7",
 		"shelljs": "0.8.5",
 		"style-loader": "4.0.0",
-		"terser": "5.38.1",
+		"terser": "5.38.2",
 		"yaserver": "0.4.0"
 	},
 	"alias": {
