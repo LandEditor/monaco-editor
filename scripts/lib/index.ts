@@ -79,7 +79,7 @@ export async function gitShallowClone(
 
 	await run(`git remote add origin ${repositoryUrl}`, options);
 
-	await run(`git fetch --depth 1 origin ${ref}`, options);
+	await run(`git fetch --depth 2 origin ${ref}`, options);
 
 	await run(`git checkout ${ref}`, options);
 
